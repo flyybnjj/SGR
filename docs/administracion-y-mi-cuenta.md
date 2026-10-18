@@ -1,3 +1,5 @@
+> Nota histórica: este documento describe una etapa anterior. El estado vigente, despliegue y pruebas están en README.md, segunda-evaluacion.md y evidencias/.
+
 # Administración y ajustes personales — 4 de octubre de 2026
 
 El inicio del superadministrador ahora prioriza crear delegaciones, administrar sus responsables, crear usuarios, asignar usuarios a delegaciones y mantener roles. Los indicadores de actividad municipal quedan debajo de estas tareas. Los accesos de creación abren los formularios existentes; la asignación se realiza al editar la delegación de trabajo del usuario. No se amplían privilegios de funcionarios ni de cuentas de prueba.

@@ -62,3 +62,24 @@ class UserIdentityValidationTests(TestCase):
         Usuario.objects.create_user(username='existente')
         form = UsuarioForm(self.user_data())
         self.assertTrue(form.is_valid(), form.errors)
+
+    def test_username_cannot_take_another_accounts_email(self):
+        Usuario.objects.create_user(username='titular', email='titular@example.com')
+        form=UsuarioForm(self.user_data(username='TITULAR@example.com'))
+        self.assertFalse(form.is_valid())
+        self.assertIn('username',form.errors)
+
+    def test_email_cannot_take_another_accounts_username(self):
+        Usuario.objects.create_user(username='identidad@example.com')
+        for field in ('email','email_secundario'):
+            form=UsuarioForm(self.user_data(**{field:'IDENTIDAD@example.com'}))
+            self.assertFalse(form.is_valid())
+            self.assertIn(field,form.errors)
+
+    def test_account_settings_cannot_take_another_accounts_email(self):
+        from usuarios.account import AccountNameForm
+        Usuario.objects.create_user(username='titular',email_secundario='titular@example.com')
+        user=Usuario.objects.create_user(username='intruso',password='Clave$Segura2026')
+        form=AccountNameForm({'username':'TITULAR@example.com','current_password':'Clave$Segura2026'},instance=user)
+        self.assertFalse(form.is_valid())
+        self.assertIn('username',form.errors)

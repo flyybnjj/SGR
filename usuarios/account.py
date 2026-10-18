@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.db import IntegrityError, transaction
+from django.db.models import Q
 from django.shortcuts import redirect, render
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_http_methods
@@ -30,7 +31,8 @@ class AccountNameForm(forms.ModelForm):
 
     def clean_username(self):
         value = self.cleaned_data['username']
-        if Usuario.objects.filter(username__iexact=value).exclude(pk=self.instance.pk).exists():
+        previous = Usuario.objects.filter(pk=self.instance.pk).values_list('username', flat=True).first()
+        if value != previous and Usuario.objects.filter(Q(username__iexact=value) | Q(email__iexact=value) | Q(email_secundario__iexact=value)).exclude(pk=self.instance.pk).exists():
             raise forms.ValidationError('Ese nombre de usuario ya está en uso.')
         return value
 

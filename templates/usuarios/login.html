@@ -106,7 +106,7 @@
                     customClass: { popup: 'muni-swal-popup' }
                 });
                 {% else %}
-                const Toast = Swal.mixin({
+                var Toast = Swal.mixin({
                     toast: true,
                     position: 'top-end',
                     showConfirmButton: false,
@@ -114,7 +114,7 @@
                     timerProgressBar: true
                 });
                 Toast.fire({
-                    icon: 'success',
+                    icon: '{{ message.tags|default:'info'|escapejs }}',
                     title: "{{ message|escapejs }}"
                 });
                 {% endif %}

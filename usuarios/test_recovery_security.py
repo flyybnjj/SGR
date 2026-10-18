@@ -121,3 +121,16 @@ class RecoverySecurityTests(TestCase):
             self.assertNotIn('Tu código de seguridad', output.getvalue())
         self.user.refresh_from_db()
         self.assertIsNone(self.user.reset_code)
+
+    def test_attempt_reservation_rejects_a_stale_counter_read(self):
+        self.request_code()
+        self.user.refresh_from_db()
+        key=f'recovery-attempt:{self.user.pk}'
+        cache.set(key,5,900)
+        original_get=cache.get
+        # Otro trabajador ya reservó el quinto intento; una lectura previa
+        # obsoleta no debe autorizar un sexto intento, aunque el código sea válido.
+        with patch.object(cache,'get',side_effect=lambda k,*a,**kw: 4 if k==key else original_get(k,*a,**kw)):
+            response=self.client.post('/validar-codigo/',{'codigo':self.user.reset_code},HTTP_ACCEPT='application/json')
+        self.assertFalse(response.json()['valid'])
+        self.assertFalse(self.client.session.get('recovery_verified',False))

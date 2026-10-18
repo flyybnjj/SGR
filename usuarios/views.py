@@ -179,11 +179,11 @@ def validar_codigo_view(request):
         ip_key = hashlib.sha256(rate_limit_ip(request).encode()).hexdigest()
         allowed = recovery_count('recovery-verify-ip:' + ip_key, 30)
         attempts = f'recovery-attempt:{user_id}' if user else 'recovery-unknown:' + ip_key
-        attempts_before = cache.get(attempts, 0)
+        attempt_reserved = recovery_count(attempts, 5)
         expires = (user.reset_expires_at or user.codigo_expiracion) if user else None
         matches = bool(user and re.fullmatch(r'[0-9]{6}', code) and
                        (secrets.compare_digest(user.reset_code or '', code) or secrets.compare_digest(user.codigo_recuperacion or '', code)))
-        if allowed and attempts_before < 5 and matches and expires and timezone.now() < expires:
+        if allowed and attempt_reserved and matches and expires and timezone.now() < expires:
             consumed = Usuario.objects.filter(pk=user.pk).filter(
                 Q(reset_code=code, reset_expires_at__gt=timezone.now()) |
                 Q(codigo_recuperacion=code, codigo_expiracion__gt=timezone.now())).update(
@@ -196,7 +196,6 @@ def validar_codigo_view(request):
                 if is_ajax:
                     return JsonResponse({'valid': True, 'redirect_url': '/cambiar-password/'})
                 return redirect('usuarios:cambiar_password')
-        recovery_count(attempts, 5)
         if user and cache.get(attempts, 0) >= 5:
             Usuario.objects.filter(pk=user.pk).update(reset_code=None, codigo_recuperacion=None, reset_expires_at=None, codigo_expiracion=None)
         msg = 'El código es incorrecto, ha expirado o ya no está disponible. Solicita uno nuevo si es necesario.'

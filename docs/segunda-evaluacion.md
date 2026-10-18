@@ -1,6 +1,6 @@
 # Segunda evaluación — comprobación de requisitos
 
-Fuente: Requisitos_Segunda_Evaluacion_SGR.pdf,10páginas aportadas por el usuario. Fecha18/10/2026. Integrantes: Benjamin Avalos y Christofer Valencia. Responsable: Benjamin Avalos. El resultado automatizado no suplanta la firma de aceptación ni la prueba con un dispositivo personal.
+Fuente: Requisitos_Segunda_Evaluacion_SGR.pdf,10 páginas aportadas por el usuario. Fecha18/10/2026. Integrantes: Benjamin Avalos y Christofer Valencia. Responsable: Benjamin Avalos. El resultado automatizado no suplanta la firma de aceptación ni la prueba con un dispositivo personal.
 
 | PDF | Comprobación | Evidencia |
 |---|---|---|
@@ -27,3 +27,17 @@ Fuente: Requisitos_Segunda_Evaluacion_SGR.pdf,10páginas aportadas por el usuari
 Referencia oficial consultada18/10/2026: https://laserena.cl/documentos/docs/REGLAMENTO_normas_graficas_2019.pdf y https://laserena.cl/conocenos/normas-graficas . Se conserva el SVG institucional y sus proporciones,sin teñirlo con el color territorial. El manual pide Arial para documentos internos; la interfaz usa fuentes del sistema según la preferencia aprobada. Su aprobación institucional formal y la compatibilidad de colores territoriales quedan por validar con el docente/municipalidad, no se certifican por una captura.
 
 Pendientes que no pueden acreditarse por pruebas automáticas: entrega/lectura real de correo por el titular,registro de passkey en su iPhone,acceso del docente al repo privado y aprobación gráfica. Las credenciales SMTP retiradas del fuente deben reemplazarse en el proveedor porque estuvieron expuestas en el archivo local anterior.
+
+## Resultado de la segunda lectura y cierre
+
+Se releyeron las 10 páginas; huella del PDF en evidencias/fuente-requisitos.json. Suite final: 178 casos aprobados, con matriz individual en CSV/JSON. Incluye los seis CRUD completos, búsquedas/paginación/Excel, recuperación y límites, roles, RUT, dependencia e idempotencia. Revisión independiente: se corrigió la colisión entre usernames y correos en administración y autoservicio. La reserva de intentos usa incremento atómico compartido entre trabajadores.
+
+Navegador: 14 capturas a 390/1440 px, sin desbordamiento; seis auditorías axe sin violaciones detectadas. Una comprobación quedó incompleta para revisión ARIA: no se presenta como certificación WCAG. Confirmación adicional del nombre completo de delegación en móvil, múltiples avisos y SweetAlert de error del servidor. Los diseños en evidencia usan datos ficticios y no sustituyen la comprobación HTTP real de AWS.
+
+AWS: 36 comprobaciones HTTP aprobadas; exports de los seis catálogos, permisos de funcionario y origen WebAuthn. La autenticación SMTP fue aceptada; no se envió correo de prueba a terceros. Cookies seguras, redirección HTTPS y clave interna de Django reemplazada; se conservan las contraseñas y datos. HSTS de una hora; no se habilitan preload ni includeSubDomains porque no se controla el dominio superior ni se pretende inscribirlo en la lista de navegadores.
+
+Carga de lectura: 1.177 solicitudes en cuatro niveles (más 20 de recuperación), cero errores. Con 10 concurrentes: 60,15 solicitudes/s, p95 de 172 ms. Máximo CPU 62,81%, memoria 498,23 MB de 909,52 MB. Cumple los umbrales declarados para este escenario; no acredita el máximo de capacidad ni carga de escrituras.
+
+Los 5 requerimientos del esquema anterior se conservan en sus tablas históricas; no se convirtieron automáticamente en acciones/atenciones del modelo nuevo. Esa conversión necesita validar la correspondencia de estados y datos, y queda identificada como mejora adicional. Las operaciones nuevas sí usan persistencia real.
+
+Para la entrega presencial quedan la recepción real de correo, el registro físico de passkey, acceso del docente al repositorio privado y aprobación gráfica. La multi-delegación de coordinadores es condicional al perfil: actualmente cada funcionario tiene una sede fija y el administrador consulta todas. No se afirma cumplimiento absoluto de aspectos que necesitan estas decisiones/evidencias.

@@ -6,7 +6,7 @@ Aplicación Django para delegaciones, funcionarios, atención e historial munici
 
 ## Requisitos e instalación local
 
-Python3.12, SQLite (o PostgreSQL mediante DATABASE_URL), Redis en producción y un proveedor SMTP para recuperación. Dependencias fijadas en requirements.txt. No hay autoregistro.
+Python 3.12, SQLite (o PostgreSQL mediante DATABASE_URL), Redis en producción y un proveedor SMTP para recuperación. Dependencias fijadas en requirements.txt. No hay autoregistro.
 
 ```powershell
 python -m venv venv
@@ -30,7 +30,7 @@ Passkeys: WEBAUTHN_RP_ID debe coincidir con el hostname y WEBAUTHN_ORIGIN con el
 
 ## AWS y actualización
 
-EC2 Ubuntu/Python3.12, Nginx con TLS, Gunicorn y Redis. Dirección actual de evaluación: https://100-49-246-233.sslip.io/ (nombre externo apuntando a la IP de EC2, sin dominio comprado). Si la IP cambia deben actualizarse DNS, certificado y WebAuthn. Revisar renovación automática del certificado. Los puertos internos de Gunicorn/Redis permanecen en loopback.
+EC2 Ubuntu/Python 3.12, Nginx con TLS, Gunicorn y Redis. Dirección actual de evaluación: https://100-49-246-233.sslip.io/ (nombre externo apuntando a la IP de EC2, sin dominio comprado). Si la IP cambia deben actualizarse DNS, certificado y WebAuthn. Revisar renovación automática del certificado. Los puertos internos de Gunicorn/Redis permanecen en loopback.
 
 1. Respaldar SQLite consistentemente, fuente,.env, medios y configuración; verificar el archivo antes de actualizar.
 2. Subir el archivo producido por git archive del commit aprobado. Conservar.env,db.sqlite3,venv,media yprivate_media del servidor. Nunca subir la base local.
@@ -43,7 +43,7 @@ EC2 Ubuntu/Python3.12, Nginx con TLS, Gunicorn y Redis. Dirección actual de eva
 | Módulo | Estado |
 |---|---|
 | Login, roles, permisos, cierre y rutas protegidas | Implementado; pruebas automatizadas |
-| Recuperación por correo | Implementado;15min,45s,reenvío5/15min,5intentos,cupo IP; probar entrega real con el titular |
+| Recuperación por correo | Implementado;15 min,45 s,reenvío5/15 min,5 intentos,cupo IP; probar entrega real con el titular |
 | Delegaciones,Roles,Usuarios,Ítems,Tipos,Subatenciones | CRUD persistentes,desactivación,consulta,búsqueda,paginación y Excel |
 | Atención e historial global | Persistente;subatenciones dependientes,idempotencia por UUID,ID y contexto autorizado |
 | Acciones,aprobación y metas | Persistente con evidencia privada y permisos |
@@ -58,3 +58,10 @@ python manage.py makemigrations --check --dry-run
 ```
 
 Pruebas usan bases temporales y correo en memoria; no modifican la base real. Ver docs/segunda-evaluacion.md y docs/evidencias para matriz, evidencias y carga. Los diseños/prototipos de backups no forman parte del despliegue. Las credenciales de evaluación y permisos de acceso al repo se entregan por canal privado al docente.
+
+
+## Verificación registrada el 18/10/2026
+
+178 pruebas aprobadas; resultados individuales en docs/evidencias/matriz-funcional.csv. 36 comprobaciones HTTP de AWS y carga controlada de lectura sin errores hasta 10 concurrentes. El detalle y las validaciones humanas pendientes están en docs/segunda-evaluacion.md. Para regenerar la matriz: python scripts/verify_delivery.py. La carga se ejecuta con scripts/load_delivery.py y una sesión temporal privada; nunca se publica su archivo.
+
+Los códigos de los catálogos corresponden a su ID. Los 5 requerimientos del esquema anterior se conservan; su conversión al nuevo flujo no fue automática. No hay datos simulados en los indicadores productivos.

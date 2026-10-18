@@ -1,3 +1,5 @@
+> Nota histórica: este documento describe una etapa anterior. El estado vigente, despliegue y pruebas están en README.md, segunda-evaluacion.md y evidencias/.
+
 # Encabezado compartido por delegación
 
 El color pertenece a la delegación. Sus funcionarios lo heredan según la delegación asignada en su cuenta; no se guarda como preferencia del navegador.

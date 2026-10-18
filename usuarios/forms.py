@@ -156,7 +156,7 @@ class UsuarioForm(RutFormMixin, forms.ModelForm):
     def clean_username(self):
         value = self.cleaned_data['username']
         previous = Usuario.objects.filter(pk=self.instance.pk).values_list('username', flat=True).first()
-        if value != previous and Usuario.objects.exclude(pk=self.instance.pk).filter(username__iexact=value).exists():
+        if value != previous and Usuario.objects.exclude(pk=self.instance.pk).filter(Q(username__iexact=value) | Q(email__iexact=value) | Q(email_secundario__iexact=value)).exists():
             raise ValidationError('Este nombre de usuario ya está en uso.')
         return value
 
@@ -167,7 +167,7 @@ class UsuarioForm(RutFormMixin, forms.ModelForm):
             value = (data.get(field) or '').strip()
             data[field] = value
             if value and (not previous or value != (getattr(previous, field) or '')):
-                if Usuario.objects.exclude(pk=self.instance.pk).filter(Q(email__iexact=value) | Q(email_secundario__iexact=value)).exists():
+                if Usuario.objects.exclude(pk=self.instance.pk).filter(Q(email__iexact=value) | Q(email_secundario__iexact=value) | Q(username__iexact=value)).exists():
                     self.add_error(field, 'Este correo ya está vinculado a otra cuenta.')
         return data
 

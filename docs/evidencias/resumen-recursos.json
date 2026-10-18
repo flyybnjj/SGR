@@ -1,0 +1,17 @@
+{
+  "samples": 65,
+  "cpu_max_percent": 62.81,
+  "memory_max_mb": 498.23,
+  "memory_total_mb": 909.52,
+  "business_dataset": {
+    "usuarios": 11,
+    "delegaciones": 13,
+    "roles": 12,
+    "vecinos": 12,
+    "tipos": 9,
+    "subatenciones": 35,
+    "items_meta": 11,
+    "requerimientos_heredados": 5
+  },
+  "note": "Muestreo /proc cada1s durante carga controlada y recuperaci\u00f3n; no prueba m\u00e1xima de capacidad ni escrituras."
+}

@@ -1,3 +1,5 @@
+> Nota histórica: este documento describe una etapa anterior. El estado vigente, despliegue y pruebas están en README.md, segunda-evaluacion.md y evidencias/.
+
 # Plataforma municipal: entrega local
 
 ## Interfaz
