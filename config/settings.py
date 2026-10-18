@@ -130,6 +130,12 @@ else:
         }
     }
 
+if DATABASES['default']['ENGINE'] == 'django.db.backends.sqlite3':
+    # También cubre instalaciones SQLite configuradas mediante DATABASE_URL.
+    # select_for_update no bloquea filas: reservar la escritura evita carreras
+    # al validar y guardar responsables desde varios trabajadores.
+    DATABASES['default'].setdefault('OPTIONS', {}).update(transaction_mode='IMMEDIATE', timeout=20)
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {

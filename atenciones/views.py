@@ -109,8 +109,12 @@ def sub_atencion_save_view(request, pk=None):
         instance = get_object_or_404(SubAtencion, pk=pk) if pk else None
         form = SubAtencionForm(request.POST, instance=instance)
         if form.is_valid():
-            sub = form.save()
-            messages.success(request, f"Sub-atención '{sub.nombre}' {'modificada' if pk else 'creada'} correctamente.")
+            try:
+                sub = form.save()
+            except ValidationError as exc:
+                messages.error(request, ' '.join(exc.messages))
+            else:
+                messages.success(request, f"Sub-atención '{sub.nombre}' {'modificada' if pk else 'creada'} correctamente.")
         else:
             messages.error(request, "Error al guardar la sub-atención. Verifica los datos.")
     return redirect('atenciones:sub_atencion_list')
@@ -141,9 +145,10 @@ def sub_atencion_export_excel(request):
     return export_queryset_to_excel("Reporte_Sub_Atenciones_LaSerena", "Sub Atenciones", headers, rows)
 
 from django.core.exceptions import PermissionDenied
+from django.core.exceptions import ValidationError
 from django.db import transaction
 from django.http import FileResponse, HttpResponse
-from config.access import can_register, can_approve
+from config.access import can_register, can_approve, can_manage, operational
 from vecinos.models import Vecino
 from vecinos.access import visible_neighbors
 from .models import Atencion, Accion, MetaPeriodo, ResolucionAccion
@@ -165,7 +170,7 @@ def scoped(queryset, user):
     ensure_active(user)
     if user.is_superuser:
         return queryset
-    return queryset.filter(delegacion_id=user.delegacion_id) if user.delegacion_id else queryset.none()
+    return queryset.filter(delegacion_id=user.delegacion_id) if operational(user) else queryset.none()
 
 
 def search_people(request):
@@ -211,7 +216,8 @@ def attention_request_token(request):
 
 def previous_attention(request, token, person=None):
     attention = Atencion.objects.filter(request_token=token).first() if token else None
-    if attention and (attention.funcionario_id != request.user.pk or (person and attention.vecino_id != person.pk)):
+    if attention and (attention.funcionario_id != request.user.pk or (person and attention.vecino_id != person.pk)
+                      or (not request.user.is_superuser and attention.delegacion_id != request.user.delegacion_id)):
         raise PermissionDenied('Este envío corresponde a otra atención.')
     return attention
 
@@ -219,6 +225,23 @@ def previous_attention(request, token, person=None):
 def attention_confirmation(request, attention):
     messages.success(request, f'Atención #{attention.pk} registrada.')
     return redirect('atenciones:attention_detail', pk=attention.vecino_id)
+
+
+def lock_attention_catalog(form):
+    """Revalida y bloquea el catálogo en la transacción que registra la atención."""
+    kind = TipoAtencion.objects.select_for_update().filter(pk=form.cleaned_data['tipo_atencion'].pk, activo=True).first()
+    if not kind:
+        form.add_error('tipo_atencion', 'El tipo de atención dejó de estar disponible. Selecciona otro.')
+        return False
+    subtype = form.cleaned_data.get('sub_atencion')
+    if subtype:
+        subtype = SubAtencion.objects.select_for_update().filter(pk=subtype.pk, tipo_atencion=kind, activo=True).first()
+        if not subtype:
+            form.add_error('sub_atencion', 'La subatención cambió o dejó de estar disponible. Selecciónala nuevamente.')
+            return False
+    form.instance.tipo_atencion = kind
+    form.instance.sub_atencion = subtype
+    return True
 
 
 @login_required
@@ -243,19 +266,22 @@ def attention_detail(request, pk):
         if previous:
             return attention_confirmation(request, previous)
         if form.is_valid():
+            attention = None
             try:
                 with transaction.atomic():
-                    attention = form.save(commit=False)
-                    attention.request_token = token
-                    attention.vecino = person
-                    attention.funcionario = request.user
-                    attention.save()
+                    if lock_attention_catalog(form):
+                        attention = form.save(commit=False)
+                        attention.request_token = token
+                        attention.vecino = person
+                        attention.funcionario = request.user
+                        attention.save()
             except IntegrityError:
                 previous = previous_attention(request, token, person)
                 if not previous:
                     raise
                 attention = previous
-            return attention_confirmation(request, attention)
+            if attention:
+                return attention_confirmation(request, attention)
     return render(request, 'atenciones/detail.html', {'person': person, 'form': form, 'page_obj': paginate(request, history), 'search': search})
 
 @login_required
@@ -271,22 +297,25 @@ def attention_new(request):
         person_valid = person_form.is_valid()
         attention_valid = form.is_valid()
         if person_valid and attention_valid:
+            attention = None
             try:
                 with transaction.atomic():
-                    person = person_form.save(commit=False)
-                    person.territorio = form.cleaned_data['delegacion']
-                    person.save()
-                    attention = form.save(commit=False)
-                    attention.request_token = token
-                    attention.vecino = person
-                    attention.funcionario = request.user
-                    attention.save()
+                    if lock_attention_catalog(form):
+                        person = person_form.save(commit=False)
+                        person.territorio = form.cleaned_data['delegacion']
+                        person.save()
+                        attention = form.save(commit=False)
+                        attention.request_token = token
+                        attention.vecino = person
+                        attention.funcionario = request.user
+                        attention.save()
             except IntegrityError:
                 previous = previous_attention(request, token)
                 if not previous:
                     raise
                 attention = previous
-            return attention_confirmation(request, attention)
+            if attention:
+                return attention_confirmation(request, attention)
     return render(request, 'atenciones/new.html', {'person_form': person_form, 'form': form})
 
 @login_required
@@ -336,14 +365,17 @@ def action_resolve(request, pk):
         action = get_object_or_404(scoped(Accion.objects.select_related('creador', 'delegacion', 'meta', 'origen_historico__atencion__vecino'), request.user), pk=pk)
         messages.error(request, 'Seleccione una decisión e indique el motivo.')
         return render(request, 'atenciones/review.html', {'action': action, 'form': form, 'page_obj': paginate(request, action.resoluciones.order_by('-fecha'))}, status=400)
+    action = get_object_or_404(scoped(Accion.objects.all(), request.user), pk=pk)
     with transaction.atomic():
-        action = get_object_or_404(scoped(Accion.objects.select_for_update(), request.user), pk=pk)
-        if action.estado != 'Pendiente':
-            messages.warning(request, 'Esta acción ya fue resuelta. Se conserva la resolución registrada.')
-            return render(request, 'atenciones/review.html', {'action': action, 'form': form, 'page_obj': paginate(request, action.resoluciones.order_by('-fecha'))}, status=409)
-        ResolucionAccion.objects.create(accion=action, responsable=request.user, estado_anterior=action.estado, estado_nuevo=form.cleaned_data['estado'], motivo=form.cleaned_data['motivo'])
-        action.estado = form.cleaned_data['estado']
-        action.save(update_fields=['estado'])
+        # La transición condicional también es atómica en SQLite, donde
+        # select_for_update no bloquea filas. Estado y auditoría se confirman juntos.
+        claimed = Accion.objects.filter(pk=action.pk, estado='Pendiente').update(estado=form.cleaned_data['estado'])
+        if claimed:
+            ResolucionAccion.objects.create(accion=action, responsable=request.user, estado_anterior='Pendiente', estado_nuevo=form.cleaned_data['estado'], motivo=form.cleaned_data['motivo'])
+    if not claimed:
+        action.refresh_from_db()
+        messages.warning(request, 'Esta acción ya fue resuelta. Se conserva la resolución registrada.')
+        return render(request, 'atenciones/review.html', {'action': action, 'form': form, 'page_obj': paginate(request, action.resoluciones.order_by('-fecha'))}, status=409)
     messages.success(request, 'Resolución registrada.')
     return redirect('atenciones:action_review', pk=pk)
 
@@ -354,12 +386,14 @@ def action_evidence(request, pk):
         from django.http import Http404
         raise Http404
     from PIL import Image
-    evidence = action.evidencia.open('rb')
+    evidence = None
     try:
+        evidence = action.evidencia.open('rb')
         format_name = Image.open(evidence).format
         evidence.seek(0)
     except (OSError, ValueError):
-        evidence.close()
+        if evidence:
+            evidence.close()
         from django.http import Http404
         raise Http404
     content_type = {'JPEG': 'image/jpeg', 'PNG': 'image/png', 'WEBP': 'image/webp'}.get(format_name)
@@ -373,7 +407,7 @@ def action_evidence(request, pk):
     return response
 
 def can_manage_metas(user):
-    return user.is_superuser or bool(user.rol and user.rol.activo and user.rol.puede_gestionar)
+    return can_manage(user)
 
 @login_required
 def meta_list(request):

@@ -43,7 +43,8 @@ def edit_form(request, resource, pk):
     if resource == "usuarios":
         context.update(roles=Rol.objects.filter(activo=True), delegaciones=DelegacionMunicipal.objects.filter(activo=True))
     elif resource == "delegaciones":
-        context["delegados"] = Usuario.objects.filter(activo=True)
+        context["delegados"] = (Usuario.objects.filter(activo=True) if user.is_superuser
+                                else Usuario.objects.filter(pk=context[alias].delegado_id))
     elif resource == "vecinos":
         context["territorios"] = VecinoForm(user=user).fields["territorio"].queryset
     elif resource == "sub_atencion":

@@ -1,6 +1,8 @@
 import uuid
 from config.catalog_validation import NombreCatalogoUnicoMixin
 from django import forms
+from django.core.exceptions import ValidationError
+from django.db import transaction
 from .models import TipoAtencion, SubAtencion
 
 
@@ -17,6 +19,24 @@ class TipoAtencionForm(NombreCatalogoUnicoMixin, forms.ModelForm):
 
 class SubAtencionForm(NombreCatalogoUnicoMixin, forms.ModelForm):
     campo_ambito_nombre = "tipo_atencion"
+
+    def clean_tipo_atencion(self):
+        kind = self.cleaned_data['tipo_atencion']
+        if self.instance.pk and kind.pk != self.instance.tipo_atencion_id and self.instance.atencion_set.exists():
+            raise forms.ValidationError('Esta subatención ya tiene atenciones registradas. Conserva su tipo o crea una subatención nueva.')
+        return kind
+
+    @transaction.atomic
+    def save(self, commit=True):
+        subtype = super().save(commit=False)
+        if commit and subtype.pk:
+            original = SubAtencion.objects.select_for_update().get(pk=subtype.pk)
+            if original.tipo_atencion_id != subtype.tipo_atencion_id and original.atencion_set.exists():
+                raise ValidationError({'tipo_atencion': 'Se registraron atenciones mientras editaba. No se puede cambiar el tipo de esta subatención.'})
+        if commit:
+            subtype.save()
+            self.save_m2m()
+        return subtype
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['tipo_atencion'].queryset = TipoAtencion.objects.filter(activo=True)

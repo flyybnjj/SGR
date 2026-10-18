@@ -1,7 +1,7 @@
 from config.access import admin_required, superuser_required, register_required, can_manage, can_register
 from config.pagination import paginate
 from django.views.decorators.http import require_POST
-from django.core.exceptions import PermissionDenied
+from django.core.exceptions import PermissionDenied, ValidationError
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -71,8 +71,8 @@ def delegaciones_list_view(request):
 
     page_obj = paginate(request, queryset)
 
-    form = DelegacionMunicipalForm()
-    delegados = Usuario.objects.filter(activo=True)
+    form = DelegacionMunicipalForm(user=request.user)
+    delegados = Usuario.objects.filter(activo=True) if request.user.is_superuser else Usuario.objects.none()
 
     return render(request, 'mantenedores/delegaciones_list.html', {
         'page_obj': page_obj,
@@ -92,13 +92,15 @@ def delegaciones_save_view(request, pk=None):
         if not request.user.is_superuser:
             allowed = allowed.filter(pk=request.user.delegacion_id)
         instance = get_object_or_404(allowed, pk=pk) if pk else None
-        form = DelegacionMunicipalForm(request.POST, instance=instance)
-        if not request.user.is_superuser:
-            form.fields['delegado'].disabled = True
+        form = DelegacionMunicipalForm(request.POST, instance=instance, user=request.user)
         if form.is_valid():
-            delg = form.save()
-            messages.success(request, f"Delegación '{delg.nombre}' {'modificada' if pk else 'creada'} correctamente.")
-        else:
+            try:
+                delg = form.save()
+            except ValidationError as error:
+                form.add_error(None, ' '.join(error.messages))
+            else:
+                messages.success(request, f"Delegación '{delg.nombre}' {'modificada' if pk else 'creada'} correctamente.")
+        if form.errors:
             errors = ' '.join(str(error) for errors in form.errors.values() for error in errors)
             messages.error(request, f"No se guardó la delegación. {errors}")
     return redirect('territorial:delegaciones_list')
@@ -141,7 +143,7 @@ def delegaciones_export_excel(request):
         [
             d.id, d.nombre, d.direccion, d.comuna,
             d.delegado.nombre_completo if d.delegado else "Sin Asignar",
-            "Activo" if d.activo else "Inactivo", d.color
+            "Activo" if d.activo else "Inactivo", d.color_identificacion
         ]
         for d in delegaciones
     ]

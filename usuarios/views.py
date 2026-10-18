@@ -1,7 +1,7 @@
 from config.access import admin_required, superuser_required, register_required, can_manage, can_register
 from config.pagination import paginate
 from django.views.decorators.http import require_POST
-from django.core.exceptions import PermissionDenied
+from django.core.exceptions import PermissionDenied, ValidationError
 import re
 import secrets
 from django.shortcuts import render, redirect, get_object_or_404
@@ -365,9 +365,13 @@ def usuarios_save_view(request, pk=None):
         instance = get_object_or_404(Usuario.objects.filter(is_superuser=False), pk=pk) if pk else None
         form = UsuarioForm(request.POST, instance=instance)
         if form.is_valid():
-            user = form.save()
-            messages.success(request, f"Usuario '{user.username}' {'modificado' if pk else 'creado'} correctamente.")
-        else:
+            try:
+                user = form.save()
+            except ValidationError as error:
+                form.add_error(None, ' '.join(error.messages))
+            else:
+                messages.success(request, f"Usuario '{user.username}' {'modificado' if pk else 'creado'} correctamente.")
+        if form.errors:
             errors_str = " ".join([f"{k}: {v[0]}" for k, v in form.errors.items()])
             messages.error(request, f"Error al guardar usuario: {errors_str}")
     return redirect('usuarios:usuarios_list')

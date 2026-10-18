@@ -5,14 +5,18 @@ from django.core.exceptions import PermissionDenied
 def active(user):
     return bool(user.is_authenticated and user.is_active and user.activo and (user.is_superuser or (user.rol_id and user.rol.activo)))
 
+def operational(user):
+    """Una cuenta válida necesita sede activa para operar, salvo raíz."""
+    return bool(active(user) and (user.is_superuser or (user.delegacion_id and user.delegacion.activo)))
+
 def can_manage(user):
-    return bool(active(user) and (user.is_superuser or (user.rol_id and user.rol.puede_gestionar)))
+    return bool(operational(user) and (user.is_superuser or (user.rol_id and user.rol.puede_gestionar)))
 
 def can_register(user):
-    return bool(active(user) and (user.is_superuser or (user.rol_id and user.rol.puede_registrar_atenciones and user.delegacion_id and user.delegacion.activo)))
+    return bool(operational(user) and (user.is_superuser or (user.rol_id and user.rol.puede_registrar_atenciones)))
 
 def can_approve(user):
-    return bool(active(user) and (user.is_superuser or (user.rol_id and user.rol.puede_aprobar)))
+    return bool(operational(user) and (user.is_superuser or (user.rol_id and user.rol.puede_aprobar)))
 
 def permission_required(predicate):
     def decorate(view):

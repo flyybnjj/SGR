@@ -62,7 +62,7 @@ Pruebas usan bases temporales y correo en memoria; no modifican la base real. Ve
 
 ## Verificación registrada el 18/10/2026
 
-225 pruebas aprobadas; resultados individuales en docs/evidencias/matriz-funcional.csv. 36 comprobaciones HTTP de AWS y carga controlada de lectura sin errores hasta 10 concurrentes. El detalle y las validaciones humanas pendientes están en docs/segunda-evaluacion.md. Para regenerar la matriz: python scripts/verify_delivery.py. La carga se ejecuta con scripts/load_delivery.py y una sesión temporal privada; nunca se publica su archivo.
+261 pruebas aprobadas; resultados individuales en docs/evidencias/matriz-funcional.csv. 36 comprobaciones HTTP de AWS y carga controlada de lectura sin errores hasta 10 concurrentes. El detalle y las validaciones humanas pendientes están en docs/segunda-evaluacion.md. Para regenerar la matriz: python scripts/verify_delivery.py. La carga se ejecuta con scripts/load_delivery.py y una sesión temporal privada; nunca se publica su archivo.
 
 Los códigos de los catálogos corresponden a su ID. Los 5 requerimientos del esquema anterior se integran al historial y acciones con fechas, folios y estados originales; la aprobación se conserva solo cuando existe auditoría. Ver docs/migracion-historica.md. No hay datos simulados en los indicadores productivos.
 
@@ -72,3 +72,8 @@ La asignación de responsables y la personalización de colores usan la misma se
 ## Acceso territorial a vecinos
 
 El padrón, la búsqueda, los Excel y las fichas de atención se limitan a la delegación activa del funcionario. El historial visible y exportado también se limita a esa sede. El superadministrador conserva acceso global. Un vecino sin territorio solo es visible para el superadministrador hasta su asignación. Ver docs/ambito-vecinos.md.
+
+
+## Auditoría de lógica y permisos
+
+Revisión de seis módulos, formularios, modelos, rutas, comandos y JS; 13 fallos reproducidos y corregidos. Suite ampliada a 261 pruebas, con casos concurrentes SQLite. Ver docs/auditoria-logica.md y docs/evidencias/auditoria-logica. Para importar un esquema antiguo con aprobación autorizada, indicar --approval-role-id ID por cada rol; el nombre del rol no otorga ese permiso. Los comandos de ejemplo no deben ejecutarse sobre producción.

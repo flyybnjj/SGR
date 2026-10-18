@@ -1,0 +1,350 @@
+{
+  "alcance": "Módulos de ejecución, permisos, formularios, modelos, rutas, utilidades, comandos, JS y empaquetado. Plantillas vinculadas inspeccionadas junto con sus vistas. Tests y migraciones se verifican por suite, no se incluyen en este inventario. No incluye backups ni dependencias externas.",
+  "archivos": [
+    {
+      "archivo": "config/access.py",
+      "sha256": "2ea19c80a26692e7bc703465fe3babe81fdea0e8c1c1cd78687396d034958d35",
+      "area": "backend o comando de gestión"
+    },
+    {
+      "archivo": "config/asgi.py",
+      "sha256": "0c12278ddb5f3c2caad33235b9ef83796c68377e26e7d60fb0c7b17217bfbb9b",
+      "area": "backend o comando de gestión"
+    },
+    {
+      "archivo": "config/catalog_validation.py",
+      "sha256": "8cf128ce3061e177896824b49c03858ad2b23c97e3eec8309b5d34b0c2ac95b2",
+      "area": "backend o comando de gestión"
+    },
+    {
+      "archivo": "config/context_processors.py",
+      "sha256": "edd6743ce4cd4ccff7c40cf808da8762a36061c0d1263dddda679d233766ba99",
+      "area": "backend o comando de gestión"
+    },
+    {
+      "archivo": "config/crud_modals.py",
+      "sha256": "8f3f9cd0f5ea00c0f372309b01808a78261abf2473f25d18fedf610a45b30100",
+      "area": "backend o comando de gestión"
+    },
+    {
+      "archivo": "config/excel_utils.py",
+      "sha256": "2bff42c31c8b154b1f9b69a11f3679249d79e4170f3292ba2cf127db78e7806f",
+      "area": "backend o comando de gestión"
+    },
+    {
+      "archivo": "config/middleware.py",
+      "sha256": "46d140c524f1314a20d1f458459e9670b22f379724284dbece0f7fa2eaf5e1cb",
+      "area": "backend o comando de gestión"
+    },
+    {
+      "archivo": "config/pagination.py",
+      "sha256": "19656ebed837d9ca376cfa37b395780e3e1171b468b0b9ba0c0349c50c3d694f",
+      "area": "backend o comando de gestión"
+    },
+    {
+      "archivo": "config/settings.py",
+      "sha256": "d2277815cfc81c3e2ccc1e4c462d2e36428680e9ca8b2936d44008c7ae91356b",
+      "area": "backend o comando de gestión"
+    },
+    {
+      "archivo": "config/ui_theme.py",
+      "sha256": "1467e0d7294e9bcb1f01490fed8cab24140965e32e1ce14e90910edf989ba47d",
+      "area": "backend o comando de gestión"
+    },
+    {
+      "archivo": "config/urls.py",
+      "sha256": "13e5def967515236231c37b97645a92b9f7482a4b0e31e0a75cd1468780dc827",
+      "area": "backend o comando de gestión"
+    },
+    {
+      "archivo": "config/validators.py",
+      "sha256": "03d7a56f44d21dc10534af4defecd10054b62c9265eccf91dc3b2ee733120b6f",
+      "area": "backend o comando de gestión"
+    },
+    {
+      "archivo": "config/wsgi.py",
+      "sha256": "42acf666fd373bd137b0c51bfa95498501a08547f9aaedc56e2bf281d32bb86f",
+      "area": "backend o comando de gestión"
+    },
+    {
+      "archivo": "config/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "area": "backend o comando de gestión"
+    },
+    {
+      "archivo": "usuarios/account.py",
+      "sha256": "7c85f5f2ec73f59e2f6cab050c03ca8c72fcef0fefcc74e28513ef2b8f02ac0f",
+      "area": "backend o comando de gestión"
+    },
+    {
+      "archivo": "usuarios/admin.py",
+      "sha256": "a7ac68a753eeb831b6530bf71bf6917e577139f0734d17cc6a8666391564ab25",
+      "area": "backend o comando de gestión"
+    },
+    {
+      "archivo": "usuarios/apps.py",
+      "sha256": "efbcca6120c99fa52e5e3c8d0ef693fccc6600c88880d9a62e1c862948707a72",
+      "area": "backend o comando de gestión"
+    },
+    {
+      "archivo": "usuarios/forms.py",
+      "sha256": "42f7171867fc5f9d5c1f2e76f0dd2d33360bdd89c834b536742786597dfad359",
+      "area": "backend o comando de gestión"
+    },
+    {
+      "archivo": "usuarios/models.py",
+      "sha256": "5939be4b89c97b32361b384ea1946727056e549dae80692aecd6ced5bdf45c30",
+      "area": "backend o comando de gestión"
+    },
+    {
+      "archivo": "usuarios/passkeys.py",
+      "sha256": "aaa149324f1092481057e3878dce288d9e6f00543fc7be3620a262f162631c15",
+      "area": "backend o comando de gestión"
+    },
+    {
+      "archivo": "usuarios/urls.py",
+      "sha256": "06433a587fbdd6d28139cafbed1476ad77da8721aaa5a9c10de3bbdafffd5e2f",
+      "area": "backend o comando de gestión"
+    },
+    {
+      "archivo": "usuarios/views.py",
+      "sha256": "1b830ead126f7bc4a8b8554fa80daedab05596ebba4c95f6126a6ebde1525a3d",
+      "area": "backend o comando de gestión"
+    },
+    {
+      "archivo": "usuarios/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "area": "backend o comando de gestión"
+    },
+    {
+      "archivo": "usuarios/management/commands/importar_legacy_aws.py",
+      "sha256": "48244174e98011144ecca9c36c9c51bb03cfd7e3ca6ffa3e7e2140609c339355",
+      "area": "backend o comando de gestión"
+    },
+    {
+      "archivo": "usuarios/management/commands/inicializar_admin.py",
+      "sha256": "e0562bc386108d7c51d91b16f46337d6f094eed76488ad4dc8fd0ccfd1f3e4f1",
+      "area": "backend o comando de gestión"
+    },
+    {
+      "archivo": "usuarios/management/commands/poblar_sistema.py",
+      "sha256": "563967ad8400393e294ead1cf78f5f1ff6f9182eaf0907d0b260e94668813dad",
+      "area": "backend o comando de gestión"
+    },
+    {
+      "archivo": "territorial/admin.py",
+      "sha256": "a7ac68a753eeb831b6530bf71bf6917e577139f0734d17cc6a8666391564ab25",
+      "area": "backend o comando de gestión"
+    },
+    {
+      "archivo": "territorial/appearance.py",
+      "sha256": "5e2994b33ccb277886fe0bb1d43e4efe9d28eabc6184710c5c369507145ce594",
+      "area": "backend o comando de gestión"
+    },
+    {
+      "archivo": "territorial/apps.py",
+      "sha256": "7f001c75535a2e276109bea6cd3ccc3585ea69edef08d239a71d5c71da0228c2",
+      "area": "backend o comando de gestión"
+    },
+    {
+      "archivo": "territorial/forms.py",
+      "sha256": "1421a3158d0cf82921fa87fb5dc23a70227633f56db0ba7da647785534aab561",
+      "area": "backend o comando de gestión"
+    },
+    {
+      "archivo": "territorial/models.py",
+      "sha256": "f3a8c46a9857e60f25c41d032e4e8e0b5af41b4187834418ba6e18e531599ff8",
+      "area": "backend o comando de gestión"
+    },
+    {
+      "archivo": "territorial/urls.py",
+      "sha256": "e2cbb95836b62c16df280d8858fea83c29b4d53b1c293ee989fd1332d3d38391",
+      "area": "backend o comando de gestión"
+    },
+    {
+      "archivo": "territorial/views.py",
+      "sha256": "4b6b2dded471ba3c37560aba758ac0ee56050291aae7165f4045da5bbc9ddc25",
+      "area": "backend o comando de gestión"
+    },
+    {
+      "archivo": "territorial/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "area": "backend o comando de gestión"
+    },
+    {
+      "archivo": "vecinos/access.py",
+      "sha256": "4a20a423bc51432d8694a5b24281caf2dcecc419024d4e1a00553b935e4f2927",
+      "area": "backend o comando de gestión"
+    },
+    {
+      "archivo": "vecinos/admin.py",
+      "sha256": "a7ac68a753eeb831b6530bf71bf6917e577139f0734d17cc6a8666391564ab25",
+      "area": "backend o comando de gestión"
+    },
+    {
+      "archivo": "vecinos/apps.py",
+      "sha256": "0c85eb3f13536b3a991cce77ff438d20795dfa465c198684cf20c888880c3883",
+      "area": "backend o comando de gestión"
+    },
+    {
+      "archivo": "vecinos/forms.py",
+      "sha256": "f157e611305a85ba7b50ac8666f30b91f2acd220af04d4a6067b7a4119430251",
+      "area": "backend o comando de gestión"
+    },
+    {
+      "archivo": "vecinos/models.py",
+      "sha256": "187c9ab22bba6dc8f4ed591ca1c87d6e758c6ab58dc20bb8aa73ee1e8b8446f8",
+      "area": "backend o comando de gestión"
+    },
+    {
+      "archivo": "vecinos/urls.py",
+      "sha256": "c7d8c50529cb54d2759f47784102b125e3db64135c0f50dfe3ce09f56ddcb974",
+      "area": "backend o comando de gestión"
+    },
+    {
+      "archivo": "vecinos/views.py",
+      "sha256": "f2a9ad1c7134e1f8214926f2223e574b93e0c97a7e3612dd209df98ce7bae8e0",
+      "area": "backend o comando de gestión"
+    },
+    {
+      "archivo": "vecinos/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "area": "backend o comando de gestión"
+    },
+    {
+      "archivo": "atenciones/admin.py",
+      "sha256": "a7ac68a753eeb831b6530bf71bf6917e577139f0734d17cc6a8666391564ab25",
+      "area": "backend o comando de gestión"
+    },
+    {
+      "archivo": "atenciones/apps.py",
+      "sha256": "624d1cd2e1bb87b9aad7f74c449b4bf230c49f336d5d91b0774614c2d349bed0",
+      "area": "backend o comando de gestión"
+    },
+    {
+      "archivo": "atenciones/forms.py",
+      "sha256": "1ddcdfb556bf2baf1d2e3ddf84b997ddbaf7f152ac5eacb0af8a36d2a8729d57",
+      "area": "backend o comando de gestión"
+    },
+    {
+      "archivo": "atenciones/models.py",
+      "sha256": "bfc7484c034147acc13677e66f3d1b9ea35c601e2e5cc4bab2248411051a2f44",
+      "area": "backend o comando de gestión"
+    },
+    {
+      "archivo": "atenciones/urls.py",
+      "sha256": "9e24928bd910affec893d6e5b6889b86ebe363c97eef803142910b2afd5b0a70",
+      "area": "backend o comando de gestión"
+    },
+    {
+      "archivo": "atenciones/views.py",
+      "sha256": "f4d26c0e898de62eb72f0e1edf43a4a812169587d8190d6b7fbc2d983f5a5ab3",
+      "area": "backend o comando de gestión"
+    },
+    {
+      "archivo": "atenciones/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "area": "backend o comando de gestión"
+    },
+    {
+      "archivo": "atenciones/management/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "area": "backend o comando de gestión"
+    },
+    {
+      "archivo": "atenciones/management/commands/migrar_requerimientos_historicos.py",
+      "sha256": "f17e6ac4942bcf40c32411ebd8a521d459026a7c1f7388096b94c2deb8340cd5",
+      "area": "backend o comando de gestión"
+    },
+    {
+      "archivo": "atenciones/management/commands/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "area": "backend o comando de gestión"
+    },
+    {
+      "archivo": "dashboard/admin.py",
+      "sha256": "a7ac68a753eeb831b6530bf71bf6917e577139f0734d17cc6a8666391564ab25",
+      "area": "backend o comando de gestión"
+    },
+    {
+      "archivo": "dashboard/apps.py",
+      "sha256": "190c0a2a53d97d0d082ea5d125dce49480d0b921e451df1b4b5e0f8bf3ce608a",
+      "area": "backend o comando de gestión"
+    },
+    {
+      "archivo": "dashboard/models.py",
+      "sha256": "e0e54c7030f1f5f56004427dd41edd7cc106d8d8b52d148b24e2b322454fb0aa",
+      "area": "backend o comando de gestión"
+    },
+    {
+      "archivo": "dashboard/urls.py",
+      "sha256": "40c623463e9d44a2978b4a31bd0a5fb921f0e05ebc7d28c93bce11927634e0d6",
+      "area": "backend o comando de gestión"
+    },
+    {
+      "archivo": "dashboard/views.py",
+      "sha256": "4a6a80a78ac7b0f046b26403c4ad9534c962c9df5116aa3df3b94213d922523f",
+      "area": "backend o comando de gestión"
+    },
+    {
+      "archivo": "dashboard/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "area": "backend o comando de gestión"
+    },
+    {
+      "archivo": "static/js/attention-form.js",
+      "sha256": "4dc88b49c3a61b90b6f69ecc052f8bcd97fe710977c1fe6e900948f220c3dd03",
+      "area": "interacción y formularios"
+    },
+    {
+      "archivo": "static/js/crud-editor.js",
+      "sha256": "84f5afe2ef7f734c56d5685290cdaa5bc0f3d55f9959d2971a445242537ea68a",
+      "area": "interacción y formularios"
+    },
+    {
+      "archivo": "static/js/crud-validation.js",
+      "sha256": "e913a77c232e5dd6f10e4ec086be49e0fda939508ea5f5d9a2f8bf5088b5e0e8",
+      "area": "interacción y formularios"
+    },
+    {
+      "archivo": "static/js/municipal-ui.js",
+      "sha256": "57cfc4be11e5857a9f9a03842ed02f97e522979f2221cdeb7ec6242a3301dacb",
+      "area": "interacción y formularios"
+    },
+    {
+      "archivo": "static/js/passkeys.js",
+      "sha256": "226e1a93422f498347f4822180ec2507915999f9e1b4876ee7067aeaa1c84681",
+      "area": "interacción y formularios"
+    },
+    {
+      "archivo": "static/js/tutorial-guiado.js",
+      "sha256": "ba94d941f6dc24c4cb90187e06756459111786dcd7490424ed981a5d0d416fb9",
+      "area": "interacción y formularios"
+    },
+    {
+      "archivo": "deploy_ec2.sh",
+      "sha256": "ab534ffb4fa099dfbeec39be939e5daf6659d93974c87a3085ba5a63e0ef67e1",
+      "area": "arranque y empaquetado"
+    },
+    {
+      "archivo": "Dockerfile",
+      "sha256": "76924a89aa416a5a296168fb50c8c35d27356edb82d9cf47a5ff6e327d4c05bf",
+      "area": "arranque y empaquetado"
+    },
+    {
+      "archivo": "entrypoint.sh",
+      "sha256": "7c1f5d1671f77d84ef4d5ccb02bbae93f54ddec98b6dfe46b2cb79cae6b34371",
+      "area": "arranque y empaquetado"
+    },
+    {
+      "archivo": ".dockerignore",
+      "sha256": "8a66ef2c22eac3e2d8963293e1f57c94fa8dbc98b6beca43f2317e7edd292e59",
+      "area": "arranque y empaquetado"
+    },
+    {
+      "archivo": ".gitignore",
+      "sha256": "0275baa98b28f6936f05d2552b30571a925e27240981ff3df1ffcc229d64df85",
+      "area": "arranque y empaquetado"
+    }
+  ]
+}

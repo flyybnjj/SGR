@@ -4,6 +4,7 @@ from .models import DelegacionMunicipal, ItemMeta
 from usuarios.models import Usuario
 from config.validators import validar_color
 from django.db import transaction
+from django.core.exceptions import ValidationError
 
 
 class DelegationAppearanceForm(forms.Form):
@@ -16,9 +17,13 @@ class DelegationAppearanceForm(forms.Form):
 
 class DelegacionMunicipalForm(NombreCatalogoUnicoMixin, forms.ModelForm):
     def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
         super().__init__(*args, **kwargs)
         # Filtrar delegados activos o con rol de Delegado Municipal
         self.fields['delegado'].queryset = Usuario.objects.filter(activo=True)
+        if user is not None and not user.is_superuser:
+            self.fields['delegado'].queryset = Usuario.objects.filter(pk=self.instance.delegado_id)
+            self.fields['delegado'].disabled = True
 
     def clean_delegado(self):
         user = self.cleaned_data.get('delegado')
@@ -26,12 +31,25 @@ class DelegacionMunicipalForm(NombreCatalogoUnicoMixin, forms.ModelForm):
             raise forms.ValidationError(
                 f'{user.nombre_completo} trabaja en {user.delegacion.nombre}. '
                 'El responsable debe pertenecer a esta delegación. Revisa su asignación en Usuarios.')
+        if user and user.delegaciones_a_cargo.exclude(pk=self.instance.pk).exists():
+            raise forms.ValidationError('Primero reasigna su responsabilidad en las otras delegaciones, incluidas las inactivas.')
         return user
 
     @transaction.atomic
     def save(self, commit=True):
-        seat = super().save(commit=commit)
-        if commit and seat.delegado_id and not seat.delegado.delegacion_id:
+        seat = super().save(commit=False)
+        if not commit:
+            return seat
+        if seat.delegado_id:
+            delegate = Usuario.objects.select_for_update().get(pk=seat.delegado_id)
+            if delegate.delegacion_id and delegate.delegacion_id != seat.pk:
+                raise ValidationError({'delegado': 'El responsable cambió de sede mientras editaba. Revise su asignación antes de guardar.'})
+            if delegate.delegaciones_a_cargo.exclude(pk=seat.pk).exists():
+                raise ValidationError({'delegado': 'El responsable ya dirige otra delegación. Reasigne esa responsabilidad antes de guardar.'})
+            seat.delegado = delegate
+        seat.save()
+        self.save_m2m()
+        if seat.delegado_id and not seat.delegado.delegacion_id:
             # A responsible without a work assignment joins the seat just created.
             seat.delegado.delegacion = seat
             seat.delegado.save(update_fields=['delegacion'])

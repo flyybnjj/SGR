@@ -10,7 +10,7 @@ from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_http_methods
 
 from config.access import active
-from .forms import validar_password_fuerte
+from .forms import rut_en_otra_cuenta, validar_password_fuerte
 from .models import Usuario
 
 
@@ -34,6 +34,8 @@ class AccountNameForm(forms.ModelForm):
         previous = Usuario.objects.filter(pk=self.instance.pk).values_list('username', flat=True).first()
         if value != previous and Usuario.objects.filter(Q(username__iexact=value) | Q(email__iexact=value) | Q(email_secundario__iexact=value)).exclude(pk=self.instance.pk).exists():
             raise forms.ValidationError('Ese nombre de usuario ya está en uso.')
+        if value != previous and rut_en_otra_cuenta(value, 'rut', self.instance.pk):
+            raise forms.ValidationError('Ese nombre de usuario coincide con el RUT de otra cuenta.')
         return value
 
 

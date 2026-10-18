@@ -30,7 +30,7 @@ El usuario confirmó el 18/10/2026 la recepción y uso de códigos por correo y 
 
 ## Resultado de la segunda lectura y cierre
 
-Se releyeron las 10 páginas; huella del PDF en evidencias/fuente-requisitos.json. Suite final: 225 casos aprobados, con matriz individual en CSV/JSON. Incluye los seis CRUD completos, búsquedas/paginación/Excel, recuperación y límites, roles, RUT, dependencia e idempotencia. Revisión independiente: se corrigió la colisión entre usernames y correos en administración y autoservicio. La reserva de intentos usa incremento atómico compartido entre trabajadores.
+Se releyeron las 10 páginas; huella del PDF en evidencias/fuente-requisitos.json. Suite final: 261 casos aprobados, con matriz individual en CSV/JSON. Incluye los seis CRUD completos, búsquedas/paginación/Excel, recuperación y límites, roles, RUT, dependencia e idempotencia. Revisión independiente: se corrigió la colisión entre usernames y correos en administración y autoservicio. La reserva de intentos usa incremento atómico compartido entre trabajadores.
 
 Navegador: 14 capturas a 390/1440 px, sin desbordamiento; seis auditorías axe sin violaciones detectadas. Una comprobación quedó incompleta para revisión ARIA: no se presenta como certificación WCAG. Confirmación adicional del nombre completo de delegación en móvil, múltiples avisos y SweetAlert de error del servidor. Los diseños en evidencia usan datos ficticios y no sustituyen la comprobación HTTP real de AWS.
 
@@ -48,3 +48,8 @@ Corrección de color y responsabilidades: docs/color-delegacion.md. La sede de t
 ## Corrección del aislamiento de vecinos
 
 Se eliminó la consulta global de vecinos para funcionarios y delegados: padrón, búsqueda, ficha GET/POST, historial, paginación y Excel usan el ámbito de su sede activa. Raíz conserva consulta global. Se agregaron 16 regresiones, incluidas reasignación de sede, rol de consulta, falta de sede y acceso a datos históricos. Suite completa: 225 pruebas aprobadas. Evidencias: evidencias/ambito-vecinos. La asignación actual del registro del Faro se corrige a Avenida del Mar, conservando las actuaciones y auditorías originales.
+
+
+## Revisión ampliada de lógica
+
+Se reprodujeron y corrigieron 13 fallos adicionales de permisos, identidad, recuperación, asignación territorial, concurrencia, catálogo e importación/demostración. Suite completa: 261 pruebas aprobadas y casos concurrentes en SQLite aislado. Detalle y alcance: auditoria-logica.md. Las verificaciones de SMTP y passkey personales confirmadas anteriormente siguen distinguiéndose de estas pruebas automatizadas.

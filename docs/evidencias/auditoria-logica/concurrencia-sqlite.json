@@ -1,0 +1,14 @@
+{
+  "motor": "SQLite en archivo aislado",
+  "transaction_mode": "IMMEDIATE",
+  "dos_revisores_http": [
+    302,
+    409
+  ],
+  "resoluciones": 1,
+  "asignaciones_simultaneas": [
+    "ValidationError",
+    "guardado"
+  ],
+  "responsabilidad_coherente": true
+}

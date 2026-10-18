@@ -3,7 +3,7 @@ from django.db.models import Count, Q, F
 from django.shortcuts import render
 from django.utils import timezone
 from atenciones.models import Atencion, Accion, MetaPeriodo
-from config.access import can_manage
+from config.access import can_manage, operational
 from config.access import superuser_required
 from django import forms
 from usuarios.models import Usuario
@@ -31,7 +31,7 @@ def administracion_view(request):
 def operational_scope(queryset, user):
     if user.is_superuser:
         return queryset
-    return queryset.filter(delegacion_id=user.delegacion_id) if user.delegacion_id else queryset.none()
+    return queryset.filter(delegacion_id=user.delegacion_id) if operational(user) else queryset.none()
 
 
 @login_required

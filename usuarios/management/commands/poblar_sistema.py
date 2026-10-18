@@ -1,16 +1,30 @@
 from django.core.management.base import BaseCommand
-from django.utils import timezone
+from django.core.exceptions import ValidationError
+from django.db import transaction
+from config.validators import normalizar_rut
 from usuarios.models import Rol, Usuario
 from territorial.models import DelegacionMunicipal, ItemMeta
 from atenciones.models import TipoAtencion, SubAtencion
 from vecinos.models import Vecino
 
 
-class Command(BaseCommand):
-    help = "Puebla la base de datos con los roles obligatorios, usuarios, delegaciones, metas, atenciones y vecinos iniciales."
+def ruts_registrados(model):
+    originales = set(model.objects.values_list('rut', flat=True))
+    normalizados = set()
+    for rut in originales:
+        try:
+            normalizados.add(normalizar_rut(rut))
+        except ValidationError:
+            continue
+    return originales, normalizados
 
+
+class Command(BaseCommand):
+    help = "Carga ejemplos ficticios para demostración y pruebas; conserva los registros existentes. No es una migración ni una reparación de datos reales."
+
+    @transaction.atomic
     def handle(self, *args, **options):
-        self.stdout.write(self.style.NOTICE("Iniciando precarga de datos institucionales de La Serena..."))
+        self.stdout.write(self.style.WARNING("Precarga de DEMOSTRACIÓN: personas, RUT, contactos y direcciones son ejemplos ficticios. Use una base de pruebas. Los registros existentes no se corrigen ni reasignan."))
 
         # 1. ROLES OBLIGATORIOS (Orden de carga #1)
         roles_data = [
@@ -33,7 +47,21 @@ class Command(BaseCommand):
             if created:
                 self.stdout.write(self.style.SUCCESS(f"  [+] Rol creado: {nombre}"))
 
-        # 2. USUARIOS (Orden de carga #2)
+        # 2. SEDES: los nombres se conservan; las direcciones son ejemplos explícitos.
+        delegaciones_data = ["Centro", "Las Compañías", "La Pampa", "La Antena", "Avenida del Mar", "Rural"]
+        delegs_dict = {}
+        new_seats = set()
+        for nombre in delegaciones_data:
+            seat, created = DelegacionMunicipal.objects.get_or_create(
+                nombre=nombre,
+                defaults={'direccion': f'Dirección de ejemplo: sede {nombre}', 'comuna': 'La Serena', 'activo': True},
+            )
+            delegs_dict[nombre] = seat
+            if created:
+                new_seats.add(seat.pk)
+                self.stdout.write(self.style.SUCCESS(f"  [+] Delegación creada: {nombre}"))
+
+        # 3. USUARIOS DE EJEMPLO
         # El administrador se inicializa explícitamente con inicializar_admin.
         # Este comando nunca crea una cuenta privilegiada con clave pública.
 
@@ -42,51 +70,46 @@ class Command(BaseCommand):
         gestor_rol = roles_dict["Gestor Social"]
 
         usuarios_data = [
-            ("juan.perez", "Juan", "Pérez", "juan@municipalidad.cl", "12.456.789-0", "+56987654321", delegado_rol, True),
-            ("maria.lopez", "María", "López", "maria@municipalidad.cl", "13.654.321-K", "+56976543210", delegado_rol, True),
-            ("carlos.diaz", "Carlos", "Díaz", "carlos@municipalidad.cl", "14.789.123-4", "+56965432109", delegado_rol, False), # Inactivo para mockup
-            ("camila.morales", "Camila", "Morales", "camila@municipalidad.cl", "16.321.456-7", "+56954321098", gestor_rol, True),
+            ("juan.perez", "Juan", "Pérez", "juan@example.invalid", "12456789-0", "+56987654321", delegado_rol, True, "Centro"),
+            ("maria.lopez", "María", "López", "maria@example.invalid", "13654321-0", "+56976543210", delegado_rol, True, "Las Compañías"),
+            ("carlos.diaz", "Carlos", "Díaz", "carlos@example.invalid", "14789123-7", "+56965432109", delegado_rol, False, "La Pampa"),
+            ("camila.morales", "Camila", "Morales", "camila@example.invalid", "16321456-3", "+56954321098", gestor_rol, True, "Centro"),
         ]
 
         users_dict = {}
-        for uname, fname, lname, email, rut, fono, urol, uactivo in usuarios_data:
+        _, registered_user_ruts = ruts_registrados(Usuario)
+        for uname, fname, lname, email, rut, fono, urol, uactivo, sede in usuarios_data:
+            rut = normalizar_rut(rut)
+            if not Usuario.objects.filter(username=uname).exists() and (not delegs_dict[sede].activo or rut in registered_user_ruts):
+                self.stdout.write(self.style.WARNING("  [!] Cuenta de demostración omitida: sede inactiva o RUT ya registrado. No se modificaron datos existentes."))
+                continue
             usr, created = Usuario.objects.get_or_create(
                 username=uname,
                 defaults={
                     'first_name': fname,
                     'last_name': lname,
                     'email': email,
-                    'rut': rut,
+                    'rut': normalizar_rut(rut),
                     'telefono': fono,
                     'rol': urol,
                     'activo': uactivo,
+                    'delegacion': delegs_dict[sede],
                 }
             )
             if created:
                 usr.set_unusable_password()
                 usr.save()
+                registered_user_ruts.add(rut)
                 self.stdout.write(self.style.SUCCESS(f"  [+] Usuario creado: {uname} (sin acceso hasta que el administrador asigne una clave)"))
             users_dict[uname] = usr
 
-        # 3. DELEGACIONES MUNICIPALES (Las 6 Sedes Oficiales de La Serena)
-        delegaciones_data = [
-            ("Centro", "Av. Balmaceda #123", "La Serena", users_dict.get("juan.perez")),
-            ("Las Compañías", "Calle Esmeralda #456", "La Serena", users_dict.get("maria.lopez")),
-            ("La Pampa", "Av. Estadio #1200", "La Serena", users_dict.get("carlos.diaz")),
-            ("La Antena", "Calle 18 de Septiembre #789", "La Serena", None),
-            ("Avenida del Mar", "Av. del Mar #1500", "La Serena", None),
-            ("Rural", "Ruta D-41 Km 15 (Algarrobito)", "La Serena", None),
-        ]
-
-        delegs_dict = {}
-        for nom, dir_d, com, del_user in delegaciones_data:
-            dlg, created = DelegacionMunicipal.objects.get_or_create(
-                nombre=nom,
-                defaults={'direccion': dir_d, 'comuna': com, 'delegado': del_user, 'activo': True}
-            )
-            delegs_dict[nom] = dlg
-            if created:
-                self.stdout.write(self.style.SUCCESS(f"  [+] Delegación creada: {nom}"))
+        # Solo las sedes recién creadas reciben responsables coherentes. Nunca se
+        # mueve un usuario existente ni se reemplaza el responsable de una sede.
+        for sede, username in (("Centro", "juan.perez"), ("Las Compañías", "maria.lopez"), ("La Pampa", "carlos.diaz")):
+            seat, user = delegs_dict[sede], users_dict.get(username)
+            if user is not None and seat.pk in new_seats and user.delegacion_id == seat.pk and not user.delegaciones_a_cargo.exclude(pk=seat.pk).exists():
+                seat.delegado = user
+                seat.save(update_fields=['delegado'])
 
         # 4. ÍTEMS DE METAS (Orden de carga #4)
         metas_data = [
@@ -106,7 +129,7 @@ class Command(BaseCommand):
             if created:
                 self.stdout.write(self.style.SUCCESS(f"  [+] Meta creada: {nom}"))
 
-        # 5. TIPOS DE ATENCIÓN Y SUB-ATENCIONES (Los 4 Pilares Operativos Oficiales)
+        # 5. CATÁLOGO DE TIPOS Y SUBATENCIONES DE EJEMPLO
         atenciones_data = {
             "DISERCO (Aseo y Obras)": ("Aseo, áreas verdes, podas, retiro de escombros, maquinaria pesada y emergencias", [
                 "Poda de Árboles en Vía Pública", "Retiro de Escombros y Microbasural", "Bacheo de Calles y Veredas", "Limpieza de Quebradas y Canales", "Operativo de Maquinaria Pesada"
@@ -141,29 +164,38 @@ class Command(BaseCommand):
                 if s_created:
                     self.stdout.write(self.style.SUCCESS(f"      - Sub-Atención: {sub_nom}"))
 
-        # 6. VECINOS (Orden de carga #6 - Coincidente con mockups)
+        # 6. VECINOS FICTICIOS. El RUT antiguo se reconoce para no duplicar
+        # ejemplos de entregas anteriores; esos registros se dejan intactos.
         vecinos_data = [
-            ("Ana González", "12.345.678-9", "Av. Balmaceda 120", "+56 9 8765 4321", delegs_dict.get("Centro"), "Solicitud", True),
-            ("Pedro Rojas", "9.876.543-2", "Calle O'Higgins 455", "+56 9 7654 3210", delegs_dict.get("Norte"), "Reclamo", True),
-            ("María Castillo", "15.234.567-1", "Pasaje Los Pinos 89", "+56 9 6543 2109", delegs_dict.get("Sur"), "Consulta", False), # Inactiva según mockup
-            ("Luis Herrera", "17.456.789-0", "Av. El Faro 230", "+56 9 5432 1098", delegs_dict.get("Oriente"), "Orientacion", True),
-            ("Claudia Véliz", "18.987.654-3", "Calle Las Araucarias 14", "+56 9 4321 0987", delegs_dict.get("Centro"), "Solicitud", True),
-            ("Hernán Valenzuela", "10.123.456-7", "Población Minas 88", "+56 9 3210 9876", delegs_dict.get("Rural Cordillera"), "Reclamo", True),
+            ("Ana González", "12345678-5", "12.345.678-9", "Domicilio de ejemplo Centro 1", "+56 9 8765 4321", "Centro", "Solicitud", True),
+            ("Pedro Rojas", "9876543-3", "9.876.543-2", "Domicilio de ejemplo Las Compañías 2", "+56 9 7654 3210", "Las Compañías", "Reclamo", True),
+            ("María Castillo", "15234567-4", "15.234.567-1", "Domicilio de ejemplo La Pampa 3", "+56 9 6543 2109", "La Pampa", "Consulta", False),
+            ("Luis Herrera", "17456789-1", "17.456.789-0", "Domicilio de ejemplo sector Faro 4", "+56 9 5432 1098", "Avenida del Mar", "Orientacion", True),
+            ("Claudia Véliz", "18987654-8", "18.987.654-3", "Domicilio de ejemplo La Antena 5", "+56 9 4321 0987", "La Antena", "Solicitud", True),
+            ("Hernán Valenzuela", "10123456-8", "10.123.456-7", "Domicilio de ejemplo Rural 6", "+56 9 3210 9876", "Rural", "Reclamo", True),
         ]
 
-        for vnom, vrut, vdir, vtel, vterr, vtipo, vact in vecinos_data:
+        existing_ruts, normalized_ruts = ruts_registrados(Vecino)
+        for vnom, vrut, legacy_rut, vdir, vtel, sede, vtipo, vact in vecinos_data:
+            vrut = normalizar_rut(vrut)
+            if legacy_rut in existing_ruts or vrut in normalized_ruts:
+                continue
+            if not delegs_dict[sede].activo:
+                self.stdout.write(self.style.WARNING("  [!] Vecino de demostración omitido: sede inactiva. No se modificaron datos existentes."))
+                continue
             vec, created = Vecino.objects.get_or_create(
                 rut=vrut,
                 defaults={
                     'nombre': vnom,
                     'direccion': vdir,
                     'telefono': vtel,
-                    'territorio': vterr,
+                    'territorio': delegs_dict[sede],
                     'tipo_gestion': vtipo,
                     'activo': vact,
                 }
             )
             if created:
+                normalized_ruts.add(vrut)
                 self.stdout.write(self.style.SUCCESS(f"  [+] Vecino creado: {vnom} ({vrut})"))
 
         self.stdout.write(self.style.SUCCESS("\nPrecarga de datos finalizada exitosamente."))

@@ -66,6 +66,8 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument('--source', required=True, help='Ruta a la copia privada de la BD anterior.')
+        parser.add_argument('--approval-role-id', action='append', type=int, default=[],
+                            help='ID de rol de origen que podrá aprobar. Repetible; por defecto ningún rol recibe aprobación.')
 
     def handle(self, *args, **options):
         source_path = Path(options['source']).expanduser().resolve()
@@ -78,6 +80,9 @@ class Command(BaseCommand):
 
         data, schema = self.read_source(source_path)
         self.validate_source(data)
+        approval_role_ids = set(options['approval_role_id'])
+        if approval_role_ids - {row['id'] for row in data['usuarios_rol']}:
+            raise CommandError('Los roles de aprobación indicados no existen en el origen. No se importó ningún registro.')
         with transaction.atomic():
             if any(model.objects.exists() for model in BUSINESS_MODELS):
                 raise CommandError('La base destino contiene datos de negocio. Se rechazó la importación para evitar reemplazos o duplicados.')
@@ -87,9 +92,8 @@ class Command(BaseCommand):
 
             self.archive_source(data, schema)
             self.copy_model(Rol, data['usuarios_rol'], extras=lambda row: {
-                # The previous role matrix explicitly allowed delegates to
-                # audit. Role names never grant superuser.
-                'puede_aprobar': 'delegado' in row['nombre'].strip().lower(),
+                # Los permisos nuevos requieren una selección explícita por ID.
+                'puede_aprobar': row['id'] in approval_role_ids,
                 # The new management flag also grants global catalog access;
                 # a partial old permission must not broaden that privilege.
                 'puede_gestionar': False,

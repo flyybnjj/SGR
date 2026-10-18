@@ -1,0 +1,21 @@
+{
+  "suite_aprobada": 261,
+  "regresiones_nuevas": 36,
+  "hallazgos_corregidos": 13,
+  "fuentes_ejecucion_inventariadas": 69,
+  "pruebas_datos_aislados": true,
+  "correo_cache_en_memoria": true,
+  "datos_productivos_no_usados_en_pruebas": true,
+  "revision_independiente": "23 pruebas finales y dos escenarios concurrentes adicionales sin bloqueantes pendientes",
+  "concurrencia_sqlite_archivo": true,
+  "http_resolucion_simultanea": [
+    302,
+    409
+  ],
+  "resoluciones_por_accion": 1,
+  "responsable_concurrente": [
+    "guardado",
+    "ValidationError"
+  ],
+  "sin_migraciones": true
+}

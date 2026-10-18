@@ -54,14 +54,14 @@ class LegacyAWSImportTests(TestCase):
     def requirement(self, pk, state, audited):
         return dict(id=pk, folio=f'REQ-{pk}', codigo_inmutable=f'hash-{pk}', pilar='DISERCO', descripcion=f'Descripción original {pk}', direccion='Dirección original', estado=state, sla_horas=48, check_auditoria=audited, fecha_creacion=self.date, fecha_actualizacion=self.date, creado_por_id=20, delegacion_id=30, sub_atencion_id=60, tipo_atencion_id=50, vecino_id=40)
 
-    def import_source(self):
+    def import_source(self, *args):
         output = StringIO()
-        call_command('importar_legacy_aws', source=str(self.source), stdout=output, stderr=output)
+        call_command('importar_legacy_aws', *args, source=str(self.source), stdout=output, stderr=output)
         return output.getvalue()
 
     def test_preserves_credentials_ids_assignments_history_dates_and_archives(self):
         before = hashlib.sha256(self.source.read_bytes()).hexdigest()
-        output = self.import_source()
+        output = self.import_source('--approval-role-id', '7')
         self.assertEqual(Usuario.objects.count(), 2)
         self.assertEqual(Usuario.objects.get(pk=10).password, self.password_hash)
         self.assertTrue(Usuario.objects.get(pk=10).is_superuser)
@@ -160,6 +160,32 @@ class LegacyAWSImportTests(TestCase):
         self.assertFalse(Usuario.objects.get(pk=20).is_superuser)
         self.assertFalse(Rol.objects.get(pk=7).puede_aprobar)
         self.assertFalse(Rol.objects.get(pk=7).puede_gestionar)
+
+    def test_delegate_role_name_does_not_grant_approval_by_default(self):
+        self.import_source()
+        self.assertFalse(Rol.objects.get(pk=7).puede_aprobar)
+        self.assertFalse(Usuario.objects.get(pk=20).is_superuser)
+
+    def test_explicit_approval_role_ids_are_repeatable_and_do_not_use_names(self):
+        with closing(sqlite3.connect(self.source)) as source, source:
+            source.execute("UPDATE usuarios_rol SET nombre='Atención municipal' WHERE id=7")
+            source.execute('INSERT INTO usuarios_rol (id,nombre,descripcion,activo,fecha_creacion) VALUES (8,?,?,1,?)',
+                           ('Supervisión municipal', 'Original', self.date))
+            source.execute('INSERT INTO usuarios_rol (id,nombre,descripcion,activo,fecha_creacion) VALUES (9,?,?,1,?)',
+                           ('Delegado sin aprobación explícita', 'Original', self.date))
+        self.import_source('--approval-role-id', '7', '--approval-role-id', '8')
+        self.assertTrue(Rol.objects.get(pk=7).puede_aprobar)
+        self.assertTrue(Rol.objects.get(pk=8).puede_aprobar)
+        self.assertFalse(Rol.objects.get(pk=9).puede_aprobar)
+
+    def test_unknown_approval_role_id_aborts_before_writing_records_or_archives(self):
+        before = hashlib.sha256(self.source.read_bytes()).hexdigest()
+        with self.assertRaisesMessage(CommandError, 'roles de aprobación'):
+            self.import_source('--approval-role-id', '999')
+        self.assertEqual(Rol.objects.count(), 0)
+        self.assertEqual(Usuario.objects.count(), 0)
+        self.assertNotIn('legacy_usuarios_rol', connection.introspection.table_names())
+        self.assertEqual(hashlib.sha256(self.source.read_bytes()).hexdigest(), before)
 
     def test_unknown_business_table_is_rejected(self):
         with closing(sqlite3.connect(self.source)) as source, source:

@@ -3,9 +3,27 @@ import re
 from django import forms
 from django.core.exceptions import ValidationError
 from django.db.models import Q
+from django.db import transaction
 from .models import Usuario, Rol
-from config.validators import RutFormMixin
+from config.validators import RutFormMixin, normalizar_rut
 from territorial.models import DelegacionMunicipal
+
+
+def rut_en_otra_cuenta(value, campo, excluir_pk=None):
+    """Evita que el RUT y el usuario de ingreso identifiquen cuentas distintas."""
+    try:
+        rut = normalizar_rut(value)
+    except ValidationError:
+        return False
+    if not rut:
+        return False
+    for existing in Usuario.objects.exclude(pk=excluir_pk).values_list(campo, flat=True):
+        try:
+            if normalizar_rut(existing) == rut:
+                return True
+        except ValidationError:
+            continue
+    return False
 
 
 def validar_password_fuerte(password):
@@ -158,6 +176,19 @@ class UsuarioForm(RutFormMixin, forms.ModelForm):
         previous = Usuario.objects.filter(pk=self.instance.pk).values_list('username', flat=True).first()
         if value != previous and Usuario.objects.exclude(pk=self.instance.pk).filter(Q(username__iexact=value) | Q(email__iexact=value) | Q(email_secundario__iexact=value)).exists():
             raise ValidationError('Este nombre de usuario ya está en uso.')
+        if value != previous and rut_en_otra_cuenta(value, 'rut', self.instance.pk):
+            raise ValidationError('Este nombre de usuario coincide con el RUT de otra cuenta.')
+        return value
+
+    def clean_rut(self):
+        value = super().clean_rut()
+        previous = Usuario.objects.filter(pk=self.instance.pk).values_list('rut', flat=True).first()
+        try:
+            previous = normalizar_rut(previous)
+        except ValidationError:
+            previous = None
+        if value != previous and rut_en_otra_cuenta(value, 'username', self.instance.pk):
+            raise ValidationError('Este RUT coincide con el nombre de usuario de otra cuenta.')
         return value
 
     def clean(self):
@@ -176,16 +207,27 @@ class UsuarioForm(RutFormMixin, forms.ModelForm):
                     self.add_error(field, 'Este correo ya está vinculado a otra cuenta.')
         return data
 
+    @transaction.atomic
     def save(self, commit=True):
         user = super().save(commit=False)
+        stored_user = None
+        if user.pk:
+            stored_users = Usuario.objects.select_for_update() if commit else Usuario.objects.all()
+            stored_user = stored_users.get(pk=user.pk)
+        if commit and stored_user:
+            # Comparte el bloqueo con la asignación de responsables de sede.
+            if DelegacionMunicipal.objects.filter(delegado_id=user.pk).exclude(pk=user.delegacion_id).exists():
+                raise ValidationError({'delegacion': 'Se le asignó una responsabilidad mientras editaba. Reasigne esa responsabilidad antes de cambiar su sede.'})
         pwd = self.cleaned_data.get('password')
         if pwd:
             user.set_password(pwd)
-        elif self.instance.pk:
-            # Preservar el hash original si no se ingresó una nueva contraseña
-            original_pwd = Usuario.objects.filter(pk=self.instance.pk).values_list('password', flat=True).first()
-            if original_pwd:
-                user.password = original_pwd
+            user.reset_code = user.codigo_recuperacion = None
+            user.reset_expires_at = user.codigo_expiracion = None
+        elif stored_user:
+            # Una edición de datos no debe restaurar credenciales ni códigos obsoletos.
+            user.password = stored_user.password
+            for field in ('reset_code', 'codigo_recuperacion', 'reset_expires_at', 'codigo_expiracion'):
+                setattr(user, field, getattr(stored_user, field))
         if commit:
             user.save()
         return user
