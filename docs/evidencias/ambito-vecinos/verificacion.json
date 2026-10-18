@@ -10,5 +10,12 @@
     390
   ],
   "datos_capturas": "ficticios",
-  "sin_migraciones": true
+  "sin_migraciones": true,
+  "application_commit": "3e407cdc8214bf6191a749b4b799ecc3dd5acbcf",
+  "comprobaciones_http_aislamiento_aws": 19,
+  "comprobaciones_generales_aws": 36,
+  "desplegado_en_aws": true,
+  "reparacion_territorio_faro": "Oriente → Avenida del Mar, solo territorio actual; registros históricos conservados",
+  "respaldo_aws": "/home/ubuntu/sgr-backups/deploy-20261018-191717",
+  "otras_tablas_preservadas_en_reparacion": true
 }

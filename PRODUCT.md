@@ -8,7 +8,7 @@ web
 
 ## Usuarios y propósito
 
-Funcionarios y responsables municipales registran atenciones, consultan el historial global del vecino y gestionan acciones y metas. El superadministrador administra usuarios, roles y delegaciones, y consulta la actividad municipal con filtros.
+Funcionarios y responsables municipales registran atenciones, consultan el historial autorizado de los vecinos de su sede y gestionan acciones y metas. El superadministrador administra usuarios, roles y delegaciones, y consulta la actividad municipal con filtros.
 
 ## Restricciones confirmadas
 

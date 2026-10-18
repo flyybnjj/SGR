@@ -20,6 +20,6 @@ Se detectó un registro cuya dirección menciona el Faro, asignado a Oriente. Se
 - Padrón, búsquedas, paginación, Excel, GET/POST directo, rol de consulta, sede inactiva, sin sede, cambio de sede, administrador y vínculos históricos.
 - Cuatro capturas a 1440/390 CSS px, con datos ficticios en base aislada, sin errores JavaScript ni desbordamiento de página.
 - Revisión independiente del diff sin hallazgos bloqueantes; se incorporó su observación sobre la identidad de vecinos reasignados en revisión histórica.
-- Los comprobantes HTTP de producción se registran después del despliegue en evidencias/ambito-vecinos/aws-http.json.
+- AWS: 19 comprobaciones HTTP de aislamiento aprobadas y 36 controles generales repetidos sin errores. Evidencias en evidencias/ambito-vecinos/aws-http.json y evidencias/despliegue-aws.json. El registro del Faro quedó en Avenida del Mar; se conservan las demás tablas y las actuaciones históricas.
 
 Las capturas no contienen vecinos reales. Los respaldos y las sesiones temporales de comprobación son privados y no forman parte del repositorio.
