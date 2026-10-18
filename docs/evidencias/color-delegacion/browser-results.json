@@ -1,0 +1,202 @@
+[
+  {
+    "page": "blue-dashboard",
+    "width": 1440,
+    "overflow": false,
+    "theme": "#1a33ea",
+    "axe": {
+      "violations": [],
+      "incomplete": []
+    }
+  },
+  {
+    "page": "blue-appearance",
+    "width": 1440,
+    "overflow": false,
+    "theme": "#1a33ea",
+    "axe": {
+      "violations": [],
+      "incomplete": []
+    }
+  },
+  {
+    "page": "blue-profile",
+    "width": 1440,
+    "overflow": false,
+    "theme": "#1a33ea",
+    "axe": null
+  },
+  {
+    "page": "blue-actions",
+    "width": 1440,
+    "overflow": false,
+    "theme": "#1a33ea",
+    "axe": null
+  },
+  {
+    "page": "pink-dashboard",
+    "width": 1440,
+    "overflow": false,
+    "theme": "#d15785",
+    "axe": null
+  },
+  {
+    "page": "pink-appearance",
+    "width": 1440,
+    "overflow": false,
+    "theme": "#d15785",
+    "axe": null
+  },
+  {
+    "page": "pink-profile",
+    "width": 1440,
+    "overflow": false,
+    "theme": "#d15785",
+    "axe": {
+      "violations": [],
+      "incomplete": []
+    }
+  },
+  {
+    "page": "pink-actions",
+    "width": 1440,
+    "overflow": false,
+    "theme": "#d15785",
+    "axe": null
+  },
+  {
+    "page": "default-dashboard",
+    "width": 1440,
+    "overflow": false,
+    "theme": "#b80003",
+    "axe": null
+  },
+  {
+    "page": "default-appearance",
+    "width": 1440,
+    "overflow": false,
+    "theme": "#b80003",
+    "axe": null
+  },
+  {
+    "page": "default-profile",
+    "width": 1440,
+    "overflow": false,
+    "theme": "#b80003",
+    "axe": null
+  },
+  {
+    "page": "default-actions",
+    "width": 1440,
+    "overflow": false,
+    "theme": "#b80003",
+    "axe": {
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ]
+    }
+  },
+  {
+    "page": "blue-dashboard",
+    "width": 390,
+    "overflow": false,
+    "theme": "#1a33ea",
+    "axe": {
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ]
+    }
+  },
+  {
+    "page": "blue-appearance",
+    "width": 390,
+    "overflow": false,
+    "theme": "#1a33ea",
+    "axe": {
+      "violations": [],
+      "incomplete": []
+    }
+  },
+  {
+    "page": "blue-profile",
+    "width": 390,
+    "overflow": false,
+    "theme": "#1a33ea",
+    "axe": null
+  },
+  {
+    "page": "blue-actions",
+    "width": 390,
+    "overflow": false,
+    "theme": "#1a33ea",
+    "axe": null
+  },
+  {
+    "page": "pink-dashboard",
+    "width": 390,
+    "overflow": false,
+    "theme": "#d15785",
+    "axe": null
+  },
+  {
+    "page": "pink-appearance",
+    "width": 390,
+    "overflow": false,
+    "theme": "#d15785",
+    "axe": null
+  },
+  {
+    "page": "pink-profile",
+    "width": 390,
+    "overflow": false,
+    "theme": "#d15785",
+    "axe": {
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ]
+    }
+  },
+  {
+    "page": "pink-actions",
+    "width": 390,
+    "overflow": false,
+    "theme": "#d15785",
+    "axe": null
+  },
+  {
+    "page": "default-dashboard",
+    "width": 390,
+    "overflow": false,
+    "theme": "#b80003",
+    "axe": null
+  },
+  {
+    "page": "default-appearance",
+    "width": 390,
+    "overflow": false,
+    "theme": "#b80003",
+    "axe": null
+  },
+  {
+    "page": "default-profile",
+    "width": 390,
+    "overflow": false,
+    "theme": "#b80003",
+    "axe": null
+  },
+  {
+    "page": "default-actions",
+    "width": 390,
+    "overflow": false,
+    "theme": "#b80003",
+    "axe": {
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ]
+    }
+  }
+]

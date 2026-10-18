@@ -13,9 +13,9 @@
     <p class="small text-secondary mb-0">Para actualizar tu nombre, correo, rol o delegación, contacta al administrador. Puedes cambiar tu nombre de usuario y contraseña desde las pestañas de tu cuenta.</p>
 </section>
 <section class="dashboard-section form-panel" aria-labelledby="profile-appearance-title">
-    <h2 class="section-heading" id="profile-appearance-title">Color de la delegación</h2>
+    <h2 class="section-heading" id="profile-appearance-title">Color de {{ delegacion_actual.nombre|default:'la delegación' }}</h2>
     {% for sede in appearance_delegations %}
-    <a class="quick-link" href="{% url 'territorial:apariencia' sede.pk %}"><span><span class="delegacion-color" style="background-color: {{ sede.color_identificacion }}" aria-hidden="true"></span>{{ sede.nombre }}</span><span>{% if sede.color_configurado %}Cambiar color{% else %}Elegir color{% endif %} <i class="bi bi-chevron-right" aria-hidden="true"></i></span></a>
+    <a class="quick-link profile-color-link" href="{% url 'territorial:apariencia' sede.pk %}"><span class="profile-color-identity"><span class="delegation-swatch" style="background-color: {{ sede.color_identificacion }}" aria-hidden="true"></span><span><strong>{{ sede.nombre }}</strong><small>Tu delegación de trabajo · Color compartido con tu equipo</small></span></span><span>{% if sede.color_configurado %}Cambiar color{% else %}Elegir color{% endif %} <i class="bi bi-chevron-right" aria-hidden="true"></i></span></a>
     {% empty %}
         {% if delegacion_actual %}<p class="mb-0"><span class="delegacion-color" style="background-color: {{ delegacion_actual.color_identificacion }}" aria-hidden="true"></span>Tu equipo comparte el color de <strong>{{ delegacion_actual.nombre }}</strong>. {% if delegacion_actual.color_configurado %}El color está definido por el delegado responsable.{% else %}Se utiliza rojo institucional hasta que el responsable elija un color.{% endif %}</p>
         {% else %}<p class="text-secondary mb-0">Cuando te asignen una delegación, verás aquí el color de tu equipo.</p>{% endif %}

@@ -1,0 +1,23 @@
+{
+  "pruebas_automatizadas_aprobadas": 202,
+  "regresiones_nuevas": 10,
+  "capturas": 24,
+  "anchos_css_px": [
+    1440,
+    390
+  ],
+  "temas": [
+    "azul",
+    "rosa",
+    "rojo institucional sin configurar"
+  ],
+  "auditorias_axe": 8,
+  "violaciones_axe_detectadas": 0,
+  "axe_con_comprobaciones_incompletas": true,
+  "revision_independiente": "10 pruebas específicas aprobadas; corregido caso de reactivación; sin hallazgos pendientes",
+  "confirmacion_usuario": {
+    "codigos_recibidos_y_funcionales": true,
+    "passkey_registro_eliminacion_ingreso": true
+  },
+  "esquema_sin_cambios": true
+}

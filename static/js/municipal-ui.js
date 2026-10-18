@@ -62,11 +62,18 @@ document.addEventListener('DOMContentLoaded', async () => {
     const swatches = form.querySelectorAll('[data-color]');
     const update = () => {
       const color = picker.value.toUpperCase();
-      preview.style.setProperty('--preview-color', color);
-      const channels = color.slice(1).match(/../g).map(value => parseInt(value, 16) / 255)
-        .map(value => value <= .04045 ? value / 12.92 : ((value + .055) / 1.055) ** 2.4);
-      const luminance = channels.reduce((sum, value, index) => sum + value * [.2126, .7152, .0722][index], 0);
-      preview.style.setProperty('--preview-on', luminance > .179 ? '#000000' : '#ffffff');
+      const rgb = hex => hex.slice(1).match(/../g).map(value => parseInt(value, 16));
+      const hex = channels => '#' + channels.map(value => Math.round(value).toString(16).padStart(2, '0')).join('');
+      const luminance = hex => rgb(hex).map(value => value / 255)
+        .map(value => value <= .04045 ? value / 12.92 : ((value + .055) / 1.055) ** 2.4)
+        .reduce((sum, value, index) => sum + value * [.2126, .7152, .0722][index], 0);
+      const contrast = (a, b) => (Math.max(luminance(a), luminance(b)) + .05) / (Math.min(luminance(a), luminance(b)) + .05);
+      const tint = hex(rgb(color).map(value => value * .1 + 255 * .9));
+      let ink = color;
+      while (Math.min(contrast(ink, tint), contrast(ink, '#f5f5f7')) < 4.5) ink = hex(rgb(ink).map(value => value * .9));
+      const tokens = {'delegation-color': color, 'muni-red-primary': color, 'muni-red': ink,
+        'muni-red-tint': tint, 'accent-on': luminance(color) > .179 ? '#000000' : '#ffffff'};
+      Object.entries(tokens).forEach(([name, value]) => preview.style.setProperty(`--${name}`, value));
       form.querySelector('[data-color-value]').textContent = color;
       swatches.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.color === color)));
     };

@@ -14,6 +14,7 @@ from usuarios.models import Usuario
 from .appearance import can_customize, HEADER_COLORS
 from .forms import DelegationAppearanceForm
 from django.views.decorators.http import require_http_methods
+from config.ui_theme import theme_style
 
 
 @login_required
@@ -28,13 +29,13 @@ def appearance_view(request, pk):
         if form.is_valid():
             allowed = DelegacionMunicipal.objects.filter(pk=pk, activo=True)
             if not request.user.is_superuser:
-                allowed = allowed.filter(delegado=request.user)
+                allowed = allowed.filter(delegado=request.user, pk=request.user.delegacion_id)
             if form.cleaned_data['configuracion'] == 'inicial':
                 allowed = allowed.filter(color_configurado=False)
             # Conditional update prevents a second first-login tab overwriting setup.
             updated = allowed.update(color=form.cleaned_data['color'], color_configurado=True)
             if updated:
-                messages.success(request, 'Color guardado. Todos los funcionarios de la delegación usarán este encabezado.')
+                messages.success(request, f'Color guardado para {delegation.nombre}. Todo su equipo verá el cambio en la aplicación.')
                 destination = 'dashboard:inicio' if form.cleaned_data['configuracion'] == 'inicial' else 'usuarios:ficha_usuario'
                 return redirect(destination)
             form.add_error(None, 'La configuración cambió mientras editaba. Recargue la página antes de guardar nuevamente.')
@@ -45,6 +46,8 @@ def appearance_view(request, pk):
         'appearance_delegation': delegation,
         'appearance_form': form,
         'header_colors': HEADER_COLORS,
+        'editing_other_delegation': request.user.delegacion_id != delegation.pk,
+        'appearance_theme_style': theme_style(form.cleaned_data.get('color', delegation.color_identificacion) if form.is_bound else delegation.color_identificacion),
     }, status=status)
 
 
@@ -96,7 +99,8 @@ def delegaciones_save_view(request, pk=None):
             delg = form.save()
             messages.success(request, f"Delegación '{delg.nombre}' {'modificada' if pk else 'creada'} correctamente.")
         else:
-            messages.error(request, "Error al guardar la delegación. Verifica los campos.")
+            errors = ' '.join(str(error) for errors in form.errors.values() for error in errors)
+            messages.error(request, f"No se guardó la delegación. {errors}")
     return redirect('territorial:delegaciones_list')
 
 
@@ -107,6 +111,9 @@ def delegaciones_toggle_activo(request, pk):
     if not request.user.is_superuser:
         allowed = allowed.filter(pk=request.user.delegacion_id)
     delg = get_object_or_404(allowed, pk=pk)
+    if not delg.activo and delg.delegado_id and delg.delegado.delegacion_id != delg.pk:
+        messages.error(request, 'No se puede restaurar la delegación: su responsable trabaja en otra sede. Corrige el responsable antes de restaurarla.')
+        return redirect('territorial:delegaciones_list')
     delg.activo = not delg.activo
     delg.save()
     estado_str = "activada" if delg.activo else "desactivada (borrado lógico)"

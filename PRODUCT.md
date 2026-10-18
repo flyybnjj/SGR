@@ -38,3 +38,7 @@ El usuario autorizó aplicar las propuestas a la plataforma y al conjunto de ven
 Sin `color_configurado`, el color efectivo de identificación es rojo institucional `#B80003`, aunque exista otro valor antiguo guardado. El fondo permanece blanco/gris claro. Al confirmar un color, el responsable y todos los funcionarios de la sede comparten sus tintes y controles. La visualización no modifica datos ni configura colores por sí sola.
 
 El acceso y la recuperación siempre conservan blanco y rojo institucional. El login mantiene su carrusel original de cinco fotografías de La Serena. Las propuestas del escritorio son referencias con datos ficticios; las ventanas de Django conservan datos, filtros y permisos reales.
+
+## Coherencia de la delegación de trabajo
+
+El responsable solo personaliza la sede que tiene asignada como lugar de trabajo. Los catálogos impiden responsabilidades incompatibles, incluyendo sedes inactivas que pudieran restaurarse. Un responsable sin sede queda asignado a la delegación al guardarla; mover un responsable requiere reasignar antes su cargo. El editor muestra el nombre de la sede y una vista previa del mismo diseño, sin aplicar cambios hasta guardar.

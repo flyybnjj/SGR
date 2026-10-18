@@ -26,11 +26,11 @@ Fuente: Requisitos_Segunda_Evaluacion_SGR.pdf,10 páginas aportadas por el usuar
 
 Referencia oficial consultada18/10/2026: https://laserena.cl/documentos/docs/REGLAMENTO_normas_graficas_2019.pdf y https://laserena.cl/conocenos/normas-graficas . Se conserva el SVG institucional y sus proporciones,sin teñirlo con el color territorial. El manual pide Arial para documentos internos; la interfaz usa fuentes del sistema según la preferencia aprobada. Su aprobación institucional formal y la compatibilidad de colores territoriales quedan por validar con el docente/municipalidad, no se certifican por una captura.
 
-Pendientes que no pueden acreditarse por pruebas automáticas: entrega/lectura real de correo por el titular,registro de passkey en su iPhone,acceso del docente al repo privado y aprobación gráfica. Las credenciales SMTP retiradas del fuente deben reemplazarse en el proveedor porque estuvieron expuestas en el archivo local anterior.
+El usuario confirmó el 18/10/2026 la recepción y uso de códigos por correo y el registro, eliminación e ingreso mediante passkey. La credencial SMTP nueva quedó configurada y autenticada en AWS. Queda revocar la credencial anterior en el proveedor si sigue activa, además del acceso del docente al repositorio privado y la aprobación gráfica. La recuperación de contraseña con passkey requiere comprobación personal adicional.
 
 ## Resultado de la segunda lectura y cierre
 
-Se releyeron las 10 páginas; huella del PDF en evidencias/fuente-requisitos.json. Suite final: 192 casos aprobados, con matriz individual en CSV/JSON. Incluye los seis CRUD completos, búsquedas/paginación/Excel, recuperación y límites, roles, RUT, dependencia e idempotencia. Revisión independiente: se corrigió la colisión entre usernames y correos en administración y autoservicio. La reserva de intentos usa incremento atómico compartido entre trabajadores.
+Se releyeron las 10 páginas; huella del PDF en evidencias/fuente-requisitos.json. Suite final: 202 casos aprobados, con matriz individual en CSV/JSON. Incluye los seis CRUD completos, búsquedas/paginación/Excel, recuperación y límites, roles, RUT, dependencia e idempotencia. Revisión independiente: se corrigió la colisión entre usernames y correos en administración y autoservicio. La reserva de intentos usa incremento atómico compartido entre trabajadores.
 
 Navegador: 14 capturas a 390/1440 px, sin desbordamiento; seis auditorías axe sin violaciones detectadas. Una comprobación quedó incompleta para revisión ARIA: no se presenta como certificación WCAG. Confirmación adicional del nombre completo de delegación en móvil, múltiples avisos y SweetAlert de error del servidor. Los diseños en evidencia usan datos ficticios y no sustituyen la comprobación HTTP real de AWS.
 
@@ -40,4 +40,6 @@ Carga de lectura: 1.177 solicitudes en cuatro niveles (más 20 de recuperación)
 
 Los 5 requerimientos del esquema anterior se integran como 5 atenciones, 5 acciones y 1 aprobación auditada, con vínculos únicos e historial original. La simulación no guarda cambios; repetir la aplicación no duplica ni sobrescribe revisiones nuevas. Usuarios, catálogos y tablas originales se conservan. Ver migracion-historica.md y evidencias/historicos. Aplicación productiva comprobada: 36 controles HTTP de historial/acciones/Excel/permisos, además de los 36 controles generales repetidos sobre AWS.
 
-Para la entrega presencial quedan la recepción real de correo, el registro físico de passkey, acceso del docente al repositorio privado y aprobación gráfica. La multi-delegación de coordinadores es condicional al perfil: actualmente cada funcionario tiene una sede fija y el administrador consulta todas. No se afirma cumplimiento absoluto de aspectos que necesitan estas decisiones/evidencias.
+Para la entrega presencial quedan la recuperación personal con passkey, el acceso del docente al repositorio privado y la aprobación gráfica. La multi-delegación de coordinadores es condicional al perfil: actualmente cada funcionario tiene una sede fija y el administrador consulta todas. No se afirma cumplimiento absoluto de aspectos que necesitan estas decisiones/evidencias.
+
+Corrección de color y responsabilidades: docs/color-delegacion.md. La sede de trabajo determina el tema heredado; la administración impide responsabilidades incompatibles y protege también la reactivación de sedes.

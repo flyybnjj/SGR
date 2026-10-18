@@ -304,3 +304,9 @@ Cada indicador combina un bloque de icono, valor tabular y etiqueta; los bloques
 - **Don't** añadir desenfoque al área de datos ni mover las ondas si están desactivadas, la pestaña está oculta o el equipo reduce movimiento.
 - **Don't** copiar cifras o nombres ilustrativos de la referencia a la interfaz productiva.
 - **Don't** convertir los estilos históricos de las capas base en reglas nuevas cuando la capa compartida ya los sustituye.
+
+## Corrección territorial del 18/10/2026
+
+Se conserva la referencia aprobada. Sin color confirmado, los bordes son neutros. Con color, el lienzo usa 18% del acento y el marco 8%; los bordes mezclan 18% del acento con el borde neutro. Las filas inactivas del menú conservan texto e iconos neutros, y la selección y acciones identifican la sede. El avatar usa tinte claro e icono con contraste calculado. Las ondas de fondo incorporan desenfoque estático de 12px, sin animar el filtro, con alternativa sin desenfoque al reducir transparencia.
+
+La vista previa de apariencia reproduce el marco y el espacio de trabajo con los mismos tokens, sin cifras inventadas. Se organiza en dos columnas (muestra y elección) y una columna en móvil o modal. Su encabezado usa el nombre real de la sede. La actualización JavaScript permanece dentro de la muestra hasta guardar. El primer plano negro puro es un recurso deliberado de contraste para colores arbitrarios cerca del cruce de luminancia; no reemplaza el texto normal del producto.

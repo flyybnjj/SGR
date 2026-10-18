@@ -3,6 +3,7 @@ from django import forms
 from .models import DelegacionMunicipal, ItemMeta
 from usuarios.models import Usuario
 from config.validators import validar_color
+from django.db import transaction
 
 
 class DelegationAppearanceForm(forms.Form):
@@ -18,6 +19,23 @@ class DelegacionMunicipalForm(NombreCatalogoUnicoMixin, forms.ModelForm):
         super().__init__(*args, **kwargs)
         # Filtrar delegados activos o con rol de Delegado Municipal
         self.fields['delegado'].queryset = Usuario.objects.filter(activo=True)
+
+    def clean_delegado(self):
+        user = self.cleaned_data.get('delegado')
+        if user and user.delegacion_id and user.delegacion_id != self.instance.pk:
+            raise forms.ValidationError(
+                f'{user.nombre_completo} trabaja en {user.delegacion.nombre}. '
+                'El responsable debe pertenecer a esta delegación. Revisa su asignación en Usuarios.')
+        return user
+
+    @transaction.atomic
+    def save(self, commit=True):
+        seat = super().save(commit=commit)
+        if commit and seat.delegado_id and not seat.delegado.delegacion_id:
+            # A responsible without a work assignment joins the seat just created.
+            seat.delegado.delegacion = seat
+            seat.delegado.save(update_fields=['delegacion'])
+        return seat
 
     class Meta:
         model = DelegacionMunicipal

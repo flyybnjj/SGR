@@ -163,6 +163,11 @@ class UsuarioForm(RutFormMixin, forms.ModelForm):
     def clean(self):
         data = super().clean()
         previous = Usuario.objects.filter(pk=self.instance.pk).first()
+        seat = data.get('delegacion')
+        if previous and 'delegacion' not in self.errors:
+            responsibilities = DelegacionMunicipal.objects.filter(delegado=previous)
+            if responsibilities.exclude(pk=seat.pk if seat else None).exists():
+                self.add_error('delegacion', 'Primero reasigna su responsabilidad en Delegaciones. Un responsable debe trabajar en la misma sede que dirige.')
         for field in ('email', 'email_secundario'):
             value = (data.get(field) or '').strip()
             data[field] = value

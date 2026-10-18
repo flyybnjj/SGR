@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
 {% block title %}Apariencia de mi delegación | La Serena{% endblock %}
 {% block content %}
-<section class="dashboard-section appearance-editor">
-    <h1>Apariencia de mi delegación</h1>
-    <p class="text-secondary">Configura el encabezado compartido de <strong>{{ appearance_delegation.nombre }}</strong>. Los funcionarios verán el cambio al abrir o recargar una página.</p>
+<section class="appearance-editor">
+    <header class="page-heading"><div><h1>Color de {{ appearance_delegation.nombre }}</h1>
+    <p>Este color identifica a la delegación en los menús, botones y fondo. Lo comparte todo su equipo.</p></div></header>
+    {% if editing_other_delegation %}<p class="appearance-scope-note"><i class="bi bi-info-circle" aria-hidden="true"></i>Estás configurando {{ appearance_delegation.nombre }}. {% if delegacion_actual %}Tu delegación de trabajo sigue siendo {{ delegacion_actual.nombre }}.{% else %}Tu vista de administrador mantiene la identidad municipal.{% endif %}</p>{% endif %}
     {% include 'territorial/appearance_form.html' %}
 </section>
 {% endblock %}

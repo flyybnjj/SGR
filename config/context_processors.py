@@ -11,8 +11,8 @@ def municipal_context(request):
     delegation = user.delegacion if authenticated and user.delegacion_id else None
     pending = None
     account_area = request.path.startswith('/mi-perfil/') or request.path == '/ficha-usuario/'
-    if active(user) and request.method == 'GET' and not account_area:
-        pending = DelegacionMunicipal.objects.filter(delegado=user, activo=True, color_configurado=False).first()
+    if active(user) and not user.is_superuser and request.method == 'GET' and not account_area:
+        pending = DelegacionMunicipal.objects.filter(pk=user.delegacion_id, delegado=user, activo=True, color_configurado=False).first()
     return {
         'account_area': account_area,
         'can_manage': can_manage(user),
@@ -21,5 +21,6 @@ def municipal_context(request):
         'delegacion_actual': delegation,
         'delegation_theme_style': theme_style(delegation.color_identificacion) if delegation else '',
         'appearance_pending': pending,
+        'appearance_theme_style': theme_style(pending.color_identificacion) if pending else '',
         'header_colors': HEADER_COLORS,
     }

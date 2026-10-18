@@ -9,7 +9,7 @@
     "estado": "APROBADO",
     "evidencia": "atenciones.test_attention_submission.AttentionSubmissionTests.test_database_rejects_duplicate_token_even_outside_http_worker",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:00.168596+00:00"
+    "fecha": "2026-10-18T16:49:34.220573+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -21,7 +21,7 @@
     "estado": "APROBADO",
     "evidencia": "atenciones.test_attention_submission.AttentionSubmissionTests.test_error_preserves_token_for_corrected_resubmission",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:00.313962+00:00"
+    "fecha": "2026-10-18T16:49:34.475344+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -33,7 +33,7 @@
     "estado": "APROBADO",
     "evidencia": "atenciones.test_attention_submission.AttentionSubmissionTests.test_foreign_or_inactive_subtype_cannot_be_saved",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:00.513079+00:00"
+    "fecha": "2026-10-18T16:49:34.729508+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -45,7 +45,7 @@
     "estado": "APROBADO",
     "evidencia": "atenciones.test_attention_submission.AttentionSubmissionTests.test_form_gets_fresh_hidden_token_on_each_open",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:00.636603+00:00"
+    "fecha": "2026-10-18T16:49:34.884913+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -57,7 +57,7 @@
     "estado": "APROBADO",
     "evidencia": "atenciones.test_attention_submission.AttentionSubmissionTests.test_get_and_cancel_navigation_do_not_create_records",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:00.769505+00:00"
+    "fecha": "2026-10-18T16:49:35.051172+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -69,7 +69,7 @@
     "estado": "APROBADO",
     "evidencia": "atenciones.test_attention_submission.AttentionSubmissionTests.test_history_and_excel_include_attention_id",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:00.949601+00:00"
+    "fecha": "2026-10-18T16:49:35.390617+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -81,7 +81,7 @@
     "estado": "APROBADO",
     "evidencia": "atenciones.test_attention_submission.AttentionSubmissionTests.test_independent_tokens_allow_intentional_identical_requests",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:01.032842+00:00"
+    "fecha": "2026-10-18T16:49:35.562390+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -93,7 +93,7 @@
     "estado": "APROBADO",
     "evidencia": "atenciones.test_attention_submission.AttentionSubmissionTests.test_initial_subtype_options_are_empty_until_type_selected",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:01.039844+00:00"
+    "fecha": "2026-10-18T16:49:35.584057+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -105,7 +105,7 @@
     "estado": "APROBADO",
     "evidencia": "atenciones.test_attention_submission.AttentionSubmissionTests.test_invalid_token_does_not_create_person_or_attention",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:01.118679+00:00"
+    "fecha": "2026-10-18T16:49:35.760604+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -117,7 +117,7 @@
     "estado": "APROBADO",
     "evidencia": "atenciones.test_attention_submission.AttentionSubmissionTests.test_legacy_repeated_post_is_deduplicated",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:01.197492+00:00"
+    "fecha": "2026-10-18T16:49:35.904354+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -129,7 +129,7 @@
     "estado": "APROBADO",
     "evidencia": "atenciones.test_attention_submission.AttentionSubmissionTests.test_new_person_repeated_post_creates_one_person_and_attention",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:01.310933+00:00"
+    "fecha": "2026-10-18T16:49:36.065333+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -141,7 +141,7 @@
     "estado": "APROBADO",
     "evidencia": "atenciones.test_attention_submission.AttentionSubmissionTests.test_same_token_post_creates_one_attention_and_reports_its_id",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:01.427291+00:00"
+    "fecha": "2026-10-18T16:49:36.259654+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -153,7 +153,7 @@
     "estado": "APROBADO",
     "evidencia": "atenciones.test_attention_submission.AttentionSubmissionTests.test_subtype_options_only_belong_to_selected_active_type",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:01.440835+00:00"
+    "fecha": "2026-10-18T16:49:36.277711+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -165,7 +165,7 @@
     "estado": "APROBADO",
     "evidencia": "atenciones.test_attention_submission.AttentionSubmissionTests.test_token_cannot_be_reused_on_another_person",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:01.687829+00:00"
+    "fecha": "2026-10-18T16:49:36.499243+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -177,7 +177,7 @@
     "estado": "APROBADO",
     "evidencia": "atenciones.test_historical_migration.HistoricalMigrationTests.test_approval_without_original_audit_is_rejected",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:01.719085+00:00"
+    "fecha": "2026-10-18T16:49:36.528368+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -189,7 +189,7 @@
     "estado": "APROBADO",
     "evidencia": "atenciones.test_historical_migration.HistoricalMigrationTests.test_catalog_subtype_drift_and_invalid_dates_abort",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:01.747230+00:00"
+    "fecha": "2026-10-18T16:49:36.566577+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -201,7 +201,7 @@
     "estado": "APROBADO",
     "evidencia": "atenciones.test_historical_migration.HistoricalMigrationTests.test_default_preview_rolls_back_every_write",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:01.800481+00:00"
+    "fecha": "2026-10-18T16:49:36.648002+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -213,7 +213,7 @@
     "estado": "APROBADO",
     "evidencia": "atenciones.test_historical_migration.HistoricalMigrationTests.test_history_actions_review_and_excel_expose_folio_without_cross_scope",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:02.017375+00:00"
+    "fecha": "2026-10-18T16:49:37.122984+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -225,7 +225,7 @@
     "estado": "APROBADO",
     "evidencia": "atenciones.test_historical_migration.HistoricalMigrationTests.test_history_links_cannot_be_mutated_or_deleted",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:02.065042+00:00"
+    "fecha": "2026-10-18T16:49:37.261216+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -237,7 +237,7 @@
     "estado": "APROBADO",
     "evidencia": "atenciones.test_historical_migration.HistoricalMigrationTests.test_import_preserves_links_dates_original_states_and_real_approval",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:02.117118+00:00"
+    "fecha": "2026-10-18T16:49:37.383275+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -249,7 +249,7 @@
     "estado": "APROBADO",
     "evidencia": "atenciones.test_historical_migration.HistoricalMigrationTests.test_invalid_reference_aborts_complete_batch",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:02.136183+00:00"
+    "fecha": "2026-10-18T16:49:37.432990+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -261,7 +261,7 @@
     "estado": "APROBADO",
     "evidencia": "atenciones.test_historical_migration.HistoricalMigrationTests.test_legacy_tables_and_credentials_are_unchanged",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:02.174695+00:00"
+    "fecha": "2026-10-18T16:49:37.532447+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -273,7 +273,7 @@
     "estado": "APROBADO",
     "evidencia": "atenciones.test_historical_migration.HistoricalMigrationTests.test_modern_records_and_primary_keys_are_preserved",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:02.219383+00:00"
+    "fecha": "2026-10-18T16:49:37.635945+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -285,7 +285,7 @@
     "estado": "APROBADO",
     "evidencia": "atenciones.test_historical_migration.HistoricalMigrationTests.test_new_legacy_rows_can_be_added_without_reimporting_old_rows",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:02.279524+00:00"
+    "fecha": "2026-10-18T16:49:37.781404+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -297,7 +297,7 @@
     "estado": "APROBADO",
     "evidencia": "atenciones.test_historical_migration.HistoricalMigrationTests.test_repetition_does_not_duplicate_or_overwrite_new_resolutions",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:02.343238+00:00"
+    "fecha": "2026-10-18T16:49:37.919500+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -309,7 +309,7 @@
     "estado": "APROBADO",
     "evidencia": "atenciones.test_historical_migration.HistoricalMigrationTests.test_snapshot_keeps_codes_addresses_sla_and_original_audit_hash",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:02.389392+00:00"
+    "fecha": "2026-10-18T16:49:38.018889+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -321,7 +321,7 @@
     "estado": "APROBADO",
     "evidencia": "atenciones.test_historical_migration.HistoricalMigrationTests.test_source_drift_aborts_without_overwriting_imported_records",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:02.443927+00:00"
+    "fecha": "2026-10-18T16:49:38.118113+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -333,7 +333,7 @@
     "estado": "APROBADO",
     "evidencia": "atenciones.test_historical_migration.HistoricalMigrationTests.test_unknown_state_and_unmoved_evidence_are_rejected",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:02.452440+00:00"
+    "fecha": "2026-10-18T16:49:38.146242+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -345,7 +345,7 @@
     "estado": "APROBADO",
     "evidencia": "atenciones.tests.WorkflowTests.test_actions_and_exports_exclude_other_delegations",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:02.575105+00:00"
+    "fecha": "2026-10-18T16:49:38.413991+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -357,7 +357,7 @@
     "estado": "APROBADO",
     "evidencia": "atenciones.tests.WorkflowTests.test_all_transaction_screens_render",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:02.805949+00:00"
+    "fecha": "2026-10-18T16:49:38.833955+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -369,7 +369,7 @@
     "estado": "APROBADO",
     "evidencia": "atenciones.tests.WorkflowTests.test_attention_ignores_forged_delegation_and_author",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:02.885889+00:00"
+    "fecha": "2026-10-18T16:49:39.002427+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -381,7 +381,7 @@
     "estado": "APROBADO",
     "evidencia": "atenciones.tests.WorkflowTests.test_audit_cannot_be_modified_or_deleted",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:02.900957+00:00"
+    "fecha": "2026-10-18T16:49:39.022516+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -393,7 +393,7 @@
     "estado": "APROBADO",
     "evidencia": "atenciones.tests.WorkflowTests.test_duplicate_rut_does_not_create_person_or_attention",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:02.989137+00:00"
+    "fecha": "2026-10-18T16:49:39.216900+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -405,7 +405,7 @@
     "estado": "APROBADO",
     "evidencia": "atenciones.tests.WorkflowTests.test_evidence_preview_is_private_and_scope_checked",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:03.125436+00:00"
+    "fecha": "2026-10-18T16:49:39.469726+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -417,7 +417,7 @@
     "estado": "APROBADO",
     "evidencia": "atenciones.tests.WorkflowTests.test_history_visible_across_delegations",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:03.245893+00:00"
+    "fecha": "2026-10-18T16:49:39.710838+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -429,7 +429,7 @@
     "estado": "APROBADO",
     "evidencia": "atenciones.tests.WorkflowTests.test_inactive_role_cannot_read_or_write",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:03.321185+00:00"
+    "fecha": "2026-10-18T16:49:39.915481+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -441,7 +441,7 @@
     "estado": "APROBADO",
     "evidencia": "atenciones.tests.WorkflowTests.test_invalid_attention_does_not_create_person",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:03.492767+00:00"
+    "fecha": "2026-10-18T16:49:40.224278+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -453,7 +453,7 @@
     "estado": "APROBADO",
     "evidencia": "atenciones.tests.WorkflowTests.test_mismatched_subtype_rejected",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:03.611202+00:00"
+    "fecha": "2026-10-18T16:49:40.409366+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -465,7 +465,7 @@
     "estado": "APROBADO",
     "evidencia": "atenciones.tests.WorkflowTests.test_new_person_without_rut_and_attention_saved_together",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:03.747949+00:00"
+    "fecha": "2026-10-18T16:49:40.582307+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -477,7 +477,7 @@
     "estado": "APROBADO",
     "evidencia": "atenciones.tests.WorkflowTests.test_non_image_evidence_rejected",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:03.940426+00:00"
+    "fecha": "2026-10-18T16:49:40.811518+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -489,7 +489,7 @@
     "estado": "APROBADO",
     "evidencia": "atenciones.tests.WorkflowTests.test_operator_cannot_review_or_resolve",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:04.030922+00:00"
+    "fecha": "2026-10-18T16:49:40.988848+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -501,7 +501,7 @@
     "estado": "APROBADO",
     "evidencia": "atenciones.tests.WorkflowTests.test_oversized_evidence_rejected",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:04.048997+00:00"
+    "fecha": "2026-10-18T16:49:41.025004+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -513,7 +513,7 @@
     "estado": "APROBADO",
     "evidencia": "atenciones.tests.WorkflowTests.test_resolution_logged_once_and_counts_only_approved_actions",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:04.153611+00:00"
+    "fecha": "2026-10-18T16:49:41.290258+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -525,7 +525,7 @@
     "estado": "APROBADO",
     "evidencia": "atenciones.tests.WorkflowTests.test_reviewer_cannot_read_or_resolve_other_delegation",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:04.235960+00:00"
+    "fecha": "2026-10-18T16:49:41.474494+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -537,7 +537,7 @@
     "estado": "APROBADO",
     "evidencia": "atenciones.tests.WorkflowTests.test_search_formatted_and_compact_rut",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:04.329186+00:00"
+    "fecha": "2026-10-18T16:49:41.659851+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -549,7 +549,7 @@
     "estado": "APROBADO",
     "evidencia": "atenciones.tests.WriteProtectionTests.test_catalog_toggle_requires_post",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:05.793903+00:00"
+    "fecha": "2026-10-18T16:49:43.591939+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -561,7 +561,7 @@
     "estado": "APROBADO",
     "evidencia": "config.test_crud_modals.EditModalTests.test_catalog_grids_and_recovery_email_round_trip",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:07.462369+00:00"
+    "fecha": "2026-10-18T16:49:45.627036+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -573,7 +573,7 @@
     "estado": "APROBADO",
     "evidencia": "config.test_crud_modals.EditModalTests.test_every_resource_renders_and_disabled_user_is_denied",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:07.827660+00:00"
+    "fecha": "2026-10-18T16:49:45.961219+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -585,7 +585,7 @@
     "estado": "APROBADO",
     "evidencia": "config.test_crud_modals.EditModalTests.test_list_has_one_shared_editor",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:08.045513+00:00"
+    "fecha": "2026-10-18T16:49:46.220569+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -597,7 +597,7 @@
     "estado": "APROBADO",
     "evidencia": "config.test_crud_modals.EditModalTests.test_read_only_and_partial",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:08.160117+00:00"
+    "fecha": "2026-10-18T16:49:46.389993+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -609,7 +609,7 @@
     "estado": "APROBADO",
     "evidencia": "config.test_crud_modals.EditModalTests.test_scope_and_root_only_resources",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:08.314931+00:00"
+    "fecha": "2026-10-18T16:49:46.586168+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -621,7 +621,7 @@
     "estado": "APROBADO",
     "evidencia": "config.test_delivery_cruds.SixCRUDDeliveryTests.test_attention_subtypes",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:08.570490+00:00"
+    "fecha": "2026-10-18T16:49:46.920485+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -633,7 +633,7 @@
     "estado": "APROBADO",
     "evidencia": "config.test_delivery_cruds.SixCRUDDeliveryTests.test_attention_types",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:08.804546+00:00"
+    "fecha": "2026-10-18T16:49:47.218998+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -645,7 +645,7 @@
     "estado": "APROBADO",
     "evidencia": "config.test_delivery_cruds.SixCRUDDeliveryTests.test_delegations",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:09.017300+00:00"
+    "fecha": "2026-10-18T16:49:47.543989+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -657,7 +657,7 @@
     "estado": "APROBADO",
     "evidencia": "config.test_delivery_cruds.SixCRUDDeliveryTests.test_meta_catalog",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:09.167329+00:00"
+    "fecha": "2026-10-18T16:49:47.882789+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -669,7 +669,7 @@
     "estado": "APROBADO",
     "evidencia": "config.test_delivery_cruds.SixCRUDDeliveryTests.test_roles",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:09.414759+00:00"
+    "fecha": "2026-10-18T16:49:48.344061+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -681,7 +681,7 @@
     "estado": "APROBADO",
     "evidencia": "config.test_delivery_cruds.SixCRUDDeliveryTests.test_type_and_scoped_subtype_duplicate_rules",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:09.432300+00:00"
+    "fecha": "2026-10-18T16:49:48.378238+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -693,7 +693,7 @@
     "estado": "APROBADO",
     "evidencia": "config.test_delivery_cruds.SixCRUDDeliveryTests.test_users",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:11.876234+00:00"
+    "fecha": "2026-10-18T16:49:52.752197+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -705,7 +705,7 @@
     "estado": "APROBADO",
     "evidencia": "config.test_pdf_context.PDFContextTests.test_header_keeps_code_user_and_role_in_all_viewports",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:11.958571+00:00"
+    "fecha": "2026-10-18T16:49:52.994014+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -717,7 +717,7 @@
     "estado": "APROBADO",
     "evidencia": "config.test_pdf_context.PDFContextTests.test_operational_errors_are_not_skipped_by_sweetalert",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:11.959567+00:00"
+    "fecha": "2026-10-18T16:49:52.997029+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -729,7 +729,7 @@
     "estado": "APROBADO",
     "evidencia": "config.test_ui_theme.InheritedThemeTests.test_confirmed_color_follows_the_team_and_refreshes_after_delegate_changes_it",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:12.384550+00:00"
+    "fecha": "2026-10-18T16:49:53.862395+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -741,7 +741,7 @@
     "estado": "APROBADO",
     "evidencia": "config.test_ui_theme.InheritedThemeTests.test_delegate_and_staff_receive_the_same_theme_without_changing_data",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:12.496498+00:00"
+    "fecha": "2026-10-18T16:49:54.053861+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -753,7 +753,7 @@
     "estado": "APROBADO",
     "evidencia": "config.test_ui_theme.InheritedThemeTests.test_login_keeps_municipal_identity_and_five_photo_carousel",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:12.573797+00:00"
+    "fecha": "2026-10-18T16:49:54.215151+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -765,7 +765,7 @@
     "estado": "APROBADO",
     "evidencia": "config.test_ui_theme.InheritedThemeTests.test_unconfigured_delegation_uses_municipal_red_on_every_account_page",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:12.768277+00:00"
+    "fecha": "2026-10-18T16:49:55.102329+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -777,7 +777,7 @@
     "estado": "APROBADO",
     "evidencia": "dashboard.test_integration.IntegrationBoundaries.test_filtered_actions_preserve_state_in_pagination",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:12.869800+00:00"
+    "fecha": "2026-10-18T16:49:55.331245+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -789,7 +789,7 @@
     "estado": "APROBADO",
     "evidencia": "dashboard.test_integration.IntegrationBoundaries.test_manager_can_edit_own_delegation_and_root_can_edit_any",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:14.089868+00:00"
+    "fecha": "2026-10-18T16:49:57.465322+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -801,7 +801,7 @@
     "estado": "APROBADO",
     "evidencia": "dashboard.test_integration.IntegrationBoundaries.test_manager_cannot_create_person_under_other_delegation",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:14.161016+00:00"
+    "fecha": "2026-10-18T16:49:57.607108+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -813,7 +813,7 @@
     "estado": "APROBADO",
     "evidencia": "dashboard.test_integration.IntegrationBoundaries.test_manager_cannot_edit_person_from_another_delegation",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:14.297616+00:00"
+    "fecha": "2026-10-18T16:49:57.826147+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -825,7 +825,7 @@
     "estado": "APROBADO",
     "evidencia": "dashboard.test_integration.IntegrationBoundaries.test_manager_cannot_modify_other_delegation_or_create_one",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:14.385519+00:00"
+    "fecha": "2026-10-18T16:49:58.009410+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -837,7 +837,7 @@
     "estado": "APROBADO",
     "evidencia": "dashboard.test_integration.IntegrationBoundaries.test_meta_edit_renders_iso_date_and_cannot_change_linked_delegation",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:15.482911+00:00"
+    "fecha": "2026-10-18T16:50:00.074127+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -849,7 +849,7 @@
     "estado": "APROBADO",
     "evidencia": "dashboard.test_integration.IntegrationBoundaries.test_no_role_cannot_read_municipal_person_data",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:15.545753+00:00"
+    "fecha": "2026-10-18T16:50:00.244028+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -861,7 +861,7 @@
     "estado": "APROBADO",
     "evidencia": "dashboard.test_management.ManagementDashboardTests.test_dashboard_counts_only_assigned_delegation",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:16.835048+00:00"
+    "fecha": "2026-10-18T16:50:02.409752+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -873,7 +873,7 @@
     "estado": "APROBADO",
     "evidencia": "dashboard.test_management.ManagementDashboardTests.test_inactive_role_cannot_access_dashboard",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:16.916561+00:00"
+    "fecha": "2026-10-18T16:50:02.579503+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -885,7 +885,7 @@
     "estado": "APROBADO",
     "evidencia": "dashboard.test_management.ManagementDashboardTests.test_missing_delegation_has_no_operational_counts",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:17.002999+00:00"
+    "fecha": "2026-10-18T16:50:02.828733+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -897,7 +897,7 @@
     "estado": "APROBADO",
     "evidencia": "dashboard.test_management.ManagementDashboardTests.test_superuser_counts_all_delegations",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:17.106984+00:00"
+    "fecha": "2026-10-18T16:50:03.003181+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -909,7 +909,7 @@
     "estado": "APROBADO",
     "evidencia": "dashboard.test_navigation.DashboardNavigationTests.test_general_and_administration_are_separate",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:19.418229+00:00"
+    "fecha": "2026-10-18T16:50:07.387210+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -921,7 +921,7 @@
     "estado": "APROBADO",
     "evidencia": "dashboard.test_navigation.DashboardNavigationTests.test_general_filters_by_territory_or_responsible",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:20.926978+00:00"
+    "fecha": "2026-10-18T16:50:11.922793+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -933,7 +933,7 @@
     "estado": "APROBADO",
     "evidencia": "dashboard.test_navigation.DashboardNavigationTests.test_staff_cannot_expand_scope_or_open_administration",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:22.724825+00:00"
+    "fecha": "2026-10-18T16:50:15.836294+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -945,7 +945,7 @@
     "estado": "APROBADO",
     "evidencia": "dashboard.test_pending_summary.PendingSummaryTests.test_admin_summary_uses_the_same_filters_as_the_metrics",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:22.842360+00:00"
+    "fecha": "2026-10-18T16:50:16.037411+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -957,7 +957,7 @@
     "estado": "APROBADO",
     "evidencia": "dashboard.test_pending_summary.PendingSummaryTests.test_resolved_action_disappears_and_unassigned_staff_sees_no_pending",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:22.934003+00:00"
+    "fecha": "2026-10-18T16:50:16.289606+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -969,7 +969,7 @@
     "estado": "APROBADO",
     "evidencia": "dashboard.test_pending_summary.PendingSummaryTests.test_staff_sees_three_latest_pending_from_their_scope",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:23.010223+00:00"
+    "fecha": "2026-10-18T16:50:16.442921+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -981,7 +981,7 @@
     "estado": "APROBADO",
     "evidencia": "dashboard.tests.SGRPlataformaTerritorialTests.test_authenticated_access_all_endpoints",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:24.157879+00:00"
+    "fecha": "2026-10-18T16:50:18.357307+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -993,7 +993,7 @@
     "estado": "APROBADO",
     "evidencia": "dashboard.tests.SGRPlataformaTerritorialTests.test_excel_exports_binary_spreadsheet",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:25.845398+00:00"
+    "fecha": "2026-10-18T16:50:20.207124+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1005,7 +1005,7 @@
     "estado": "APROBADO",
     "evidencia": "dashboard.tests.SGRPlataformaTerritorialTests.test_logical_deletion_preserves_records",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:27.243764+00:00"
+    "fecha": "2026-10-18T16:50:21.771163+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1017,7 +1017,7 @@
     "estado": "APROBADO",
     "evidencia": "dashboard.tests.SGRPlataformaTerritorialTests.test_rut_modulo_11_chilean_validation",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:28.517454+00:00"
+    "fecha": "2026-10-18T16:50:23.342586+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1029,7 +1029,7 @@
     "estado": "APROBADO",
     "evidencia": "dashboard.tests.SGRPlataformaTerritorialTests.test_unauthenticated_access_redirects_to_login",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:29.640990+00:00"
+    "fecha": "2026-10-18T16:50:24.884883+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1041,7 +1041,7 @@
     "estado": "APROBADO",
     "evidencia": "territorial.test_appearance.DelegationAppearanceTests.test_catalog_cannot_bypass_lock_or_claim_delegate_ownership",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:30.802753+00:00"
+    "fecha": "2026-10-18T16:50:26.482182+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1053,7 +1053,7 @@
     "estado": "APROBADO",
     "evidencia": "territorial.test_appearance.DelegationAppearanceTests.test_delegate_gets_setup_once_and_staff_inherits_saved_color",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:30.946249+00:00"
+    "fecha": "2026-10-18T16:50:26.699994+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1065,7 +1065,7 @@
     "estado": "APROBADO",
     "evidencia": "territorial.test_appearance.DelegationAppearanceTests.test_get_and_anonymous_requests_do_not_configure",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:31.028183+00:00"
+    "fecha": "2026-10-18T16:50:26.967388+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1077,7 +1077,7 @@
     "estado": "APROBADO",
     "evidencia": "territorial.test_appearance.DelegationAppearanceTests.test_invalid_color_never_saved_and_stale_setup_cannot_overwrite",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:31.190912+00:00"
+    "fecha": "2026-10-18T16:50:27.121445+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1089,7 +1089,7 @@
     "estado": "APROBADO",
     "evidencia": "territorial.test_appearance.DelegationAppearanceTests.test_profile_edit_updates_every_staff_header",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:31.282535+00:00"
+    "fecha": "2026-10-18T16:50:27.302131+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1101,7 +1101,7 @@
     "estado": "APROBADO",
     "evidencia": "territorial.test_appearance.DelegationAppearanceTests.test_root_can_configure_and_inactive_delegation_is_protected",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:31.350281+00:00"
+    "fecha": "2026-10-18T16:50:27.428772+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1113,7 +1113,127 @@
     "estado": "APROBADO",
     "evidencia": "territorial.test_appearance.DelegationAppearanceTests.test_staff_and_other_delegate_cannot_change_design",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:31.429791+00:00"
+    "fecha": "2026-10-18T16:50:27.564143+00:00"
+  },
+  {
+    "requisito": "PDF A1-A4 / C1-C6",
+    "modulo": "territorial",
+    "precondiciones": "Base temporal migrada; fixtures del caso; correo en memoria cuando corresponde",
+    "pasos": "territorial.test_color_consistency.WorkDelegationColorTests.test_assigning_an_unassigned_responsible_also_assigns_their_work_delegation",
+    "esperado": "Se cumplen todas las aserciones del caso",
+    "obtenido": "Todas las aserciones se cumplieron",
+    "estado": "APROBADO",
+    "evidencia": "territorial.test_color_consistency.WorkDelegationColorTests.test_assigning_an_unassigned_responsible_also_assigns_their_work_delegation",
+    "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
+    "fecha": "2026-10-18T16:50:29.096616+00:00"
+  },
+  {
+    "requisito": "PDF A1-A4 / C1-C6",
+    "modulo": "territorial",
+    "precondiciones": "Base temporal migrada; fixtures del caso; correo en memoria cuando corresponde",
+    "pasos": "territorial.test_color_consistency.WorkDelegationColorTests.test_catalog_rejects_responsible_working_in_another_delegation",
+    "esperado": "Se cumplen todas las aserciones del caso",
+    "obtenido": "Todas las aserciones se cumplieron",
+    "estado": "APROBADO",
+    "evidencia": "territorial.test_color_consistency.WorkDelegationColorTests.test_catalog_rejects_responsible_working_in_another_delegation",
+    "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
+    "fecha": "2026-10-18T16:50:29.107146+00:00"
+  },
+  {
+    "requisito": "PDF A1-A4 / C1-C6",
+    "modulo": "territorial",
+    "precondiciones": "Base temporal migrada; fixtures del caso; correo en memoria cuando corresponde",
+    "pasos": "territorial.test_color_consistency.WorkDelegationColorTests.test_correct_work_responsibility_applies_saved_color_on_every_page_to_the_team",
+    "esperado": "Se cumplen todas las aserciones del caso",
+    "obtenido": "Todas las aserciones se cumplieron",
+    "estado": "APROBADO",
+    "evidencia": "territorial.test_color_consistency.WorkDelegationColorTests.test_correct_work_responsibility_applies_saved_color_on_every_page_to_the_team",
+    "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
+    "fecha": "2026-10-18T16:50:29.477074+00:00"
+  },
+  {
+    "requisito": "PDF A1-A4 / C1-C6",
+    "modulo": "territorial",
+    "precondiciones": "Base temporal migrada; fixtures del caso; correo en memoria cuando corresponde",
+    "pasos": "territorial.test_color_consistency.WorkDelegationColorTests.test_inactive_responsibility_cannot_be_left_behind_when_user_moves",
+    "esperado": "Se cumplen todas las aserciones del caso",
+    "obtenido": "Todas las aserciones se cumplieron",
+    "estado": "APROBADO",
+    "evidencia": "territorial.test_color_consistency.WorkDelegationColorTests.test_inactive_responsibility_cannot_be_left_behind_when_user_moves",
+    "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
+    "fecha": "2026-10-18T16:50:29.484133+00:00"
+  },
+  {
+    "requisito": "PDF A1-A4 / C1-C6",
+    "modulo": "territorial",
+    "precondiciones": "Base temporal migrada; fixtures del caso; correo en memoria cuando corresponde",
+    "pasos": "territorial.test_color_consistency.WorkDelegationColorTests.test_preview_names_the_actual_seat_and_has_a_working_theme_preview",
+    "esperado": "Se cumplen todas las aserciones del caso",
+    "obtenido": "Todas las aserciones se cumplieron",
+    "estado": "APROBADO",
+    "evidencia": "territorial.test_color_consistency.WorkDelegationColorTests.test_preview_names_the_actual_seat_and_has_a_working_theme_preview",
+    "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
+    "fecha": "2026-10-18T16:50:29.607966+00:00"
+  },
+  {
+    "requisito": "PDF A1-A4 / C1-C6",
+    "modulo": "territorial",
+    "precondiciones": "Base temporal migrada; fixtures del caso; correo en memoria cuando corresponde",
+    "pasos": "territorial.test_color_consistency.WorkDelegationColorTests.test_profile_and_onboarding_never_offer_the_wrong_delegation",
+    "esperado": "Se cumplen todas las aserciones del caso",
+    "obtenido": "Todas las aserciones se cumplieron",
+    "estado": "APROBADO",
+    "evidencia": "territorial.test_color_consistency.WorkDelegationColorTests.test_profile_and_onboarding_never_offer_the_wrong_delegation",
+    "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
+    "fecha": "2026-10-18T16:50:29.752282+00:00"
+  },
+  {
+    "requisito": "PDF A1-A4 / C1-C6",
+    "modulo": "territorial",
+    "precondiciones": "Base temporal migrada; fixtures del caso; correo en memoria cuando corresponde",
+    "pasos": "territorial.test_color_consistency.WorkDelegationColorTests.test_reactivating_legacy_bad_assignment_requires_fixing_responsible",
+    "esperado": "Se cumplen todas las aserciones del caso",
+    "obtenido": "Todas las aserciones se cumplieron",
+    "estado": "APROBADO",
+    "evidencia": "territorial.test_color_consistency.WorkDelegationColorTests.test_reactivating_legacy_bad_assignment_requires_fixing_responsible",
+    "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
+    "fecha": "2026-10-18T16:50:29.856687+00:00"
+  },
+  {
+    "requisito": "PDF A1-A4 / C1-C6",
+    "modulo": "territorial",
+    "precondiciones": "Base temporal migrada; fixtures del caso; correo en memoria cuando corresponde",
+    "pasos": "territorial.test_color_consistency.WorkDelegationColorTests.test_root_can_still_configure_any_delegation_without_changing_work_scope",
+    "esperado": "Se cumplen todas las aserciones del caso",
+    "obtenido": "Todas las aserciones se cumplieron",
+    "estado": "APROBADO",
+    "evidencia": "territorial.test_color_consistency.WorkDelegationColorTests.test_root_can_still_configure_any_delegation_without_changing_work_scope",
+    "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
+    "fecha": "2026-10-18T16:50:29.975135+00:00"
+  },
+  {
+    "requisito": "PDF A1-A4 / C1-C6",
+    "modulo": "territorial",
+    "precondiciones": "Base temporal migrada; fixtures del caso; correo en memoria cuando corresponde",
+    "pasos": "territorial.test_color_consistency.WorkDelegationColorTests.test_stale_responsibility_does_not_allow_editing_a_different_work_delegation",
+    "esperado": "Se cumplen todas las aserciones del caso",
+    "obtenido": "Todas las aserciones se cumplieron",
+    "estado": "APROBADO",
+    "evidencia": "territorial.test_color_consistency.WorkDelegationColorTests.test_stale_responsibility_does_not_allow_editing_a_different_work_delegation",
+    "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
+    "fecha": "2026-10-18T16:50:30.089229+00:00"
+  },
+  {
+    "requisito": "PDF A1-A4 / C1-C6",
+    "modulo": "territorial",
+    "precondiciones": "Base temporal migrada; fixtures del caso; correo en memoria cuando corresponde",
+    "pasos": "territorial.test_color_consistency.WorkDelegationColorTests.test_user_reassignment_requires_releasing_current_responsibility_first",
+    "esperado": "Se cumplen todas las aserciones del caso",
+    "obtenido": "Todas las aserciones se cumplieron",
+    "estado": "APROBADO",
+    "evidencia": "territorial.test_color_consistency.WorkDelegationColorTests.test_user_reassignment_requires_releasing_current_responsibility_first",
+    "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
+    "fecha": "2026-10-18T16:50:30.099776+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1125,7 +1245,7 @@
     "estado": "APROBADO",
     "evidencia": "territorial.tests_pdf_catalogs.CatalogNameValidationTests.test_delegation_rejects_case_and_spacing_duplicate",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:31.432305+00:00"
+    "fecha": "2026-10-18T16:50:30.101778+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1137,7 +1257,7 @@
     "estado": "APROBADO",
     "evidencia": "territorial.tests_pdf_catalogs.CatalogNameValidationTests.test_distinct_name_is_saved_with_single_spaces",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:31.434339+00:00"
+    "fecha": "2026-10-18T16:50:30.103763+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1149,7 +1269,7 @@
     "estado": "APROBADO",
     "evidencia": "territorial.tests_pdf_catalogs.CatalogNameValidationTests.test_edit_cannot_take_another_catalog_name",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:31.436322+00:00"
+    "fecha": "2026-10-18T16:50:30.111119+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1161,7 +1281,7 @@
     "estado": "APROBADO",
     "evidencia": "territorial.tests_pdf_catalogs.CatalogNameValidationTests.test_edit_excludes_own_record",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:31.437318+00:00"
+    "fecha": "2026-10-18T16:50:30.112120+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1173,7 +1293,7 @@
     "estado": "APROBADO",
     "evidencia": "territorial.tests_pdf_catalogs.CatalogNameValidationTests.test_meta_rejects_duplicate_even_when_existing_record_is_inactive",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:31.439320+00:00"
+    "fecha": "2026-10-18T16:50:30.114117+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1185,7 +1305,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_account.AccountSettingsTests.test_account_pages_have_personal_navigation_without_work_sidebar",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:32.650088+00:00"
+    "fecha": "2026-10-18T16:50:31.689453+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1197,7 +1317,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_account.AccountSettingsTests.test_administration_actions_are_only_shown_to_superuser",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:35.124060+00:00"
+    "fecha": "2026-10-18T16:50:34.839861+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1209,7 +1329,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_account.AccountSettingsTests.test_duplicate_and_invalid_username_rejected",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:40.565229+00:00"
+    "fecha": "2026-10-18T16:50:42.842866+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1221,7 +1341,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_account.AccountSettingsTests.test_invalid_passwords_do_not_change_account",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:46.564816+00:00"
+    "fecha": "2026-10-18T16:50:51.730558+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1233,7 +1353,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_account.AccountSettingsTests.test_password_change_keeps_current_session_and_invalidates_other_sessions",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:51.626650+00:00"
+    "fecha": "2026-10-18T16:50:58.196157+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1245,7 +1365,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_account.AccountSettingsTests.test_settings_require_login_and_csrf",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:53.022703+00:00"
+    "fecha": "2026-10-18T16:50:59.969109+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1257,7 +1377,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_account.AccountSettingsTests.test_username_change_requires_password_and_does_not_change_privileges",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:58.375329+00:00"
+    "fecha": "2026-10-18T16:51:05.962396+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1269,7 +1389,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_catalog_validation.RoleCatalogValidationTests.test_role_can_edit_itself",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:58.378327+00:00"
+    "fecha": "2026-10-18T16:51:05.965932+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1281,7 +1401,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_catalog_validation.RoleCatalogValidationTests.test_role_rejects_case_and_spacing_duplicate",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:15:58.379347+00:00"
+    "fecha": "2026-10-18T16:51:05.969916+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1293,7 +1413,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_catalog_validation.UserIdentityValidationTests.test_account_settings_cannot_take_another_accounts_email",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:16:01.567748+00:00"
+    "fecha": "2026-10-18T16:51:08.952616+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1305,7 +1425,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_catalog_validation.UserIdentityValidationTests.test_blank_optional_emails_do_not_collide",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:16:01.577291+00:00"
+    "fecha": "2026-10-18T16:51:08.960667+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1317,7 +1437,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_catalog_validation.UserIdentityValidationTests.test_edit_preserves_unchanged_legacy_ambiguous_identifiers",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:16:01.588833+00:00"
+    "fecha": "2026-10-18T16:51:08.970998+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1329,7 +1449,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_catalog_validation.UserIdentityValidationTests.test_edit_rejects_new_ambiguous_email",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:16:01.596353+00:00"
+    "fecha": "2026-10-18T16:51:08.982120+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1341,7 +1461,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_catalog_validation.UserIdentityValidationTests.test_email_cannot_take_another_accounts_username",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:16:01.612420+00:00"
+    "fecha": "2026-10-18T16:51:08.997211+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1353,7 +1473,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_catalog_validation.UserIdentityValidationTests.test_own_email_can_be_moved_between_fields",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:16:01.616446+00:00"
+    "fecha": "2026-10-18T16:51:09.005740+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1365,7 +1485,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_catalog_validation.UserIdentityValidationTests.test_rejects_email_in_either_email_field_of_another_user",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:16:01.669944+00:00"
+    "fecha": "2026-10-18T16:51:09.061655+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1377,7 +1497,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_catalog_validation.UserIdentityValidationTests.test_rejects_username_with_only_case_difference",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:16:01.674471+00:00"
+    "fecha": "2026-10-18T16:51:09.067969+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1389,7 +1509,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_catalog_validation.UserIdentityValidationTests.test_username_cannot_take_another_accounts_email",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:16:01.686035+00:00"
+    "fecha": "2026-10-18T16:51:09.074496+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1401,7 +1521,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_legacy_aws_import.LegacyAWSImportTests.test_approval_without_original_audit_is_rejected",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:16:01.726735+00:00"
+    "fecha": "2026-10-18T16:51:09.124202+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1413,7 +1533,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_legacy_aws_import.LegacyAWSImportTests.test_existing_business_data_refuses_without_modifying_it",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:16:01.750799+00:00"
+    "fecha": "2026-10-18T16:51:09.152265+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1425,7 +1545,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_legacy_aws_import.LegacyAWSImportTests.test_invalid_goal_period_is_rejected",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:16:01.786981+00:00"
+    "fecha": "2026-10-18T16:51:09.187577+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1437,7 +1557,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_legacy_aws_import.LegacyAWSImportTests.test_invalid_legacy_rut_remains_unchanged",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:16:01.842722+00:00"
+    "fecha": "2026-10-18T16:51:09.243925+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1449,7 +1569,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_legacy_aws_import.LegacyAWSImportTests.test_mismatched_responsible_is_preserved_and_reported",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:16:01.906584+00:00"
+    "fecha": "2026-10-18T16:51:09.300344+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1461,7 +1581,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_legacy_aws_import.LegacyAWSImportTests.test_missing_creator_aborts_every_record",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:16:01.944854+00:00"
+    "fecha": "2026-10-18T16:51:09.333990+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1473,7 +1593,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_legacy_aws_import.LegacyAWSImportTests.test_preserves_credentials_ids_assignments_history_dates_and_archives",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:16:02.006074+00:00"
+    "fecha": "2026-10-18T16:51:09.405078+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1485,7 +1605,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_legacy_aws_import.LegacyAWSImportTests.test_role_name_does_not_create_administrator_privileges",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:16:02.073888+00:00"
+    "fecha": "2026-10-18T16:51:09.479157+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1497,7 +1617,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_legacy_aws_import.LegacyAWSImportTests.test_runtime_failure_rolls_back_records_and_legacy_tables",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:16:02.127135+00:00"
+    "fecha": "2026-10-18T16:51:09.525845+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1509,7 +1629,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_legacy_aws_import.LegacyAWSImportTests.test_second_import_refuses_without_duplicates",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:16:02.189344+00:00"
+    "fecha": "2026-10-18T16:51:09.588228+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1521,7 +1641,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_legacy_aws_import.LegacyAWSImportTests.test_subtype_mismatch_is_rejected",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:16:02.231215+00:00"
+    "fecha": "2026-10-18T16:51:09.630517+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1533,7 +1653,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_legacy_aws_import.LegacyAWSImportTests.test_unknown_business_table_is_rejected",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:16:02.265150+00:00"
+    "fecha": "2026-10-18T16:51:09.662091+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1545,7 +1665,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_legacy_aws_import.LegacyAWSImportTests.test_unknown_state_aborts_every_record",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:16:02.302257+00:00"
+    "fecha": "2026-10-18T16:51:09.705752+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1557,7 +1677,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_passkeys.PasskeyTests.test_csrf_and_origin_are_required_for_ceremonies",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:16:04.287910+00:00"
+    "fecha": "2026-10-18T16:51:11.359000+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1569,7 +1689,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_passkeys.PasskeyTests.test_email_code_without_expiration_is_not_a_reset_grant",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:16:05.740681+00:00"
+    "fecha": "2026-10-18T16:51:12.818856+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1581,7 +1701,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_passkeys.PasskeyTests.test_email_recovery_cannot_reuse_previous_verification",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:16:08.679586+00:00"
+    "fecha": "2026-10-18T16:51:15.779158+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1593,7 +1713,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_passkeys.PasskeyTests.test_expired_and_other_browser_challenges_rejected",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:16:11.385311+00:00"
+    "fecha": "2026-10-18T16:51:19.590465+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1605,7 +1725,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_passkeys.PasskeyTests.test_invalid_origin_missing_verification_wrong_handle_and_signature_rejected",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:16:14.138894+00:00"
+    "fecha": "2026-10-18T16:51:23.251169+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1617,7 +1737,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_passkeys.PasskeyTests.test_phone_flow_is_preferred_for_registration_login_and_recovery",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:16:16.649471+00:00"
+    "fecha": "2026-10-18T16:51:26.326191+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1629,7 +1749,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_passkeys.PasskeyTests.test_real_registration_login_and_single_use_challenge",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:16:19.240169+00:00"
+    "fecha": "2026-10-18T16:51:29.250734+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1641,7 +1761,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_passkeys.PasskeyTests.test_recovery_without_email_changes_only_verified_account_and_is_single_use",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:16:23.434441+00:00"
+    "fecha": "2026-10-18T16:51:35.232172+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1653,7 +1773,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_passkeys.PasskeyTests.test_registration_requires_signed_in_user_and_current_password",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:16:25.912079+00:00"
+    "fecha": "2026-10-18T16:51:38.347791+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1665,7 +1785,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_passkeys.PasskeyTests.test_repeated_signature_counter_rejected",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:16:27.343399+00:00"
+    "fecha": "2026-10-18T16:51:41.672252+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1677,7 +1797,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_passkeys.PasskeyTests.test_resend_uses_its_own_post_form_without_nested_forms",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:16:28.068177+00:00"
+    "fecha": "2026-10-18T16:51:43.297362+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1689,7 +1809,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_passkeys.PasskeyTests.test_reset_grant_expires_and_revocation_invalidates_it",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:16:29.755175+00:00"
+    "fecha": "2026-10-18T16:51:46.308010+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1701,7 +1821,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_passkeys.PasskeyTests.test_revoke_requires_owner_password_and_disables_preference",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:16:35.769776+00:00"
+    "fecha": "2026-10-18T16:51:54.167416+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1713,7 +1833,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_passkeys.PasskeyTests.test_revoked_passkey_and_inactive_user_cannot_authenticate",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:16:38.226576+00:00"
+    "fecha": "2026-10-18T16:51:57.531550+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1725,7 +1845,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_passkeys.PasskeyTests.test_signed_in_reset_cannot_target_another_account",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:16:40.890727+00:00"
+    "fecha": "2026-10-18T16:52:00.791853+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1737,7 +1857,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_recovery_security.RecoverySecurityTests.test_attempt_reservation_rejects_a_stale_counter_read",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:16:42.150327+00:00"
+    "fecha": "2026-10-18T16:52:02.368651+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1749,7 +1869,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_recovery_security.RecoverySecurityTests.test_console_backend_never_prints_recovery_code",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:16:43.457996+00:00"
+    "fecha": "2026-10-18T16:52:04.173580+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1761,7 +1881,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_recovery_security.RecoverySecurityTests.test_existing_unknown_and_missing_email_have_identical_public_response",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:16:46.329561+00:00"
+    "fecha": "2026-10-18T16:52:07.453560+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1773,7 +1893,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_recovery_security.RecoverySecurityTests.test_five_wrong_attempts_invalidate_code_across_sessions_and_ips",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:16:48.005720+00:00"
+    "fecha": "2026-10-18T16:52:09.701880+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1785,7 +1905,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_recovery_security.RecoverySecurityTests.test_ip_request_limit_covers_different_accounts_and_sessions",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:16:50.164412+00:00"
+    "fecha": "2026-10-18T16:52:12.482331+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1797,7 +1917,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_recovery_security.RecoverySecurityTests.test_resend_after_cooldown_delivers_new_code",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:16:51.360802+00:00"
+    "fecha": "2026-10-18T16:52:13.951903+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1809,7 +1929,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_recovery_security.RecoverySecurityTests.test_resend_and_new_session_cannot_bypass_account_cooldown",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:16:52.754114+00:00"
+    "fecha": "2026-10-18T16:52:15.987854+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1821,7 +1941,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_recovery_security.RecoverySecurityTests.test_smtp_failure_never_leaves_usable_code_or_claims_success",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:16:54.189120+00:00"
+    "fecha": "2026-10-18T16:52:17.684505+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1833,7 +1953,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_recovery_security.RecoverySecurityTests.test_valid_code_is_consumed_once_and_grant_expires_in_five_minutes",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:16:55.939812+00:00"
+    "fecha": "2026-10-18T16:52:19.600262+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1845,7 +1965,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_requirements.MunicipalBoundaryTests.test_bootstrap_idempotent_and_no_defaults",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:16:58.495030+00:00"
+    "fecha": "2026-10-18T16:52:22.739601+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1857,7 +1977,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_requirements.MunicipalBoundaryTests.test_export_respects_same_search",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:16:59.878222+00:00"
+    "fecha": "2026-10-18T16:52:24.371446+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1869,7 +1989,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_requirements.MunicipalBoundaryTests.test_form_rejects_territory_tampering_and_bad_color",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:17:01.216736+00:00"
+    "fecha": "2026-10-18T16:52:26.087222+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1881,7 +2001,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_requirements.MunicipalBoundaryTests.test_get_cannot_mutate_and_cross_territory_denied",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:17:02.642930+00:00"
+    "fecha": "2026-10-18T16:52:27.912571+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1893,7 +2013,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_requirements.MunicipalBoundaryTests.test_inactive_role_and_unassigned_user_cannot_register",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:17:03.773962+00:00"
+    "fecha": "2026-10-18T16:52:29.548543+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1905,7 +2025,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_requirements.MunicipalBoundaryTests.test_manager_cannot_change_roles",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:17:05.090320+00:00"
+    "fecha": "2026-10-18T16:52:31.277670+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1917,7 +2037,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_requirements.MunicipalBoundaryTests.test_paginate_sizes_are_bounded",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:17:06.243428+00:00"
+    "fecha": "2026-10-18T16:52:32.911263+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1929,7 +2049,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_requirements.MunicipalBoundaryTests.test_rut_duplicate_legacy_format_rejected",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:17:07.456818+00:00"
+    "fecha": "2026-10-18T16:52:34.368763+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1941,7 +2061,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_requirements.MunicipalBoundaryTests.test_superuser_cannot_delete_or_demote",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:17:08.711825+00:00"
+    "fecha": "2026-10-18T16:52:35.956812+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1953,7 +2073,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_requirements.MunicipalSecurityTests.test_optional_rut_and_checksum",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:17:08.720954+00:00"
+    "fecha": "2026-10-18T16:52:35.966878+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1965,7 +2085,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_requirements.MunicipalSecurityTests.test_regular_user_cannot_manage_roles",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:17:08.832255+00:00"
+    "fecha": "2026-10-18T16:52:36.086982+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1977,7 +2097,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_requirements.MunicipalSecurityTests.test_role_name_does_not_grant_superadmin",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:17:08.835800+00:00"
+    "fecha": "2026-10-18T16:52:36.088983+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -1989,7 +2109,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_requirements.MunicipalSecurityTests.test_superuser_cannot_be_deactivated",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:17:10.183465+00:00"
+    "fecha": "2026-10-18T16:52:37.544881+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -2001,7 +2121,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.tests.RecuperacionPasswordTests.test_flujo_completo_con_hashing_seguro",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:17:15.169533+00:00"
+    "fecha": "2026-10-18T16:52:43.222193+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -2013,7 +2133,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.tests.RecuperacionPasswordTests.test_model_has_reset_code_and_expires_at_fields",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:17:16.285909+00:00"
+    "fecha": "2026-10-18T16:52:44.769860+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -2025,7 +2145,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.tests.RecuperacionPasswordTests.test_solicitud_correo_no_existente_no_revela_cuentas",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:17:17.568279+00:00"
+    "fecha": "2026-10-18T16:52:46.593664+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -2037,7 +2157,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.tests.RecuperacionPasswordTests.test_solicitud_correo_valido_genera_codigo_15_minutos_y_envia_email",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:17:18.942195+00:00"
+    "fecha": "2026-10-18T16:52:48.409000+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -2049,7 +2169,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.tests.RecuperacionPasswordTests.test_validar_codigo_expirado_muestra_error",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:17:20.218045+00:00"
+    "fecha": "2026-10-18T16:52:50.518242+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -2061,7 +2181,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.tests.RecuperacionPasswordTests.test_validar_codigo_incorrecto_muestra_error",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:17:21.414333+00:00"
+    "fecha": "2026-10-18T16:52:52.360220+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -2073,7 +2193,7 @@
     "estado": "APROBADO",
     "evidencia": "config.test_error_pages.ErrorPageTests.test_missing_route_has_a_recovery_link",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:17:21.487228+00:00"
+    "fecha": "2026-10-18T16:52:52.632279+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -2085,7 +2205,7 @@
     "estado": "APROBADO",
     "evidencia": "config.test_error_pages.ErrorPageTests.test_server_error_has_safe_feedback_and_sweetalert",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:17:21.556935+00:00"
+    "fecha": "2026-10-18T16:52:52.729225+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -2097,7 +2217,7 @@
     "estado": "APROBADO",
     "evidencia": "config.test_passkey_origin.LocalPasskeyOriginTests.test_account_path_query_and_head_use_the_same_canonical_origin",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:17:21.560939+00:00"
+    "fecha": "2026-10-18T16:52:52.731230+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -2109,7 +2229,7 @@
     "estado": "APROBADO",
     "evidencia": "config.test_passkey_origin.LocalPasskeyOriginTests.test_canonical_login_does_not_redirect",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:17:21.577210+00:00"
+    "fecha": "2026-10-18T16:52:52.752096+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -2121,7 +2241,7 @@
     "estado": "APROBADO",
     "evidencia": "config.test_passkey_origin.LocalPasskeyOriginTests.test_invalid_host_port_is_rejected_without_a_server_error",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:17:21.578209+00:00"
+    "fecha": "2026-10-18T16:52:52.757637+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -2133,7 +2253,7 @@
     "estado": "APROBADO",
     "evidencia": "config.test_passkey_origin.LocalPasskeyOriginTests.test_local_alias_redirects_login_before_a_session_starts",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:17:21.580213+00:00"
+    "fecha": "2026-10-18T16:52:52.759642+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -2145,7 +2265,7 @@
     "estado": "APROBADO",
     "evidencia": "config.test_passkey_origin.LocalPasskeyOriginTests.test_other_ports_schemes_and_host_lookalikes_are_not_redirected",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:17:21.590535+00:00"
+    "fecha": "2026-10-18T16:52:52.777319+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -2157,7 +2277,7 @@
     "estado": "APROBADO",
     "evidencia": "config.test_passkey_origin.LocalPasskeyOriginTests.test_path_and_next_parameter_cannot_replace_the_redirect_host",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:17:21.593071+00:00"
+    "fecha": "2026-10-18T16:52:52.779862+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -2169,7 +2289,7 @@
     "estado": "APROBADO",
     "evidencia": "config.test_passkey_origin.LocalPasskeyOriginTests.test_production_requests_are_not_canonicalized",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:17:21.681274+00:00"
+    "fecha": "2026-10-18T16:52:52.949904+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -2181,7 +2301,7 @@
     "estado": "APROBADO",
     "evidencia": "config.test_passkey_origin.LocalPasskeyOriginTests.test_real_site_configuration_does_not_redirect_local_requests",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:17:21.693879+00:00"
+    "fecha": "2026-10-18T16:52:52.971027+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -2193,7 +2313,7 @@
     "estado": "APROBADO",
     "evidencia": "config.test_passkey_origin.LocalPasskeyOriginTests.test_wrong_origin_post_is_still_rejected_without_redirect",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:17:21.695890+00:00"
+    "fecha": "2026-10-18T16:52:52.973529+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -2205,7 +2325,7 @@
     "estado": "APROBADO",
     "evidencia": "config.test_ui_theme.DelegationThemeTests.test_arbitrary_colors_have_legible_action_and_selected_text",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:17:21.698890+00:00"
+    "fecha": "2026-10-18T16:52:52.980090+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -2217,7 +2337,7 @@
     "estado": "APROBADO",
     "evidencia": "config.test_ui_theme.DelegationThemeTests.test_untrusted_color_is_not_inserted_in_styles",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:17:21.699897+00:00"
+    "fecha": "2026-10-18T16:52:52.981089+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -2229,7 +2349,7 @@
     "estado": "APROBADO",
     "evidencia": "dashboard.test_integration.ExportTests.test_excel_keeps_numeric_values_filters_and_literal_text",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:17:21.721838+00:00"
+    "fecha": "2026-10-18T16:52:53.011284+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -2241,7 +2361,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_passkey_proxy.PasskeyProxyRateLimitTests.test_direct_client_cannot_evade_limit_with_forged_header",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:17:21.730906+00:00"
+    "fecha": "2026-10-18T16:52:53.032356+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -2253,7 +2373,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_passkey_proxy.PasskeyProxyRateLimitTests.test_disabled_proxy_flag_ignores_header_on_loopback",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:17:21.743969+00:00"
+    "fecha": "2026-10-18T16:52:53.045668+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -2265,7 +2385,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_passkey_proxy.PasskeyProxyRateLimitTests.test_equivalent_ipv6_headers_share_the_same_limit",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:17:21.750970+00:00"
+    "fecha": "2026-10-18T16:52:53.062228+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -2277,7 +2397,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_passkey_proxy.PasskeyProxyRateLimitTests.test_invalid_peer_address_does_not_authorize_header",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:17:21.765042+00:00"
+    "fecha": "2026-10-18T16:52:53.075295+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -2289,7 +2409,7 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_passkey_proxy.PasskeyProxyRateLimitTests.test_invalid_real_ip_headers_fall_back_to_peer_limit",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:17:21.772579+00:00"
+    "fecha": "2026-10-18T16:52:53.097884+00:00"
   },
   {
     "requisito": "PDF A1-A4 / C1-C6",
@@ -2301,6 +2421,6 @@
     "estado": "APROBADO",
     "evidencia": "usuarios.test_passkey_proxy.PasskeyProxyRateLimitTests.test_trusted_loopback_proxy_gives_each_valid_client_its_own_limit",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-18T16:17:21.793154+00:00"
+    "fecha": "2026-10-18T16:52:53.138940+00:00"
   }
 ]

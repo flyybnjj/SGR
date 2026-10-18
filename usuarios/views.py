@@ -430,7 +430,7 @@ def ficha_usuario_view(request):
     total_vecinos_comuna = Vecino.objects.filter(activo=True).count()
     appearance_delegations = DelegacionMunicipal.objects.filter(activo=True)
     if not usuario.is_superuser:
-        appearance_delegations = appearance_delegations.filter(delegado=usuario)
+        appearance_delegations = appearance_delegations.filter(pk=usuario.delegacion_id, delegado=usuario)
 
     context = {
         'funcionario': usuario,

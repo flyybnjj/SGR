@@ -43,12 +43,12 @@ EC2 Ubuntu/Python 3.12, Nginx con TLS, Gunicorn y Redis. Dirección actual de ev
 | Módulo | Estado |
 |---|---|
 | Login, roles, permisos, cierre y rutas protegidas | Implementado; pruebas automatizadas |
-| Recuperación por correo | Implementado;15 min,45 s,reenvío5/15 min,5 intentos,cupo IP; probar entrega real con el titular |
+| Recuperación por correo | Implementado;15 min,45 s,reenvío5/15 min,5 intentos,cupo IP; códigos recibidos y validados por el usuario |
 | Delegaciones,Roles,Usuarios,Ítems,Tipos,Subatenciones | CRUD persistentes,desactivación,consulta,búsqueda,paginación y Excel |
 | Atención e historial global | Persistente;subatenciones dependientes,idempotencia por UUID,ID y contexto autorizado |
 | Acciones,aprobación y metas | Persistente con evidencia privada y permisos |
 | Cuenta,apariencia,tutorial y reportes | Implementados |
-| Passkeys | WebAuthn implementado y pruebas criptográficas; registro físico pendiente con cada titular |
+| Passkeys | WebAuthn implementado y pruebas criptográficas; registro, eliminación e ingreso confirmados por el usuario; recuperación con passkey por validar |
 | Varias delegaciones simultáneas por funcionario | No habilitado: una sede fija; el superadministrador consulta todas |
 
 ```powershell
@@ -62,6 +62,8 @@ Pruebas usan bases temporales y correo en memoria; no modifican la base real. Ve
 
 ## Verificación registrada el 18/10/2026
 
-192 pruebas aprobadas; resultados individuales en docs/evidencias/matriz-funcional.csv. 36 comprobaciones HTTP de AWS y carga controlada de lectura sin errores hasta 10 concurrentes. El detalle y las validaciones humanas pendientes están en docs/segunda-evaluacion.md. Para regenerar la matriz: python scripts/verify_delivery.py. La carga se ejecuta con scripts/load_delivery.py y una sesión temporal privada; nunca se publica su archivo.
+202 pruebas aprobadas; resultados individuales en docs/evidencias/matriz-funcional.csv. 36 comprobaciones HTTP de AWS y carga controlada de lectura sin errores hasta 10 concurrentes. El detalle y las validaciones humanas pendientes están en docs/segunda-evaluacion.md. Para regenerar la matriz: python scripts/verify_delivery.py. La carga se ejecuta con scripts/load_delivery.py y una sesión temporal privada; nunca se publica su archivo.
 
 Los códigos de los catálogos corresponden a su ID. Los 5 requerimientos del esquema anterior se integran al historial y acciones con fechas, folios y estados originales; la aprobación se conserva solo cuando existe auditoría. Ver docs/migracion-historica.md. No hay datos simulados en los indicadores productivos.
+
+La asignación de responsables y la personalización de colores usan la misma sede de trabajo; ver docs/color-delegacion.md para la corrección y sus regresiones.
