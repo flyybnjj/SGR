@@ -1,0 +1,78 @@
+{
+  "base": "https://100-49-246-233.sslip.io",
+  "version": {
+    "commit": "ff3b9543ac402c0df17fdd802cb239c3b0d00f98",
+    "deployed_at": "2026-10-18T17:12:56.448316+00:00"
+  },
+  "checks": [
+    {
+      "check": "Listado sin cuenta raiz",
+      "passed": true
+    },
+    {
+      "check": "Busqueda no devuelve cuenta raiz",
+      "passed": true
+    },
+    {
+      "check": "Excel de usuarios disponible",
+      "passed": true
+    },
+    {
+      "check": "Excel solo incluye cuentas de funcionarios",
+      "passed": true,
+      "rows": 9
+    },
+    {
+      "check": "Excel buscado no expone cuenta raiz",
+      "passed": true
+    },
+    {
+      "check": "Fragmento directo de root bloqueado",
+      "passed": true
+    },
+    {
+      "check": "Ajustes personales de root disponibles",
+      "passed": true
+    },
+    {
+      "check": "Edicion directa de root bloqueada",
+      "passed": true
+    },
+    {
+      "check": "Papelera de root bloqueada",
+      "passed": true
+    },
+    {
+      "check": "Root mantiene acceso /",
+      "passed": true
+    },
+    {
+      "check": "Root mantiene acceso /administracion/",
+      "passed": true
+    },
+    {
+      "check": "Root mantiene acceso /mi-perfil/contrasena/",
+      "passed": true
+    },
+    {
+      "check": "Root mantiene acceso /mi-perfil/passkeys/",
+      "passed": true
+    },
+    {
+      "check": "Control de movimiento y estado visibles",
+      "passed": true
+    },
+    {
+      "check": "Ondas usan acento institucional y movimiento nuevo",
+      "passed": true
+    },
+    {
+      "check": "Funcionario sin acceso /mantenedores/usuarios/",
+      "passed": true
+    },
+    {
+      "check": "Funcionario sin acceso /mantenedores/usuarios/exportar-excel/",
+      "passed": true
+    }
+  ]
+}

@@ -15,5 +15,10 @@
   "cuentas_raiz_fuera_de_listado_busqueda_y_excel": true,
   "edicion_directa_raiz_bloqueada": true,
   "ajustes_personales_raiz_disponibles": true,
-  "sin_migraciones_ni_cambios_de_cuentas": true
+  "sin_migraciones_ni_cambios_de_cuentas": true,
+  "desplegado_en_aws": true,
+  "application_commit": "ff3b9543ac402c0df17fdd802cb239c3b0d00f98",
+  "comprobaciones_http_aws": 17,
+  "comprobaciones_generales_aws": 36,
+  "respaldo_previo_aws": "/home/ubuntu/sgr-backups/deploy-20261018-171252"
 }

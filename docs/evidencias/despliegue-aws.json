@@ -100,7 +100,7 @@
     {
       "check": "Filas Excel usuarios",
       "passed": true,
-      "rows": 11
+      "rows": 9
     },
     {
       "check": "Excel roles",
@@ -178,7 +178,7 @@
     }
   ],
   "version": {
-    "commit": "c876f6d5983e58b1e36e51d3cbd7348133efb142",
-    "deployed_at": "2026-10-18T16:54:54.530870+00:00"
+    "commit": "ff3b9543ac402c0df17fdd802cb239c3b0d00f98",
+    "deployed_at": "2026-10-18T17:12:56.448316+00:00"
   }
 }
