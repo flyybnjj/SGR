@@ -1,5 +1,5 @@
 from config.access import can_approve, can_manage, can_register
-from config.access import active
+from config.access import active, operational
 from config.ui_theme import theme_style
 from territorial.models import DelegacionMunicipal
 from territorial.appearance import HEADER_COLORS
@@ -15,6 +15,7 @@ def municipal_context(request):
         pending = DelegacionMunicipal.objects.filter(pk=user.delegacion_id, delegado=user, activo=True, color_configurado=False).first()
     return {
         'account_area': account_area,
+        'operational_profile': operational(user),
         'can_manage': can_manage(user),
         'can_register': can_register(user),
         'can_approve': can_approve(user),

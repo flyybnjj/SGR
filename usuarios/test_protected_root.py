@@ -60,6 +60,7 @@ class ProtectedRootDirectoryTests(TestCase):
         self.assertEqual(self.client.get(reverse('crud_edit_form', args=['usuarios', self.employee.pk])).status_code, 200)
         response = self.client.post(reverse('usuarios:usuarios_edit', args=[self.employee.pk]), {
             'username': self.employee.username, 'email': 'updated@example.com', 'rol': self.role.pk, 'activo': 'on',
+            'first_name': 'Ana', 'last_name': 'Pérez',
         })
         self.assertEqual(response.status_code, 302)
         self.employee.refresh_from_db()

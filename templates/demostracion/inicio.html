@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Funciones por perfil | Gestión municipal{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'demostracion/demo.css' %}">{% endblock %}
+{% block content %}
+<div class="demo-area">
+    <header class="mb-4"><h1>Funciones por perfil</h1><p>Consulta tus permisos efectivos y recorre los módulos disponibles para tu cuenta.</p></header>
+    <section class="card-stitch p-3 p-md-4 mb-4" aria-labelledby="demo-scope">
+        <h2 id="demo-scope">Tu acceso actual</h2>
+        <p><strong>{% if user.is_superuser %}Superadministrador{% else %}{{ user.rol.nombre }}{% endif %}</strong> · {% if user.is_superuser %}Consulta global. Los registros reales requieren elegir una delegación autorizada.{% else %}Una delegación fija: {{ delegacion_actual.codigo }} · {{ delegacion_actual.nombre }}.{% endif %}</p>
+        <p class="text-secondary">Los permisos se comprueban en el servidor. El nombre del rol no concede acceso adicional.</p>
+        <dl class="demo-permissions">{% for capability in capabilities %}<div><dt>{{ capability.name }}</dt><dd><strong>{% if capability.enabled %}Habilitado{% else %}Sin permiso{% endif %}</strong><span>{{ capability.description }}</span></dd></div>{% endfor %}</dl>
+    </section>
+    <section class="mb-4" aria-labelledby="demo-real">
+        <h2 id="demo-real">Operaciones reales</h2><p>Estos accesos usan datos guardados y aplican el ámbito de tu cuenta.</p>
+        <ul class="demo-navigation">
+            <li><a href="{% url 'dashboard:inicio' %}">Resumen e indicadores reales</a><span>KPIs del ámbito autorizado.</span></li>
+            <li><a href="{% url 'atenciones:attention_search' %}">Atención e historial</a><span>{% if can_register %}Consulta y registro de atenciones.{% else %}Consulta del historial autorizado.{% endif %}</span></li>
+            <li><a href="{% url 'atenciones:action_list' %}">Acciones y seguimiento</a><span>Evidencia única{% if can_approve %}; aprobación y rechazo auditados{% endif %}.</span></li>
+            <li><a href="{% url 'atenciones:meta_list' %}">Metas y cumplimiento</a><span>Avances calculados con acciones aprobadas.</span></li>
+            <li><a href="{% url 'dashboard:reportes' %}">Reportes y exportaciones</a><span>Datos autorizados y filtros reales.</span></li>
+            {% if can_register %}<li><a href="{% url 'atenciones:action_create' %}">Registrar acción real</a><span>Guarda la acción y su evidencia privada.</span></li>{% endif %}
+            {% if can_manage %}<li><a href="{% url 'territorial:delegaciones_list' %}">Delegaciones y catálogos</a><span>Administración según permisos de gestión.</span></li><li><a href="{% url 'atenciones:meta_create' %}">Crear meta real</a><span>Objetivo y período persistentes.</span></li>{% endif %}
+            {% if user.is_superuser %}<li><a href="{% url 'usuarios:usuarios_list' %}">Usuarios</a><span>Administración raíz.</span></li><li><a href="{% url 'usuarios:roles_list' %}">Roles y permisos</a><span>Configuración real de capacidades.</span></li>{% endif %}
+        </ul>
+    </section>
+    <section class="card-stitch p-3 p-md-4" aria-labelledby="demo-pending">
+        <h2 id="demo-pending">Interfaces de módulos pendientes</h2>
+        <p><strong>Simulación sin persistencia.</strong> Datos ficticios identificados en cada pantalla. Las pruebas locales se descartan al salir o recargar; no modifican acciones, metas, permisos ni fotografías del sistema.</p>
+        {% if scenarios %}<ul class="demo-navigation">{% for item in scenarios %}<li><a href="{% url 'demostracion:escenario' item.slug %}">{{ item.title }}</a><span>{{ item.summary }}</span></li>{% endfor %}</ul>{% else %}<p class="mb-0">Tu perfil dispone de consulta. No tienes permisos para los escenarios de registro, aprobación o gestión; puedes recorrer las operaciones reales de consulta.</p>{% endif %}
+        <p class="text-secondary mt-3 mb-0">Pendiente de backend: evidencia antes/después y planificador de escenarios. La asignación de varias delegaciones por funcionario sigue pendiente de una definición de autorizaciones.</p>
+    </section>
+</div>
+{% endblock %}

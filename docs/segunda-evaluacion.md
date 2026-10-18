@@ -1,55 +1,50 @@
 # Segunda evaluación — comprobación de requisitos
 
-Fuente: Requisitos_Segunda_Evaluacion_SGR.pdf,10 páginas aportadas por el usuario. Fecha18/10/2026. Integrantes: Benjamin Avalos y Christofer Valencia. Responsable: Benjamin Avalos. El resultado automatizado no suplanta la firma de aceptación ni la prueba con un dispositivo personal.
+Fuente: `Requisitos_Segunda_Evaluacion_SGR.pdf`, 10 páginas, SHA-256 `b6820b7314549d0a2d17bdb03a0acf8680f0a40939c89fd6b0708f5481e9fb9f`. Relectura completa el 18/10/2026. Integrantes: Benjamin Avalos y Christofer Valencia. Responsable de pruebas: Benjamin Avalos; ejecución automatizada asistida por Codex.
 
-| PDF | Comprobación | Evidencia |
+## Cobertura contra el PDF
+
+| Páginas | Requisito | Implementación y comprobación |
 |---|---|---|
-|p1,3,10|Login usuario/correo,contraseña,inactivos,cierre y rutas|usuarios/tests.py,test_requirements.py,test_account.py|
-|p1,3,5,6|Solicitud genérica,código válido/erróneo/vencido/reutilizado,espera y límites,nueva contraseña|usuarios/test_recovery_security.py,tests.py;SMTP en memoria y fallo simulado|
-|p1,2,3,7–9,10|Seis CRUD con búsqueda,paginación,Excel y permisos|config/test_crud_modals.py,territorial/tests*,usuarios/test_requirements.py,test_catalog_validation.py,atenciones/tests.py|
-|p2,3,10|Atención,dependencia,contexto,ID,doble envío,cancelación|atenciones/test_attention_submission.py;UUID único en BD y migración0004|
-|p2,3,10|Identificación permanente de sede,código,usuario y rol|config/test_pdf_context.py;capturas1440/390|
-|p3|SweetAlert2 para resultados y validación|static/js/municipal-ui.js,crud-validation.js y pruebas de navegador|
-|p4|Git,commit,URLAWS,entorno y migraciones|README,migraciones,/static/release.json y evidencia de despliegue|
-|p3,4|Matriz funcional,carga,CPU/RAM y repetición|docs/evidencias (resultados generados;no datos estimados)|
-|p4,10|Estado operativo/simulado/pendiente|README;prototipos no desplegados;roles según permisos de servidor|
+| 1, 3, 5, 10 | Login, perfiles, recuperación y cierre | Credenciales, cuenta/rol inactivos, rutas, respuesta genérica, vigencia, reenvío, cupos, clave nueva e invalidación del código. Tests de usuarios y recuperación; SMTP en memoria en pruebas. |
+| 1–4, 7–10 | Seis mantenedores | Crear, lista, consulta separada de sólo lectura, editar, desactivar/restaurar, validaciones, relaciones, búsqueda, paginación y Excel. Consulta mediante `/consulta/<recurso>/<id>/`; seis recursos explícitos. |
+| 2–4 | Usuario completo | Nombre, apellidos, correo y rol requeridos también por el servidor; RUT requerido al crear y opcional al editar registros existentes. Una cuenta sin sede no obtiene acceso operativo. No se completan datos históricos por adivinación. |
+| 2–4 | Contexto y autorización | Código/nombre de sede, nombre/rol de cuenta permanentes. Una sede fija activa por funcionario; raíz consulta global. Vecinos, historial y Excel limitados a su sede. Listado y Excel de delegaciones también respetan ese ámbito. |
+| 2–4, 10 | Ingreso de atención | Solicitante, tipo/subtipo activos relacionados, responsable/fecha/sede del servidor, ID de confirmación y UUID contra doble envío. Cancelar no guarda. |
+| 3–4, 6 | SweetAlert2 | Validación cliente, errores devueltos por formularios del servidor y fallos de carga del editor; mensajes de éxito sólo tras guardar, confirmación/cancelación de desactivación y página de error 500 sin detalles internos. |
+| 1, 4, 10 | Estado y perfiles | «Funciones por perfil» muestra capacidades efectivas y rutas reales. Terreno, cierre, comparación dual y proyección están navegables como simulaciones sin persistencia, según permisos. Ver demostracion-perfiles.md. |
+| 2, 4 | Identidad y adaptación | SVG oficial conservado sin teñir/deformar; blanco/rojo sin personalización, color delegado heredado por su equipo, tipografía del sistema aprobada. Ver contraste y capturas de cierre. |
+| 3–4 | Evidencia y carga | Matriz funcional CSV/JSON, capturas, comprobación HTTP de AWS, carga progresiva, recuperación y CPU/RAM. Los resultados identifican versión y escenario. |
+| 4 | Entrega | README, migraciones, `.env.example` sin secretos, Git privado, URL HTTPS, versión pública y ZIP de fuente en escritorio. Acceso del profesor pendiente por falta de su usuario, según instrucción expresa del titular. |
 
-## Reglas concretas
+## Reglas de negocio conservadas
 
-- El ID numérico del modelo es el código de catálogo; el encabezado muestra DEL-NNN. No se añadió un segundo identificador editable que pudiera contradecirlo.
-- Duplicados: nombres equivalentes ignorando caja/espacios se rechazan; SubAtención usa su tipo como ámbito. Correos y usernames nuevos no ambiguos; los duplicados heredados no se renombraron silenciosamente.
-- Borrado lógico conserva las relaciones históricas y el administrador raíz no se elimina. Cambiar un vínculo a un registro inactivo exige reasignarlo a uno activo.
-- Una sede fija por funcionario. El superadministrador tiene consulta global. Un selector de varias sedes por coordinador requiere definir sus autorizaciones; no se amplían permisos por el nombre del rol.
-- Carga controlada: concurrencias1,3,5,10;10s por nivel;GET autenticados a dashboard/listados más login. Aceptación:p95≤1500ms,errores<1%;detener si errores>5% o p95>2000ms. Recuperación:20peticiones secuenciales. No pretende certificar escrituras concurrentes ni máximo absoluto de EC2.
+- El código de catálogo es su ID; delegaciones usan `DEL-NNN`. No se crea un segundo código contradictorio.
+- Duplicados normalizados, formatos y longitudes se validan en el servidor. La subatención no puede cambiar a otro tipo cuando tiene atenciones relacionadas.
+- Desactivación conserva relaciones e historial. Las cuentas raíz no aparecen en el mantenedor ni su Excel y sus URL de consulta/edición no las exponen.
+- La sede de trabajo y el cargo de responsable deben ser compatibles. El color compartido procede de esa sede, no de una responsabilidad antigua.
+- Una cuenta sin sede activa conserva sus ajustes personales, pero no gestiona ni registra datos operativos. El nombre del rol no concede privilegios.
+- La consulta global de vecinos se eliminó para funcionarios. Se conservan las actuaciones y auditorías originales al corregir la asignación actual de una persona.
+- Vigencia de recuperación: 15 minutos; reenvío: 45 segundos, con cupos e intentos limitados. El PDF permite configurar sus valores referenciales.
 
-## Normativa gráfica y verificaciones humanas
+## Funciones operativas y pendientes
 
-Referencia oficial consultada18/10/2026: https://laserena.cl/documentos/docs/REGLAMENTO_normas_graficas_2019.pdf y https://laserena.cl/conocenos/normas-graficas . Se conserva el SVG institucional y sus proporciones,sin teñirlo con el color territorial. El manual pide Arial para documentos internos; la interfaz usa fuentes del sistema según la preferencia aprobada. Su aprobación institucional formal y la compatibilidad de colores territoriales quedan por validar con el docente/municipalidad, no se certifican por una captura.
+Acceso, recuperación SMTP, seis CRUD, atención, acciones con evidencia única privada, aprobación auditada, metas, reportes, cuenta, tutorial y personalización están implementados. El usuario confirmó recepción/uso de códigos y registro, eliminación e ingreso con passkey. La recuperación con passkey sigue siendo una comprobación personal adicional; no es requisito de este PDF.
 
-El usuario confirmó el 18/10/2026 la recepción y uso de códigos por correo y el registro, eliminación e ingreso mediante passkey. La credencial SMTP nueva quedó configurada y autenticada en AWS. Queda revocar la credencial anterior en el proveedor si sigue activa, además del acceso del docente al repositorio privado y la aprobación gráfica. La recuperación de contraseña con passkey requiere comprobación personal adicional.
+Las interfaces de foto antes/después, comparación dual y planificador se identifican como simulación y no escriben en la base. La página 10 permite interfaces navegables pendientes conforme al avance de backend; no se afirma que estos flujos tengan persistencia. Varios territorios por funcionario no están habilitados: se mantiene una sede fija; raíz consulta todas.
 
-## Resultado de la segunda lectura y cierre
+## Identidad gráfica y límites de validación
 
-Se releyeron las 10 páginas; huella del PDF en evidencias/fuente-requisitos.json. Suite final: 261 casos aprobados, con matriz individual en CSV/JSON. Incluye los seis CRUD completos, búsquedas/paginación/Excel, recuperación y límites, roles, RUT, dependencia e idempotencia. Revisión independiente: se corrigió la colisión entre usernames y correos en administración y autoservicio. La reserva de intentos usa incremento atómico compartido entre trabajadores.
+Referencia: https://laserena.cl/documentos/docs/REGLAMENTO_normas_graficas_2019.pdf . Se comprueban conservación/proporción del logo y primer plano calculado para nueve temas, incluidos colores extremos. El manual menciona Arial para documentos internos; no se interpreta como orden de reemplazar automáticamente la tipografía web del sistema ya aprobada por el usuario.
 
-Navegador: 14 capturas a 390/1440 px, sin desbordamiento; seis auditorías axe sin violaciones detectadas. Una comprobación quedó incompleta para revisión ARIA: no se presenta como certificación WCAG. Confirmación adicional del nombre completo de delegación en móvil, múltiples avisos y SweetAlert de error del servidor. Los diseños en evidencia usan datos ficticios y no sustituyen la comprobación HTTP real de AWS.
+Las comprobaciones de navegador a 390/1440 px no constituyen certificación WCAG ni aprobación institucional. Axe distingue infracciones de comprobaciones incompletas. Se conservan estas últimas en el JSON para no dar por aprobados contrastes sobre fotografías o transparencias que requieren inspección humana. El PDF pide aplicar las normas; no se inventa una firma de aprobación municipal como requisito adicional.
 
-AWS: 36 comprobaciones HTTP aprobadas; exports de los seis catálogos, permisos de funcionario y origen WebAuthn. La autenticación SMTP fue aceptada; no se envió correo de prueba a terceros. Cookies seguras, redirección HTTPS y clave interna de Django reemplazada; se conservan las contraseñas y datos. HSTS de una hora; no se habilitan preload ni includeSubDomains porque no se controla el dominio superior ni se pretende inscribirlo en la lista de navegadores.
+## Pruebas y versión
 
-Carga de lectura: 1.177 solicitudes en cuatro niveles (más 20 de recuperación), cero errores. Con 10 concurrentes: 60,15 solicitudes/s, p95 de 172 ms. Máximo CPU 62,81%, memoria 498,23 MB de 909,52 MB. Cumple los umbrales declarados para este escenario; no acredita el máximo de capacidad ni carga de escrituras.
+Resultados individuales: `evidencias/pruebas-funcionales.json` y `evidencias/matriz-funcional.csv`. Cierre actual: `evidencias/cierre-pdf/`; pruebas históricas anteriores: auditoria-logica.md y ambito-vecinos.md. La última matriz es la referencia para el número de casos, sin sumar suites repetidas como pruebas distintas.
 
-Los 5 requerimientos del esquema anterior se integran como 5 atenciones, 5 acciones y 1 aprobación auditada, con vínculos únicos e historial original. La simulación no guarda cambios; repetir la aplicación no duplica ni sobrescribe revisiones nuevas. Usuarios, catálogos y tablas originales se conservan. Ver migracion-historica.md y evidencias/historicos. Aplicación productiva comprobada: 36 controles HTTP de historial/acciones/Excel/permisos, además de los 36 controles generales repetidos sobre AWS.
+La carga de lectura de producción usa niveles 1, 3, 5 y 10, diez segundos por nivel y veinte solicitudes de recuperación. Límite seguro fijado antes de ejecutar: diez concurrentes. Aceptación: p95 ≤ 1500 ms y errores < 1 %; detener si p95 > 2000 ms o errores > 5 %. No certifica la capacidad máxima de EC2.
 
-Para la entrega presencial quedan la recuperación personal con passkey, el acceso del docente al repositorio privado y la aprobación gráfica. La multi-delegación de coordinadores es condicional al perfil: actualmente cada funcionario tiene una sede fija y el administrador consulta todas. No se afirma cumplimiento absoluto de aspectos que necesitan estas decisiones/evidencias.
+Las escrituras se evalúan mediante HTTP en loopback, Gunicorn y una base sintética separada dentro de la misma EC2. Incluye guardado válido, subatención inválida, búsquedas, apertura/cancelación y repetición de UUID; comprueba conteo y sede/autor finales. El correo y la caché son locales de prueba. No inserta atenciones ficticias en producción. La diferencia de escenario queda explícita en los resultados.
 
-Corrección de color y responsabilidades: docs/color-delegacion.md. La sede de trabajo determina el tema heredado; la administración impide responsabilidades incompatibles y protege también la reactivación de sedes.
-
-
-## Corrección del aislamiento de vecinos
-
-Se eliminó la consulta global de vecinos para funcionarios y delegados: padrón, búsqueda, ficha GET/POST, historial, paginación y Excel usan el ámbito de su sede activa. Raíz conserva consulta global. Se agregaron 16 regresiones, incluidas reasignación de sede, rol de consulta, falta de sede y acceso a datos históricos. Suite completa: 225 pruebas aprobadas. Evidencias: evidencias/ambito-vecinos. La asignación actual del registro del Faro se corrige a Avenida del Mar, conservando las actuaciones y auditorías originales.
-
-
-## Revisión ampliada de lógica
-
-Se reprodujeron y corrigieron 13 fallos adicionales de permisos, identidad, recuperación, asignación territorial, concurrencia, catálogo e importación/demostración. Suite completa: 261 pruebas aprobadas y casos concurrentes en SQLite aislado. Detalle y alcance: auditoria-logica.md. Las verificaciones de SMTP y passkey personales confirmadas anteriormente siguen distinguiéndose de estas pruebas automatizadas.
+El acceso del docente al repositorio permanece pendiente: el usuario no conoce su cuenta y pidió conservarlo privado por ahora. Las credenciales personales de evaluación se entregan por canal privado; no se publican en README, ZIP ni evidencias. No se modifica esa decisión para afirmar cumplimiento absoluto.

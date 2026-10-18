@@ -1,0 +1,134 @@
+{
+  "date": "2026-10-18",
+  "logo_sha256": "4bbeb878735212d4b8b216fd74b75a1ad99c03671af4e3f6fd795d42bfd17486",
+  "logo_unchanged": true,
+  "logo_intrinsic_ratio": 3.64691091954023,
+  "logo_rendered_ratio_checked_at": [
+    390,
+    1440
+  ],
+  "default": "blanco y rojo; color territorial solamente tras configuración",
+  "manual": "https://laserena.cl/documentos/docs/REGLAMENTO_normas_graficas_2019.pdf",
+  "scope": "Logo sin recolorear ni deformar, controles y textos con primer plano calculado; no constituye aprobación municipal ni certificación WCAG",
+  "theme_contrast_checks": [
+    {
+      "selected": "#B80003",
+      "tokens": {
+        "color": "#b80003",
+        "on_color": "#ffffff",
+        "ink": "#b80003",
+        "tint": "#f8e6e6",
+        "hover": "#9c0003"
+      },
+      "button_contrast": 6.909,
+      "link_on_tint": 5.742,
+      "link_on_surface": 6.346
+    },
+    {
+      "selected": "#C4477D",
+      "tokens": {
+        "color": "#c4477d",
+        "on_color": "#ffffff",
+        "ink": "#b04070",
+        "tint": "#f9edf2",
+        "hover": "#a73c6a"
+      },
+      "button_contrast": 4.621,
+      "link_on_tint": 4.831,
+      "link_on_surface": 5.058
+    },
+    {
+      "selected": "#1A33EA",
+      "tokens": {
+        "color": "#1a33ea",
+        "on_color": "#ffffff",
+        "ink": "#1a33ea",
+        "tint": "#e8ebfd",
+        "hover": "#162bc7"
+      },
+      "button_contrast": 7.762,
+      "link_on_tint": 6.554,
+      "link_on_surface": 7.128
+    },
+    {
+      "selected": "#13804A",
+      "tokens": {
+        "color": "#13804a",
+        "on_color": "#ffffff",
+        "ink": "#117343",
+        "tint": "#e7f2ed",
+        "hover": "#106d3f"
+      },
+      "button_contrast": 4.983,
+      "link_on_tint": 5.151,
+      "link_on_surface": 5.422
+    },
+    {
+      "selected": "#0088C8",
+      "tokens": {
+        "color": "#0088c8",
+        "on_color": "#000000",
+        "ink": "#006ea2",
+        "tint": "#e6f3fa",
+        "hover": "#0074aa"
+      },
+      "button_contrast": 5.356,
+      "link_on_tint": 4.948,
+      "link_on_surface": 5.14
+    },
+    {
+      "selected": "#D97700",
+      "tokens": {
+        "color": "#d97700",
+        "on_color": "#17212f",
+        "ink": "#9e5600",
+        "tint": "#fbf1e6",
+        "hover": "#b86500"
+      },
+      "button_contrast": 5.088,
+      "link_on_tint": 4.974,
+      "link_on_surface": 5.096
+    },
+    {
+      "selected": "#FFFFFF",
+      "tokens": {
+        "color": "#ffffff",
+        "on_color": "#17212f",
+        "ink": "#6e6e6e",
+        "tint": "#ffffff",
+        "hover": "#d9d9d9"
+      },
+      "button_contrast": 16.216,
+      "link_on_tint": 5.099,
+      "link_on_surface": 4.683
+    },
+    {
+      "selected": "#000000",
+      "tokens": {
+        "color": "#000000",
+        "on_color": "#ffffff",
+        "ink": "#000000",
+        "tint": "#e6e6e6",
+        "hover": "#000000"
+      },
+      "button_contrast": 21.0,
+      "link_on_tint": 16.826,
+      "link_on_surface": 19.287
+    },
+    {
+      "selected": "#FFFF00",
+      "tokens": {
+        "color": "#ffff00",
+        "on_color": "#17212f",
+        "ink": "#6e6e00",
+        "tint": "#ffffe6",
+        "hover": "#d9d900"
+      },
+      "button_contrast": 15.101,
+      "link_on_tint": 5.316,
+      "link_on_surface": 4.954
+    }
+  ],
+  "control_border_white_contrast": 3.238,
+  "body_white_contrast": 16.216
+}

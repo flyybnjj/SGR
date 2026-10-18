@@ -24,7 +24,8 @@ class AccountLogicAuditTests(TestCase):
 
     def data(self, **changes):
         values = {'username': 'nuevo', 'password': 'Nueva$2026', 'rol': self.role.pk,
-                  'delegacion': self.seat.pk, 'activo': 'on'}
+                  'first_name': 'Ana', 'last_name': 'Pérez', 'email': 'nuevo@example.test',
+                  'rut': '11111111-1', 'delegacion': self.seat.pk, 'activo': 'on'}
         values.update(changes)
         return values
 

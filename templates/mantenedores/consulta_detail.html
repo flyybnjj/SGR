@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Consulta de {{ detail_title|lower }} • Municipalidad de La Serena{% endblock %}
+
+{% block content %}
+<div class="crud-heading management-heading d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3 mb-4">
+    <div>
+        <h1 class="fw-semibold mb-1" style="color: var(--text-main, #252525); font-size: 1.65rem;">{{ detail_title }}: {{ record_name }}</h1>
+        <p class="small mb-0" style="color: var(--text-muted, #616161);">Consulta de los datos del registro.</p>
+    </div>
+    <a href="{% url list_route %}" class="btn-stitch btn-stitch-secondary" title="Volver al listado">
+        <i class="bi bi-arrow-left" aria-hidden="true"></i><span>Volver al listado</span>
+    </a>
+</div>
+<section class="card-stitch p-4" aria-label="Datos de {{ detail_title|lower }}" style="border-top: 3px solid var(--muni-red, #B80003);">
+    <dl class="row mb-0">
+        {% for label, value in detail_fields %}
+        <dt class="col-12 col-md-4 mb-md-3" style="color: var(--text-main, #252525);">{{ label }}</dt>
+        <dd class="col-12 col-md-8 mb-3 text-break" style="color: var(--text-muted, #616161); white-space: pre-line;">{{ value }}</dd>
+        {% endfor %}
+    </dl>
+</section>
+{% endblock %}

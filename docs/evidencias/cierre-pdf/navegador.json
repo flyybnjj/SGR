@@ -1,0 +1,173 @@
+{
+  "checks": [
+    {
+      "page": "perfil",
+      "width": 1440,
+      "overflow": false,
+      "axe": {
+        "violations": [],
+        "incomplete": []
+      }
+    },
+    {
+      "page": "proyeccion",
+      "width": 1440,
+      "overflow": false,
+      "axe": {
+        "violations": [],
+        "incomplete": []
+      }
+    },
+    {
+      "page": "terreno",
+      "width": 1440,
+      "overflow": false,
+      "axe": {
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      }
+    },
+    {
+      "page": "revision",
+      "width": 1440,
+      "overflow": false,
+      "axe": {
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      }
+    },
+    {
+      "page": "consulta",
+      "width": 1440,
+      "overflow": false,
+      "axe": {
+        "violations": [],
+        "incomplete": []
+      }
+    },
+    {
+      "page": "login",
+      "width": 1440,
+      "overflow": false,
+      "axe": {
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      }
+    },
+    {
+      "page": "error-servidor",
+      "width": 1440,
+      "overflow": false,
+      "axe": {
+        "violations": [],
+        "incomplete": [
+          "aria-prohibited-attr"
+        ]
+      }
+    },
+    {
+      "page": "perfil",
+      "width": 390,
+      "overflow": false,
+      "axe": {
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      }
+    },
+    {
+      "page": "proyeccion",
+      "width": 390,
+      "overflow": false,
+      "axe": {
+        "violations": [],
+        "incomplete": []
+      }
+    },
+    {
+      "page": "terreno",
+      "width": 390,
+      "overflow": false,
+      "axe": {
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      }
+    },
+    {
+      "page": "revision",
+      "width": 390,
+      "overflow": false,
+      "axe": {
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      }
+    },
+    {
+      "page": "consulta",
+      "width": 390,
+      "overflow": false,
+      "axe": {
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      }
+    },
+    {
+      "page": "login",
+      "width": 390,
+      "overflow": false,
+      "axe": {
+        "violations": [],
+        "incomplete": []
+      }
+    },
+    {
+      "page": "error-servidor",
+      "width": 390,
+      "overflow": false,
+      "axe": {
+        "violations": [],
+        "incomplete": [
+          "aria-prohibited-attr",
+          "color-contrast"
+        ]
+      }
+    },
+    {
+      "page": "fallo-editor",
+      "width": 1440,
+      "overflow": false,
+      "axe": {
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      }
+    },
+    {
+      "page": "fallo-editor",
+      "width": 390,
+      "overflow": false,
+      "axe": {
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      }
+    }
+  ],
+  "javascript_errors": [],
+  "synthetic": true
+}

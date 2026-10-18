@@ -59,6 +59,8 @@ def appearance_view(request, pk):
 def delegaciones_list_view(request):
     search = request.GET.get('q', '').strip()
     queryset = DelegacionMunicipal.objects.select_related('delegado').all()
+    if not request.user.is_superuser:
+        queryset = queryset.filter(pk=request.user.delegacion_id)
 
     if search:
         queryset = queryset.filter(
@@ -127,6 +129,8 @@ def delegaciones_toggle_activo(request, pk):
 def delegaciones_export_excel(request):
     search = request.GET.get('q', '').strip()
     queryset = DelegacionMunicipal.objects.select_related('delegado').all()
+    if not request.user.is_superuser:
+        queryset = queryset.filter(pk=request.user.delegacion_id)
 
     if search:
         queryset = queryset.filter(

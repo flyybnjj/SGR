@@ -1,4 +1,4 @@
-{% load static %}
+{% load static form_feedback %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -56,7 +56,7 @@
         {% if delegacion_actual %}<div class="sidebar-territory"><span class="delegation-swatch" aria-hidden="true"></span><span><strong>{{ delegacion_actual.nombre }}</strong><small>{{ delegacion_actual.comuna }}</small></span></div>{% endif %}
         {% if user.is_superuser %}<p class="sidebar-category">General</p>{% endif %}
         <nav class="d-flex flex-column gap-1" aria-label="General">
-            <a class="nav-link-stitch {% if request.resolver_match.url_name == 'inicio' or request.resolver_match.url_name == 'inicio_alias' or request.resolver_match.url_name == 'inicio_dashboard' %}active{% endif %}" href="{% url 'dashboard:inicio' %}"><i class="bi bi-house-door"></i>{% if user.is_superuser %}Resumen municipal{% else %}Inicio{% endif %}</a>
+            <a class="nav-link-stitch {% if request.resolver_match.namespace == 'dashboard' %}{% if request.resolver_match.url_name == 'inicio' or request.resolver_match.url_name == 'inicio_alias' or request.resolver_match.url_name == 'inicio_dashboard' %}active{% endif %}{% endif %}" href="{% url 'dashboard:inicio' %}"><i class="bi bi-house-door"></i>{% if user.is_superuser %}Resumen municipal{% else %}Inicio{% endif %}</a>
         </nav>
         <p class="sidebar-category" id="sidebar-attention-title">Atención</p>
         <nav class="d-flex flex-column gap-1" aria-labelledby="sidebar-attention-title">
@@ -68,6 +68,7 @@
             <a class="nav-link-stitch {% if '/acciones/' in request.path %}active{% endif %}" href="{% url 'atenciones:action_list' %}"><i class="bi bi-check2-square"></i>Acciones y seguimiento</a>
             <a class="nav-link-stitch {% if request.resolver_match.url_name == 'meta_list' or request.resolver_match.url_name == 'meta_create' or request.resolver_match.url_name == 'meta_edit' %}active{% endif %}" href="{% url 'atenciones:meta_list' %}"><i class="bi bi-bullseye"></i>Metas</a>
             <a class="nav-link-stitch {% if 'reportes' in request.path %}active{% endif %}" id="tour-reportes" href="{% url 'dashboard:reportes' %}"><i class="bi bi-file-earmark-spreadsheet"></i>Reportes</a>
+            {% if operational_profile %}<a class="nav-link-stitch {% if '/demostracion/' in request.path %}active{% endif %}" href="{% url 'demostracion:inicio' %}"><i class="bi bi-window-stack" aria-hidden="true"></i>Funciones por perfil</a>{% endif %}
         </nav>
         {% if can_manage %}
         <div class="border-top mt-4 pt-3" id="tour-mantenedores">
@@ -104,10 +105,11 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.6/dist/sweetalert2.all.min.js"></script>
 <script src="{% static 'vendor/driverjs/driver.js.iife.js' %}"></script>
-<script src="{% static 'js/tutorial-guiado.js' %}?v=20261018-task-menu"></script>
-<script src="{% static 'js/municipal-ui.js' %}?v=20261018-admin-waves"></script>
+{% server_form_feedback %}
+<script src="{% static 'js/tutorial-guiado.js' %}?v=20261018-authorized-tour"></script>
+<script src="{% static 'js/municipal-ui.js' %}?v=20261018-server-feedback"></script>
 <script src="{% static 'js/crud-validation.js' %}?v=20261017-record-trash"></script>
-<script src="{% static 'js/crud-editor.js' %}"></script>
+<script src="{% static 'js/crud-editor.js' %}?v=20261018-load-feedback"></script>
 {% block extra_scripts %}{% endblock %}
 </body>
 </html>

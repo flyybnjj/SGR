@@ -18,8 +18,13 @@ class RoleCatalogValidationTests(TestCase):
 
 
 class UserIdentityValidationTests(TestCase):
+    def setUp(self):
+        self.role = Rol.objects.create(nombre='Personal municipal')
+
     def user_data(self, **changes):
-        data = {'username': 'nuevo', 'password': 'Clave$Segura2026', 'activo': 'on'}
+        data = {'username': 'nuevo', 'password': 'Clave$Segura2026', 'activo': 'on',
+                'first_name': 'Ana', 'last_name': 'Pérez', 'email': 'nuevo@example.test',
+                'rol': self.role.pk, 'rut': '11111111-1'}
         data.update(changes)
         return data
 
@@ -55,10 +60,10 @@ class UserIdentityValidationTests(TestCase):
 
     def test_own_email_can_be_moved_between_fields(self):
         user = Usuario.objects.create_user(username='editable', email='propio@ejemplo.cl')
-        form = UsuarioForm(self.user_data(username='editable', password='', email_secundario='PROPIO@ejemplo.cl'), instance=user)
+        form = UsuarioForm(self.user_data(username='editable', password='', email='nuevo@ejemplo.cl', email_secundario='PROPIO@ejemplo.cl'), instance=user)
         self.assertTrue(form.is_valid(), form.errors)
 
-    def test_blank_optional_emails_do_not_collide(self):
+    def test_blank_optional_secondary_emails_do_not_collide(self):
         Usuario.objects.create_user(username='existente')
         form = UsuarioForm(self.user_data())
         self.assertTrue(form.is_valid(), form.errors)

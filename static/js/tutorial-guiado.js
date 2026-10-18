@@ -19,7 +19,7 @@
       add('nav[aria-labelledby="sidebar-management-title"]', 'Gestión', 'Consulta acciones, metas y reportes. El administrador ve el ámbito municipal; cada funcionario trabaja en su delegación.'),
       add('.general-filters', 'Consulta por territorio', 'Selecciona comuna, delegación o responsable y pulsa Consultar. Ver todo restablece el resumen municipal. Estos filtros afectan los indicadores y metas de esta página.'),
       add('.metrics-strip', 'Indicadores de gestión', 'Revisa atenciones, personas atendidas, acciones pendientes y cumplimiento de metas, calculados con los registros de tu ámbito.'),
-      add('#dashboard-search', 'Buscar un vecino', 'Busca por RUT, nombre o apellido. Su historial municipal permite revisar atenciones anteriores en otras delegaciones.'),
+      add('#dashboard-search', 'Buscar un vecino', 'Busca por RUT, nombre o apellido. El historial muestra las atenciones del ámbito autorizado para tu cuenta.'),
       add('.pending-section', 'Acciones pendientes', 'Este resumen muestra hasta tres acciones pendientes de tu ámbito. Ver todas abre el listado filtrado; los perfiles autorizados pueden abrir su revisión.'),
       add('#grupoMantenedores', 'Administración', 'Desde el panel de administración se organizan delegaciones y equipos. Los accesos visibles dependen de tus permisos.'),
       add('.admin-workspace', 'Delegaciones y equipos', 'Crea una delegación, asigna su responsable y vincula a los usuarios desde la edición de su cuenta. El rol define sus permisos y la delegación define su ámbito de trabajo.'),

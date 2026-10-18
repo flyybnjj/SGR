@@ -1,0 +1,9 @@
+{
+  "cases": 297,
+  "passed": true,
+  "source": "../pruebas-funcionales.json",
+  "command": "DJANGO_SETTINGS_MODULE=audit_settings python scripts/verify_delivery.py",
+  "isolation": "Base temporal migrada, correo/caché en memoria, sin .env productivo",
+  "checks": "Django check y makemigrations --check --dry-run sin incidencias",
+  "review": "Revisión de cambios por el implementador; revisión independiente solicitada pero no completada por indisponibilidad del servicio. No se declara revisión independiente aprobada."
+}

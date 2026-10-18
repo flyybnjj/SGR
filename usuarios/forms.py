@@ -164,6 +164,9 @@ class UsuarioForm(RutFormMixin, forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        for field in ("first_name", "last_name", "email", "rol"):
+            self.fields[field].required = True
+        self.fields["rut"].required = not bool(self.instance.pk)
         self.fields["rol"].queryset = Rol.objects.filter(activo=True)
         self.fields["delegacion"].queryset = DelegacionMunicipal.objects.filter(activo=True)
         self.fields["delegacion"].widget.attrs["class"] = "form-select"

@@ -1,0 +1,24 @@
+.demo-area { max-width: 1100px; }
+.demo-area h1 { font-size: clamp(1.5rem, 2vw, 2rem); }
+.demo-area h2 { font-size: 1.125rem; font-weight: 600; margin-bottom: .75rem; }
+.demo-area p { max-width: 75ch; }
+.demo-area a { text-underline-offset: .2em; overflow-wrap: anywhere; }
+.demo-permissions { margin: 0; }
+.demo-permissions > div { display: grid; grid-template-columns: minmax(9rem, 1fr) 3fr; gap: 1rem; padding: .75rem 0; border-top: 1px solid var(--border-stitch); }
+.demo-permissions dd { margin: 0; }
+.demo-permissions dd span { display: block; color: var(--text-secondary); font-size: .875rem; }
+.demo-navigation { list-style: none; margin: 0; padding: 0; }
+.demo-navigation li { display: grid; grid-template-columns: minmax(14rem, 1fr) 1.4fr; align-items: center; gap: 1rem; padding: .625rem 0; border-bottom: 1px solid var(--border-stitch); }
+.demo-navigation a { display: flex; align-items: center; min-height: 44px; font-weight: 600; }
+.demo-navigation span { color: var(--text-secondary); font-size: .875rem; }
+.demo-comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.demo-comparison > * { min-width: 0; }
+.demo-photo-empty { min-height: 140px; display: grid; place-items: center; background: var(--surface-muted); border: 1px dashed var(--border-control); border-radius: var(--radius-sm); font-weight: 600; }
+.demo-comparison figcaption { font-size: .875rem; color: var(--text-secondary); margin-top: .5rem; }
+.demo-photo-preview { max-width: 100%; max-height: 320px; object-fit: contain; margin-top: .75rem; border-radius: var(--radius-sm); }
+.demo-result { padding: .75rem; background: var(--surface-muted); border-radius: var(--radius-sm); font-variant-numeric: tabular-nums; }
+@media (max-width: 600px) {
+  .demo-permissions > div, .demo-navigation li, .demo-comparison { grid-template-columns: 1fr; gap: .25rem; }
+  .demo-navigation li { padding: .75rem 0; }
+  .demo-comparison { gap: 1rem; }
+}

@@ -45,7 +45,12 @@
       if (error.name === 'AbortError' || current !== sequence) return;
       const status = content.querySelector('[role="status"]');
       status.setAttribute('role', 'alert');
-      status.textContent = error.message;
+      status.textContent = 'No se pudo cargar el formulario. Cierra esta ventana e intenta nuevamente.';
+      if (window.Swal) {
+        await Swal.fire({target: element, icon: 'error', title: 'No se pudo abrir el formulario',
+          text: status.textContent, confirmButtonText: 'Entendido', returnFocus: false});
+        content.querySelector('[data-bs-dismiss="modal"]')?.focus();
+      }
     } finally {
       button.disabled = false;
       button.removeAttribute('aria-busy');

@@ -80,7 +80,7 @@ class WorkDelegationColorTests(TestCase):
         self.other.save()
         self.own.delegado = self.delegate
         self.own.save()
-        form = UsuarioForm(data={'username': self.delegate.username, 'rol': self.role.pk, 'delegacion': self.other.pk, 'activo': 'on'}, instance=self.delegate)
+        form = UsuarioForm(data={'username': self.delegate.username, 'first_name': 'Ana', 'last_name': 'Pérez', 'email': 'responsable@example.test', 'rol': self.role.pk, 'delegacion': self.other.pk, 'activo': 'on'}, instance=self.delegate)
         self.assertFalse(form.is_valid())
         self.assertIn('delegacion', form.errors)
 
@@ -97,7 +97,7 @@ class WorkDelegationColorTests(TestCase):
         self.own.delegado = self.delegate
         self.own.activo = False
         self.own.save()
-        form = UsuarioForm(data={'username': self.delegate.username, 'rol': self.role.pk, 'delegacion': self.other.pk, 'activo': 'on'}, instance=self.delegate)
+        form = UsuarioForm(data={'username': self.delegate.username, 'first_name': 'Ana', 'last_name': 'Pérez', 'email': 'responsable@example.test', 'rol': self.role.pk, 'delegacion': self.other.pk, 'activo': 'on'}, instance=self.delegate)
         self.assertFalse(form.is_valid())
         self.assertIn('delegacion', form.errors)
 

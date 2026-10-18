@@ -86,7 +86,7 @@
                     </td>
                     <td class="text-center">
                         {% if can_manage %}
-                        <div class="record-actions">
+                        <div class="record-actions"><a href="{% url 'crud_detail' 'usuarios' u.pk %}" class="btn-stitch-icon" title="Ver detalle" aria-label="Ver detalle de {{ u.nombre_completo }}"><i class="bi bi-eye" aria-hidden="true"></i><span class="visually-hidden">Ver detalle</span></a>
                         <button type="button" class="btn-stitch-icon" title="Editar usuario" aria-label="Editar {{ u.nombre_completo }}" data-edit-form="{% url 'crud_edit_form' 'usuarios' u.pk %}"><i class="bi bi-pencil" aria-hidden="true"></i></button>
                         {% if u != request.user and not u.is_superuser %}
                         <form method="post" action="{% url 'usuarios:usuarios_toggle' u.id %}" data-confirm-action="{% if u.activo %}delete{% else %}restore{% endif %}" data-confirm="{% if u.activo %}¿Eliminar a {{ u.nombre_completo }}? La cuenta quedará inactiva y no podrá iniciar sesión. Su historial se conservará y podrás restaurarla desde este listado.{% else %}¿Restaurar a {{ u.nombre_completo }}? La cuenta volverá a estar activa.{% endif %}">

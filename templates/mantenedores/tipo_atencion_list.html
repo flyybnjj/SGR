@@ -77,7 +77,7 @@
                         {% endif %}
                     </td>
                     <td class="text-center">
-                        {% if can_manage %}<div class="record-actions"><button type="button" class="btn-stitch-icon" title="Editar Tipo" data-edit-form="{% url 'crud_edit_form' 'tipo_atencion' t.pk %}">
+                        {% if can_manage %}<div class="record-actions"><a href="{% url 'crud_detail' 'tipo_atencion' t.pk %}" class="btn-stitch-icon" title="Ver detalle" aria-label="Ver detalle de {{ t.nombre }}"><i class="bi bi-eye" aria-hidden="true"></i><span class="visually-hidden">Ver detalle</span></a><button type="button" class="btn-stitch-icon" title="Editar Tipo" data-edit-form="{% url 'crud_edit_form' 'tipo_atencion' t.pk %}">
                             <i class="bi bi-pencil"></i>
                         </button>
                         <form method="post" action="{% url 'atenciones:tipo_atencion_toggle' t.id %}" class="d-inline" data-confirm="¿Desea cambiar el estado de {{ t.nombre }}?">{% csrf_token %}<button type="submit" class="btn-stitch-icon btn-stitch-icon-delete" title="{% if t.activo %}Desactivar{% else %}Activar{% endif %}" aria-label="{% if t.activo %}Desactivar{% else %}Activar{% endif %} {{ t.nombre }}"><i class="bi bi-power" aria-hidden="true"></i></button></form></div>{% else %}<span class="text-secondary">Solo lectura</span>{% endif %}

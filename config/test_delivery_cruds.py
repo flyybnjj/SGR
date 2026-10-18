@@ -21,7 +21,11 @@ class SixCRUDDeliveryTests(TestCase):
         """Crear/consultar/editar/desactivar, rechazar requerido y duplicado; buscar/paginar/exportar todas las páginas."""
         create, edit, listing, toggle, excel = [reverse(prefix + suffix) if suffix in ('_create','_list','_excel') else None for suffix in ('_create','_edit','_list','_toggle','_excel')]
         data = {field:'Entrega registro', 'activo':'on', **extra}
-        if field == 'username':data.update(username='entrega.registro',password='Entrega$Test2026')
+        if field == 'username':
+            role = Rol.objects.create(nombre='Personal de entrega')
+            data.update(username='entrega.registro', password='Entrega$Test2026',
+                        first_name='Ana', last_name='Pérez', email='entrega@example.test',
+                        rut='11111111-1', rol=role.pk)
         label = data[field]
         before = model.objects.count()
         self.assertEqual(self.client.post(create,data).status_code,302)

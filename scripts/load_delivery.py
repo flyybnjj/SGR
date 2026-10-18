@@ -1,5 +1,6 @@
 """Carga de lectura controlada; requiere cookie temporal local NO versionada."""
 import argparse,json,statistics,time,threading
+from datetime import datetime, timezone
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 import requests
@@ -26,7 +27,9 @@ def run(base,cookie,paths,concurrency,duration):
  return {'concurrency':concurrency,'duration_s':round(elapsed,3),'requests':len(rows),'rps':round(len(rows)/elapsed,2),'mean_ms':round(statistics.mean(latencies),2),'p95_ms':round(percentile(latencies,.95),2),'errors':errors,'error_percent':round(100*errors/max(1,len(rows)),2),'status_codes':sorted(set(s for _,s in rows))}
 
 if __name__=='__main__':
- parser=argparse.ArgumentParser();parser.add_argument('--base',required=True);parser.add_argument('--session-file',type=Path,required=True);parser.add_argument('--output',type=Path,required=True);args=parser.parse_args()
+ parser=argparse.ArgumentParser();parser.add_argument('--base',required=True);parser.add_argument('--session-file',type=Path,required=True);parser.add_argument('--output',type=Path,required=True);parser.add_argument('--commit',required=True);args=parser.parse_args()
+ version=requests.get(args.base+'/static/release.json',timeout=10).json()
+ assert version.get('application_commit',version.get('commit'))==args.commit, 'La versión AWS no corresponde al código que se quiere medir'
  cookie=json.loads(args.session_file.read_text())['root'];paths=['/','/mantenedores/delegaciones/','/mantenedores/usuarios/','/mantenedores/roles/','/mantenedores/metas/','/mantenedores/tipos-atencion/','/mantenedores/sub-atenciones/']
  results=[]
  for level in [1,3,5,10]:
@@ -35,5 +38,5 @@ if __name__=='__main__':
  session=requests.Session();session.cookies.set('sessionid',cookie);recovery=[]
  for _ in range(20):
   start=time.monotonic();r=session.get(args.base+'/',timeout=5,allow_redirects=False);recovery.append((1000*(time.monotonic()-start),r.status_code))
- final={'environment':args.base,'date':'2026-10-18','tool':'Python requests / ThreadPoolExecutor','scenario':'GET autenticados de dashboard y seis mantenedores; sin escrituras de negocio','thresholds':{'p95_ms':1500,'errors_percent_below':1,'stop_errors_percent':5,'stop_p95_ms':2000},'levels':results,'recovery':{'requests':len(recovery),'errors':sum(s!=200 for _,s in recovery),'p95_ms':round(percentile([t for t,_ in recovery],.95),2)},'accepted':all(r['p95_ms']<=1500 and r['error_percent']<1 for r in results) and all(s==200 for _,s in recovery)}
+ final={'environment':args.base,'date':datetime.now(timezone.utc).isoformat(),'application_commit':args.commit,'safe_concurrency_ceiling':10,'tool':'Python requests / ThreadPoolExecutor','scenario':'GET autenticados de dashboard y seis mantenedores; sin escrituras de negocio','thresholds':{'p95_ms':1500,'errors_percent_below':1,'stop_errors_percent':5,'stop_p95_ms':2000},'levels':results,'recovery':{'requests':len(recovery),'errors':sum(s!=200 for _,s in recovery),'p95_ms':round(percentile([t for t,_ in recovery],.95),2)},'accepted':all(r['p95_ms']<=1500 and r['error_percent']<1 for r in results) and all(s==200 for _,s in recovery)}
  args.output.parent.mkdir(parents=True,exist_ok=True);args.output.write_text(json.dumps(final,indent=2),encoding='utf-8');print('Aceptación:',final['accepted'])

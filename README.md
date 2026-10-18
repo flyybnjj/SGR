@@ -49,6 +49,7 @@ EC2 Ubuntu/Python 3.12, Nginx con TLS, Gunicorn y Redis. Dirección actual de ev
 | Acciones,aprobación y metas | Persistente con evidencia privada y permisos |
 | Cuenta,apariencia,tutorial y reportes | Implementados |
 | Passkeys | WebAuthn implementado y pruebas criptográficas; registro, eliminación e ingreso confirmados por el usuario; recuperación con passkey por validar |
+| Interfaces de terreno, cierre, comparación y proyección | Navegables en Funciones por perfil; simulación local sin persistencia y según permisos reales |
 | Varias delegaciones simultáneas por funcionario | No habilitado: una sede fija; el superadministrador consulta todas |
 
 ```powershell
@@ -57,12 +58,12 @@ python manage.py check
 python manage.py makemigrations --check --dry-run
 ```
 
-Pruebas usan bases temporales y correo en memoria; no modifican la base real. Ver docs/segunda-evaluacion.md y docs/evidencias para matriz, evidencias y carga. Los diseños/prototipos de backups no forman parte del despliegue. Las credenciales de evaluación y permisos de acceso al repo se entregan por canal privado al docente.
+Pruebas usan bases temporales y correo en memoria; no modifican la base real. Ver docs/segunda-evaluacion.md y docs/evidencias para matriz, evidencias y carga. Los diseños de backups no forman parte del despliegue; las interfaces pendientes de /demostracion/ están identificadas como simulación sin persistencia. Las credenciales de evaluación y permisos de acceso al repo se entregan por canal privado al docente.
 
 
-## Verificación registrada el 18/10/2026
+## Verificación previa y cierre del 18/10/2026
 
-261 pruebas aprobadas; resultados individuales en docs/evidencias/matriz-funcional.csv. 36 comprobaciones HTTP de AWS y carga controlada de lectura sin errores hasta 10 concurrentes. El detalle y las validaciones humanas pendientes están en docs/segunda-evaluacion.md. Para regenerar la matriz: python scripts/verify_delivery.py. La carga se ejecuta con scripts/load_delivery.py y una sesión temporal privada; nunca se publica su archivo.
+La revisión anterior registró 261 pruebas. El cierre incorpora nuevos casos; consultar el resultado actualizado y los registros individuales en docs/evidencias/matriz-funcional.csv. 36 comprobaciones HTTP de AWS y carga controlada de lectura sin errores hasta 10 concurrentes. El detalle y las validaciones humanas pendientes están en docs/segunda-evaluacion.md. Para regenerar la matriz: python scripts/verify_delivery.py. La carga de lectura se ejecuta con scripts/load_delivery.py --commit SHA y una sesión temporal privada; nunca se publica su archivo. Para escrituras, scripts/load_writes.py utiliza Gunicorn en loopback y una base sintética nueva fuera del proyecto; no utilizar la base productiva. Ver docs/cierre-segunda-evaluacion.md para el resultado final.
 
 Los códigos de los catálogos corresponden a su ID. Los 5 requerimientos del esquema anterior se integran al historial y acciones con fechas, folios y estados originales; la aprobación se conserva solo cuando existe auditoría. Ver docs/migracion-historica.md. No hay datos simulados en los indicadores productivos.
 

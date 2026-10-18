@@ -87,7 +87,7 @@
                     </td>
                     <td class="text-center">
                         {% if request.user.is_superuser or request.user.delegacion_id == d.id %}
-                        <div class="record-actions">
+                        <div class="record-actions"><a href="{% url 'crud_detail' 'delegaciones' d.pk %}" class="btn-stitch-icon" title="Ver detalle" aria-label="Ver detalle de {{ d.nombre }}"><i class="bi bi-eye" aria-hidden="true"></i><span class="visually-hidden">Ver detalle</span></a>
                             <button type="button" class="btn-stitch-icon" title="Editar delegación" aria-label="Editar {{ d.nombre }}" data-edit-form="{% url 'crud_edit_form' 'delegaciones' d.pk %}"><i class="bi bi-pencil" aria-hidden="true"></i></button>
                             <form method="post" action="{% url 'territorial:delegaciones_toggle' d.id %}" data-confirm-action="{% if d.activo %}delete{% else %}restore{% endif %}" data-confirm="{% if d.activo %}¿Eliminar {{ d.nombre }}? La delegación quedará inactiva. Su historial se conservará y podrás restaurarla desde este listado.{% else %}¿Restaurar {{ d.nombre }}? La delegación volverá a estar activa.{% endif %}">
                                 {% csrf_token %}

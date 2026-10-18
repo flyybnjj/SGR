@@ -138,6 +138,18 @@ document.addEventListener('DOMContentLoaded', async () => {
     table.setAttribute('role', 'region');
     table.setAttribute('aria-label', 'Tabla de registros; desplazar para ver todas las columnas');
   });
+  const serverFeedback = document.getElementById('server-form-feedback');
+  if (serverFeedback && window.Swal) {
+    const feedback = JSON.parse(serverFeedback.textContent);
+    if (feedback.errors.length) {
+      await Swal.fire({title: 'Revisa los datos', text: feedback.errors.join('\n'),
+        icon: 'error', confirmButtonText: 'Corregir', returnFocus: false});
+      const field = document.getElementById(feedback.focus_id)
+        || document.querySelector('#main-content form [aria-invalid="true"]')
+        || document.querySelector('#main-content form input:not([type="hidden"]), #main-content form select, #main-content form textarea');
+      field?.focus();
+    }
+  }
   for (const message of document.querySelectorAll('.municipal-message')) {
     if (!window.Swal) continue;
     const level = message.dataset.level;
