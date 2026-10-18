@@ -35,6 +35,12 @@ document.addEventListener('DOMContentLoaded', async () => {
       toggle.checked = ambientEnabled && !reducedMotion.matches;
       toggle.disabled = reducedMotion.matches;
     });
+    document.querySelectorAll('[data-ambient-status]').forEach(status => {
+      status.textContent = reducedMotion.matches
+        ? 'Tu equipo tiene activado Reducir movimiento. El fondo se mantiene estático.'
+        : ambientEnabled ? 'Movimiento activado. Las ondas se pausan al salir de esta pestaña.'
+          : 'Movimiento desactivado. El fondo se mantiene estático.';
+    });
   };
   document.querySelectorAll('[data-ambient-toggle]').forEach(toggle => toggle.addEventListener('change', () => {
     ambientEnabled = toggle.checked;

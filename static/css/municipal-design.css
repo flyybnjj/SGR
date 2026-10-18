@@ -19,13 +19,13 @@ body[data-delegation-custom] {
   --glass-canvas: color-mix(in srgb, var(--muni-red-primary) 18%, #f7f8fa);
   --glass-chrome: color-mix(in srgb, var(--muni-red-primary) 8%, white);
 }
-.ambient-waves { position: fixed; inset: 0; z-index: -1; overflow: hidden; color: var(--border-control); opacity: .65; pointer-events: none; }
+.ambient-waves { position: fixed; inset: 0; z-index: -1; overflow: hidden; color: var(--muni-red-primary); opacity: 1; pointer-events: none; }
 body[data-delegation-custom] .ambient-waves { color: var(--delegation-color); opacity: .9; filter: blur(12px); }
-.ambient-wave { position: absolute; inset: -6%; width: 112%; height: 112%; animation: ambient-wave-drift 28s ease-in-out infinite alternate; animation-play-state: paused; }
-.ambient-wave-back { animation-name: ambient-wave-return; animation-duration: 36s; }
+.ambient-wave { position: absolute; inset: -6%; width: 112%; height: 112%; animation: ambient-wave-drift 18s ease-in-out infinite alternate; animation-play-state: paused; }
+.ambient-wave-back { animation-name: ambient-wave-return; animation-duration: 26s; }
 body[data-ambient-motion="running"] .ambient-wave { animation-play-state: running; }
-@keyframes ambient-wave-drift { from { transform: translate3d(-2%, -1%, 0); } to { transform: translate3d(2%, 2%, 0); } }
-@keyframes ambient-wave-return { from { transform: translate3d(2%, 2%, 0); } to { transform: translate3d(-2%, -2%, 0); } }
+@keyframes ambient-wave-drift { from { transform: translate3d(-4%, -3%, 0); } to { transform: translate3d(4%, 3%, 0); } }
+@keyframes ambient-wave-return { from { transform: translate3d(4%, 3%, 0); } to { transform: translate3d(-4%, -3%, 0); } }
 .ambient-preference { padding: 4px 16px 8px; max-width: 280px; }
 .ambient-preference label { display: flex; align-items: center; gap: 10px; min-height: 44px; margin: 0; font-size: .875rem; color: var(--text-main); }
 .ambient-preference input { width: 18px; height: 18px; accent-color: var(--muni-red); flex-shrink: 0; }

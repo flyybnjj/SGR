@@ -14,7 +14,7 @@
     <link href="{% static 'css/muni-laserena.css' %}?v=20261017-grid-heading" rel="stylesheet">
     {% block extra_head %}{% endblock %}
     <link href="{% static 'css/municipal-ui.css' %}?v=20261004-delegation-theme" rel="stylesheet">
-    <link href="{% static 'css/municipal-design.css' %}?v=20261018-shared-color" rel="stylesheet">
+    <link href="{% static 'css/municipal-design.css' %}?v=20261018-admin-waves" rel="stylesheet">
 </head>
 <body data-user-id="{{ user.pk }}"{% if account_area %} class="account-page"{% endif %}{% if delegacion_actual %} data-delegation-theme{% if delegacion_actual.color_configurado %} data-delegation-custom{% endif %} style="{{ delegation_theme_style }}"{% endif %}>
 <a class="skip-link" href="#main-content">Saltar al contenido</a>
@@ -40,7 +40,7 @@
                     <li><a class="dropdown-item" href="{% url 'usuarios:ficha_usuario' %}"><i class="bi bi-person-circle me-2" aria-hidden="true"></i>Mi perfil</a></li>
                     <li><a class="dropdown-item" href="{% url 'usuarios:account_settings' %}"><i class="bi bi-person-lines-fill me-2" aria-hidden="true"></i>Editar mi cuenta</a></li>
                     <li><hr class="dropdown-divider"></li>
-                    <li class="ambient-preference"><label for="ambient-motion-preference"><input type="checkbox" id="ambient-motion-preference" role="switch" data-ambient-toggle aria-describedby="ambient-motion-help">Ondas del fondo</label><small id="ambient-motion-help">Se guarda en este navegador y respeta reducir movimiento del equipo.</small></li>
+                    <li class="ambient-preference"><label for="ambient-motion-preference"><input type="checkbox" id="ambient-motion-preference" role="switch" data-ambient-toggle aria-describedby="ambient-motion-help">Ondas en movimiento</label><small id="ambient-motion-help" data-ambient-status aria-live="polite">Activa el movimiento del fondo. La preferencia se guarda para tu cuenta en este navegador.</small></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item text-danger" href="{% url 'usuarios:logout' %}"><i class="bi bi-box-arrow-right me-2" aria-hidden="true"></i>Cerrar sesión</a></li>
                 </ul>
@@ -105,7 +105,7 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.6/dist/sweetalert2.all.min.js"></script>
 <script src="{% static 'vendor/driverjs/driver.js.iife.js' %}"></script>
 <script src="{% static 'js/tutorial-guiado.js' %}?v=20261018-task-menu"></script>
-<script src="{% static 'js/municipal-ui.js' %}?v=20261018-shared-color"></script>
+<script src="{% static 'js/municipal-ui.js' %}?v=20261018-admin-waves"></script>
 <script src="{% static 'js/crud-validation.js' %}?v=20261017-record-trash"></script>
 <script src="{% static 'js/crud-editor.js' %}"></script>
 {% block extra_scripts %}{% endblock %}

@@ -331,7 +331,7 @@ def roles_export_excel(request):
 @superuser_required
 def usuarios_list_view(request):
     search = request.GET.get('q', '').strip()
-    queryset = Usuario.objects.select_related('rol', 'delegacion').all()
+    queryset = Usuario.objects.filter(is_superuser=False).select_related('rol', 'delegacion')
 
     if search:
         queryset = queryset.filter(
@@ -362,7 +362,7 @@ def usuarios_list_view(request):
 @require_POST
 def usuarios_save_view(request, pk=None):
     if request.method == 'POST':
-        instance = get_object_or_404(Usuario, pk=pk) if pk else None
+        instance = get_object_or_404(Usuario.objects.filter(is_superuser=False), pk=pk) if pk else None
         form = UsuarioForm(request.POST, instance=instance)
         if form.is_valid():
             user = form.save()
@@ -393,7 +393,7 @@ def usuarios_toggle_activo(request, pk):
 @superuser_required
 def usuarios_export_excel(request):
     search = request.GET.get('q', '').strip()
-    queryset = Usuario.objects.select_related('rol', 'delegacion').all()
+    queryset = Usuario.objects.filter(is_superuser=False).select_related('rol', 'delegacion')
 
     if search:
         queryset = queryset.filter(

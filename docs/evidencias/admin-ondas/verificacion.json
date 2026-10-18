@@ -1,0 +1,19 @@
+{
+  "pruebas_automatizadas_aprobadas": 209,
+  "regresiones_nuevas": 7,
+  "revision_independiente": "19 pruebas aprobadas en configuracion aislada; sin hallazgos importantes",
+  "capturas_navegador": 8,
+  "anchos_px": [
+    1440,
+    390
+  ],
+  "auditorias_axe": 4,
+  "violaciones_axe_detectadas": 0,
+  "axe_con_contraste_incompleto": true,
+  "movimiento_real_medido": true,
+  "interruptor_persistencia_movimiento_reducido_pestana_oculta": true,
+  "cuentas_raiz_fuera_de_listado_busqueda_y_excel": true,
+  "edicion_directa_raiz_bloqueada": true,
+  "ajustes_personales_raiz_disponibles": true,
+  "sin_migraciones_ni_cambios_de_cuentas": true
+}

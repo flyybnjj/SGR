@@ -29,12 +29,12 @@ class EditModalTests(TestCase):
 
     def test_read_only_and_partial(self):
         self.client.force_login(self.root)
-        url = self.url("usuarios", self.root.pk)
+        url = self.url("usuarios", self.manager.pk)
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'name="username"')
         self.assertContains(response, 'name="email_secundario"')
-        self.assertNotContains(response, self.root.password)
+        self.assertNotContains(response, self.manager.password)
         self.assertNotContains(response, '<html')
         self.assertEqual(self.client.post(url).status_code, 405)
         self.assertEqual(self.client.get(self.url("unknown", 1)).status_code, 404)
@@ -51,7 +51,7 @@ class EditModalTests(TestCase):
         self.client.force_login(self.root)
         tipo = TipoAtencion.objects.create(nombre="Tipo prueba")
         resources = {
-            "usuarios": self.root, "roles": self.role, "delegaciones": self.own,
+            "usuarios": self.manager, "roles": self.role, "delegaciones": self.own,
             "vecinos": self.neighbor, "metas": ItemMeta.objects.create(nombre="Meta prueba"),
             "tipo_atencion": tipo,
             "sub_atencion": SubAtencion.objects.create(nombre="Sub prueba", tipo_atencion=tipo),

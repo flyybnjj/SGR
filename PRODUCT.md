@@ -42,3 +42,7 @@ El acceso y la recuperación siempre conservan blanco y rojo institucional. El l
 ## Coherencia de la delegación de trabajo
 
 El responsable solo personaliza la sede que tiene asignada como lugar de trabajo. Los catálogos impiden responsabilidades incompatibles, incluyendo sedes inactivas que pudieran restaurarse. Un responsable sin sede queda asignado a la delegación al guardarla; mover un responsable requiere reasignar antes su cargo. El editor muestra el nombre de la sede y una vista previa del mismo diseño, sin aplicar cambios hasta guardar.
+
+## Cuenta raiz y movimiento ambiental
+
+Las cuentas superadministradoras no pertenecen al mantenedor de usuarios: no aparecen en listado, busqueda, paginacion ni Excel y no se editan desde sus rutas. Sus ajustes personales siguen disponibles en el perfil. Las ondas de la vista general utilizan rojo institucional sobre lienzo neutro; las sedes conservan su color compartido. El menu explica si la animacion esta activada, desactivada o detenida por Reducir movimiento del equipo.

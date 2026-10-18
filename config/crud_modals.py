@@ -32,6 +32,8 @@ def edit_form(request, resource, pk):
         raise PermissionDenied
     model, alias = RESOURCES[resource]
     queryset = model.objects.all()
+    if resource == 'usuarios':
+        queryset = queryset.filter(is_superuser=False)
     if not user.is_superuser:
         if resource == "delegaciones":
             queryset = queryset.filter(pk=user.delegacion_id)

@@ -1,0 +1,118 @@
+[
+  {
+    "page": "admin-dashboard",
+    "width": 1440,
+    "wave_color": "rgb(184, 0, 3)",
+    "real_transform_changes": true,
+    "motion": {
+      "duration": "18s",
+      "playState": "running"
+    },
+    "overflow": false,
+    "axe": {
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ]
+    }
+  },
+  {
+    "page": "admin-users",
+    "width": 1440,
+    "wave_color": "rgb(184, 0, 3)",
+    "real_transform_changes": true,
+    "motion": {
+      "duration": "18s",
+      "playState": "running"
+    },
+    "overflow": false,
+    "axe": {
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ]
+    }
+  },
+  {
+    "page": "admin-account",
+    "width": 1440,
+    "wave_color": "rgb(184, 0, 3)",
+    "real_transform_changes": true,
+    "motion": {
+      "duration": "18s",
+      "playState": "running"
+    },
+    "overflow": false,
+    "axe": null
+  },
+  {
+    "page": "staff-dashboard",
+    "width": 1440,
+    "wave_color": "rgb(26, 51, 234)",
+    "real_transform_changes": true,
+    "motion": {
+      "duration": "18s",
+      "playState": "running"
+    },
+    "overflow": false,
+    "axe": null
+  },
+  {
+    "page": "admin-dashboard",
+    "width": 390,
+    "wave_color": "rgb(184, 0, 3)",
+    "real_transform_changes": true,
+    "motion": {
+      "duration": "18s",
+      "playState": "running"
+    },
+    "overflow": false,
+    "axe": {
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ]
+    }
+  },
+  {
+    "page": "admin-users",
+    "width": 390,
+    "wave_color": "rgb(184, 0, 3)",
+    "real_transform_changes": true,
+    "motion": {
+      "duration": "18s",
+      "playState": "running"
+    },
+    "overflow": false,
+    "axe": {
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ]
+    }
+  },
+  {
+    "page": "admin-account",
+    "width": 390,
+    "wave_color": "rgb(184, 0, 3)",
+    "real_transform_changes": true,
+    "motion": {
+      "duration": "18s",
+      "playState": "running"
+    },
+    "overflow": false,
+    "axe": null
+  },
+  {
+    "page": "staff-dashboard",
+    "width": 390,
+    "wave_color": "rgb(26, 51, 234)",
+    "real_transform_changes": true,
+    "motion": {
+      "duration": "18s",
+      "playState": "running"
+    },
+    "overflow": false,
+    "axe": null
+  }
+]
