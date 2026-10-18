@@ -1,0 +1,7 @@
+<section class="territory-banner{% if not banner_delegation %} territory-banner-neutral{% endif %}" aria-label="{% if viewing_scope %}Delegación consultada{% else %}Tu ámbito de trabajo{% endif %}"{% if banner_delegation %} style="--banner-color: {{ banner_delegation.color_identificacion }}" data-territory-banner{% endif %}>
+    <span class="territory-marker" aria-hidden="true"><i class="bi {% if banner_delegation %}bi-geo-alt{% else %}bi-buildings{% endif %}"></i></span>
+    <div class="territory-content">
+        <strong class="territory-name"{% if banner_delegation %} title="{{ banner_delegation.nombre }}"{% endif %}>{% if banner_delegation %}{{ banner_delegation.nombre }}{% elif user.is_superuser %}Todas las delegaciones{% else %}Sin delegación asignada{% endif %}</strong>
+        <span class="territory-place">{% if banner_delegation %}{{ banner_delegation.codigo }} · {{ banner_delegation.comuna }} · {% if viewing_scope %}Delegación consultada{% else %}Tu delegación{% endif %}{% elif user.is_superuser %}Gestión municipal{% else %}Contacta al administrador{% endif %}{% if banner_delegation and not banner_delegation.activo %} · Inactiva{% endif %}</span>
+    </div>
+</section>

@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Passkeys y acceso | La Serena{% endblock %}
+{% block content %}
+<div class="page-heading">
+    <div><h1>Passkeys</h1><p class="text-secondary">Usa tu teléfono para entrar o recuperar tu contraseña.</p></div>
+</div>
+<p class="small text-secondary">Sitio asociado: <a href="{{ passkey_origin }}">{{ passkey_origin }}</a>.</p>
+<section class="dashboard-section">
+    <h2 class="h5">Vincular teléfono</h2>
+    {% if not page_obj.paginator.count %}<p class="text-secondary">No tienes un teléfono vinculado.</p>{% endif %}
+    <p>Completa los datos y continúa. En el navegador, elige «Usar otro dispositivo» y escanea el QR con tu teléfono.</p>
+    <p class="small text-secondary">Activa Bluetooth en ambos equipos y confirma en el teléfono. El nombre de la opción puede variar según el navegador.</p>
+    <form data-passkey-register method="post" action="{% url 'usuarios:passkey_registration_options' %}">
+        {% csrf_token %}
+        <div class="form-grid">
+            <div class="form-field"><label for="passkey-name">Nombre del dispositivo</label><input id="passkey-name" name="name" class="input-stitch" maxlength="80" pattern=".*\S.*" required placeholder="Ej.: iPhone personal"></div>
+            <div class="form-field"><label for="passkey-password">Contraseña actual</label><input type="password" id="passkey-password" name="password" class="input-stitch" required autocomplete="current-password"><span class="helptext">Ingresa tu contraseña para vincular el teléfono.</span></div>
+        </div>
+        <label class="d-flex align-items-center gap-2 mt-3"><input type="checkbox" name="preferred" checked> Ingresar con passkey por defecto</label>
+        <div class="form-actions"><button type="submit" class="btn-stitch btn-stitch-primary"><i class="bi bi-qr-code-scan" aria-hidden="true"></i>Vincular teléfono</button></div>
+    </form>
+    <p class="small text-secondary mt-3 mb-0">También puedes entrar con tu contraseña. La preferencia se guarda en este navegador.</p>
+</section>
+<section class="dashboard-section">
+    <div class="d-flex flex-wrap justify-content-between gap-3 mb-3"><h2 class="h5 mb-0">Tus passkeys</h2><a href="?export=excel" class="btn-stitch btn-stitch-excel">Exportar listado Excel</a></div>
+    <div class="table-responsive">
+        <table class="table-stitch"><thead><tr><th scope="col">Nombre</th><th scope="col">Registrada</th><th scope="col">Último uso</th><th scope="col">Acciones</th></tr></thead><tbody>
+        {% for key in page_obj %}<tr><td>{{ key.name }}</td><td>{{ key.created_at|date:'d/m/Y H:i' }}</td><td>{{ key.last_used_at|date:'d/m/Y H:i'|default:'Sin uso' }}</td><td><button type="button" class="btn-stitch btn-stitch-secondary" data-passkey-revoke="{% url 'usuarios:passkey_revoke' key.pk %}" data-passkey-name="{{ key.name }}">Revocar</button></td></tr>
+        {% empty %}<tr><td colspan="4">No tienes passkeys registradas.</td></tr>{% endfor %}
+        </tbody></table>
+    </div>
+    {% include 'includes/pagination.html' %}
+    {% if page_obj.paginator.count %}
+    <form method="post" data-passkey-preference action="{% url 'usuarios:passkey_preference' %}" class="d-flex align-items-center flex-wrap gap-3 mt-3">
+        {% csrf_token %}<label class="d-flex align-items-center gap-2"><input type="checkbox" name="preferred" {% if passkey_preferred %}checked{% endif %}> Ingresar con passkey por defecto</label><button class="btn-stitch btn-stitch-secondary" type="submit">Guardar preferencia</button>
+    </form>
+    <div class="mt-4"><button type="button" class="btn-stitch btn-stitch-secondary" data-passkey-action="reset">Cambiar contraseña con passkey</button></div>
+    {% endif %}
+    <p class="small text-secondary mt-3 mb-0">Una passkey revocada ya no permite entrar. Puedes borrarla también del dispositivo donde la guardaste.</p>
+</section>
+<p data-passkey-status role="status" aria-live="polite"></p>
+<noscript><p class="alert alert-warning">Activa JavaScript para registrar o usar passkeys. Puedes seguir ingresando con contraseña.</p></noscript>
+{% endblock %}
+{% block extra_scripts %}<script src="{% static 'js/passkeys.js' %}"></script>{% endblock %}

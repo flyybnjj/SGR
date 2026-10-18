@@ -1,0 +1,13 @@
+{{ form.non_field_errors }}
+<div class="form-grid">
+{% for field in form %}
+{% if field.is_hidden %}{{ field }}{{ field.errors }}{% else %}
+    <div class="form-field {% if field.field.widget.input_type == 'file' or field.field.widget.template_name == 'django/forms/widgets/textarea.html' %}form-field-wide field-wide{% endif %}">
+        <label for="{{ field.id_for_label }}">{{ field.label }}{% if field.field.required %} <span aria-label="obligatorio">*</span>{% endif %}</label>
+        {{ field }}
+        {% if field.help_text %}<small class="helptext" id="{{ field.id_for_label }}_helptext">{{ field.help_text }}</small>{% endif %}
+        {{ field.errors }}
+    </div>
+{% endif %}
+{% endfor %}
+</div>

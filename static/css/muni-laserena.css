@@ -1,0 +1,1609 @@
+/**
+ * ==============================================================================
+ * SISTEMA DE GESTIÓN TERRITORIAL (SGR) • ILUSTRE MUNICIPALIDAD DE LA SERENA
+ * Filosofía de Diseño: Apple Human Interface Guidelines (HIG) + GovTech Moderno
+ * ==============================================================================
+ *
+ * - Paleta Integrada:
+ *     --apple-bg-system:      #F5F5F7 (Lienzo gris claro impoluto estilo macOS)
+ *     --muni-red-primary:     #B80003 (Rojo heráldico oficial de La Serena)
+ *     --muni-red-dark:        #8B1D19 (Rojo oscuro institucional)
+ *     --muni-gold:            #D97706 (Oro / Ámbar heráldico de La Serena)
+ *     --muni-blue-dark:       #0B1120 (Azul marino profundo / Slate 950)
+ *     --status-active-green:  #059669 (Verde éxito / Estado operativo)
+ *
+ * - Principios Apple HIG:
+ *     1. Glassmorphism: Translucidez con backdrop-filter: blur(20px) (.apple-glass)
+ *     2. Squircles: Esquinas generosas con curvatura continua (16px a 24px)
+ *     3. Sombras Suaves: Elevaciones sutiles sin saturación (0 4px 30px rgba(0,0,0,0.03))
+ *     4. Spring Physics: Transiciones ultra suaves cubic-bezier(0.16, 1, 0.3, 1) (.apple-transition)
+ *     5. Tipografía nativa: San Francisco en Apple y Segoe UI Variable en Windows; jerarquía por tamaño y peso.
+ */
+
+:root {
+  /* ==============================================================================
+     1. PALETA DE COLORES INTEGRADA (LA SERENA + APPLE HIG)
+     ============================================================================== */
+  --apple-bg-system: #F5F5F7;
+  --muni-red-primary: #B80003;
+  --muni-red-dark: #8B1D19;
+  --muni-red-light: #DC2626;
+  --muni-red-tint: rgba(184, 0, 3, 0.06);
+  --muni-red-tint-strong: rgba(184, 0, 3, 0.12);
+  --muni-red-border: rgba(184, 0, 3, 0.22);
+
+  --muni-gold: #D97706;
+  --muni-gold-light: #F59E0B;
+  --muni-gold-tint: rgba(217, 119, 6, 0.10);
+
+  --muni-blue-dark: #0B1120;
+  --muni-blue-navy: #151F33;
+
+  --status-active-green: #059669;
+  --status-green-light: #10B981;
+  --status-green-tint: rgba(5, 150, 105, 0.08);
+
+  --status-blue-civic: #0284C7;
+  --status-blue-tint: rgba(2, 132, 199, 0.08);
+
+  --status-purple-social: #7C3AED;
+  --status-purple-tint: rgba(124, 58, 237, 0.08);
+
+  /* Superficies Apple Glass */
+  --apple-glass-bg: rgba(255, 255, 255, 0.65);
+  --apple-glass-blur: 20px;
+  --apple-glass-border: rgba(226, 232, 240, 0.85);
+
+  /* Texto y Contrastes */
+  --text-main: #0F172A;
+  --text-secondary: #334155;
+  --text-muted: #64748B;
+  --text-light: #94A3B8;
+
+  /* Bordes Suaves */
+  --border-stitch: #E2E8F0;
+  --border-stitch-focus: #B80003;
+
+  /* Elevaciones y Sombras Sutiles Apple macOS */
+  --apple-shadow-subtle: 0 4px 30px rgba(0, 0, 0, 0.03), 0 1px 3px rgba(0, 0, 0, 0.02);
+  --apple-shadow-card: 0 4px 20px -2px rgba(15, 23, 42, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02);
+  --apple-shadow-hover: 0 14px 36px -4px rgba(15, 23, 42, 0.08), 0 2px 8px -1px rgba(15, 23, 42, 0.03);
+  --apple-shadow-glass: 0 20px 40px -10px rgba(15, 23, 42, 0.12), 0 1px 3px rgba(0, 0, 0, 0.04);
+  --apple-shadow-modal: 0 25px 60px -15px rgba(11, 17, 32, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.05);
+
+  /* Radios Squircle (Curvatura Continua) */
+  --radius-xs: 8px;
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 20px;
+  --radius-xl: 24px;
+  --radius-pill: 9999px;
+
+  /* Fuente nativa: Apple primero; equivalente del sistema en Windows. */
+  --font-heading: var(--font-body);
+  --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI Variable Text", "Segoe UI Variable", "Segoe UI", Helvetica, Arial, sans-serif;
+  --font-family: var(--font-body);
+
+  /* Física de Resorte Apple */
+  --apple-spring: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  --font-scale: 1rem;
+}
+
+/* ==============================================================================
+   2. RESETS Y ESTILOS BASE (APPLE SYSTEM)
+   ============================================================================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--apple-bg-system);
+  color: var(--text-main);
+  font-size: var(--font-scale);
+  line-height: 1.5;
+  letter-spacing: -0.011em;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6, .font-heading, .font-display {
+  font-family: var(--font-heading);
+  letter-spacing: -0.02em;
+  color: var(--text-main);
+}
+
+h1 { font-weight: 600; letter-spacing: -0.025em; }
+h2 { font-weight: 600; letter-spacing: -0.02em; }
+h3 { font-weight: 600; letter-spacing: -0.015em; }
+h4 { font-weight: 600; }
+h5 { font-weight: 600; }
+h6 { font-weight: 600; }
+
+p, span, td, th, input, select, textarea, button, label {
+  font-family: var(--font-body);
+}
+
+/* Contadores numéricos destacados Apple */
+.metric-counter, .fw-counter {
+  font-family: var(--font-heading) !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.03em !important;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ==============================================================================
+   3. UTILIDADES DE VIDRIO ESMERILADO (GLASSMORPHISM) Y ANIMACIÓN SPRING
+   ============================================================================== */
+.apple-glass {
+  background: var(--apple-glass-bg) !important;
+  backdrop-filter: blur(var(--apple-glass-blur)) !important;
+  -webkit-backdrop-filter: blur(var(--apple-glass-blur)) !important;
+  border: 1px solid var(--apple-glass-border) !important;
+}
+
+.apple-transition {
+  transition: var(--apple-spring) !important;
+}
+
+/* Franja Superior Institucional de La Serena (Bicolor Band) */
+.muni-top-stripe {
+  height: 4px;
+  background: linear-gradient(90deg, var(--muni-red-primary) 0%, var(--muni-red-light) 50%, var(--muni-gold-light) 100%);
+  width: 100%;
+  position: relative;
+  z-index: 1050;
+}
+
+/* Barra de Telemetría Superior Apple Dark */
+.top-telemetry-bar {
+  background-color: var(--muni-blue-dark);
+  color: #94A3B8;
+  font-size: 0.76rem;
+  padding: 0.4rem 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  font-family: var(--font-body);
+}
+
+/* ==============================================================================
+   4. CONSOLA SUPERIOR (NAVBAR FLOTANTE GLASSMORPHISM)
+   ============================================================================== */
+.navbar-stitch {
+  background: var(--apple-glass-bg);
+  backdrop-filter: blur(var(--apple-glass-blur));
+  -webkit-backdrop-filter: blur(var(--apple-glass-blur));
+  border: 1px solid var(--apple-glass-border);
+  box-shadow: var(--apple-shadow-subtle);
+  padding: 0.75rem 1.75rem;
+  position: sticky;
+  top: 0.75rem;
+  margin: 0.5rem 1.25rem 0.5rem 1.25rem;
+  border-radius: var(--radius-lg);
+  z-index: 2000 !important;
+  transition: var(--apple-spring);
+}
+
+.brand-stitch {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  text-decoration: none;
+}
+
+.brand-stitch .brand-logo-img {
+  height: 38px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.06));
+}
+
+.brand-stitch .brand-title {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 1.05rem;
+  color: var(--muni-red-primary);
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+}
+
+.brand-stitch .brand-subtitle {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* Badge de Usuario / Funcionario */
+.user-badge-stitch {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid var(--border-stitch);
+  padding: 5px 14px 5px 6px;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+  transition: var(--apple-spring);
+}
+
+.user-badge-stitch:hover {
+  background: #FFFFFF;
+  border-color: rgba(184, 0, 3, 0.3);
+  box-shadow: 0 4px 14px rgba(184, 0, 3, 0.08);
+  transform: translateY(-1px);
+}
+
+.user-badge-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--muni-red-primary) 0%, var(--muni-red-dark) 100%);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 0.85rem;
+  box-shadow: 0 2px 6px rgba(184, 0, 3, 0.25);
+}
+
+/* ==============================================================================
+   5. SIDEBAR FLOTANTE CON EFECTO VIDRIO ESMERILADO (.apple-glass)
+   ============================================================================== */
+.layout-stitch {
+  display: flex;
+  min-height: calc(100vh - 120px);
+  gap: 1.25rem;
+  padding: 0 1.25rem 1.5rem 1.25rem;
+}
+
+.sidebar-stitch {
+  width: 280px;
+  flex-shrink: 0;
+  background: var(--apple-glass-bg);
+  backdrop-filter: blur(var(--apple-glass-blur));
+  -webkit-backdrop-filter: blur(var(--apple-glass-blur));
+  border: 1px solid var(--apple-glass-border);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 0.95rem;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--apple-shadow-subtle);
+  position: sticky;
+  top: 5.5rem;
+  height: calc(100vh - 6.5rem);
+  overflow-y: auto;
+  transition: var(--apple-spring);
+}
+
+.sidebar-section-title {
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-light);
+  padding: 0.85rem 0.75rem 0.35rem 0.75rem;
+}
+
+.nav-link-stitch {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.65rem 0.85rem;
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  font-weight: 500;
+  font-size: 0.86rem;
+  text-decoration: none;
+  transition: var(--apple-spring);
+  margin-bottom: 2px;
+  border-left: 3px solid transparent;
+}
+
+.nav-link-stitch i,
+.nav-link-stitch .material-symbols-outlined {
+  font-size: 1.15rem;
+  color: var(--text-muted);
+  transition: var(--apple-spring);
+}
+
+.nav-link-stitch:hover {
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--muni-red-primary);
+  transform: translateX(3px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.nav-link-stitch:hover i,
+.nav-link-stitch:hover .material-symbols-outlined {
+  color: var(--muni-red-primary);
+  transform: scale(1.08);
+}
+
+.nav-link-stitch.active {
+  background: linear-gradient(135deg, var(--muni-red-primary) 0%, var(--muni-red-dark) 100%);
+  color: #FFFFFF !important;
+  font-weight: 600;
+  border-left-color: transparent;
+  box-shadow: 0 6px 16px -2px rgba(184, 0, 3, 0.35);
+}
+
+.nav-link-stitch.active i,
+.nav-link-stitch.active .material-symbols-outlined {
+  color: #FFFFFF !important;
+}
+
+.nav-sublink-stitch {
+  padding-left: 2rem;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+.nav-sublink-stitch:hover {
+  color: var(--muni-red-primary);
+  background: var(--muni-red-tint);
+}
+
+.nav-link-stitch.nav-sublink-stitch.active,
+.nav-sublink-stitch.active {
+  color: #8B1D19 !important;
+  background: rgba(184, 0, 3, 0.12) !important;
+  font-weight: 700 !important;
+  border-left: 3.5px solid var(--muni-red-primary) !important;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0 !important;
+  box-shadow: none !important;
+}
+
+.nav-link-stitch.nav-sublink-stitch.active i,
+.nav-sublink-stitch.active i {
+  color: #B80003 !important;
+}
+
+/* ==============================================================================
+   6. CONTENIDO CENTRAL, CARDS SQUIRCLE Y ELEVACIÓN MAC OS
+   ============================================================================== */
+.main-stitch {
+  flex: 1;
+  min-width: 0;
+  transition: var(--apple-spring);
+}
+
+/* Tarjetas Squircle Estilo macOS */
+.card-stitch,
+.civic-card,
+.kpi-tile {
+  background: #FFFFFF;
+  border: 1px solid var(--border-stitch);
+  border-radius: var(--radius-md);
+  box-shadow: var(--apple-shadow-subtle);
+  transition: var(--apple-spring);
+  overflow: hidden;
+}
+
+.card-stitch:hover,
+.civic-card:hover,
+.kpi-tile:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--apple-shadow-hover);
+  border-color: rgba(184, 0, 3, 0.22);
+}
+
+.card-stitch-header {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--border-stitch);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #FFFFFF;
+}
+
+.card-stitch-body {
+  padding: 1.5rem;
+}
+
+/* ==============================================================================
+   7. TABLAS CRUD OPERATIVAS (FILAS ELEVABLES CON HOVER SUAVE)
+   ============================================================================== */
+.table-stitch,
+table.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 0.86rem;
+}
+
+.table-stitch th,
+table.table thead th {
+  background-color: #F8FAFC;
+  color: var(--text-muted);
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid var(--border-stitch);
+  border-top: none;
+}
+
+.table-stitch td,
+table.table tbody td {
+  padding: 0.9rem 1rem;
+  vertical-align: middle;
+  border-bottom: 1px solid #F1F5F9;
+  color: var(--text-main);
+  transition: var(--apple-spring);
+}
+
+.table-stitch tbody tr,
+table.table tbody tr {
+  transition: var(--apple-spring);
+}
+
+.table-stitch tbody tr:hover,
+table.table tbody tr:hover {
+  background-color: rgba(248, 250, 252, 0.85) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03);
+}
+
+/* ==============================================================================
+   8. BOTONES TÁCTILES SQUIRCLE Y ACCIONES CRUD
+   ============================================================================== */
+.btn-stitch {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 0.83rem;
+  padding: 0.45rem 1rem;
+  height: 36px;
+  border-radius: 9px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+.btn-stitch:hover {
+  transform: translateY(-1px);
+}
+
+.btn-stitch:active {
+  transform: scale(0.97);
+}
+
+/* Botón Primario Apple HIG (Carmesí Oficial La Serena con Relieve Suave) */
+.btn-stitch-primary {
+  background: linear-gradient(180deg, #BA0003 0%, #A30003 100%) !important;
+  color: #FFFFFF !important;
+  border: 1px solid rgba(0, 0, 0, 0.12) !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1), 0 2px 6px rgba(184, 0, 3, 0.2) !important;
+}
+
+.btn-stitch-primary:hover {
+  background: linear-gradient(180deg, #CC0004 0%, #B80003 100%) !important;
+  box-shadow: 0 4px 12px rgba(184, 0, 3, 0.3) !important;
+  color: #FFFFFF !important;
+}
+
+/* Botón Excel Estilo Toolbar macOS (Fondo Claro con Icono Esmeralda) */
+.btn-stitch-excel {
+  background: #FFFFFF !important;
+  color: #0F172A !important;
+  border: 1.5px solid #CBD5E1 !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04) !important;
+  font-weight: 500 !important;
+}
+
+.btn-stitch-excel i {
+  color: #059669 !important;
+  font-size: 0.95rem !important;
+}
+
+.btn-stitch-excel:hover {
+  background: #F8FAFC !important;
+  border-color: #94A3B8 !important;
+  color: #0F172A !important;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.06) !important;
+}
+
+.btn-stitch-secondary {
+  background: #FFFFFF !important;
+  color: #334155 !important;
+  border: 1.5px solid #CBD5E1 !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03) !important;
+  font-weight: 500 !important;
+}
+
+.btn-stitch-secondary:hover {
+  background: #F8FAFC !important;
+  border-color: #94A3B8 !important;
+  color: #0F172A !important;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.06) !important;
+}
+
+.btn-stitch-sm {
+  padding: 0.32rem 0.75rem;
+  height: 30px;
+  font-size: 0.78rem;
+  border-radius: 7px;
+}
+
+/* Iconos de Acción en Tablas CRUD (Squircle Apple 32px) */
+.btn-stitch-icon {
+  width: 32px !important;
+  height: 32px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 8px !important;
+  background: #FFFFFF !important;
+  border: 1.5px solid #E2E8F0 !important;
+  color: #475569 !important;
+  font-size: 0.85rem !important;
+  text-decoration: none !important;
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02) !important;
+}
+
+.btn-stitch-icon:hover {
+  background: #EFF6FF !important;
+  border-color: #BFDBFE !important;
+  color: #2563EB !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 3px 8px rgba(37, 99, 235, 0.15) !important;
+}
+
+.btn-stitch-icon-delete:hover {
+  background: #FEF2F2 !important;
+  border-color: #FECACA !important;
+  color: #DC2626 !important;
+  box-shadow: 0 3px 8px rgba(220, 38, 38, 0.15) !important;
+}
+
+/* ==============================================================================
+   9. MODALES SWEETALERT2 CON EFECTO VIDRIO ESMERILADO
+   ============================================================================== */
+.swal2-popup.muni-swal-popup,
+.swal2-popup {
+  background: #FFFFFF !important;
+  background-color: #FFFFFF !important;
+  opacity: 1 !important;
+  border: 1px solid #E2E8F0 !important;
+  border-radius: var(--radius-xl) !important;
+  box-shadow: 0 25px 60px -15px rgba(11, 17, 32, 0.35) !important;
+  font-family: var(--font-body) !important;
+  padding: 2rem 1.75rem !important;
+  z-index: 10000 !important;
+}
+
+.swal2-title {
+  font-family: var(--font-heading) !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.025em !important;
+  color: var(--text-main) !important;
+}
+
+.swal2-html-container {
+  font-family: var(--font-body) !important;
+  color: var(--text-secondary) !important;
+  font-size: 0.9rem !important;
+  line-height: 1.5 !important;
+}
+
+.swal2-confirm {
+  border-radius: var(--radius-pill) !important;
+  font-family: var(--font-body) !important;
+  font-weight: 700 !important;
+  padding: 0.65rem 1.6rem !important;
+  box-shadow: 0 4px 14px -2px rgba(0, 0, 0, 0.2) !important;
+  transition: var(--apple-spring) !important;
+}
+
+.swal2-cancel {
+  border-radius: var(--radius-pill) !important;
+  font-family: var(--font-body) !important;
+  font-weight: 600 !important;
+  padding: 0.65rem 1.4rem !important;
+  transition: var(--apple-spring) !important;
+}
+
+/* ==============================================================================
+   10. DRIVER.JS V1.3.1 (TUTORIAL GUIADO AUTOMATIZADO CON DESENFOQUE DE FONDO)
+   ============================================================================== */
+body.driver-active .layout-stitch,
+body.driver-active .navbar-stitch,
+body.driver-active .top-telemetry-bar {
+  filter: blur(3px);
+  transition: filter 0.4s ease;
+}
+
+.driver-popover {
+  background: #FFFFFF !important;
+  border: 1.5px solid #E2E8F0 !important;
+  border-radius: 16px !important;
+  box-shadow: 0 20px 45px -10px rgba(15, 23, 42, 0.25) !important;
+  font-family: var(--font-body) !important;
+  padding: 1.25rem !important;
+  max-width: 360px !important;
+}
+
+.driver-popover-title {
+  font-family: var(--font-heading) !important;
+  font-weight: 650 !important;
+  letter-spacing: -0.015em !important;
+  color: var(--text-main) !important;
+  font-size: 0.98rem !important;
+  margin-bottom: 0.4rem !important;
+}
+
+.driver-popover-description {
+  font-family: var(--font-body) !important;
+  color: #334155 !important;
+  font-size: var(--font-size-nav);
+  line-height: 1.55 !important;
+}
+
+.driver-popover-progress-text {
+  font-family: var(--font-body) !important;
+  font-size: 0.72rem !important;
+  font-weight: 600 !important;
+  color: var(--muni-red-primary) !important;
+  background: #FFF1F2 !important;
+  padding: 0.25rem 0.65rem !important;
+  border-radius: 7px !important;
+  border: 1px solid rgba(184, 0, 3, 0.2) !important;
+}
+
+.driver-popover-next-btn {
+  background: linear-gradient(180deg, #BA0003 0%, #A30003 100%) !important;
+  color: #FFFFFF !important;
+  border-radius: 8px !important;
+  font-family: var(--font-body) !important;
+  font-weight: 500 !important;
+  font-size: 0.82rem !important;
+  padding: 0.42rem 0.95rem !important;
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1), 0 2px 6px rgba(184, 0, 3, 0.22) !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.driver-popover-next-btn:hover {
+  background: linear-gradient(180deg, #CC0004 0%, #B80003 100%) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 12px rgba(184, 0, 3, 0.3) !important;
+}
+
+.driver-popover-prev-btn {
+  background: #FFFFFF !important;
+  color: #334155 !important;
+  border-radius: 8px !important;
+  font-family: var(--font-body) !important;
+  font-weight: 500 !important;
+  font-size: 0.82rem !important;
+  padding: 0.42rem 0.95rem !important;
+  border: 1.5px solid #CBD5E1 !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03) !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.driver-popover-prev-btn:hover {
+  background: #F8FAFC !important;
+  border-color: #94A3B8 !important;
+  color: #0F172A !important;
+}
+
+.driver-popover-close-btn {
+  color: #94A3B8 !important;
+  transition: all 0.2s ease !important;
+}
+
+.driver-popover-close-btn:hover {
+  color: #0F172A !important;
+}
+
+/* Barra de progreso de auto-avance de 4 segundos */
+.driver-tour-timer-bar {
+  height: 3px;
+  background: linear-gradient(90deg, var(--muni-red-primary) 0%, var(--muni-gold) 100%);
+  border-radius: var(--radius-pill);
+  width: 100%;
+  margin-top: 0.75rem;
+  animation: tourTimerProgress 4s linear infinite;
+}
+
+@keyframes tourTimerProgress {
+  from { width: 0%; }
+  to { width: 100%; }
+}
+
+/* ==============================================================================
+   11. ACCESIBILIDAD ALTO CONTRASTE (WCAG AAA)
+   ============================================================================== */
+body.high-contrast {
+  background-color: #000000 !important;
+  color: #FFFFFF !important;
+}
+
+body.high-contrast .sidebar-stitch,
+body.high-contrast .navbar-stitch,
+body.high-contrast .card-stitch,
+body.high-contrast .civic-card,
+body.high-contrast .kpi-tile {
+  background: #111827 !important;
+  border: 2px solid var(--muni-gold-light) !important;
+  color: #FFFFFF !important;
+}
+
+body.high-contrast a,
+body.high-contrast span,
+body.high-contrast p,
+body.high-contrast div {
+  color: #FFFFFF !important;
+}
+
+body.high-contrast .nav-link-stitch.active {
+  background: var(--muni-red-primary) !important;
+  border: 2px solid #FFFFFF !important;
+}
+
+/* Microinteracciones de colapso y pulsos de telemetría */
+.chevron-icon {
+  transition: transform 0.25s var(--apple-spring);
+}
+[aria-expanded="true"] .chevron-icon {
+  transform: rotate(180deg);
+}
+
+@keyframes pulseDot {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+.pulse-live-dot {
+  animation: pulseDot 2s infinite;
+}
+
+/* ==============================================================================
+   12. BOTONES Y ANIMACIONES TÁCTILES APPLE HIG
+   ============================================================================== */
+button, .btn, .btn-stitch, .nav-link-stitch, .kpi-tile, .kanban-card {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease, border-color 0.2s ease !important;
+}
+
+button:active, .btn:active, .btn-stitch:active {
+  transform: scale(0.96) !important;
+}
+
+.nav-link-stitch:active {
+  transform: scale(0.98) !important;
+}
+
+.kpi-tile:active {
+  transform: scale(0.97) !important;
+}
+
+.kanban-card:active {
+  transform: scale(0.98) !important;
+}
+
+.btn-apple-primary {
+  background: linear-gradient(135deg, var(--muni-red-primary) 0%, var(--muni-red-dark) 100%) !important;
+  color: #FFFFFF !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: var(--radius-pill) !important;
+  font-weight: 600 !important;
+  font-size: 0.86rem !important;
+  box-shadow: 0 4px 14px rgba(184, 0, 3, 0.25) !important;
+  text-decoration: none !important;
+}
+.btn-apple-primary:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 24px rgba(184, 0, 3, 0.35) !important;
+  color: #FFFFFF !important;
+}
+
+.btn-apple-secondary {
+  background: #FFFFFF !important;
+  color: var(--text-main) !important;
+  border: 1px solid var(--border-stitch) !important;
+  border-radius: var(--radius-pill) !important;
+  font-weight: 600 !important;
+  font-size: 0.86rem !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+  text-decoration: none !important;
+}
+.btn-apple-secondary:hover {
+  transform: translateY(-2px) !important;
+  background: #F8FAFC !important;
+  border-color: #CBD5E1 !important;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08) !important;
+}
+
+.btn-apple-ghost {
+  background: rgba(255, 255, 255, 0.85) !important;
+  color: var(--text-secondary) !important;
+  border: 1px solid var(--border-stitch) !important;
+  border-radius: var(--radius-pill) !important;
+  font-weight: 600 !important;
+  font-size: var(--font-size-nav);
+  text-decoration: none !important;
+}
+.btn-apple-ghost:hover {
+  background: #FFFFFF !important;
+  color: var(--muni-red-primary) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06) !important;
+}
+
+.btn-apple-tutorial {
+  background: linear-gradient(135deg, #FFF1F2 0%, #FFE4E6 100%) !important;
+  color: var(--muni-red-primary) !important;
+  border: 1.5px solid rgba(184, 0, 3, 0.25) !important;
+  font-weight: 700 !important;
+  font-size: 0.82rem !important;
+  box-shadow: 0 2px 8px rgba(184, 0, 3, 0.08) !important;
+}
+.btn-apple-tutorial:hover {
+  transform: translateY(-2px) scale(1.02) !important;
+  background: linear-gradient(135deg, #FFE4E6 0%, #FECDD3 100%) !important;
+  box-shadow: 0 6px 18px rgba(184, 0, 3, 0.2) !important;
+}
+
+/* Animación de apertura suave tipo iOS/macOS para dropdowns */
+@keyframes appleDropIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+.dropdown-menu.show {
+  animation: appleDropIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+  transform-origin: top right;
+}
+
+/* ==============================================================================
+   13. TIPOGRAFÍA GLOBAL UNIFORME APPLE HIG (SF PRO / SYSTEM UI)
+   ============================================================================== */
+*, *::before, *::after,
+html, body,
+input, select, textarea, button,
+.form-control, .form-select, .form-check-input,
+table, th, td,
+h1, h2, h3, h4, h5, h6,
+.dropdown-menu, .dropdown-item,
+.modal, .modal-title, .modal-body,
+.badge, .alert, .swal2-popup {
+  font-family: var(--font-body) !important;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+  text-rendering: optimizeLegibility !important;
+}
+
+/* ==============================================================================
+   14. REDISEÑO COMPLETO DE MENÚS DESPLEGABLES Y SELECTORES (APPLE HIG)
+   ============================================================================== */
+.form-select,
+select,
+.input-stitch,
+.input-stitch select {
+  font-family: var(--font-body) !important;
+  font-size: var(--font-size-body);
+  font-weight: 500 !important;
+  color: var(--text-main) !important;
+  background-color: #FFFFFF !important;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23B80003' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 0.85rem center !important;
+  background-size: 14px 10px !important;
+  border: 1.5px solid var(--border-stitch) !important;
+  border-radius: var(--radius-sm) !important;
+  padding: 0.6rem 2.4rem 0.6rem 0.95rem !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03) !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  cursor: pointer !important;
+  outline-offset: 3px;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  appearance: none !important;
+}
+
+.form-select:hover,
+select:hover {
+  border-color: #CBD5E1 !important;
+  background-color: #F8FAFC !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05) !important;
+}
+
+.form-select:focus,
+select:focus {
+  border-color: var(--muni-red-primary) !important;
+  box-shadow: 0 0 0 3.5px rgba(184, 0, 3, 0.12) !important;
+  background-color: #FFFFFF !important;
+}
+
+/* Botón Desplegable Apple Interactivo */
+.apple-dropdown-btn {
+  background: #FFFFFF !important;
+  border: 1.5px solid var(--border-stitch) !important;
+  border-radius: var(--radius-sm) !important;
+  padding: 0.55rem 1rem !important;
+  font-size: var(--font-size-nav);
+  font-weight: 600 !important;
+  color: var(--text-main) !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+  transition: var(--apple-spring) !important;
+  cursor: pointer !important;
+}
+
+.apple-dropdown-btn:hover {
+  background: #F8FAFC !important;
+  border-color: #CBD5E1 !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06) !important;
+  transform: translateY(-1px);
+}
+
+.apple-dropdown-btn:focus,
+.apple-dropdown-btn[aria-expanded="true"] {
+  border-color: var(--muni-red-primary) !important;
+  box-shadow: 0 0 0 3px rgba(184, 0, 3, 0.12) !important;
+}
+
+/* Menú Desplegable Flotante Apple HIG (100% Sólido sin Transparencia) */
+.apple-dropdown-menu,
+.dropdown-menu {
+  background: #FFFFFF !important;
+  background-color: #FFFFFF !important;
+  opacity: 1 !important;
+  border: 1px solid #CBD5E1 !important;
+  border-radius: var(--radius-md) !important;
+  box-shadow: 0 25px 60px -15px rgba(15, 23, 42, 0.35), 0 0 0 1px rgba(0, 0, 0, 0.06) !important;
+  padding: 0.5rem !important;
+  margin-top: 0.5rem !important;
+  z-index: 9999 !important;
+}
+
+.apple-dropdown-item,
+.dropdown-item {
+  border-radius: var(--radius-xs) !important;
+  font-size: var(--font-size-nav);
+  font-weight: 500 !important;
+  color: var(--text-main) !important;
+  padding: 0.55rem 0.85rem !important;
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.apple-dropdown-item:hover,
+.dropdown-item:hover {
+  background: rgba(184, 0, 3, 0.07) !important;
+  color: var(--muni-red-primary) !important;
+  transform: translateX(3px) !important;
+}
+
+.apple-dropdown-item.active,
+.dropdown-item.active {
+  background: var(--muni-red-primary) !important;
+  color: #FFFFFF !important;
+  font-weight: 600 !important;
+}
+
+.apple-dropdown-item.active i {
+  color: #FFFFFF !important;
+}
+
+/* ==============================================================================
+   15. ANIMACIONES FLUIDAS DE ENTRADA Y NAVEGACIÓN
+   ============================================================================== */
+@keyframes pageFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.main-stitch {
+  animation: pageFadeUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.kpi-tile, .civic-card, .card-stitch {
+  animation: pageFadeUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Microinteracciones de la barra lateral */
+.nav-link-stitch {
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.nav-link-stitch:hover {
+  transform: translateX(4px) !important;
+}
+
+.nav-sublink-stitch:hover {
+  transform: translateX(6px) !important;
+}
+
+/* Inputs de Búsqueda y Formularios Apple HIG */
+.form-control {
+  font-family: var(--font-body) !important;
+  border-radius: var(--radius-sm) !important;
+  border: 1.5px solid var(--border-stitch) !important;
+  padding: 0.55rem 0.95rem !important;
+  font-size: 0.85rem !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.form-control:focus {
+  border-color: var(--muni-red-primary) !important;
+  box-shadow: 0 0 0 3px rgba(184, 0, 3, 0.12) !important;
+  background-color: #FFFFFF !important;
+}
+
+/* Caja de Búsqueda Toolbar Apple (Mantenedores y Tablas) */
+.search-box-stitch {
+  display: flex !important;
+  align-items: center !important;
+  background: #FFFFFF !important;
+  border: 1.5px solid #CBD5E1 !important;
+  border-radius: 9px !important;
+  padding: 0.35rem 0.85rem !important;
+  width: 100% !important;
+  max-width: 440px !important;
+  min-width: 320px !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02) !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.search-box-stitch:focus-within {
+  border-color: var(--muni-red-primary) !important;
+  box-shadow: 0 0 0 3px rgba(184, 0, 3, 0.12) !important;
+}
+
+.search-box-stitch i {
+  color: #94A3B8 !important;
+  font-size: 0.88rem !important;
+  margin-right: 0.55rem !important;
+}
+
+.search-box-stitch input {
+  border: none !important;
+  background: transparent !important;
+  outline-offset: 3px;
+  box-shadow: none !important;
+  width: 100% !important;
+  font-size: var(--font-size-nav);
+  color: #0F172A !important;
+  padding: 0 !important;
+  font-weight: 450 !important;
+}
+
+.search-box-stitch input::placeholder {
+  color: #94A3B8 !important;
+}
+
+/* Paginador Segmentado Estilo Apple HIG (Reemplaza los enlaces azules crudos) */
+.pagination-stitch {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 3px !important;
+  padding: 3px !important;
+  background: #F8FAFC !important;
+  border: 1.5px solid #E2E8F0 !important;
+  border-radius: 10px !important;
+}
+
+.page-link-stitch {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-width: 32px !important;
+  height: 30px !important;
+  padding: 0 0.65rem !important;
+  border-radius: 7px !important;
+  font-size: 0.80rem !important;
+  font-weight: 500 !important;
+  color: #475569 !important;
+  text-decoration: none !important;
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  border: 1px solid transparent !important;
+}
+
+.page-link-stitch:hover {
+  background: #FFFFFF !important;
+  color: #0F172A !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06) !important;
+}
+
+.page-link-stitch.active {
+  background: var(--muni-red-primary) !important;
+  color: #FFFFFF !important;
+  font-weight: 600 !important;
+  box-shadow: 0 2px 6px rgba(184, 0, 3, 0.25) !important;
+}
+
+.page-link-stitch.disabled {
+  color: #94A3B8 !important;
+  pointer-events: none !important;
+  opacity: 0.55 !important;
+}
+
+/* ==============================================================================
+   16. BARRA LATERAL COLAPSABLE CON ANIMACIÓN FLUIDA (APPLE HIG)
+   ============================================================================== */
+.layout-stitch {
+  display: flex;
+  gap: 1.25rem;
+  padding: 0 1.25rem 1.5rem 1.25rem;
+  transition: transform 180ms ease, opacity 180ms ease;
+}
+
+.sidebar-stitch {
+  width: 270px;
+  min-width: 270px;
+  flex-shrink: 0;
+  transition: transform 180ms ease, opacity 180ms ease;
+  overflow-y: auto;
+  max-height: calc(100vh - 100px);
+  position: sticky;
+  top: 5rem;
+  border: 1.5px solid #E2E8F0 !important;
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
+}
+
+/* Estado Colapsado de la Barra Lateral */
+.layout-stitch.sidebar-collapsed .sidebar-stitch {
+  margin-left: calc(-270px - var(--space-6));
+  opacity: 0 !important;
+  transform: translateX(-30px) !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+}
+
+.layout-stitch.sidebar-collapsed .main-stitch {
+  width: 100% !important;
+  max-width: 100% !important;
+  flex: 1 !important;
+}
+
+/* Botón de Acordeón para Agrupación de Módulos */
+.sidebar-group-btn {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  width: 100% !important;
+  padding: 0.65rem 0.95rem !important;
+  font-size: 0.82rem !important;
+  font-weight: 700 !important;
+  color: var(--text-main) !important;
+  background: #F8FAFC !important;
+  border: 1.5px solid #E2E8F0 !important;
+  border-radius: var(--radius-sm) !important;
+  text-decoration: none !important;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  margin-bottom: 0.35rem !important;
+  cursor: pointer !important;
+}
+
+.sidebar-group-btn:hover {
+  background: #FFFFFF !important;
+  border-color: #CBD5E1 !important;
+  color: var(--muni-red-primary) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.sidebar-group-btn .chevron-icon {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  font-size: 0.72rem !important;
+  color: var(--text-muted) !important;
+}
+
+.sidebar-group-btn[aria-expanded="true"] .chevron-icon {
+  transform: rotate(180deg) !important;
+  color: var(--muni-red-primary) !important;
+}
+
+.sidebar-group-btn[aria-expanded="true"] {
+  border-color: rgba(184, 0, 3, 0.25) !important;
+  background: #FFFFFF !important;
+}
+
+/* ==============================================================================
+   17. ESTILOS REFORZADOS: BORDES Y ELEVACIONES APPLE HIG
+   ============================================================================== */
+.civic-card,
+.card-stitch {
+  border: 1.5px solid #E2E8F0 !important;
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02) !important;
+}
+
+/* Chips de Reglas de Negocio */
+.semaforo-rule-chip {
+  background: #FFFFFF !important;
+  border: 1.5px solid #E2E8F0 !important;
+  border-radius: 12px !important;
+  padding: 0.65rem 0.85rem !important;
+  transition: all 0.2s ease !important;
+}
+.semaforo-rule-chip:hover {
+  border-color: #CBD5E1 !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03) !important;
+}
+
+/* Tarjetas de las 6 Delegaciones */
+.delegacion-tile {
+  background: #FFFFFF !important;
+  border: 1.5px solid #E2E8F0 !important;
+  border-radius: 16px !important;
+  padding: 1rem 0.85rem !important;
+  text-align: center !important;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02) !important;
+}
+.delegacion-tile:hover {
+  border-color: #CBD5E1 !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06) !important;
+}
+.delegacion-tile.active-sede {
+  border: 2px solid var(--muni-red-primary) !important;
+  background: #FFFBFB !important;
+  box-shadow: 0 6px 20px -2px rgba(184, 0, 3, 0.15) !important;
+}
+
+/* Tarjetas de Mantenedores Comunales */
+.mantenedor-tile {
+  background: #FFFFFF !important;
+  border: 1.5px solid #E2E8F0 !important;
+  border-radius: 18px !important;
+  padding: 1.25rem !important;
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02) !important;
+}
+.mantenedor-tile:hover {
+  border-color: rgba(184, 0, 3, 0.3) !important;
+  transform: translateY(-3px) !important;
+  box-shadow: 0 8px 24px -4px rgba(15, 23, 42, 0.08) !important;
+}
+
+/* ==============================================================================
+   18. ADAPTACIÓN INTEGRAL TIPO APP MÓVIL (APPLE HIG & RESPONSIVE DESIGN)
+   ============================================================================== */
+
+/* Prevenir desbordamiento horizontal en todo el viewport móvil */
+html, body {
+  overflow-x: hidden !important;
+  max-width: 100vw !important;
+}
+
+body.sidebar-drawer-open {
+  overflow: hidden !important;
+}
+
+/* Telón de Fondo Oscuro con Desenfoque (Backdrop) para Drawer Móvil */
+.sidebar-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 1045;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.3s ease;
+}
+
+.sidebar-backdrop.active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* Barra de Navegación Inferior Móvil (Tab Bar Nativa iOS) */
+.mobile-bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 64px;
+  background: rgba(255, 255, 255, 0.94) !important;
+  backdrop-filter: blur(25px) !important;
+  -webkit-backdrop-filter: blur(25px) !important;
+  border-top: 1px solid rgba(226, 232, 240, 0.9) !important;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 0.5rem;
+  padding-bottom: max(env(safe-area-inset-bottom, 0px), 6px);
+  z-index: 1040;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.06);
+}
+
+.mobile-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: #64748B;
+  font-size: 0.68rem;
+  font-weight: 600;
+  gap: 2px;
+  padding: 6px 10px;
+  border-radius: 12px;
+  background: transparent;
+  border: none;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  min-width: 56px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mobile-nav-item i {
+  font-size: 1.25rem;
+  transition: transform 0.2s ease;
+}
+
+.mobile-nav-item:active {
+  transform: scale(0.92);
+}
+
+.mobile-nav-item.active {
+  color: var(--muni-red-primary) !important;
+  font-weight: 700;
+}
+
+.mobile-nav-item.active i {
+  transform: translateY(-2px);
+  color: var(--muni-red-primary) !important;
+}
+
+/* ==============================================================================
+   RESPONSIVE: TABLETS Y TELÉFONOS (MENOR A 992PX)
+   ============================================================================== */
+@media (max-width: 991.98px) {
+  /* Cabecera Móvil Compacta */
+  .navbar-stitch {
+    padding: 0.55rem 0.85rem !important;
+    position: sticky;
+    top: 0;
+    margin: 0 !important;
+    border-radius: 0 !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-top: none !important;
+    z-index: 1030;
+  }
+
+  .brand-logo-img {
+    max-height: 32px !important;
+    width: auto !important;
+  }
+
+  /* Layout Stitch en Móvil: El contenido usa el 100% de la pantalla */
+  .layout-stitch {
+    display: block !important;
+    padding: 0.85rem 0.85rem 5.5rem 0.85rem !important;
+    gap: 0 !important;
+  }
+
+  .main-stitch {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+  }
+
+  /* Sidebar convertido en Cajón Lateral Flotante (Drawer) */
+  .sidebar-stitch {
+    position: fixed !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    width: min(320px, 86vw) !important;
+    min-width: unset !important;
+    height: 100vh !important;
+    max-height: 100vh !important;
+    z-index: 1050 !important;
+    border-radius: 0 24px 24px 0 !important;
+    margin: 0 !important;
+    transform: translateX(-105%) !important;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease !important;
+    background: #FFFFFF !important;
+    box-shadow: none !important;
+    overflow-y: auto !important;
+    padding: 1.15rem !important;
+  }
+
+  /* Apertura del Drawer */
+  .sidebar-stitch.mobile-open {
+    transform: translateX(0) !important;
+    box-shadow: 10px 0 40px rgba(0, 0, 0, 0.22) !important;
+  }
+
+  /* Anular colapso de escritorio en móvil */
+  .layout-stitch.sidebar-collapsed .sidebar-stitch {
+    margin-left: 0 !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    visibility: visible !important;
+  }
+
+  /* Botones de acción principales en móvil (Táctil Apple HIG) */
+  .btn-stitch-primary,
+  .btn-stitch,
+  .btn-apple-primary,
+  .btn-apple-secondary,
+  .btn-apple-ghost {
+    min-height: 44px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0.65rem 1rem !important;
+    font-size: 0.88rem !important;
+  }
+
+  .btn-stitch-primary:active,
+  .btn-stitch:active,
+  .btn-apple-primary:active,
+  .btn-apple-secondary:active,
+  .btn-apple-ghost:active {
+    transform: scale(0.97) !important;
+  }
+
+  /* Tarjetas y Contenedores en Móvil */
+  .card-stitch, .civic-card {
+    border-radius: var(--radius-md);
+    margin-bottom: 1rem !important;
+  }
+
+  .card-stitch-header {
+    padding: 0.85rem 1rem !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 0.75rem !important;
+  }
+
+  .search-box-stitch {
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  /* Tablas responsivas con desplazamiento suave táctil */
+  .table-responsive {
+    border-radius: 12px !important;
+    -webkit-overflow-scrolling: touch !important;
+    margin-bottom: 0 !important;
+  }
+
+  .table-stitch th, .table-stitch td {
+    padding: 0.75rem 0.65rem !important;
+    font-size: 0.82rem !important;
+    white-space: nowrap !important;
+  }
+
+  /* KPIs y métricas en móvil */
+  .kpi-tile {
+    padding: 0.85rem 0.65rem !important;
+    border-radius: 14px !important;
+  }
+
+  .kpi-icon-wrap {
+    width: 38px !important;
+    height: 38px !important;
+    font-size: 1.15rem !important;
+    margin-bottom: 0.4rem !important;
+  }
+
+  .kpi-tile .fs-4 {
+    font-size: 1.35rem !important;
+  }
+
+  /* Kanban Tubo de Trabajo en Móvil: carrusel táctil de 3 columnas */
+  .kanban-board-row {
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    scroll-snap-type: x mandatory !important;
+    -webkit-overflow-scrolling: touch !important;
+    padding-bottom: 0.85rem !important;
+    gap: 0.85rem !important;
+  }
+
+  .kanban-board-row > [class*="col-"] {
+    flex: 0 0 85% !important;
+    max-width: 85% !important;
+    scroll-snap-align: start !important;
+  }
+
+  /* Modales en Móvil */
+  .modal-dialog {
+    margin: 0.75rem !important;
+  }
+
+  .modal-content {
+    border-radius: var(--radius-md);
+  }
+}
+
+/* ==============================================================================
+   PANTALLAS PEQUEÑAS (SMARTPHONES < 576PX)
+   ============================================================================== */
+@media (max-width: 575.98px) {
+  /* Cabecera y Título del Dashboard */
+  .h2, h1.h2 {
+    font-size: 1.35rem !important;
+    line-height: 1.25 !important;
+  }
+
+  /* Acciones del Hero en Móvil (Full Width amigable) */
+  #tour-hero-banner .d-flex.flex-wrap.align-items-center.gap-2 {
+    width: 100% !important;
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 0.5rem !important;
+    margin-top: 0.5rem !important;
+  }
+
+  #tour-hero-banner .btn {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+
+  /* Acciones de cabecera en mantenedores (Exportar + Nuevo) */
+  .crud-heading > .d-flex.gap-2 {
+    width: 100% !important;
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 0.5rem !important;
+  }
+
+  .crud-heading > .d-flex.gap-2 .btn-stitch {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+
+  /* Selector de 6 delegaciones en móvil: carrusel horizontal táctil */
+  .delegaciones-mobile-scroll {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    scroll-snap-type: x mandatory !important;
+    -webkit-overflow-scrolling: touch !important;
+    gap: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+  }
+
+  .delegacion-tile {
+    min-width: 120px !important;
+    scroll-snap-align: start !important;
+    padding: 0.75rem 0.5rem !important;
+  }
+}

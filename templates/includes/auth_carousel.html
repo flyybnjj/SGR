@@ -1,0 +1,113 @@
+{% load static %}
+<!-- ============================================================================== -->
+<!-- PANEL DERECHO: CARRUSEL FOTOGRÁFICO OFICIAL DE LA SERENA (NAVEGACIÓN MANUAL) -->
+<!-- ============================================================================== -->
+<div class="auth-carousel-wrapper h-100 position-relative p-2 p-md-3 d-flex flex-column">
+    <div id="laSerenaAuthCarousel" class="carousel slide carousel-fade h-100 rounded-4 overflow-hidden position-relative shadow-sm" data-bs-interval="false">
+
+        <!-- Indicadores Modernos (Pills) -->
+        <div class="carousel-indicators mb-3">
+            <button type="button" data-bs-target="#laSerenaAuthCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Faro Monumental"></button>
+            <button type="button" data-bs-target="#laSerenaAuthCarousel" data-bs-slide-to="1" aria-label="Plaza de Armas"></button>
+            <button type="button" data-bs-target="#laSerenaAuthCarousel" data-bs-slide-to="2" aria-label="Mercado La Recova"></button>
+            <button type="button" data-bs-target="#laSerenaAuthCarousel" data-bs-slide-to="3" aria-label="Avenida del Mar"></button>
+            <button type="button" data-bs-target="#laSerenaAuthCarousel" data-bs-slide-to="4" aria-label="Identidad Comunal"></button>
+        </div>
+
+        <!-- Slides con Imágenes Reales de La Serena -->
+        <div class="carousel-inner h-100">
+
+            <!-- Slide 1: Faro Monumental Restaurado -->
+            <div class="carousel-item active h-100">
+                <img src="{% static 'img/carousel/faro_nuevo_2022-960.webp' %}" srcset="{% static 'img/carousel/faro_nuevo_2022-480.webp' %} 480w, {% static 'img/carousel/faro_nuevo_2022-960.webp' %} 960w" sizes="(min-width: 992px) 48vw, 100vw" width="1280" height="943" loading="eager" decoding="async" class="d-block w-100 h-100 object-fit-cover" alt="Faro Monumental de La Serena">
+                <div class="carousel-caption-stitch">
+                    <span class="badge-muni-slide">PATRIMONIO NACIONAL</span>
+                    <p class="carousel-title mb-1 text-white">Faro Monumental de La Serena</p>
+                    <p class="small text-white-50 mb-0">Emblema histórico y costero de la ciudad fundada en 1544.</p>
+                </div>
+            </div>
+
+            <!-- Slide 2: Plaza de Armas de La Serena -->
+            <div class="carousel-item h-100">
+                <img src="{% static 'img/carousel/plaza_armas_laserena-960.webp' %}" srcset="{% static 'img/carousel/plaza_armas_laserena-480.webp' %} 480w, {% static 'img/carousel/plaza_armas_laserena-960.webp' %} 960w" sizes="(min-width: 992px) 48vw, 100vw" width="1024" height="576" loading="lazy" decoding="async" class="d-block w-100 h-100 object-fit-cover" alt="Plaza de Armas La Serena">
+                <div class="carousel-caption-stitch">
+                    <span class="badge-muni-slide">CENTRO CÍVICO Y PATRIMONIAL</span>
+                    <p class="carousel-title mb-1 text-white">Plaza de Armas de La Serena</p>
+                    <p class="small text-white-50 mb-0">Corazón histórico, arquitectura colonial y áreas verdes comunales.</p>
+                </div>
+            </div>
+
+            <!-- Slide 3: Mercado La Recova -->
+            <div class="carousel-item h-100">
+                <img src="{% static 'img/carousel/recova_tradicion-960.webp' %}" srcset="{% static 'img/carousel/recova_tradicion-480.webp' %} 480w, {% static 'img/carousel/recova_tradicion-960.webp' %} 960w" sizes="(min-width: 992px) 48vw, 100vw" width="1280" height="960" loading="lazy" decoding="async" class="d-block w-100 h-100 object-fit-cover" alt="Mercado La Recova">
+                <div class="carousel-caption-stitch">
+                    <span class="badge-muni-slide">IDENTIDAD Y CULTURA</span>
+                    <p class="carousel-title mb-1 text-white">Mercado Municipal La Recova</p>
+                    <p class="small text-white-50 mb-0">Tradición artesanal, papaya serenense e identidad de la Región.</p>
+                </div>
+            </div>
+
+            <!-- Slide 4: Bahía de La Serena y Cordillera -->
+            <div class="carousel-item h-100">
+                <img src="{% static 'img/carousel/costanera_bahia-960.webp' %}" srcset="{% static 'img/carousel/costanera_bahia-480.webp' %} 480w, {% static 'img/carousel/costanera_bahia-960.webp' %} 960w" sizes="(min-width: 992px) 48vw, 100vw" width="1280" height="258" loading="lazy" decoding="async" class="d-block w-100 h-100 object-fit-cover" alt="Bahía de La Serena">
+                <div class="carousel-caption-stitch">
+                    <span class="badge-muni-slide">LITORAL Y CORDILLERA</span>
+                    <p class="carousel-title mb-1 text-white">Bahía de La Serena y Cerro Grande</p>
+                    <p class="small text-white-50 mb-0">Conexión territorial entre el Océano Pacífico y el Valle de Elqui.</p>
+                </div>
+            </div>
+
+            <!-- Slide 5: Panorámica Avenida del Mar -->
+            <div class="carousel-item h-100">
+                <img src="{% static 'img/carousel/faro_monumental_panoramica-960.webp' %}" srcset="{% static 'img/carousel/faro_monumental_panoramica-480.webp' %} 480w, {% static 'img/carousel/faro_monumental_panoramica-960.webp' %} 960w" sizes="(min-width: 992px) 48vw, 100vw" width="1280" height="960" loading="lazy" decoding="async" class="d-block w-100 h-100 object-fit-cover" alt="Avenida del Mar La Serena">
+                <div class="carousel-caption-stitch">
+                    <span class="badge-muni-slide">GESTIÓN TERRITORIAL 2026</span>
+                    <p class="carousel-title mb-1 text-white">Ilustre Municipalidad de La Serena</p>
+                    <p class="small text-white-50 mb-0">Servicio y cercanía para los vecinos de las 6 delegaciones.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<style>
+/* Estilos del Carrusel Split Screen */
+.auth-carousel-wrapper {
+    min-height: 520px;
+}
+.carousel-caption-stitch {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 40px 28px 64px;
+    background: linear-gradient(180deg, rgba(11, 17, 32, 0) 0%, rgba(11, 17, 32, 0.5) 40%, rgba(11, 17, 32, 0.95) 100%);
+    text-align: left;
+    z-index: 2;
+}
+.badge-muni-slide {
+    display: inline-block;
+    background: var(--muni-red);
+    color: #ffffff;
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0;
+    padding: 0.25rem 0.6rem;
+    border-radius: var(--radius-pill);
+    margin-bottom: 0.45rem;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+}
+.carousel-title { font-size: 1.5rem; font-weight: 600; line-height: 1.2; }
+.carousel-indicators [data-bs-target] {
+    position: relative; width: 44px; height: 44px; margin-inline: 0;
+    border: 0; background: transparent; opacity: 1;
+}
+.carousel-indicators [data-bs-target]::before {
+    content: ''; position: absolute; left: 12px; top: 20px;
+    width: 20px; height: 4px; border-radius: 4px;
+    background: rgba(255, 255, 255, .6); transition: background-color 160ms ease;
+}
+.carousel-indicators .active::before { left: 6px; width: 32px; background: #fff; }
+.carousel-indicators [data-bs-target]:focus-visible { outline: 2px solid white; outline-offset: -2px; }
+</style>

@@ -1,0 +1,7 @@
+<div class="account-heading"><a href="{% url 'dashboard:inicio' %}"><i class="bi bi-arrow-left me-2" aria-hidden="true"></i>Volver al panel</a><span>Mi cuenta · {{ user.nombre_completo }}</span></div>
+<nav class="account-tabs" aria-label="Ajustes personales">
+    <a href="{% url 'usuarios:account_settings' %}" {% if request.resolver_match.url_name == 'account_settings' %}aria-current="page"{% endif %}>Nombre de usuario</a>
+    <a href="{% url 'usuarios:account_password' %}" {% if request.resolver_match.url_name == 'account_password' %}aria-current="page"{% endif %}>Contraseña</a>
+    <a href="{% url 'usuarios:passkeys' %}" {% if request.resolver_match.url_name == 'passkeys' %}aria-current="page"{% endif %}>Passkeys</a>
+    <a href="{% url 'usuarios:ficha_usuario' %}" {% if request.resolver_match.url_name == 'ficha_usuario' %}aria-current="page"{% endif %}>Mi perfil y apariencia</a>
+</nav>

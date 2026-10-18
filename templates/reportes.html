@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}Reportes | Gestión municipal de La Serena{% endblock %}
+{% block content %}
+<header class="page-heading"><div><h1>Reportes y descargas</h1><p>Consulta y exporta la información disponible para tu perfil.</p></div></header>
+<section class="dashboard-section report-grid" aria-label="Reportes disponibles">
+    {% for title, description, route in reports %}
+    <a class="quick-link" href="{% url route %}"><span><strong class="d-block">{{ title }}</strong><span class="small text-secondary">{{ description }}</span></span><span class="d-flex align-items-center gap-2 small flex-shrink-0">{% if 'excel' in route %}Excel<i class="bi bi-download" aria-hidden="true"></i>{% else %}Consultar<i class="bi bi-chevron-right" aria-hidden="true"></i>{% endif %}</span></a>
+    {% endfor %}
+</section>
+{% endblock %}

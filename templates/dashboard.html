@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block title %}Inicio | Gestión municipal de La Serena{% endblock %}
+{% block content %}
+<header class="page-heading" id="tour-hero-banner">
+    <div><h1>{% if user.is_superuser %}Resumen general{% else %}Resumen de gestión{% endif %}</h1><p>{% if user.is_superuser %}Consulta la actividad de todas las delegaciones o acota el resumen por territorio y responsable.{% else %}{{ today|date:"l j \d\e F \d\e Y" }} · {{ delegacion_actual.nombre|default:"Sin delegación asignada" }}{% endif %}</p></div>
+    {% if can_register and not user.is_superuser %}<a href="{% url 'atenciones:attention_search' %}" class="btn-stitch btn-stitch-primary"><i class="bi bi-plus-lg" aria-hidden="true"></i>Crear atención</a>{% endif %}
+</header>
+{% if user.is_superuser %}{% include 'includes/general_filters.html' %}{% endif %}
+{% if not user.is_superuser and not delegacion_actual %}<div class="alert alert-warning">Necesitas una delegación asignada para registrar atenciones. Solicita la asignación al administrador.</div>{% endif %}
+<section class="metrics-strip" aria-label="Indicadores de gestión">
+    <div class="metric"><i class="bi bi-people metric-icon" aria-hidden="true"></i><div><strong>{{ total_atenciones }}</strong><span>Atenciones registradas</span></div></div>
+    <div class="metric"><i class="bi bi-person metric-icon metric-icon-success" aria-hidden="true"></i><div><strong>{{ personas_atendidas }}</strong><span>Personas atendidas</span></div></div>
+    <div class="metric"><i class="bi bi-file-earmark-text metric-icon metric-icon-warning" aria-hidden="true"></i><div><strong>{{ acciones_pendientes }}</strong><span>Acciones pendientes</span></div></div>
+    <div class="metric"><i class="bi bi-bullseye metric-icon metric-icon-success" aria-hidden="true"></i><div><strong>{% if cumplimiento != None %}{{ cumplimiento }}%{% else %}—{% endif %}</strong><span>Cumplimiento de metas</span></div></div>
+</section>
+<div class="dashboard-columns">
+        <section class="dashboard-section" aria-labelledby="neighbor-search-heading">
+            <h2 class="section-heading" id="neighbor-search-heading">Buscar un vecino</h2>
+            <p class="text-secondary">Busca por RUT, nombre o apellido para consultar el historial municipal y registrar una atención.</p>
+            <form method="get" action="{% url 'atenciones:attention_search' %}" class="dashboard-search">
+                <label class="visually-hidden" for="dashboard-search">RUT, nombre o apellido</label>
+                <div class="dashboard-search-field"><i class="bi bi-search" aria-hidden="true"></i><input class="form-control" id="dashboard-search" name="q" placeholder="RUT, nombre o apellido" required></div>
+                <button class="btn-stitch btn-stitch-primary" type="submit"><i class="bi bi-search" aria-hidden="true"></i>Buscar</button>
+            </form>
+            <p class="dashboard-note"><i class="bi bi-info-circle" aria-hidden="true"></i><span>Hoy se han registrado <strong>{{ atenciones_hoy }}</strong> atenciones en tu ámbito de gestión.</span></p>
+        </section>
+    <section class="dashboard-section pending-section" aria-labelledby="pending-actions-heading">
+        <div class="section-toolbar"><h2 class="section-heading mb-0" id="pending-actions-heading">Acciones pendientes</h2><a href="{% url 'atenciones:action_list' %}?estado=Pendiente" class="small">Ver todas <i class="bi bi-arrow-right" aria-hidden="true"></i></a></div>
+        <ul class="pending-actions">
+        {% for action in pendientes_recientes %}<li><a class="pending-action" href="{% if can_approve %}{% url 'atenciones:action_review' action.pk %}{% else %}{% url 'atenciones:action_list' %}?estado=Pendiente&amp;q={{ action.titulo|urlencode }}{% endif %}">
+            <i class="bi bi-file-earmark-text pending-action-icon" aria-hidden="true"></i><span class="pending-action-content"><strong>{{ action.titulo }}</strong><small>{% if user.is_superuser %}{{ action.delegacion.nombre }}{% else %}{{ action.creador.nombre_completo }}{% endif %}</small></span><span class="pending-action-state"><span class="status-pill Pendiente">Pendiente</span><time datetime="{{ action.fecha_creacion|date:'c' }}" title="Fecha de registro"><span class="visually-hidden">Registrada el </span>{{ action.fecha_creacion|date:'d/m/Y' }}</time></span>
+        </a></li>{% empty %}<li class="pending-empty"><i class="bi bi-check2-circle" aria-hidden="true"></i><p>No hay acciones pendientes en este ámbito.</p>{% if can_register %}<a href="{% url 'atenciones:action_create' %}" class="small">Registrar una acción</a>{% endif %}</li>{% endfor %}
+        </ul>
+        {% if pendientes_recientes %}<p class="pending-count">Mostrando {{ pendientes_recientes|length }} de {{ acciones_pendientes }} pendientes.</p>{% endif %}
+    </section>
+</div>
+<section class="dashboard-section dashboard-goals" aria-labelledby="current-goals-heading">
+    <div class="d-flex justify-content-between align-items-center gap-3 mb-3"><h2 class="section-heading mb-0" id="current-goals-heading">Metas vigentes</h2><a href="{% url 'atenciones:meta_list' %}" class="small">Ver todas <i class="bi bi-arrow-right" aria-hidden="true"></i></a></div>
+    {% if metas_actuales %}
+    <div class="table-responsive">
+        <table class="table-stitch">
+            <caption class="visually-hidden">Resumen de hasta cinco metas vigentes. El listado completo está disponible en Ver todas.</caption>
+            <thead><tr><th scope="col">Meta</th>{% if user.is_superuser %}<th scope="col">Delegación</th>{% endif %}<th scope="col">Acciones aprobadas</th><th scope="col">Avance</th><th scope="col">Estado</th><th scope="col">Fecha de término</th></tr></thead>
+            <tbody>{% for meta in metas_actuales %}<tr>
+                <th scope="row">{{ meta.item_meta.nombre }}</th>
+                {% if user.is_superuser %}<td>{{ meta.delegacion.nombre }}</td>{% endif %}
+                <td class="text-nowrap">{{ meta.aprobadas }} / {{ meta.objetivo }}</td>
+                <td><div class="goal-progress"><progress max="100" value="{{ meta.avance }}" aria-label="Avance de {{ meta.item_meta.nombre }}">{{ meta.avance }}%</progress><span>{{ meta.avance }}%</span></div></td>
+                <td><span class="status-pill {% if meta.avance >= 100 %}Aprobada{% else %}Pendiente{% endif %}">{% if meta.avance >= 100 %}Cumplida{% else %}En curso{% endif %}</span></td>
+                <td class="text-nowrap">{{ meta.fin|date:"d/m/Y" }}</td>
+            </tr>{% endfor %}</tbody>
+        </table>
+    </div>
+    {% else %}<p class="text-secondary mb-0">No hay metas definidas para el período actual.{% if can_manage %} <a href="{% url 'atenciones:meta_create' %}">Definir una meta</a>{% endif %}</p>{% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% load static %}
+<form method="post" action="{% url 'territorial:apariencia' appearance_delegation.pk %}" class="appearance-form" data-appearance-form>
+    {% csrf_token %}
+    <input type="hidden" name="configuracion" value="{% if initial_setup %}inicial{% else %}editar{% endif %}">
+    {{ appearance_form.non_field_errors }}
+    <div class="appearance-preview" style="--preview-color: {{ appearance_delegation.color_identificacion }}" aria-label="Vista previa del encabezado y controles">
+        <img src="{% static 'img/horizontal-color.svg' %}" height="2784" alt="Municipalidad de La Serena" width="155">
+        <span class="appearance-preview-user" aria-hidden="true"><i class="bi bi-person"></i></span>
+        <div class="appearance-preview-territory territory-banner territory-banner-preview"><span class="territory-marker" aria-hidden="true"></span><div class="territory-content"><strong class="territory-name">{{ appearance_delegation.nombre }}</strong><span class="territory-place">{{ appearance_delegation.comuna }} · Tu delegación</span></div></div>
+        <div class="appearance-preview-controls" aria-hidden="true"><span class="appearance-preview-link"><i class="bi bi-house-door"></i>Inicio</span><span class="appearance-preview-action"><i class="bi bi-plus-lg"></i>Crear atención</span></div>
+    </div>
+    <p class="small text-secondary mt-2">Vista previa · El logo municipal se conserva.</p>
+    <fieldset class="appearance-palette">
+        <legend>Elige un color de identificación</legend>
+        {% for value, label in header_colors %}
+        <button type="button" class="appearance-swatch" data-color="{{ value }}" aria-pressed="false">
+            <span style="--swatch-color: {{ value }}" aria-hidden="true"></span>{{ label }}
+        </button>
+        {% endfor %}
+    </fieldset>
+    <div class="appearance-custom">
+        <label for="appearance-color">Color personalizado</label>
+        <input type="color" id="appearance-color" name="color" value="{{ appearance_delegation.color_identificacion }}" required aria-describedby="appearance-color-help">
+        <output for="appearance-color" data-color-value>{{ appearance_delegation.color_identificacion }}</output>
+    </div>
+    <p id="appearance-color-help" class="small text-secondary">Usa el color acordado para tu delegación.</p>
+    {{ appearance_form.color.errors }}
+    {{ appearance_form.configuracion.errors }}
+    <p class="appearance-shared"><i class="bi bi-lock" aria-hidden="true"></i> Tu equipo heredará este color sin poder modificarlo. Tú podrás cambiarlo desde tu perfil.</p>
+    <div class="form-actions">
+        <button type="submit" class="btn-stitch btn-stitch-primary">{% if initial_setup %}Guardar color de la delegación{% else %}Guardar cambios{% endif %}</button>
+        {% if initial_setup %}<a href="{% url 'usuarios:logout' %}" class="btn-stitch btn-stitch-secondary">Cerrar sesión</a>{% else %}<a href="{% url 'usuarios:ficha_usuario' %}" class="btn-stitch btn-stitch-secondary">Volver a mi perfil</a>{% endif %}
+    </div>
+</form>

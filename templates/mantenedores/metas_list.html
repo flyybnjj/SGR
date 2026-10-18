@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Ítems de Metas • Ilustre Municipalidad de La Serena{% endblock %}
+
+{% block content %}
+<!-- Cabecera de Página Stitch -->
+<div class="crud-heading management-heading d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3 mb-4">
+    <div>
+        <div class="crud-heading-title d-flex align-items-center gap-2 mb-1">
+            <div class="d-inline-flex align-items-center justify-content-center" style="width: 36px; height: 36px; border-radius: var(--radius-sm); background: var(--muni-green-tint); color: var(--muni-green);">
+                <i class="bi bi-bullseye fs-5"></i>
+            </div>
+            <h1 class="fw-semibold mb-0" style="color: var(--text-main); letter-spacing: -0.025em; font-size: 1.65rem;">
+                Ítems de Metas Territoriales
+            </h1>
+        </div>
+        <p class="small mb-0" style="color: var(--text-muted);">
+            Indicadores y parámetros cuantitativos de satisfacción vecinal, tiempos de respuesta y cobertura
+        </p>
+    </div>
+    <div class="d-flex gap-2">
+        <a href="{% url 'territorial:metas_excel' %}?q={{ search|urlencode }}" class="btn-stitch btn-stitch-excel">
+            <i class="bi bi-file-earmark-excel"></i>
+            <span>Exportar Excel</span>
+        </a>
+        {% if can_manage %}<button type="button" class="btn-stitch btn-stitch-primary" data-bs-toggle="modal" data-bs-target="#nuevaMetaModal">
+            <i class="bi bi-plus-lg"></i>
+            <span>Nueva Meta</span>
+        </button>{% endif %}
+    </div>
+</div>
+
+<div class="card-stitch management-grid">
+    <!-- Barra superior de búsqueda Stitch -->
+    <div class="card-stitch-header flex-column flex-md-row gap-3">
+        <form method="GET" class="search-box-stitch" role="search">
+<label class="visually-hidden" for="grid-search">Buscar registros</label>
+<input type="hidden" name="per_page" value="{{ page_obj.paginator.per_page }}">
+            <i class="bi bi-search"></i>
+            <input type="search" id="grid-search" name="q" value="{{ search }}" placeholder="Buscar por meta o descripción...">
+            <button type="submit" class="btn-stitch btn-stitch-secondary">Buscar</button>
+            {% if search %}
+            <a href="{% url 'territorial:metas_list' %}" class="text-secondary ms-1" aria-label="Limpiar filtro" title="Limpiar filtro"><i class="bi bi-x-circle-fill"></i></a>
+            {% endif %}
+        </form>
+        <div>
+            <span class="badge-stitch-tag">
+                Metas Clave: <strong class="ms-1" style="color: var(--muni-green);">{{ page_obj.paginator.count }}</strong>
+            </span>
+        </div>
+    </div>
+
+    <!-- Tabla Stitch -->
+    <div class="table-responsive" tabindex="0" role="region" aria-label="Listado de registros">
+        <table class="table-stitch">
+            <thead>
+                <tr>
+                    <th scope="col" style="width: 60px;">#</th>
+                    <th scope="col">Nombre de la Meta</th>
+                    <th scope="col">Descripción y Parámetros</th>
+                    <th scope="col" class="text-center" style="width: 120px;">Estado</th>
+                    <th scope="col" class="text-center" style="width: 110px;">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for m in page_obj %}
+                <tr>
+                    <td style="color: var(--text-light); font-weight: 600;">{{ forloop.counter0|add:page_obj.start_index }}</td>
+                    <td class="fw-bold" style="color: var(--text-main);">{{ m.nombre }}</td>
+                    <td style="color: var(--text-muted);">{{ m.descripcion|default:"-" }}</td>
+                    <td class="text-center">
+                        {% if m.activo %}
+                        <span class="badge-stitch-activo">Activo</span>
+                        {% else %}
+                        <span class="badge-stitch-inactivo">Inactivo</span>
+                        {% endif %}
+                    </td>
+                    <td class="text-center">
+                        {% if can_manage %}<div class="record-actions"><button type="button" class="btn-stitch-icon" title="Editar Meta" data-edit-form="{% url 'crud_edit_form' 'metas' m.pk %}">
+                            <i class="bi bi-pencil"></i>
+                        </button>
+                        <form method="post" action="{% url 'territorial:metas_toggle' m.id %}" class="d-inline" data-confirm="¿Desea cambiar el estado de {{ m.nombre }}?">{% csrf_token %}<button type="submit" class="btn-stitch-icon btn-stitch-icon-delete" title="{% if m.activo %}Desactivar{% else %}Activar{% endif %}" aria-label="{% if m.activo %}Desactivar{% else %}Activar{% endif %} {{ m.nombre }}"><i class="bi bi-power" aria-hidden="true"></i></button></form></div>{% else %}<span class="text-secondary">Solo lectura</span>{% endif %}
+                    </td>
+                </tr>
+
+                {% empty %}
+                <tr>
+                    <td colspan="5" class="text-center py-5" style="color: var(--text-muted);">
+                        <i class="bi bi-bullseye fs-1 d-block mb-2" style="color: var(--text-light);"></i>
+                        No se encontraron metas registradas.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% include "includes/pagination.html" %}
+
+</div>
+
+{% if can_manage %}
+<!-- Modal Nueva Meta Stitch Style -->
+<div class="modal fade" id="nuevaMetaModal" tabindex="-1" aria-hidden="true" aria-labelledby="nuevaMetaModalTitle">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content modal-content-stitch">
+            <div class="modal-header-stitch">
+                <h5 id="nuevaMetaModalTitle" class="fw-bold mb-0" style="color: var(--text-main); font-size: 1.15rem;">Crear Nueva Meta</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <form method="POST" data-crud-form novalidate action="{% url 'territorial:metas_create' %}">
+                {% csrf_token %}
+                <div class="modal-body p-4">
+                    <div class="mb-3">
+                        <label for="nuevaMetaModal-nombre" class="form-label small fw-semibold" style="color: var(--text-main);">Nombre de la Meta *</label>
+                        <input type="text" id="nuevaMetaModal-nombre" name="nombre" class="input-stitch" placeholder="Ej. Cobertura de Atención, Satisfacción..." required maxlength="150" data-validate="text" pattern=".*\S.*">
+                    </div>
+                    <div class="mb-3">
+                        <label for="nuevaMetaModal-descripcion" class="form-label small fw-semibold" style="color: var(--text-main);">Descripción</label>
+                        <textarea id="nuevaMetaModal-descripcion" name="descripcion" class="input-stitch" rows="3" placeholder="Descripción de parámetros cuantitativos..."></textarea>
+                    </div>
+                    <div class="form-check form-switch mt-3 pt-2 border-top" style="border-color: var(--border-stitch) !important;">
+                        <input class="form-check-input" type="checkbox" name="activo" id="activoNuevaMeta" checked>
+                        <label class="form-check-label small fw-semibold" for="activoNuevaMeta" style="color: var(--text-main);">Meta Activa</label>
+                    </div>
+                </div>
+                <div class="modal-footer-stitch">
+                    <button type="button" class="btn-stitch btn-stitch-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn-stitch btn-stitch-primary">Crear Meta</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% if can_manage %}
+{% include 'includes/crud_edit_modal.html' %}
+{% endif %}
+{% endblock %}

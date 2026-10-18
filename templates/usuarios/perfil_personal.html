@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}Mi perfil | La Serena{% endblock %}
+{% block content %}
+<header class="page-heading"><div><h1>Mi perfil</h1><p>Tu cuenta y tu delegación de trabajo.</p></div><a href="{% url 'usuarios:account_settings' %}" class="btn-stitch btn-stitch-secondary"><i class="bi bi-person-lines-fill" aria-hidden="true"></i>Editar mi cuenta</a></header>
+<section class="dashboard-section record-summary" aria-labelledby="profile-data-title">
+    <h2 class="section-heading" id="profile-data-title">{{ funcionario.nombre_completo }}</h2>
+    <dl class="profile-details">
+        <div><dt>Nombre de usuario</dt><dd>{{ funcionario.username }}</dd></div>
+        <div><dt>Rol</dt><dd>{{ funcionario.rol.nombre|default:'Sin rol asignado' }}</dd></div>
+        <div><dt>Delegación de trabajo</dt><dd>{{ delegacion_actual.nombre|default:'Sin delegación asignada' }}</dd></div>
+        <div><dt>Correo institucional</dt><dd>{{ funcionario.email|default:'Sin correo registrado' }}</dd></div>
+    </dl>
+    <p class="small text-secondary mb-0">Para actualizar tu nombre, correo, rol o delegación, contacta al administrador. Puedes cambiar tu nombre de usuario y contraseña desde las pestañas de tu cuenta.</p>
+</section>
+<section class="dashboard-section form-panel" aria-labelledby="profile-appearance-title">
+    <h2 class="section-heading" id="profile-appearance-title">Color de la delegación</h2>
+    {% for sede in appearance_delegations %}
+    <a class="quick-link" href="{% url 'territorial:apariencia' sede.pk %}"><span><span class="delegacion-color" style="background-color: {{ sede.color_identificacion }}" aria-hidden="true"></span>{{ sede.nombre }}</span><span>{% if sede.color_configurado %}Cambiar color{% else %}Elegir color{% endif %} <i class="bi bi-chevron-right" aria-hidden="true"></i></span></a>
+    {% empty %}
+        {% if delegacion_actual %}<p class="mb-0"><span class="delegacion-color" style="background-color: {{ delegacion_actual.color_identificacion }}" aria-hidden="true"></span>Tu equipo comparte el color de <strong>{{ delegacion_actual.nombre }}</strong>. {% if delegacion_actual.color_configurado %}El color está definido por el delegado responsable.{% else %}Se utiliza rojo institucional hasta que el responsable elija un color.{% endif %}</p>
+        {% else %}<p class="text-secondary mb-0">Cuando te asignen una delegación, verás aquí el color de tu equipo.</p>{% endif %}
+    {% endfor %}
+</section>
+{% endblock %}

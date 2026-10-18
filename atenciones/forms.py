@@ -1,0 +1,126 @@
+import uuid
+from config.catalog_validation import NombreCatalogoUnicoMixin
+from django import forms
+from .models import TipoAtencion, SubAtencion
+
+
+class TipoAtencionForm(NombreCatalogoUnicoMixin, forms.ModelForm):
+    class Meta:
+        model = TipoAtencion
+        fields = ['nombre', 'descripcion', 'activo']
+        widgets = {
+            'nombre': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ej. Social, Salud, Educación...'}),
+            'descripcion': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'placeholder': 'Descripción del tipo de atención...'}),
+            'activo': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+        }
+
+
+class SubAtencionForm(NombreCatalogoUnicoMixin, forms.ModelForm):
+    campo_ambito_nombre = "tipo_atencion"
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['tipo_atencion'].queryset = TipoAtencion.objects.filter(activo=True)
+
+    class Meta:
+        model = SubAtencion
+        fields = ['tipo_atencion', 'nombre', 'activo']
+        widgets = {
+            'tipo_atencion': forms.Select(attrs={'class': 'form-select'}),
+            'nombre': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ej. Ayuda social, Beca municipal...'}),
+            'activo': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+        }
+
+from django.utils import timezone
+from territorial.models import DelegacionMunicipal, ItemMeta
+from vecinos.forms import VecinoForm
+from .models import Atencion, Accion, MetaPeriodo
+
+class PersonaAtencionForm(VecinoForm):
+    class Meta(VecinoForm.Meta):
+        fields = ['nombre', 'rut', 'direccion', 'telefono']
+    def __init__(self, *args, **kwargs):
+        forms.ModelForm.__init__(self, *args, **kwargs)
+        self.fields['rut'].required = False
+
+class DelegationForm(forms.ModelForm):
+    def __init__(self, *args, user, **kwargs):
+        self.user = user
+        super().__init__(*args, **kwargs)
+        self.fields['delegacion'].queryset = DelegacionMunicipal.objects.filter(activo=True)
+        if not user.is_superuser:
+            self.fields['delegacion'].disabled = True
+            self.initial['delegacion'] = user.delegacion_id
+        for field in self.fields.values():
+            field.widget.attrs.setdefault('class', 'form-control')
+            if isinstance(field, forms.ModelChoiceField):
+                field.empty_label = 'Selecciona una opción'
+        labels = {'delegacion': 'Delegación', 'tipo_atencion': 'Tipo de atención', 'sub_atencion': 'Subatención', 'descripcion': 'Descripción', 'titulo': 'Título', 'evidencia': 'Evidencia fotográfica', 'item_meta': 'Meta', 'inicio': 'Fecha de inicio', 'fin': 'Fecha de término'}
+        for name, label in labels.items():
+            if name in self.fields:
+                self.fields[name].label = label
+    def clean_delegacion(self):
+        delegation = self.cleaned_data.get('delegacion')
+        if not self.user.is_superuser:
+            delegation = self.user.delegacion
+        if not delegation or not delegation.activo:
+            raise forms.ValidationError('Debe tener una delegación activa asignada.')
+        return delegation
+
+class AtencionForm(DelegationForm):
+    request_token = forms.UUIDField(required=False, widget=forms.HiddenInput, initial=uuid.uuid4)
+    class Meta:
+        model = Atencion
+        fields = ['delegacion', 'tipo_atencion', 'sub_atencion', 'descripcion']
+        widgets = {'descripcion': forms.Textarea(attrs={'rows': 4})}
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['tipo_atencion'].queryset = TipoAtencion.objects.filter(activo=True)
+        selected = self.data.get(self.add_prefix('tipo_atencion')) if self.is_bound else self.initial.get('tipo_atencion') or self.instance.tipo_atencion_id
+        try:
+            selected = int(selected)
+        except (ValueError, TypeError):
+            selected = None
+        self.fields['sub_atencion'].queryset = SubAtencion.objects.filter(activo=True, tipo_atencion__activo=True, tipo_atencion_id=selected)
+        self.subtype_options = list(SubAtencion.objects.filter(activo=True, tipo_atencion__activo=True).values('id', 'nombre', 'tipo_atencion_id'))
+
+class AccionForm(DelegationForm):
+    class Meta:
+        model = Accion
+        fields = ['titulo', 'descripcion', 'delegacion', 'meta', 'evidencia']
+        widgets = {'descripcion': forms.Textarea(attrs={'rows': 4})}
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        today = timezone.localdate()
+        metas = MetaPeriodo.objects.filter(delegacion__activo=True, inicio__lte=today, fin__gte=today)
+        if not self.user.is_superuser:
+            metas = metas.filter(delegacion_id=self.user.delegacion_id)
+        self.fields['meta'].queryset = metas
+        self.fields['evidencia'].help_text = 'Imagen JPEG, PNG o WebP. Máximo 5 MB.'
+    def clean_evidencia(self):
+        image = self.cleaned_data.get('evidencia')
+        if image:
+            if image.size > 5 * 1024 * 1024:
+                raise forms.ValidationError('La imagen no puede superar 5 MB.')
+            if getattr(image, 'image', None) and image.image.format not in {'JPEG', 'PNG', 'WEBP'}:
+                raise forms.ValidationError('Use una imagen JPEG, PNG o WebP.')
+        return image
+
+class MetaPeriodoForm(DelegationForm):
+    class Meta:
+        model = MetaPeriodo
+        fields = ['delegacion', 'item_meta', 'objetivo', 'inicio', 'fin']
+        widgets = {'inicio': forms.DateInput(format='%Y-%m-%d', attrs={'type': 'date'}), 'fin': forms.DateInput(format='%Y-%m-%d', attrs={'type': 'date'})}
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['item_meta'].queryset = ItemMeta.objects.filter(activo=True)
+        self.fields['objetivo'].widget.attrs['min'] = 1
+
+    def clean_delegacion(self):
+        delegation = super().clean_delegacion()
+        if self.instance.pk and self.instance.acciones.exists() and delegation.pk != self.instance.delegacion_id:
+            raise forms.ValidationError('No se puede cambiar la delegación de una meta que ya tiene acciones registradas.')
+        return delegation
+
+class ResolucionForm(forms.Form):
+    estado = forms.ChoiceField(choices=[('Aprobada', 'Aprobar'), ('Rechazada', 'Rechazar')])
+    motivo = forms.CharField(widget=forms.Textarea(attrs={'rows': 3, 'class': 'form-control'}), max_length=2000)

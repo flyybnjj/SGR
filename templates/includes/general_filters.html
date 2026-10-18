@@ -1,0 +1,8 @@
+<section class="dashboard-section" aria-label="Consultar actividad por territorio">
+    <form method="get" class="general-filters">
+        {% for field in scope_form %}<div><label for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}{{ field.errors }}</div>{% endfor %}
+        <button class="btn-stitch btn-stitch-primary" type="submit">Consultar</button>
+        <a href="{% url 'dashboard:inicio' %}" class="btn-stitch btn-stitch-secondary">Ver todo</a>
+    </form>
+    {% if scope_form.errors %}<p class="text-danger mt-3 mb-0">Revisa los filtros para consultar la actividad.</p>{% else %}<p class="small text-secondary mt-3 mb-0">Los filtros se aplican a los indicadores y las metas de este resumen.{% if scope_delegation %} <strong>{{ scope_delegation.nombre }}</strong> · {{ scope_delegation.comuna }} · Responsable: {{ scope_delegation.delegado.nombre_completo|default:'Sin asignar' }}.{% endif %}</p>{% endif %}
+</section>

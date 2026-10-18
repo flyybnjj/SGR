@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Sub-Atenciones • Ilustre Municipalidad de La Serena{% endblock %}
+
+{% block content %}
+<!-- Cabecera de Página Stitch -->
+<div class="crud-heading management-heading d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3 mb-4">
+    <div>
+        <div class="crud-heading-title d-flex align-items-center gap-2 mb-1">
+            <div class="d-inline-flex align-items-center justify-content-center" style="width: 36px; height: 36px; border-radius: var(--radius-sm); background: rgba(15, 23, 42, 0.08); color: var(--text-main);">
+                <i class="bi bi-diagram-3-fill fs-5"></i>
+            </div>
+            <h1 class="fw-semibold mb-0" style="color: var(--text-main); letter-spacing: -0.025em; font-size: 1.65rem;">
+                Sub-Atenciones y Trámites
+            </h1>
+        </div>
+        <p class="small mb-0" style="color: var(--text-muted);">
+            Clasificación jerárquica de trámites específicos dependientes del Tipo de Atención municipal
+        </p>
+    </div>
+    <div class="d-flex gap-2">
+        <a href="{% url 'atenciones:sub_atencion_excel' %}?q={{ search|urlencode }}" class="btn-stitch btn-stitch-excel">
+            <i class="bi bi-file-earmark-excel"></i>
+            <span>Exportar Excel</span>
+        </a>
+        {% if can_manage %}<button type="button" class="btn-stitch btn-stitch-primary" data-bs-toggle="modal" data-bs-target="#nuevaSubAtencionModal">
+            <i class="bi bi-plus-lg"></i>
+            <span>Nueva Sub-Atención</span>
+        </button>{% endif %}
+    </div>
+</div>
+
+<div class="card-stitch management-grid">
+    <!-- Barra superior de búsqueda Stitch -->
+    <div class="card-stitch-header flex-column flex-md-row gap-3">
+        <form method="GET" class="search-box-stitch" role="search">
+<label class="visually-hidden" for="grid-search">Buscar registros</label>
+<input type="hidden" name="per_page" value="{{ page_obj.paginator.per_page }}">
+            <i class="bi bi-search"></i>
+            <input type="search" id="grid-search" name="q" value="{{ search }}" placeholder="Buscar por sub-atención o tipo principal...">
+            <button type="submit" class="btn-stitch btn-stitch-secondary">Buscar</button>
+            {% if search %}
+            <a href="{% url 'atenciones:sub_atencion_list' %}" class="text-secondary ms-1" aria-label="Limpiar filtro" title="Limpiar filtro"><i class="bi bi-x-circle-fill"></i></a>
+            {% endif %}
+        </form>
+        <div>
+            <span class="badge-stitch-tag">
+                Trámites Registrados: <strong class="ms-1" style="color: var(--text-main);">{{ page_obj.paginator.count }}</strong>
+            </span>
+        </div>
+    </div>
+
+    <!-- Tabla Stitch -->
+    <div class="table-responsive" tabindex="0" role="region" aria-label="Listado de registros">
+        <table class="table-stitch">
+            <thead>
+                <tr>
+                    <th scope="col" style="width: 60px;">#</th>
+                    <th scope="col">Sub-Atención / Trámite</th>
+                    <th scope="col">Tipo de Atención Padre</th>
+                    <th scope="col" class="text-center" style="width: 120px;">Estado</th>
+                    <th scope="col" class="text-center" style="width: 110px;">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for s in page_obj %}
+                <tr>
+                    <td style="color: var(--text-light); font-weight: 600;">{{ forloop.counter0|add:page_obj.start_index }}</td>
+                    <td class="fw-bold" style="color: var(--text-main);">{{ s.nombre }}</td>
+                    <td>
+                        <span class="badge-stitch-tag" style="background: var(--muni-red-tint); color: var(--muni-red); border-color: var(--muni-red-border);">
+                            <i class="bi bi-tag-fill me-1" style="font-size: 0.72rem;"></i>{{ s.tipo_atencion.nombre }}
+                        </span>
+                    </td>
+                    <td class="text-center">
+                        {% if s.activo %}
+                        <span class="badge-stitch-activo">Activo</span>
+                        {% else %}
+                        <span class="badge-stitch-inactivo">Inactivo</span>
+                        {% endif %}
+                    </td>
+                    <td class="text-center">
+                        {% if can_manage %}<div class="record-actions"><button type="button" class="btn-stitch-icon" title="Editar Sub-Atención" data-edit-form="{% url 'crud_edit_form' 'sub_atencion' s.pk %}">
+                            <i class="bi bi-pencil"></i>
+                        </button>
+                        <form method="post" action="{% url 'atenciones:sub_atencion_toggle' s.id %}" class="d-inline" data-confirm="¿Desea cambiar el estado de {{ s.nombre }}?">{% csrf_token %}<button type="submit" class="btn-stitch-icon btn-stitch-icon-delete" title="{% if s.activo %}Desactivar{% else %}Activar{% endif %}" aria-label="{% if s.activo %}Desactivar{% else %}Activar{% endif %} {{ s.nombre }}"><i class="bi bi-power" aria-hidden="true"></i></button></form></div>{% else %}<span class="text-secondary">Solo lectura</span>{% endif %}
+                    </td>
+                </tr>
+
+                {% empty %}
+                <tr>
+                    <td colspan="5" class="text-center py-5" style="color: var(--text-muted);">
+                        <i class="bi bi-diagram-3 fs-1 d-block mb-2" style="color: var(--text-light);"></i>
+                        No se encontraron sub-atenciones registradas.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% include "includes/pagination.html" %}
+
+</div>
+
+{% if can_manage %}
+<!-- Modal Nueva Sub-Atención Stitch Style -->
+<div class="modal fade" id="nuevaSubAtencionModal" tabindex="-1" aria-hidden="true" aria-labelledby="nuevaSubAtencionModalTitle">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content modal-content-stitch">
+            <div class="modal-header-stitch">
+                <h5 id="nuevaSubAtencionModalTitle" class="fw-bold mb-0" style="color: var(--text-main); font-size: 1.15rem;">Nueva Sub-Atención</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <form method="POST" data-crud-form novalidate action="{% url 'atenciones:sub_atencion_create' %}">
+                {% csrf_token %}
+                <div class="modal-body p-4">
+                    <div class="mb-3">
+                        <label for="nuevaSubAtencionModal-tipo_atencion" class="form-label small fw-semibold" style="color: var(--text-main);">Tipo de Atención Principal *</label>
+                        <select id="nuevaSubAtencionModal-tipo_atencion" name="tipo_atencion" class="input-stitch" required>
+                            <option value="">Selecciona el tipo de atención</option>
+                            {% for t in tipos %}
+                            <option value="{{ t.id }}">{{ t.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="nuevaSubAtencionModal-nombre" class="form-label small fw-semibold" style="color: var(--text-main);">Nombre de la Sub-Atención *</label>
+                        <input type="text" id="nuevaSubAtencionModal-nombre" name="nombre" class="input-stitch" placeholder="Ej. Subsidio Único Familiar, Beca Deportiva, etc." required maxlength="150" data-validate="text" pattern=".*\S.*">
+                    </div>
+                    <div class="form-check form-switch mt-3 pt-2 border-top" style="border-color: var(--border-stitch) !important;">
+                        <input class="form-check-input" type="checkbox" name="activo" id="activoNuevaSub" checked>
+                        <label class="form-check-label small fw-semibold" for="activoNuevaSub" style="color: var(--text-main);">Estado Activo</label>
+                    </div>
+                </div>
+                <div class="modal-footer-stitch">
+                    <button type="button" class="btn-stitch btn-stitch-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn-stitch btn-stitch-primary">Crear Sub-Atención</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% if can_manage %}
+{% include 'includes/crud_edit_modal.html' %}
+{% endif %}
+{% endblock %}

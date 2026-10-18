@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block title %}Apariencia de mi delegación | La Serena{% endblock %}
+{% block content %}
+<section class="dashboard-section appearance-editor">
+    <h1>Apariencia de mi delegación</h1>
+    <p class="text-secondary">Configura el encabezado compartido de <strong>{{ appearance_delegation.nombre }}</strong>. Los funcionarios verán el cambio al abrir o recargar una página.</p>
+    {% include 'territorial/appearance_form.html' %}
+</section>
+{% endblock %}

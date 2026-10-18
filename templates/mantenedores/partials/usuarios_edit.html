@@ -1,0 +1,67 @@
+<!-- Modal Editar Usuario Stitch Style -->
+                <div class="modal fade" id="editUsuarioModal{{ u.id }}" tabindex="-1" aria-hidden="true" aria-labelledby="editUsuarioModal{{ u.id }}Title">
+                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                        <div class="modal-content modal-content-stitch">
+                            <div class="modal-header-stitch">
+                                <h5 id="editUsuarioModal{{ u.id }}Title" class="fw-bold mb-0" style="color: var(--text-main); font-size: 1.15rem;">Editar Cuenta: {{ u.username }}</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                            </div>
+                            <form method="POST" data-crud-form novalidate action="{% url 'usuarios:usuarios_edit' u.id %}">
+                                {% csrf_token %}
+                                <div class="modal-body p-4">
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <label for="editUsuarioModal{{ u.id }}-username" class="form-label small fw-semibold" style="color: var(--text-main);">Usuario (Login) *</label>
+                                            <input type="text" id="editUsuarioModal{{ u.id }}-username" name="username" value="{{ u.username }}" class="input-stitch" required maxlength="150" pattern="[\p{L}\p{N}@.+_\-]+" autocomplete="username">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="editUsuarioModal{{ u.id }}-rut" class="form-label small fw-semibold" style="color: var(--text-main);">RUT *</label>
+                                            <input type="text" id="editUsuarioModal{{ u.id }}-rut" name="rut" value="{{ u.rut|default:'' }}" class="input-stitch" placeholder="12.345.678-5" maxlength="12" data-validate="rut" pattern="[0-9.]+[\-]?[0-9kK]">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="editUsuarioModal{{ u.id }}-first_name" class="form-label small fw-semibold" style="color: var(--text-main);">Nombres *</label>
+                                            <input type="text" id="editUsuarioModal{{ u.id }}-first_name" name="first_name" value="{{ u.first_name }}" class="input-stitch" required maxlength="150" data-validate="text" pattern=".*\S.*">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="editUsuarioModal{{ u.id }}-last_name" class="form-label small fw-semibold" style="color: var(--text-main);">Apellidos *</label>
+                                            <input type="text" id="editUsuarioModal{{ u.id }}-last_name" name="last_name" value="{{ u.last_name }}" class="input-stitch" required maxlength="150" data-validate="text" pattern=".*\S.*">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="editUsuarioModal{{ u.id }}-email" class="form-label small fw-semibold" style="color: var(--text-main);">Correo Electrónico *</label>
+                                            <input type="email" id="editUsuarioModal{{ u.id }}-email" name="email" value="{{ u.email }}" class="input-stitch" required maxlength="254">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="editUsuarioModal{{ u.id }}-telefono" class="form-label small fw-semibold" style="color: var(--text-main);">Teléfono</label>
+                                            <input type="tel" id="editUsuarioModal{{ u.id }}-telefono" name="telefono" value="{{ u.telefono|default:'' }}" class="input-stitch" placeholder="+56 9 8765 4321" maxlength="20" data-validate="phone" pattern="[+0-9\(\) \-]{8,20}">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="editUsuarioModal{{ u.id }}-rol" class="form-label small fw-semibold" style="color: var(--text-main);">Rol Asignado *</label>
+                                            <select id="editUsuarioModal{{ u.id }}-rol" name="rol" class="input-stitch" required>
+                                                <option value="">Selecciona un rol</option>
+                                                {% for r in roles %}
+                                                <option value="{{ r.id }}" {% if u.rol_id == r.id %}selected{% endif %}>{{ r.nombre }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="editUsuarioModal{{ u.id }}-password" class="form-label small fw-semibold" style="color: var(--text-main);">Nueva Contraseña (Opcional)</label>
+                                            <input type="password" id="editUsuarioModal{{ u.id }}-password" name="password" class="input-stitch" placeholder="Dejar en blanco para mantener la actual" minlength="8" autocomplete="new-password">
+                                        </div>
+                                        <div class="col-md-6"><label for="usuario-correo-secundario-{{ u.id }}" class="form-label small fw-semibold">Correo de recuperación (opcional)</label><input type="email" id="usuario-correo-secundario-{{ u.id }}" name="email_secundario" value="{{ u.email_secundario|default:'' }}" class="input-stitch" maxlength="254" autocomplete="email"></div>
+                                        <div class="col-md-6"><label for="usuario-delegacion-{{ u.id }}" class="form-label small fw-semibold">Delegación</label><select id="usuario-delegacion-{{ u.id }}" name="delegacion" class="input-stitch"><option value="">Sin delegación asignada</option>{% for delegacion in delegaciones %}<option value="{{ delegacion.id }}" {% if u.delegacion_id == delegacion.id %}selected{% endif %}>{{ delegacion.nombre }}</option>{% endfor %}</select></div>
+<div class="col-12 mt-3 pt-2 border-top" style="border-color: var(--border-stitch) !important;">
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox" name="activo" id="activoSwitchU{{ u.id }}" {% if u.activo %}checked{% endif %}>
+                                                <label class="form-check-label small fw-semibold" for="activoSwitchU{{ u.id }}" style="color: var(--text-main);">Usuario Activo en el Sistema</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer-stitch">
+                                    <button type="button" class="btn-stitch btn-stitch-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="submit" class="btn-stitch btn-stitch-primary">Guardar Cambios</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>

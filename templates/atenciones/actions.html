@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}Acciones{% endblock %}
+{% block content %}
+<header class="page-heading">
+    <div><h1>Acciones</h1><p>Registro de actividades y seguimiento de su aprobación.</p></div>
+    <div class="d-flex flex-wrap gap-2">
+        <a class="btn-stitch btn-stitch-excel" href="?q={{ search|urlencode }}&amp;estado={{ estado|urlencode }}&amp;export=excel"><i class="bi bi-file-earmark-excel" aria-hidden="true"></i>Exportar Excel</a>
+        {% if can_register %}<a class="btn-stitch btn-stitch-primary" href="{% url 'atenciones:action_create' %}"><i class="bi bi-plus-lg" aria-hidden="true"></i>Nueva acción</a>{% endif %}
+    </div>
+</header>
+<section class="card-stitch">
+    <div class="card-stitch-header">
+        <form class="transaction-filter w-100" method="get">
+            <input class="form-control" name="q" value="{{ search }}" placeholder="Buscar acción o delegación" aria-label="Buscar acción">
+            <select name="estado" class="form-select" aria-label="Estado"><option value="">Todos los estados</option>{% for value,label in states %}<option value="{{ value }}" {% if estado == value %}selected{% endif %}>{{ label }}</option>{% endfor %}</select>
+            <button class="btn-stitch btn-stitch-secondary" type="submit">Filtrar</button>
+        </form>
+    </div>
+    <div class="table-responsive">
+        <table class="table-stitch">
+            <thead><tr><th scope="col">Fecha</th><th scope="col">Acción</th><th scope="col">Delegación</th><th scope="col">Autor</th><th scope="col">Estado</th><th scope="col">Evidencia</th>{% if can_review %}<th scope="col">Revisar</th>{% endif %}</tr></thead>
+            <tbody>
+                {% for action in page_obj %}
+                <tr>
+                    <td class="text-nowrap">{{ action.fecha_creacion|date:'d/m/Y' }}</td>
+                    <td class="table-description"><strong class="d-block">{{ action.titulo }}</strong><small class="text-secondary">{{ action.descripcion|truncatechars:100 }}</small></td>
+                    <td>{{ action.delegacion }}</td><td>{{ action.creador }}</td>
+                    <td><span class="status-pill {{ action.estado }}">{{ action.estado }}</span></td>
+                    <td>{% if action.evidencia %}<a href="{% url 'atenciones:action_evidence' action.pk %}">Ver imagen</a>{% else %}<span class="text-secondary">Sin evidencia</span>{% endif %}</td>
+                    {% if can_review %}<td><a class="btn-stitch btn-stitch-secondary" href="{% url 'atenciones:action_review' action.pk %}" aria-label="Revisar {{ action.titulo }}"><i class="bi bi-eye" aria-hidden="true"></i> Revisar</a></td>{% endif %}
+                </tr>
+                {% empty %}<tr><td colspan="{% if can_review %}7{% else %}6{% endif %}"><div class="empty-state">No hay acciones que mostrar.</div></td></tr>{% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% include 'includes/pagination.html' %}
+</section>
+{% endblock %}

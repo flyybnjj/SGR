@@ -1,0 +1,36 @@
+<!-- Modal Editar Sub-Atención Stitch Style -->
+                <div class="modal fade" id="editSubModal{{ s.id }}" tabindex="-1" aria-hidden="true" aria-labelledby="editSubModal{{ s.id }}Title">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content modal-content-stitch">
+                            <div class="modal-header-stitch">
+                                <h5 id="editSubModal{{ s.id }}Title" class="fw-bold mb-0" style="color: var(--text-main); font-size: 1.15rem;">Editar Sub-Atención: {{ s.nombre }}</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                            </div>
+                            <form method="POST" data-crud-form novalidate action="{% url 'atenciones:sub_atencion_edit' s.id %}">
+                                {% csrf_token %}
+                                <div class="modal-body p-4">
+                                    <div class="mb-3">
+                                        <label for="editSubModal{{ s.id }}-tipo_atencion" class="form-label small fw-semibold" style="color: var(--text-main);">Tipo de Atención Principal *</label>
+                                        <select id="editSubModal{{ s.id }}-tipo_atencion" name="tipo_atencion" class="input-stitch" required>
+                                            {% for t in tipos %}
+                                            <option value="{{ t.id }}" {% if s.tipo_atencion_id == t.id %}selected{% endif %}>{{ t.nombre }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="editSubModal{{ s.id }}-nombre" class="form-label small fw-semibold" style="color: var(--text-main);">Nombre de la Sub-Atención *</label>
+                                        <input type="text" id="editSubModal{{ s.id }}-nombre" name="nombre" value="{{ s.nombre }}" class="input-stitch" required maxlength="150" data-validate="text" pattern=".*\S.*">
+                                    </div>
+                                    <div class="form-check form-switch mt-3 pt-2 border-top" style="border-color: var(--border-stitch) !important;">
+                                        <input class="form-check-input" type="checkbox" name="activo" id="activoSwitchSub{{ s.id }}" {% if s.activo %}checked{% endif %}>
+                                        <label class="form-check-label small fw-semibold" for="activoSwitchSub{{ s.id }}" style="color: var(--text-main);">Estado Activo</label>
+                                    </div>
+                                </div>
+                                <div class="modal-footer-stitch">
+                                    <button type="button" class="btn-stitch btn-stitch-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="submit" class="btn-stitch btn-stitch-primary">Guardar Cambios</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>

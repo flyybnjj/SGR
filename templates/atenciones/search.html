@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}Atención al vecino | La Serena{% endblock %}
+{% block content %}
+<header class="page-heading"><div><h1>Atención al vecino</h1><p>Busca a la persona para consultar su historial y registrar una atención.</p></div><div class="d-flex flex-wrap gap-2"><a class="btn-stitch btn-stitch-excel" href="?q={{ search|urlencode }}&amp;export=excel"><i class="bi bi-file-earmark-excel" aria-hidden="true"></i>Exportar resultados</a>{% if can_register %}<a class="btn-stitch btn-stitch-primary" href="{% url 'atenciones:attention_new' %}"><i class="bi bi-plus-lg" aria-hidden="true"></i>Nueva persona</a>{% endif %}</div></header>
+<section class="card-stitch">
+    <div class="card-stitch-header"><form method="get" class="transaction-filter w-100"><label class="visually-hidden" for="person-search">RUT, nombre o apellido</label><input id="person-search" class="form-control flex-grow-1 w-auto" name="q" value="{{ search }}" placeholder="RUT, nombre o apellido" autofocus required><button class="btn-stitch btn-stitch-primary" type="submit"><i class="bi bi-search" aria-hidden="true"></i>Buscar</button></form></div>
+    <div class="table-responsive"><table class="table-stitch"><thead><tr><th scope="col">Nombre</th><th scope="col">RUT</th><th scope="col">Dirección</th><th scope="col">Ficha</th></tr></thead><tbody>
+    {% for person in page_obj %}<tr><td class="fw-semibold">{{ person.nombre }}{% if not person.activo %}<span class="status-pill Inactivo ms-2">Inactivo</span>{% endif %}</td><td>{{ person.rut|default:'Sin RUT registrado' }}</td><td>{{ person.direccion|default:'Sin dirección' }}</td><td><a class="btn-stitch btn-stitch-secondary" href="{% url 'atenciones:attention_detail' person.pk %}">Ver historial</a></td></tr>
+    {% empty %}<tr><td colspan="4"><div class="empty-state">{% if search %}<strong class="d-block mb-2">No encontramos coincidencias</strong>Revisa el nombre o RUT.{% if can_register %} Si la persona no está registrada, puedes crear su ficha.{% endif %}{% else %}<strong class="d-block mb-2">Comienza con una búsqueda</strong>No es necesario conocer el RUT: también puedes usar el nombre o apellido.{% endif %}</div></td></tr>{% endfor %}
+    </tbody></table></div>
+    {% include 'includes/pagination.html' %}
+</section>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}{{ title }} | La Serena{% endblock %}
+{% block content %}
+<header class="page-heading"><div><h1>{{ title }}</h1><p>Los campos marcados con * son obligatorios.</p></div><a class="btn-stitch btn-stitch-secondary" href="{% url back_url %}"><i class="bi bi-arrow-left" aria-hidden="true"></i>Volver</a></header>
+<section class="dashboard-section form-panel">
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% include 'atenciones/fields.html' %}
+        <div class="form-actions"><a class="btn-stitch btn-stitch-secondary" href="{% url back_url %}">Cancelar</a><button class="btn-stitch btn-stitch-primary" type="submit">Guardar</button></div>
+    </form>
+</section>
+{% endblock %}

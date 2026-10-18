@@ -1,0 +1,10 @@
+<div class="passkey-entry my-3">
+    <button type="button" class="btn-stitch {% if passkey_preferred %}btn-stitch-primary{% else %}btn-stitch-secondary{% endif %} w-100 justify-content-center" data-passkey-action="{% if passkey_reset %}reset{% else %}login{% endif %}">
+        <i class="bi bi-qr-code-scan" aria-hidden="true"></i>{% if passkey_reset %}Confirmar con passkey{% else %}Ingresar con passkey{% endif %}
+    </button>
+    {% if compact_passkey_help %}<details class="passkey-help"><summary>Cómo usar una passkey</summary>{% endif %}
+    <p class="small text-secondary mt-2 mb-0">Puedes vincular tu teléfono después de entrar, en Editar mi cuenta → Passkeys.</p>
+    <p class="small text-secondary">Si usas el teléfono, elige «Usar otro dispositivo», escanea el QR y activa Bluetooth en ambos equipos.</p>
+    {% if compact_passkey_help %}</details>{% endif %}
+    <p class="small text-secondary" data-passkey-status role="status" aria-live="polite"></p>
+</div>

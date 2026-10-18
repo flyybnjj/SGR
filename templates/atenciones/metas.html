@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}Ejecución de metas{% endblock %}
+{% block content %}
+<header class="page-heading">
+    <div><h1>Ejecución de metas</h1><p>El avance considera acciones aprobadas registradas dentro del período.</p></div>
+    <div class="d-flex flex-wrap gap-2">
+        <a class="btn-stitch btn-stitch-excel" href="?q={{ search|urlencode }}&amp;export=excel"><i class="bi bi-file-earmark-excel" aria-hidden="true"></i>Exportar Excel</a>
+        {% if can_manage %}<a class="btn-stitch btn-stitch-primary" href="{% url 'atenciones:meta_create' %}"><i class="bi bi-plus-lg" aria-hidden="true"></i>Nueva meta</a>{% endif %}
+    </div>
+</header>
+<section class="card-stitch">
+    <div class="card-stitch-header">
+        <form class="transaction-filter w-100" method="get">
+            <input class="form-control" name="q" value="{{ search }}" aria-label="Buscar meta" placeholder="Meta o delegación">
+            <button class="btn-stitch btn-stitch-secondary" type="submit">Filtrar</button>
+        </form>
+    </div>
+    <div class="table-responsive">
+        <table class="table-stitch">
+            <thead><tr><th scope="col">Meta</th><th scope="col">Delegación</th><th scope="col">Período</th><th scope="col">Objetivo</th><th scope="col">Ejecutado</th><th scope="col">Avance</th>{% if can_manage %}<th scope="col"><span class="visually-hidden">Acciones</span></th>{% endif %}</tr></thead>
+            <tbody>
+                {% for item in page_obj %}
+                <tr>
+                    <td class="fw-semibold">{{ item.item_meta }}</td><td>{{ item.delegacion }}</td>
+                    <td class="text-nowrap">{{ item.inicio|date:'d/m/Y' }} – {{ item.fin|date:'d/m/Y' }}</td>
+                    <td>{{ item.objetivo }}</td><td>{{ item.ejecutado }}</td>
+                    <td><div class="d-flex align-items-center gap-2 text-nowrap"><progress max="100" value="{{ item.porcentaje }}" aria-label="Avance de {{ item.item_meta }}">{{ item.porcentaje }}%</progress><span>{{ item.porcentaje }}%</span></div></td>
+                    {% if can_manage %}<td><a class="btn-stitch btn-stitch-secondary" href="{% url 'atenciones:meta_edit' item.pk %}">Editar</a></td>{% endif %}
+                </tr>
+                {% empty %}<tr><td colspan="{% if can_manage %}7{% else %}6{% endif %}"><div class="empty-state">No hay metas que mostrar.</div></td></tr>{% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% include 'includes/pagination.html' %}
+</section>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% if request.user.is_superuser or request.user.delegacion_id == d.id %}
+                <!-- Modal Editar Delegación Stitch Style -->
+                <div class="modal fade" id="editDelegacionModal{{ d.id }}" tabindex="-1" aria-hidden="true" aria-labelledby="editDelegacionModal{{ d.id }}Title">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content modal-content-stitch">
+                            <div class="modal-header-stitch">
+                                <h5 id="editDelegacionModal{{ d.id }}Title" class="fw-bold mb-0" style="color: var(--text-main); font-size: 1.15rem;">Editar Sede: {{ d.nombre }}</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                            </div>
+                            <form method="POST" data-crud-form novalidate action="{% url 'territorial:delegaciones_edit' d.id %}">
+                                {% csrf_token %}
+                                <div class="modal-body p-4">
+                                    <div class="mb-3">
+                                        <label for="editDelegacionModal{{ d.id }}-nombre" class="form-label small fw-semibold" style="color: var(--text-main);">Nombre de la Delegación *</label>
+                                        <input type="text" id="editDelegacionModal{{ d.id }}-nombre" name="nombre" value="{{ d.nombre }}" class="input-stitch" required maxlength="150" data-validate="text" pattern=".*\S.*">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="editDelegacionModal{{ d.id }}-direccion" class="form-label small fw-semibold" style="color: var(--text-main);">Dirección Territorial *</label>
+                                        <input type="text" id="editDelegacionModal{{ d.id }}-direccion" name="direccion" value="{{ d.direccion }}" class="input-stitch" required maxlength="255" data-validate="text" pattern=".*\S.*">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="editDelegacionModal{{ d.id }}-comuna" class="form-label small fw-semibold" style="color: var(--text-main);">Comuna *</label>
+                                        <input type="text" id="editDelegacionModal{{ d.id }}-comuna" name="comuna" value="{{ d.comuna }}" class="input-stitch" required maxlength="100" data-validate="text" pattern=".*\S.*">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="editDelegacionModal{{ d.id }}-delegado" class="form-label small fw-semibold" style="color: var(--text-main);">Delegado a Cargo</label>
+                                        <select id="editDelegacionModal{{ d.id }}-delegado" name="delegado" class="input-stitch" {% if not request.user.is_superuser %}disabled{% endif %}>
+                                            <option value="">-- Sin Delegado Asignado --</option>
+                                            {% for delg in delegados %}
+                                            <option value="{{ delg.id }}" {% if d.delegado_id == delg.id %}selected{% endif %}>{{ delg.nombre_completo }} ({{ delg.email }})</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="mb-3"><span class="delegacion-color" style="background-color: {{ d.color_identificacion }}" aria-hidden="true"></span>Color del encabezado: {{ d.color_identificacion }}
+                                        {% if request.user.is_superuser or d.delegado_id == request.user.id %}<a class="d-block mt-1" href="{% url 'territorial:apariencia' d.id %}">Configurar apariencia de la delegación</a>{% else %}<p class="small text-secondary mb-0">Solo el delegado responsable puede cambiar el color desde su perfil.</p>{% endif %}
+                                    </div>
+<div class="form-check form-switch mt-3 pt-2 border-top" style="border-color: var(--border-stitch) !important;">
+                                        <input class="form-check-input" type="checkbox" name="activo" id="activoSwitchDelg{{ d.id }}" {% if d.activo %}checked{% endif %}>
+                                        <label class="form-check-label small fw-semibold" for="activoSwitchDelg{{ d.id }}" style="color: var(--text-main);">Delegación Activa</label>
+                                    </div>
+                                </div>
+                                <div class="modal-footer-stitch">
+                                    <button type="button" class="btn-stitch btn-stitch-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="submit" class="btn-stitch btn-stitch-primary">Guardar Cambios</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+{% endif %}

@@ -1,0 +1,12 @@
+<div class="modal" id="delegationAppearanceModal" tabindex="-1" aria-labelledby="appearance-title" aria-describedby="appearance-description" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable appearance-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <h2 id="appearance-title">Dale identidad a tu delegación</h2>
+                <p id="appearance-description" class="text-secondary">Elige el color de <strong>{{ appearance_pending.nombre }}</strong>. Todo tu equipo lo verá al ingresar.</p>
+                {% include 'territorial/appearance_form.html' with appearance_delegation=appearance_pending initial_setup=True %}
+            </div>
+        </div>
+    </div>
+</div>
+<noscript><div class="alert alert-warning">Tu delegación necesita un color de identificación. <a href="{% url 'territorial:apariencia' appearance_pending.pk %}">Configurar encabezado</a></div></noscript>

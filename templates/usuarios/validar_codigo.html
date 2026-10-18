@@ -1,0 +1,378 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validar Código • Ilustre Municipalidad de La Serena</title>
+    <!-- Favicon Oficial -->
+    <link rel="icon" type="image/svg+xml" href="{% static 'img/escudo_laserena.svg' %}">
+    <meta name="theme-color" content="#B80003">
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.6/dist/sweetalert2.min.css">
+    <!-- Identidad y componentes municipales -->
+    <link rel="stylesheet" href="{% static 'css/muni-laserena.css' %}?v=20261004-delegation-theme">
+    <link rel="stylesheet" href="{% static 'css/municipal-ui.css' %}?v=20261004-delegation-theme">
+    <link rel="stylesheet" href="{% static 'css/municipal-auth.css' %}?v=20261018-soft-glass">
+</head>
+<body class="municipal-auth">
+
+    <!-- Tarjeta Split Screen -->
+    <main class="auth-split-card">
+        <div class="row g-0 align-items-stretch">
+
+            <!-- Columna Izquierda: Formulario de Verificación PIN -->
+            <div class="col-lg-6 d-flex flex-column justify-content-between auth-form-column">
+
+                <!-- Encabezado -->
+                <div>
+                    <div class="auth-brand-row d-flex align-items-center justify-content-between mb-4">
+                        <img src="{% static 'img/horizontal-color.svg' %}" width="10153" height="2784" alt="Municipalidad de La Serena" class="login-logo-img mb-0" onerror="this.onerror=null; this.src='{% static 'img/escudo_laserena.svg' %}';">
+                        <span class="auth-step badge rounded-pill">
+                            PASO 2 DE 3
+                        </span>
+                    </div>
+
+                    <h1 class="auth-title mb-2">
+                        Revisa tu correo
+                    </h1>
+                    <p class="mb-3 auth-description text-muted">
+                        Si los datos corresponden a una cuenta activa, recibirás un código de seis dígitos. Revisa tu correo y la carpeta de spam.
+                    </p>
+
+                    <!-- Mensajes de Feedback Visual Inmediato -->
+                    {% if messages %}
+                    <div class="mb-3">
+                        {% for message in messages %}
+                        <div class="alert {% if message.tags == 'error' %}alert-danger{% else %}alert-success{% endif %} auth-feedback d-flex align-items-center gap-2">
+                            <i class="bi {% if message.tags == 'error' %}bi-exclamation-octagon-fill text-danger{% else %}bi-check-circle-fill text-success{% endif %} fs-6 flex-shrink-0" aria-hidden="true"></i>
+                            <div class="fw-medium">{{ message }}</div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+
+                    <!-- Formulario de 6 Dígitos -->
+                    <form method="POST" id="codeForm" autocomplete="off">
+                        {% csrf_token %}
+                        <input type="hidden" name="codigo" id="hiddenCodigo">
+
+                        <!-- Celdas de Código PIN con auto-enfoque -->
+                        <fieldset class="border-0 p-0 mb-3"><legend class="visually-hidden">Código de verificación de 6 dígitos</legend>
+                        <div class="d-flex justify-content-center gap-2" id="pinContainer">
+                            <input type="text" maxlength="1" class="pin-box-stitch" id="d1" aria-label="Dígito 1 de 6" name="d1" autofocus pattern="[0-9]*" inputmode="numeric" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                            <input type="text" maxlength="1" class="pin-box-stitch" id="d2" aria-label="Dígito 2 de 6" name="d2" pattern="[0-9]*" inputmode="numeric" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                            <input type="text" maxlength="1" class="pin-box-stitch" id="d3" aria-label="Dígito 3 de 6" name="d3" pattern="[0-9]*" inputmode="numeric" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                            <input type="text" maxlength="1" class="pin-box-stitch" id="d4" aria-label="Dígito 4 de 6" name="d4" pattern="[0-9]*" inputmode="numeric" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                            <input type="text" maxlength="1" class="pin-box-stitch" id="d5" aria-label="Dígito 5 de 6" name="d5" pattern="[0-9]*" inputmode="numeric" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                            <input type="text" maxlength="1" class="pin-box-stitch" id="d6" aria-label="Dígito 6 de 6" name="d6" pattern="[0-9]*" inputmode="numeric" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                        </div></fieldset>
+
+                        <p class="text-center small mb-4">
+                            <i class="bi bi-clock me-1 text-danger" aria-hidden="true"></i>El código expira en 15 minutos.
+                        </p>
+
+                        <button type="submit" id="btnSubmitCode" class="btn-auth-primary w-100 mb-3 d-flex align-items-center justify-content-center gap-2">
+                            <span>Verificar y Continuar</span>
+                            <i class="bi bi-arrow-right" aria-hidden="true"></i>
+                        </button>
+
+                        <!-- Reenviar Código con Countdown -->
+                        <div class="text-center mb-2">
+                            <span class="small text-muted">¿No recibiste el código?</span>
+                            <button type="submit" form="resendCodeForm" disabled class="btn btn-link text-decoration-none small fw-bold ms-1" id="resendLink">
+                                Reenviar en <span id="timerSpan">45s</span>
+                            </button>
+                        </div>
+
+                        <div class="text-center mt-3">
+                            <a href="{% url 'usuarios:login' %}" class="auth-back-link text-decoration-none">
+                                ← Volver al inicio de sesión
+                            </a>
+                        </div>
+                    </form>
+                    <form id="resendCodeForm" method="post" action="{% url 'usuarios:reenviar_codigo' %}">{% csrf_token %}</form>
+                </div>
+
+                <!-- Footer de Enlaces y Soporte Comunal -->
+                <div class="auth-footer d-flex flex-wrap justify-content-between align-items-center gap-2">
+                    <span>Términos</span>
+                    <span class="text-slate-300">•</span>
+                    <span>Mesa de Ayuda 800 200 120</span>
+                    <span class="text-slate-300">•</span>
+                    <span>Privacidad</span>
+                </div>
+
+            </div>
+
+            <!-- Columna Derecha: Fotografías de La Serena con navegación manual -->
+            <div class="col-lg-6 d-none d-lg-block auth-image-column">
+                {% include 'includes/auth_carousel.html' %}
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Bootstrap 5 JS & SweetAlert2 Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.6/dist/sweetalert2.all.min.js"></script>
+    <script>
+        // SweetAlert2: Toast no-bloqueante para éxitos y modal para errores
+        {% if messages %}
+            {% for message in messages %}
+                {% if message.tags == 'error' %}
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Código no válido',
+                    text: "{{ message|escapejs }}",
+                    confirmButtonText: 'Intentar de nuevo',
+                    confirmButtonColor: '#B80003',
+                    timer: 5000,
+                    timerProgressBar: true,
+                    customClass: { popup: 'muni-swal-popup' }
+                });
+                {% else %}
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3500,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer);
+                        toast.addEventListener('mouseleave', Swal.resumeTimer);
+                    }
+                });
+                Toast.fire({
+                    icon: '{{ message.tags|default:'info'|escapejs }}',
+                    title: "{{ message|escapejs }}"
+                });
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+
+        const inputs = [
+            document.getElementById('d1'),
+            document.getElementById('d2'),
+            document.getElementById('d3'),
+            document.getElementById('d4'),
+            document.getElementById('d5'),
+            document.getElementById('d6')
+        ];
+        const hiddenCodigo = document.getElementById('hiddenCodigo');
+        const pinContainer = document.getElementById('pinContainer');
+        const codeForm = document.getElementById('codeForm');
+        const btnSubmit = document.getElementById('btnSubmitCode');
+
+        // Sincronizar campo oculto
+        function syncHiddenCode() {
+            const val = inputs.map(i => i.value).join('');
+            if (hiddenCodigo) hiddenCodigo.value = val;
+            return val;
+        }
+
+        // Manejo fluido de cada casilla OTP
+        inputs.forEach((input, index) => {
+            if (!input) return;
+
+            input.addEventListener('input', (e) => {
+                const cleanVal = input.value.replace(/[^0-9]/g, '');
+                input.value = cleanVal ? cleanVal.slice(-1) : '';
+
+                inputs.forEach(i => i.classList.remove('is-invalid-box'));
+
+                if (input.value) {
+                    input.classList.add('is-filled');
+                    if (index < 5) {
+                        inputs[index + 1].focus();
+                        inputs[index + 1].select();
+                    }
+                } else {
+                    input.classList.remove('is-filled');
+                }
+
+                syncHiddenCode();
+            });
+
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace') {
+                    if (input.value === '' && index > 0) {
+                        inputs[index - 1].focus();
+                        inputs[index - 1].value = '';
+                        inputs[index - 1].classList.remove('is-filled');
+                        e.preventDefault();
+                    } else {
+                        input.value = '';
+                        input.classList.remove('is-filled');
+                    }
+                    syncHiddenCode();
+                } else if (e.key === 'ArrowLeft' && index > 0) {
+                    inputs[index - 1].focus();
+                } else if (e.key === 'ArrowRight' && index < 5) {
+                    inputs[index + 1].focus();
+                } else if (e.key === 'Enter') {
+                    e.preventDefault();
+                    ejecutarValidacion();
+                }
+            });
+
+            input.addEventListener('paste', (e) => {
+                e.preventDefault();
+                const text = (e.clipboardData || window.clipboardData).getData('text').trim();
+                const digits = text.replace(/[^0-9]/g, '').slice(0, 6);
+                if (digits) {
+                    digits.split('').forEach((char, i) => {
+                        if (inputs[i]) {
+                            inputs[i].value = char;
+                            inputs[i].classList.add('is-filled');
+                            inputs[i].classList.remove('is-invalid-box');
+                        }
+                    });
+                    syncHiddenCode();
+                    inputs[Math.min(digits.length, 5)].focus();
+                }
+            });
+        });
+
+        // Función de Validación Instantánea (AJAX con fallback a POST)
+        let isSubmitting = false;
+        async function ejecutarValidacion() {
+            if (isSubmitting) return;
+
+            const code = syncHiddenCode();
+
+            if (code.length !== 6) {
+                if (pinContainer) {
+                    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                        pinContainer.animate([{transform: 'translateX(0)'}, {transform: 'translateX(-6px)'}, {transform: 'translateX(6px)'}, {transform: 'translateX(0)'}], {duration: 240});
+                    }
+                }
+                inputs.forEach(i => {
+                    if (!i.value) i.classList.add('is-invalid-box');
+                });
+                const firstEmpty = inputs.find(i => !i.value) || inputs[0];
+                if (firstEmpty) firstEmpty.focus();
+
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Código incompleto',
+                    text: 'Debes ingresar los 6 dígitos numéricos de tu código de seguridad.',
+                    confirmButtonText: 'Completar código',
+                    confirmButtonColor: '#B80003',
+                    customClass: { popup: 'muni-swal-popup' }
+                });
+                return;
+            }
+
+            // Mostrar estado cargando en el botón
+            isSubmitting = true;
+            if (btnSubmit) {
+                btnSubmit.innerHTML = `
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    <span>Verificando código...</span>
+                `;
+                btnSubmit.disabled = true;
+                btnSubmit.style.opacity = '0.85';
+            }
+
+            try {
+                const formData = new FormData(codeForm);
+                const response = await fetch(window.location.href, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Accept': 'application/json'
+                    }
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.valid) {
+                    // Éxito: redireccionar a crear nueva contraseña
+                    if (btnSubmit) {
+                        btnSubmit.innerHTML = `
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span>¡Código Correcto!</span>
+                        `;
+                        btnSubmit.className = 'btn-auth-primary w-100 mb-3 bg-success border-success d-flex align-items-center justify-content-center gap-2';
+                    }
+                    window.location.href = data.redirect_url || "{% url 'usuarios:cambiar_password' %}";
+                } else {
+                    // Código inválido o expirado
+                    restablecerBoton();
+
+                    // Animación shake en las casillas y marcar en rojo
+                    if (pinContainer) {
+                        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                        pinContainer.animate([{transform: 'translateX(0)'}, {transform: 'translateX(-6px)'}, {transform: 'translateX(6px)'}, {transform: 'translateX(0)'}], {duration: 240});
+                    }
+                    }
+                    inputs.forEach(i => {
+                        i.classList.add('is-invalid-box');
+                        i.value = '';
+                        i.classList.remove('is-filled');
+                    });
+                    syncHiddenCode();
+                    if (inputs[0]) inputs[0].focus();
+
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Código no válido',
+                        text: data.error || 'El código ingresado es incorrecto. Revisa los 6 dígitos e inténtalo nuevamente.',
+                        confirmButtonText: 'Ingresar código de nuevo',
+                        confirmButtonColor: '#B80003',
+                        customClass: { popup: 'muni-swal-popup' }
+                    });
+                }
+            } catch (err) {
+                // Si falla la petición asíncrona, enviar el formulario de manera estándar
+                restablecerBoton();
+                codeForm.submit();
+            }
+        }
+
+        function restablecerBoton() {
+            isSubmitting = false;
+            if (btnSubmit) {
+                btnSubmit.innerHTML = `
+                    <span>Verificar y Continuar</span>
+                    <i class="bi bi-arrow-right"></i>
+                `;
+                btnSubmit.disabled = false;
+                btnSubmit.style.opacity = '1';
+            }
+        }
+
+        codeForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            ejecutarValidacion();
+        });
+
+        // Countdown para reenviar código
+        let timeLeft = 45;
+        const timerSpan = document.getElementById('timerSpan');
+        const resendLink = document.getElementById('resendLink');
+        const countdown = setInterval(() => {
+            timeLeft--;
+            if (timeLeft <= 0) {
+                clearInterval(countdown);
+                if (timerSpan) timerSpan.textContent = '';
+                if (resendLink) {
+                    resendLink.innerHTML = 'Reenviar código ahora';
+                    resendLink.style.pointerEvents = 'auto';
+                    resendLink.disabled = false;
+                }
+            } else {
+                if (timerSpan) timerSpan.textContent = `${timeLeft}s`;
+            }
+        }, 1000);
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,105 @@
+from config.access import admin_required, superuser_required, register_required, can_manage, can_register
+from config.pagination import paginate
+from django.views.decorators.http import require_POST
+from django.core.exceptions import PermissionDenied
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.core.paginator import Paginator
+from django.db.models import Q
+from config.excel_utils import export_queryset_to_excel
+from .models import Vecino
+from .forms import VecinoForm
+from territorial.models import DelegacionMunicipal
+
+
+# ==============================================================================
+# MANTENEDOR / CRUD DE VECINOS (Mockup Página 6)
+# ==============================================================================
+
+@login_required
+def vecinos_list_view(request):
+    search = request.GET.get('q', '').strip()
+    queryset = Vecino.objects.select_related('territorio').all()
+
+    if search:
+        queryset = queryset.filter(
+            Q(nombre__icontains=search) |
+            Q(rut__icontains=search) |
+            Q(direccion__icontains=search) |
+            Q(telefono__icontains=search) |
+            Q(territorio__nombre__icontains=search) |
+            Q(tipo_gestion__icontains=search)
+        )
+
+    page_obj = paginate(request, queryset)
+
+    form = VecinoForm(user=request.user)
+    territorios = form.fields["territorio"].queryset
+
+    return render(request, 'mantenedores/vecinos_list.html', {
+        'page_obj': page_obj,
+        'search': search,
+        'form': form,
+        'territorios': territorios,
+    })
+
+
+@register_required
+@require_POST
+def vecinos_save_view(request, pk=None):
+    if request.method == 'POST':
+        instance = get_object_or_404(Vecino, pk=pk) if pk else None
+        if instance and not request.user.is_superuser and instance.territorio_id != request.user.delegacion_id:
+            raise PermissionDenied
+        form = VecinoForm(request.POST, instance=instance, user=request.user)
+        if form.is_valid():
+            vecino = form.save()
+            messages.success(request, f"Vecino(a) '{vecino.nombre}' {'modificado(a)' if pk else 'registrado(a)'} exitosamente.")
+        else:
+            errors_str = " ".join([f"{k}: {v[0]}" for k, v in form.errors.items()])
+            messages.error(request, f"Error al guardar vecino: {errors_str}")
+    return redirect('vecinos:vecinos_list')
+
+
+@register_required
+@require_POST
+def vecinos_toggle_activo(request, pk):
+    """Borrado lógico exigido por el profesor: no borra de raíz, alterna activo/inactivo."""
+    vecino = get_object_or_404(Vecino, pk=pk)
+    if not request.user.is_superuser and vecino.territorio_id != request.user.delegacion_id:
+        raise PermissionDenied
+    vecino.activo = not vecino.activo
+    vecino.save()
+    estado_str = "activado" if vecino.activo else "desactivado (borrado lógico)"
+    messages.success(request, f"El registro de '{vecino.nombre}' fue {estado_str} exitosamente.")
+    return redirect('vecinos:vecinos_list')
+
+
+@login_required
+def vecinos_export_excel(request):
+    search = request.GET.get('q', '').strip()
+    queryset = Vecino.objects.select_related('territorio').all()
+
+    if search:
+        queryset = queryset.filter(
+            Q(nombre__icontains=search) |
+            Q(rut__icontains=search) |
+            Q(direccion__icontains=search) |
+            Q(telefono__icontains=search) |
+            Q(territorio__nombre__icontains=search) |
+            Q(tipo_gestion__icontains=search)
+        )
+
+    vecinos = queryset.order_by("id")
+    headers = ["#", "Nombre Completo", "RUT", "Dirección", "Teléfono", "Territorio / Delegación", "Tipo de Gestión", "Estado"]
+    rows = [
+        [
+            v.id, v.nombre, v.rut, v.direccion, v.telefono or "",
+            v.territorio.nombre if v.territorio else "Sin Asignar",
+            v.get_tipo_gestion_display(),
+            "Activo" if v.activo else "Inactivo"
+        ]
+        for v in vecinos
+    ]
+    return export_queryset_to_excel("Reporte_Vecinos_LaSerena", "Padrón de Vecinos", headers, rows)

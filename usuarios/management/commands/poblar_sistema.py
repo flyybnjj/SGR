@@ -1,0 +1,169 @@
+from django.core.management.base import BaseCommand
+from django.utils import timezone
+from usuarios.models import Rol, Usuario
+from territorial.models import DelegacionMunicipal, ItemMeta
+from atenciones.models import TipoAtencion, SubAtencion
+from vecinos.models import Vecino
+
+
+class Command(BaseCommand):
+    help = "Puebla la base de datos con los roles obligatorios, usuarios, delegaciones, metas, atenciones y vecinos iniciales."
+
+    def handle(self, *args, **options):
+        self.stdout.write(self.style.NOTICE("Iniciando precarga de datos institucionales de La Serena..."))
+
+        # 1. ROLES OBLIGATORIOS (Orden de carga #1)
+        roles_data = [
+            ("Súper Administrador", "Acceso total y gobierno de todos los mantenedores y parámetros del sistema."),
+            ("Organizador Territorial Comunitario", "Vinculación con juntas de vecinos, dirigentes y levantamiento territorial."),
+            ("Gestor Social", "Atención ciudadana presencial y digitación de solicitudes y ayudas sociales."),
+            ("Apoyo Administrativo", "Digitación, archivo, validación documental y soporte a trámites."),
+            ("Supervisor DIDECO", "Fiscalización, revisión de evidencias y emisión de dictámenes territoriales."),
+            ("Coordinador DIDECO", "Priorización comunal, asignación de cuadrillas y coordinación estratégica."),
+            ("Proyecto y Compra", "Gestión de presupuestos, órdenes de compra e insumos operativos."),
+            ("Planificación y Control", "Control de gestión, seguimiento de indicadores y cumplimiento de metas."),
+            ("Gestor de Seguridad", "Coordinación de rondas de seguridad comunitaria y alertas preventivas."),
+            ("Delegado Municipal", "Liderazgo de delegación, gestión del tubo de trabajo y despacho de requerimientos."),
+        ]
+
+        roles_dict = {}
+        for nombre, desc in roles_data:
+            rol, created = Rol.objects.get_or_create(nombre=nombre, defaults={'descripcion': desc, 'activo': True})
+            roles_dict[nombre] = rol
+            if created:
+                self.stdout.write(self.style.SUCCESS(f"  [+] Rol creado: {nombre}"))
+
+        # 2. USUARIOS (Orden de carga #2)
+        # El administrador se inicializa explícitamente con inicializar_admin.
+        # Este comando nunca crea una cuenta privilegiada con clave pública.
+
+        # Delegados y Usuarios de prueba
+        delegado_rol = roles_dict["Delegado Municipal"]
+        gestor_rol = roles_dict["Gestor Social"]
+
+        usuarios_data = [
+            ("juan.perez", "Juan", "Pérez", "juan@municipalidad.cl", "12.456.789-0", "+56987654321", delegado_rol, True),
+            ("maria.lopez", "María", "López", "maria@municipalidad.cl", "13.654.321-K", "+56976543210", delegado_rol, True),
+            ("carlos.diaz", "Carlos", "Díaz", "carlos@municipalidad.cl", "14.789.123-4", "+56965432109", delegado_rol, False), # Inactivo para mockup
+            ("camila.morales", "Camila", "Morales", "camila@municipalidad.cl", "16.321.456-7", "+56954321098", gestor_rol, True),
+        ]
+
+        users_dict = {}
+        for uname, fname, lname, email, rut, fono, urol, uactivo in usuarios_data:
+            usr, created = Usuario.objects.get_or_create(
+                username=uname,
+                defaults={
+                    'first_name': fname,
+                    'last_name': lname,
+                    'email': email,
+                    'rut': rut,
+                    'telefono': fono,
+                    'rol': urol,
+                    'activo': uactivo,
+                }
+            )
+            if created:
+                usr.set_unusable_password()
+                usr.save()
+                self.stdout.write(self.style.SUCCESS(f"  [+] Usuario creado: {uname} (sin acceso hasta que el administrador asigne una clave)"))
+            users_dict[uname] = usr
+
+        # 3. DELEGACIONES MUNICIPALES (Las 6 Sedes Oficiales de La Serena)
+        delegaciones_data = [
+            ("Centro", "Av. Balmaceda #123", "La Serena", users_dict.get("juan.perez")),
+            ("Las Compañías", "Calle Esmeralda #456", "La Serena", users_dict.get("maria.lopez")),
+            ("La Pampa", "Av. Estadio #1200", "La Serena", users_dict.get("carlos.diaz")),
+            ("La Antena", "Calle 18 de Septiembre #789", "La Serena", None),
+            ("Avenida del Mar", "Av. del Mar #1500", "La Serena", None),
+            ("Rural", "Ruta D-41 Km 15 (Algarrobito)", "La Serena", None),
+        ]
+
+        delegs_dict = {}
+        for nom, dir_d, com, del_user in delegaciones_data:
+            dlg, created = DelegacionMunicipal.objects.get_or_create(
+                nombre=nom,
+                defaults={'direccion': dir_d, 'comuna': com, 'delegado': del_user, 'activo': True}
+            )
+            delegs_dict[nom] = dlg
+            if created:
+                self.stdout.write(self.style.SUCCESS(f"  [+] Delegación creada: {nom}"))
+
+        # 4. ÍTEMS DE METAS (Orden de carga #4)
+        metas_data = [
+            ("DISERCO - 150 Podas y Aseo Trimestral", "Aseo, podas y retiro de escombros en cuadrantes prioritarios"),
+            ("DIDECO - 200 Subsidios y Fichas Sociales", "Evaluación y entrega oportuna de subsidios y ayudas sociales"),
+            ("Seguridad - 180 Rondas Preventivas", "Rondas de inspectores municipales y fiscalizaciones territoriales"),
+            ("Organizaciones Comunitarias - 50 Juntas de Vecinos", "Asambleas comunitarias y vinculación con dirigentes vecinales"),
+            ("Cobertura Territorial Comunal", "Aumentar cobertura de atenciones territoriales en un 15%"),
+            ("Satisfacción Vecinal (SLA 48h)", "Mejorar satisfacción ciudadana sobre el 85% de aprobación"),
+        ]
+
+        for nom, desc in metas_data:
+            meta, created = ItemMeta.objects.get_or_create(
+                nombre=nom,
+                defaults={'descripcion': desc, 'activo': True}
+            )
+            if created:
+                self.stdout.write(self.style.SUCCESS(f"  [+] Meta creada: {nom}"))
+
+        # 5. TIPOS DE ATENCIÓN Y SUB-ATENCIONES (Los 4 Pilares Operativos Oficiales)
+        atenciones_data = {
+            "DISERCO (Aseo y Obras)": ("Aseo, áreas verdes, podas, retiro de escombros, maquinaria pesada y emergencias", [
+                "Poda de Árboles en Vía Pública", "Retiro de Escombros y Microbasural", "Bacheo de Calles y Veredas", "Limpieza de Quebradas y Canales", "Operativo de Maquinaria Pesada"
+            ]),
+            "Gestión Social (DIDECO)": ("Ayudas sociales, subsidios, certificados y entrega de beneficios", [
+                "Ficha Básica de Emergencia (FIBE)", "Subsidio de Agua Potable (SAP)", "Ayuda Social Paliativa", "Certificado de Residencia Vecinal", "Beca Municipal Estudiantil"
+            ]),
+            "Seguridad Ciudadana": ("Inspectores municipales, rondas y prevención comunitaria", [
+                "Ronda Preventiva en Cuadrante", "Fiscalización de Ruidos Molestos", "Inspección de Vehículo Abandonado", "Operativo de Luminarias Públicas", "Recuperación de Espacios Públicos"
+            ]),
+            "Organizaciones Comunitarias": ("Relación y reuniones con juntas de vecinos y dirigentes", [
+                "Asamblea Ordinaria Junta de Vecinos", "Renovación de Directorio Vecinal", "Postulación a Subvención Comunal", "Taller de Liderazgo Territorial", "Audiencia con Delegado Municipal"
+            ]),
+            "Social": ("Atención de carácter social y asistencial complementaria", [
+                "Consulta Social", "Beca municipal", "Subsidio asistencial"
+            ]),
+        }
+
+        for tipo_nom, (tipo_desc, sub_list) in atenciones_data.items():
+            t_obj, created = TipoAtencion.objects.get_or_create(
+                nombre=tipo_nom,
+                defaults={'descripcion': tipo_desc, 'activo': True}
+            )
+            if created:
+                self.stdout.write(self.style.SUCCESS(f"  [+] Tipo Atención creado: {tipo_nom}"))
+            for sub_nom in sub_list:
+                sub_obj, s_created = SubAtencion.objects.get_or_create(
+                    tipo_atencion=t_obj,
+                    nombre=sub_nom,
+                    defaults={'activo': True}
+                )
+                if s_created:
+                    self.stdout.write(self.style.SUCCESS(f"      - Sub-Atención: {sub_nom}"))
+
+        # 6. VECINOS (Orden de carga #6 - Coincidente con mockups)
+        vecinos_data = [
+            ("Ana González", "12.345.678-9", "Av. Balmaceda 120", "+56 9 8765 4321", delegs_dict.get("Centro"), "Solicitud", True),
+            ("Pedro Rojas", "9.876.543-2", "Calle O'Higgins 455", "+56 9 7654 3210", delegs_dict.get("Norte"), "Reclamo", True),
+            ("María Castillo", "15.234.567-1", "Pasaje Los Pinos 89", "+56 9 6543 2109", delegs_dict.get("Sur"), "Consulta", False), # Inactiva según mockup
+            ("Luis Herrera", "17.456.789-0", "Av. El Faro 230", "+56 9 5432 1098", delegs_dict.get("Oriente"), "Orientacion", True),
+            ("Claudia Véliz", "18.987.654-3", "Calle Las Araucarias 14", "+56 9 4321 0987", delegs_dict.get("Centro"), "Solicitud", True),
+            ("Hernán Valenzuela", "10.123.456-7", "Población Minas 88", "+56 9 3210 9876", delegs_dict.get("Rural Cordillera"), "Reclamo", True),
+        ]
+
+        for vnom, vrut, vdir, vtel, vterr, vtipo, vact in vecinos_data:
+            vec, created = Vecino.objects.get_or_create(
+                rut=vrut,
+                defaults={
+                    'nombre': vnom,
+                    'direccion': vdir,
+                    'telefono': vtel,
+                    'territorio': vterr,
+                    'tipo_gestion': vtipo,
+                    'activo': vact,
+                }
+            )
+            if created:
+                self.stdout.write(self.style.SUCCESS(f"  [+] Vecino creado: {vnom} ({vrut})"))
+
+        self.stdout.write(self.style.SUCCESS("\nPrecarga de datos finalizada exitosamente."))

@@ -1,0 +1,15 @@
+version: 1.0
+runtime: python312
+build:
+  commands:
+    build:
+      - pip install --upgrade pip
+      - pip install -r requirements.txt
+      - python manage.py collectstatic --noinput
+run:
+  pre-run:
+    - python manage.py migrate --noinput
+  command: gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers 2 --threads 4 --timeout 120
+  network:
+    port: 8000
+    env: PORT

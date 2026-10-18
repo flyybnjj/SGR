@@ -1,0 +1,116 @@
+[
+  {
+    "page": "dashboard",
+    "width": 1440,
+    "overflow": false,
+    "axe": null
+  },
+  {
+    "page": "admin",
+    "width": 1440,
+    "overflow": false,
+    "axe": null
+  },
+  {
+    "page": "attention",
+    "width": 1440,
+    "overflow": false,
+    "axe": {
+      "violations": [],
+      "incomplete": [
+        "aria-prohibited-attr",
+        "color-contrast"
+      ]
+    }
+  },
+  {
+    "page": "history",
+    "width": 1440,
+    "overflow": false,
+    "axe": null
+  },
+  {
+    "page": "account",
+    "width": 1440,
+    "overflow": false,
+    "axe": {
+      "violations": [],
+      "incomplete": [
+        "aria-valid-attr-value"
+      ]
+    }
+  },
+  {
+    "page": "login",
+    "width": 1440,
+    "overflow": false,
+    "axe": {
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ]
+    }
+  },
+  {
+    "page": "delegations",
+    "width": 1440,
+    "overflow": false,
+    "axe": null
+  },
+  {
+    "page": "dashboard",
+    "width": 390,
+    "overflow": false,
+    "axe": null
+  },
+  {
+    "page": "admin",
+    "width": 390,
+    "overflow": false,
+    "axe": null
+  },
+  {
+    "page": "attention",
+    "width": 390,
+    "overflow": false,
+    "axe": {
+      "violations": [],
+      "incomplete": [
+        "aria-prohibited-attr",
+        "color-contrast"
+      ]
+    }
+  },
+  {
+    "page": "history",
+    "width": 390,
+    "overflow": false,
+    "axe": null
+  },
+  {
+    "page": "account",
+    "width": 390,
+    "overflow": false,
+    "axe": {
+      "violations": [],
+      "incomplete": [
+        "aria-valid-attr-value"
+      ]
+    }
+  },
+  {
+    "page": "login",
+    "width": 390,
+    "overflow": false,
+    "axe": {
+      "violations": [],
+      "incomplete": []
+    }
+  },
+  {
+    "page": "delegations",
+    "width": 390,
+    "overflow": false,
+    "axe": null
+  }
+]

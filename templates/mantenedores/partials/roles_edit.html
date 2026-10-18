@@ -1,0 +1,33 @@
+<!-- Modal Editar Rol Stitch Style -->
+                <div class="modal fade" id="editRolModal{{ rol.id }}" tabindex="-1" aria-hidden="true" aria-labelledby="editRolModal{{ rol.id }}Title">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content modal-content-stitch">
+                            <div class="modal-header-stitch">
+                                <h5 id="editRolModal{{ rol.id }}Title" class="fw-bold mb-0" style="color: var(--text-main); font-size: 1.15rem;">Editar Rol: {{ rol.nombre }}</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                            </div>
+                            <form method="POST" data-crud-form novalidate action="{% url 'usuarios:roles_edit' rol.id %}">
+                                {% csrf_token %}
+                                <div class="modal-body p-4">
+                                    <div class="mb-3">
+                                        <label for="editRolModal{{ rol.id }}-nombre" class="form-label small fw-semibold" style="color: var(--text-main);">Nombre del Rol *</label>
+                                        <input type="text" id="editRolModal{{ rol.id }}-nombre" name="nombre" value="{{ rol.nombre }}" class="input-stitch" required maxlength="100" data-validate="text" pattern=".*\S.*">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="editRolModal{{ rol.id }}-descripcion" class="form-label small fw-semibold" style="color: var(--text-main);">Descripción</label>
+                                        <textarea id="editRolModal{{ rol.id }}-descripcion" name="descripcion" class="input-stitch" rows="3">{{ rol.descripcion|default:"" }}</textarea>
+                                    </div>
+                                    <fieldset class="mb-3"><legend class="small fw-semibold">Permisos del perfil</legend><div class="form-check mb-2"><input type="checkbox" class="form-check-input" name="puede_registrar_atenciones" id="puede_registrar_atenciones-{{ rol.id }}" {% if rol.puede_registrar_atenciones %}checked{% endif %}><label class="form-check-label" for="puede_registrar_atenciones-{{ rol.id }}">Registrar atenciones y vecinos</label></div><div class="form-check mb-2"><input type="checkbox" class="form-check-input" name="puede_aprobar" id="puede_aprobar-{{ rol.id }}" {% if rol.puede_aprobar %}checked{% endif %}><label class="form-check-label" for="puede_aprobar-{{ rol.id }}">Revisar acciones de su delegación</label></div><div class="form-check mb-2"><input type="checkbox" class="form-check-input" name="puede_gestionar" id="puede_gestionar-{{ rol.id }}" {% if rol.puede_gestionar %}checked{% endif %}><label class="form-check-label" for="puede_gestionar-{{ rol.id }}">Gestionar catálogos y metas</label></div></fieldset>
+<div class="form-check form-switch mt-3 pt-2 border-top" style="border-color: var(--border-stitch) !important;">
+                                        <input class="form-check-input" type="checkbox" name="activo" id="activoSwitch{{ rol.id }}" {% if rol.activo %}checked{% endif %}>
+                                        <label class="form-check-label small fw-semibold" for="activoSwitch{{ rol.id }}" style="color: var(--text-main);">Rol Activo en el Sistema</label>
+                                    </div>
+                                </div>
+                                <div class="modal-footer-stitch">
+                                    <button type="button" class="btn-stitch btn-stitch-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="submit" class="btn-stitch btn-stitch-primary">Guardar Cambios</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>

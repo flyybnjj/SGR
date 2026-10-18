@@ -1,0 +1,608 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-18T15:05:17.100314+00:00",
+  "title": "Design System: Plataforma territorial de La Serena",
+  "extensions": {
+    "colorMeta": {
+      "delegation-accent": {
+        "role": "primary",
+        "displayName": "delegation accent",
+        "tonalRamp": [
+          "oklch(from var(--muni-red-primary, #b80003) 15% c h)",
+          "oklch(from var(--muni-red-primary, #b80003) 26% c h)",
+          "oklch(from var(--muni-red-primary, #b80003) 38% c h)",
+          "oklch(from var(--muni-red-primary, #b80003) 49% c h)",
+          "oklch(from var(--muni-red-primary, #b80003) 61% c h)",
+          "oklch(from var(--muni-red-primary, #b80003) 72% c h)",
+          "oklch(from var(--muni-red-primary, #b80003) 84% c h)",
+          "oklch(from var(--muni-red-primary, #b80003) 95% c h)"
+        ]
+      },
+      "delegation-ink": {
+        "role": "primary",
+        "displayName": "delegation ink",
+        "tonalRamp": [
+          "oklch(from var(--muni-red, #b80003) 15% c h)",
+          "oklch(from var(--muni-red, #b80003) 26% c h)",
+          "oklch(from var(--muni-red, #b80003) 38% c h)",
+          "oklch(from var(--muni-red, #b80003) 49% c h)",
+          "oklch(from var(--muni-red, #b80003) 61% c h)",
+          "oklch(from var(--muni-red, #b80003) 72% c h)",
+          "oklch(from var(--muni-red, #b80003) 84% c h)",
+          "oklch(from var(--muni-red, #b80003) 95% c h)"
+        ]
+      },
+      "accent-on": {
+        "role": "primary",
+        "displayName": "accent on",
+        "tonalRamp": [
+          "oklch(from var(--accent-on, #fff) 15% c h)",
+          "oklch(from var(--accent-on, #fff) 26% c h)",
+          "oklch(from var(--accent-on, #fff) 38% c h)",
+          "oklch(from var(--accent-on, #fff) 49% c h)",
+          "oklch(from var(--accent-on, #fff) 61% c h)",
+          "oklch(from var(--accent-on, #fff) 72% c h)",
+          "oklch(from var(--accent-on, #fff) 84% c h)",
+          "oklch(from var(--accent-on, #fff) 95% c h)"
+        ]
+      },
+      "delegation-tint": {
+        "role": "primary",
+        "displayName": "delegation tint",
+        "tonalRamp": [
+          "oklch(from var(--muni-red-tint, rgba(184, 0, 3, 0.06)) 15% c h)",
+          "oklch(from var(--muni-red-tint, rgba(184, 0, 3, 0.06)) 26% c h)",
+          "oklch(from var(--muni-red-tint, rgba(184, 0, 3, 0.06)) 38% c h)",
+          "oklch(from var(--muni-red-tint, rgba(184, 0, 3, 0.06)) 49% c h)",
+          "oklch(from var(--muni-red-tint, rgba(184, 0, 3, 0.06)) 61% c h)",
+          "oklch(from var(--muni-red-tint, rgba(184, 0, 3, 0.06)) 72% c h)",
+          "oklch(from var(--muni-red-tint, rgba(184, 0, 3, 0.06)) 84% c h)",
+          "oklch(from var(--muni-red-tint, rgba(184, 0, 3, 0.06)) 95% c h)"
+        ]
+      },
+      "municipal-default": {
+        "role": "primary",
+        "displayName": "municipal default",
+        "tonalRamp": [
+          "oklch(15% 0.20148 28.89)",
+          "oklch(26% 0.20148 28.89)",
+          "oklch(38% 0.20148 28.89)",
+          "oklch(49% 0.20148 28.89)",
+          "oklch(61% 0.20148 28.89)",
+          "oklch(72% 0.20148 28.89)",
+          "oklch(84% 0.20148 28.89)",
+          "oklch(95% 0.20148 28.89)"
+        ]
+      },
+      "municipal-dark": {
+        "role": "primary",
+        "displayName": "municipal dark",
+        "tonalRamp": [
+          "oklch(15% 0.14616 27.76)",
+          "oklch(26% 0.14616 27.76)",
+          "oklch(38% 0.14616 27.76)",
+          "oklch(49% 0.14616 27.76)",
+          "oklch(61% 0.14616 27.76)",
+          "oklch(72% 0.14616 27.76)",
+          "oklch(84% 0.14616 27.76)",
+          "oklch(95% 0.14616 27.76)"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "surface",
+        "tonalRamp": [
+          "oklch(15% 0.00000 89.88)",
+          "oklch(26% 0.00000 89.88)",
+          "oklch(38% 0.00000 89.88)",
+          "oklch(49% 0.00000 89.88)",
+          "oklch(61% 0.00000 89.88)",
+          "oklch(72% 0.00000 89.88)",
+          "oklch(84% 0.00000 89.88)",
+          "oklch(95% 0.00000 89.88)"
+        ]
+      },
+      "surface-muted": {
+        "role": "neutral",
+        "displayName": "surface muted",
+        "tonalRamp": [
+          "oklch(15% 0.00265 286.35)",
+          "oklch(26% 0.00265 286.35)",
+          "oklch(38% 0.00265 286.35)",
+          "oklch(49% 0.00265 286.35)",
+          "oklch(61% 0.00265 286.35)",
+          "oklch(72% 0.00265 286.35)",
+          "oklch(84% 0.00265 286.35)",
+          "oklch(95% 0.00265 286.35)"
+        ]
+      },
+      "text-main": {
+        "role": "neutral",
+        "displayName": "text main",
+        "tonalRamp": [
+          "oklch(15% 0.03050 256.86)",
+          "oklch(26% 0.03050 256.86)",
+          "oklch(38% 0.03050 256.86)",
+          "oklch(49% 0.03050 256.86)",
+          "oklch(61% 0.03050 256.86)",
+          "oklch(72% 0.03050 256.86)",
+          "oklch(84% 0.03050 256.86)",
+          "oklch(95% 0.03050 256.86)"
+        ]
+      },
+      "text-secondary": {
+        "role": "neutral",
+        "displayName": "text secondary",
+        "tonalRamp": [
+          "oklch(15% 0.03810 260.50)",
+          "oklch(26% 0.03810 260.50)",
+          "oklch(38% 0.03810 260.50)",
+          "oklch(49% 0.03810 260.50)",
+          "oklch(61% 0.03810 260.50)",
+          "oklch(72% 0.03810 260.50)",
+          "oklch(84% 0.03810 260.50)",
+          "oklch(95% 0.03810 260.50)"
+        ]
+      },
+      "text-muted": {
+        "role": "neutral",
+        "displayName": "text muted",
+        "tonalRamp": [
+          "oklch(15% 0.03899 258.35)",
+          "oklch(26% 0.03899 258.35)",
+          "oklch(38% 0.03899 258.35)",
+          "oklch(49% 0.03899 258.35)",
+          "oklch(61% 0.03899 258.35)",
+          "oklch(72% 0.03899 258.35)",
+          "oklch(84% 0.03899 258.35)",
+          "oklch(95% 0.03899 258.35)"
+        ]
+      },
+      "border-stitch": {
+        "role": "neutral",
+        "displayName": "border stitch",
+        "tonalRamp": [
+          "oklch(15% 0.01041 261.79)",
+          "oklch(26% 0.01041 261.79)",
+          "oklch(38% 0.01041 261.79)",
+          "oklch(49% 0.01041 261.79)",
+          "oklch(61% 0.01041 261.79)",
+          "oklch(72% 0.01041 261.79)",
+          "oklch(84% 0.01041 261.79)",
+          "oklch(95% 0.01041 261.79)"
+        ]
+      },
+      "border-control": {
+        "role": "neutral",
+        "displayName": "border control",
+        "tonalRamp": [
+          "oklch(15% 0.02898 257.06)",
+          "oklch(26% 0.02898 257.06)",
+          "oklch(38% 0.02898 257.06)",
+          "oklch(49% 0.02898 257.06)",
+          "oklch(61% 0.02898 257.06)",
+          "oklch(72% 0.02898 257.06)",
+          "oklch(84% 0.02898 257.06)",
+          "oklch(95% 0.02898 257.06)"
+        ]
+      },
+      "auth-control-border": {
+        "role": "neutral",
+        "displayName": "auth control border",
+        "tonalRamp": [
+          "oklch(15% 0.02878 259.04)",
+          "oklch(26% 0.02878 259.04)",
+          "oklch(38% 0.02878 259.04)",
+          "oklch(49% 0.02878 259.04)",
+          "oklch(61% 0.02878 259.04)",
+          "oklch(72% 0.02878 259.04)",
+          "oklch(84% 0.02878 259.04)",
+          "oklch(95% 0.02878 259.04)"
+        ]
+      },
+      "glass-canvas": {
+        "role": "neutral",
+        "displayName": "Lienzo territorial confirmado",
+        "tonalRamp": [
+          "oklch(from var(--glass-canvas, #f5f5f7) 15% c h)",
+          "oklch(from var(--glass-canvas, #f5f5f7) 26% c h)",
+          "oklch(from var(--glass-canvas, #f5f5f7) 38% c h)",
+          "oklch(from var(--glass-canvas, #f5f5f7) 49% c h)",
+          "oklch(from var(--glass-canvas, #f5f5f7) 61% c h)",
+          "oklch(from var(--glass-canvas, #f5f5f7) 72% c h)",
+          "oklch(from var(--glass-canvas, #f5f5f7) 84% c h)",
+          "oklch(from var(--glass-canvas, #f5f5f7) 95% c h)"
+        ]
+      },
+      "glass-chrome": {
+        "role": "neutral",
+        "displayName": "Marco territorial confirmado",
+        "tonalRamp": [
+          "oklch(from var(--glass-chrome, #fff) 15% c h)",
+          "oklch(from var(--glass-chrome, #fff) 26% c h)",
+          "oklch(from var(--glass-chrome, #fff) 38% c h)",
+          "oklch(from var(--glass-chrome, #fff) 49% c h)",
+          "oklch(from var(--glass-chrome, #fff) 61% c h)",
+          "oklch(from var(--glass-chrome, #fff) 72% c h)",
+          "oklch(from var(--glass-chrome, #fff) 84% c h)",
+          "oklch(from var(--glass-chrome, #fff) 95% c h)"
+        ]
+      },
+      "glass-edge": {
+        "role": "neutral",
+        "displayName": "glass edge",
+        "tonalRamp": [
+          "oklch(15% 0 0)",
+          "oklch(26% 0 0)",
+          "oklch(38% 0 0)",
+          "oklch(49% 0 0)",
+          "oklch(61% 0 0)",
+          "oklch(72% 0 0)",
+          "oklch(84% 0 0)",
+          "oklch(95% 0 0)"
+        ]
+      },
+      "success-ink": {
+        "role": "neutral",
+        "displayName": "success ink",
+        "tonalRamp": [
+          "oklch(15% 0.09584 157.53)",
+          "oklch(26% 0.09584 157.53)",
+          "oklch(38% 0.09584 157.53)",
+          "oklch(49% 0.09584 157.53)",
+          "oklch(61% 0.09584 157.53)",
+          "oklch(72% 0.09584 157.53)",
+          "oklch(84% 0.09584 157.53)",
+          "oklch(95% 0.09584 157.53)"
+        ]
+      },
+      "success-surface": {
+        "role": "neutral",
+        "displayName": "success surface",
+        "tonalRamp": [
+          "oklch(15% 0.01743 164.66)",
+          "oklch(26% 0.01743 164.66)",
+          "oklch(38% 0.01743 164.66)",
+          "oklch(49% 0.01743 164.66)",
+          "oklch(61% 0.01743 164.66)",
+          "oklch(72% 0.01743 164.66)",
+          "oklch(84% 0.01743 164.66)",
+          "oklch(95% 0.01743 164.66)"
+        ]
+      },
+      "warning-ink": {
+        "role": "neutral",
+        "displayName": "warning ink",
+        "tonalRamp": [
+          "oklch(15% 0.10482 68.30)",
+          "oklch(26% 0.10482 68.30)",
+          "oklch(38% 0.10482 68.30)",
+          "oklch(49% 0.10482 68.30)",
+          "oklch(61% 0.10482 68.30)",
+          "oklch(72% 0.10482 68.30)",
+          "oklch(84% 0.10482 68.30)",
+          "oklch(95% 0.10482 68.30)"
+        ]
+      },
+      "warning-surface": {
+        "role": "neutral",
+        "displayName": "warning surface",
+        "tonalRamp": [
+          "oklch(15% 0.03282 83.71)",
+          "oklch(26% 0.03282 83.71)",
+          "oklch(38% 0.03282 83.71)",
+          "oklch(49% 0.03282 83.71)",
+          "oklch(61% 0.03282 83.71)",
+          "oklch(72% 0.03282 83.71)",
+          "oklch(84% 0.03282 83.71)",
+          "oklch(95% 0.03282 83.71)"
+        ]
+      },
+      "danger": {
+        "role": "neutral",
+        "displayName": "danger",
+        "tonalRamp": [
+          "oklch(15% 0.18205 29.51)",
+          "oklch(26% 0.18205 29.51)",
+          "oklch(38% 0.18205 29.51)",
+          "oklch(49% 0.18205 29.51)",
+          "oklch(61% 0.18205 29.51)",
+          "oklch(72% 0.18205 29.51)",
+          "oklch(84% 0.18205 29.51)",
+          "oklch(95% 0.18205 29.51)"
+        ]
+      },
+      "danger-hover": {
+        "role": "neutral",
+        "displayName": "danger hover",
+        "tonalRamp": [
+          "oklch(15% 0.15003 28.99)",
+          "oklch(26% 0.15003 28.99)",
+          "oklch(38% 0.15003 28.99)",
+          "oklch(49% 0.15003 28.99)",
+          "oklch(61% 0.15003 28.99)",
+          "oklch(72% 0.15003 28.99)",
+          "oklch(84% 0.15003 28.99)",
+          "oklch(95% 0.15003 28.99)"
+        ]
+      },
+      "danger-surface": {
+        "role": "neutral",
+        "displayName": "danger surface",
+        "tonalRamp": [
+          "oklch(15% 0.01962 17.50)",
+          "oklch(26% 0.01962 17.50)",
+          "oklch(38% 0.01962 17.50)",
+          "oklch(49% 0.01962 17.50)",
+          "oklch(61% 0.01962 17.50)",
+          "oklch(72% 0.01962 17.50)",
+          "oklch(84% 0.01962 17.50)",
+          "oklch(95% 0.01962 17.50)"
+        ]
+      },
+      "territory-edge": {
+        "role": "neutral",
+        "displayName": "Borde territorial",
+        "tonalRamp": [
+          "oklch(from var(--territory-edge, color-mix(in srgb, var(--muni-red-primary, #b80003) 28%, #e2e6ed)) 15% c h)",
+          "oklch(from var(--territory-edge, color-mix(in srgb, var(--muni-red-primary, #b80003) 28%, #e2e6ed)) 26% c h)",
+          "oklch(from var(--territory-edge, color-mix(in srgb, var(--muni-red-primary, #b80003) 28%, #e2e6ed)) 38% c h)",
+          "oklch(from var(--territory-edge, color-mix(in srgb, var(--muni-red-primary, #b80003) 28%, #e2e6ed)) 49% c h)",
+          "oklch(from var(--territory-edge, color-mix(in srgb, var(--muni-red-primary, #b80003) 28%, #e2e6ed)) 61% c h)",
+          "oklch(from var(--territory-edge, color-mix(in srgb, var(--muni-red-primary, #b80003) 28%, #e2e6ed)) 72% c h)",
+          "oklch(from var(--territory-edge, color-mix(in srgb, var(--muni-red-primary, #b80003) 28%, #e2e6ed)) 84% c h)",
+          "oklch(from var(--territory-edge, color-mix(in srgb, var(--muni-red-primary, #b80003) 28%, #e2e6ed)) 95% c h)"
+        ]
+      },
+      "territory-header": {
+        "role": "neutral",
+        "displayName": "Cabecera territorial",
+        "tonalRamp": [
+          "oklch(from color-mix(in srgb, var(--muni-red-primary, #b80003) 4%, white) 15% c h)",
+          "oklch(from color-mix(in srgb, var(--muni-red-primary, #b80003) 4%, white) 26% c h)",
+          "oklch(from color-mix(in srgb, var(--muni-red-primary, #b80003) 4%, white) 38% c h)",
+          "oklch(from color-mix(in srgb, var(--muni-red-primary, #b80003) 4%, white) 49% c h)",
+          "oklch(from color-mix(in srgb, var(--muni-red-primary, #b80003) 4%, white) 61% c h)",
+          "oklch(from color-mix(in srgb, var(--muni-red-primary, #b80003) 4%, white) 72% c h)",
+          "oklch(from color-mix(in srgb, var(--muni-red-primary, #b80003) 4%, white) 84% c h)",
+          "oklch(from color-mix(in srgb, var(--muni-red-primary, #b80003) 4%, white) 95% c h)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "headline": {
+        "displayName": "headline",
+        "purpose": "Título de página."
+      },
+      "title": {
+        "displayName": "title",
+        "purpose": "Título de sección y diálogo."
+      },
+      "body": {
+        "displayName": "body",
+        "purpose": "Texto de trabajo y formulario."
+      },
+      "navigation": {
+        "displayName": "navigation",
+        "purpose": "Navegación lateral."
+      },
+      "label": {
+        "displayName": "label",
+        "purpose": "Etiquetas y estados."
+      },
+      "metric": {
+        "displayName": "metric",
+        "purpose": "Valores numéricos tabulares."
+      },
+      "metadata-small": {
+        "displayName": "Metadatos compactos",
+        "purpose": "Ayuda de ondas y metadatos de pendientes de 13px; tamaño auxiliar intencional."
+      },
+      "caption": {
+        "displayName": "Fecha y contexto breve",
+        "purpose": "Fechas, conteos y navegación móvil de 12px; tamaño auxiliar intencional."
+      }
+    },
+    "shadows": [
+      {
+        "name": "glass-shadow",
+        "value": "0 12px 28px -20px rgb(23 33 47 / .32)",
+        "purpose": "Encabezado y lateral."
+      },
+      {
+        "name": "mobile-navigation",
+        "value": "0 -4px 20px -12px rgb(23 33 47 / .2)",
+        "purpose": "Separación de accesos inferiores."
+      },
+      {
+        "name": "auth-card",
+        "value": "0 20px 48px -28px rgb(23 33 47 / .3)",
+        "purpose": "Tarjeta blanca de acceso."
+      }
+    ],
+    "motion": [
+      {
+        "name": "navigation-hover",
+        "value": "background-color 160ms ease, color 160ms ease",
+        "purpose": "Hover de navegación lateral."
+      },
+      {
+        "name": "auth-field",
+        "value": "border-color 160ms ease, background-color 160ms ease",
+        "purpose": "Campos del acceso."
+      },
+      {
+        "name": "profile-reveal",
+        "value": "180ms ease-out",
+        "purpose": "Solo opacidad, con prioridad explícita; preservar la posición de Popper."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "animation: none; transition: none; scroll-behavior: auto",
+        "purpose": "Espacio de trabajo y cajón sin movimiento; acceso con duración .01ms."
+      },
+      {
+        "name": "ambient-wave-drift",
+        "value": "28s ease-in-out infinite alternate; animation-play-state: paused",
+        "purpose": "Primer SVG: translate3d de (-2%, -1%, 0) a (2%, 2%, 0); activo solo por preferencia, visibilidad y movimiento permitido."
+      },
+      {
+        "name": "ambient-wave-return",
+        "value": "36s ease-in-out infinite alternate; animation-play-state: paused",
+        "purpose": "Segundo SVG: translate3d de (2%, 2%, 0) a (-2%, -2%, 0); sin filtros ni dependencia del desplazamiento."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "compact-pin-max",
+        "value": "359.98px"
+      },
+      {
+        "name": "auth-mobile-max",
+        "value": "575.98px"
+      },
+      {
+        "name": "mobile-content-max",
+        "value": "767.98px"
+      },
+      {
+        "name": "drawer-max",
+        "value": "991.98px"
+      },
+      {
+        "name": "compact-desktop-max",
+        "value": "1199.98px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Acción principal territorial",
+      "kind": "button",
+      "refersTo": "button-primary-delegation",
+      "description": "Botón de una sesión con delegación; hereda acento y primer plano calculado.",
+      "html": "<button type=\"button\" class=\"ds-primary\">Crear atención</button>",
+      "css": ".ds-primary{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:var(--font-body,-apple-system, BlinkMacSystemFont, \"Segoe UI Variable Text\", \"Segoe UI Variable\", \"Segoe UI\", Helvetica, Arial, sans-serif);font-size:.9375rem;font-weight:600;letter-spacing:-.01em;border-radius:9px;cursor:pointer;min-height:48px;padding:10px 16px;border:1px solid rgb(0 0 0 / .12);background:var(--muni-red-primary,#b80003);color:var(--accent-on,#fff);transition:all .2s cubic-bezier(.16,1,.3,1)}.ds-primary:hover{box-shadow:inset 0 0 0 2px var(--muni-red,#b80003)}.ds-primary:focus-visible{outline:2px solid var(--muni-red,#b80003);outline-offset:3px;}.ds-primary:active{transform:scale(.97)}.ds-primary:disabled{opacity:.55;cursor:not-allowed}@media(prefers-reduced-motion:reduce){.ds-primary{transition:none}}"
+    },
+    {
+      "name": "Eliminar registro",
+      "kind": "button",
+      "refersTo": "button-delete",
+      "description": "Acción destructiva con etiqueta accesible y confirmación en el flujo real.",
+      "html": "<button type=\"button\" class=\"ds-delete\" aria-label=\"Eliminar registro\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" aria-hidden=\"true\"><path d=\"M3 6h18M9 6V3h6v3M5 6l1 15h12l1-15M10 10v7M14 10v7\"/></svg></button>",
+      "css": ".ds-delete{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:var(--font-body,-apple-system, BlinkMacSystemFont, \"Segoe UI Variable Text\", \"Segoe UI Variable\", \"Segoe UI\", Helvetica, Arial, sans-serif);font-size:.9375rem;font-weight:600;letter-spacing:-.01em;border-radius:9px;cursor:pointer;width:44px;height:44px;padding:0;background:#b42318;color:#fff;border:1px solid #b42318}.ds-delete:hover{background:#912018;border-color:#912018}.ds-delete:focus-visible{outline:2px solid var(--muni-red,#b80003);outline-offset:3px;}"
+    },
+    {
+      "name": "Restaurar registro",
+      "kind": "button",
+      "refersTo": "button-restore",
+      "description": "Recuperación de un registro con semántica verde permanente.",
+      "html": "<button type=\"button\" class=\"ds-restore\" aria-label=\"Restaurar registro\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" aria-hidden=\"true\"><path d=\"M3 11a9 9 0 1 1 2.6 7M3 4v7h7\"/></svg></button>",
+      "css": ".ds-restore{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:var(--font-body,-apple-system, BlinkMacSystemFont, \"Segoe UI Variable Text\", \"Segoe UI Variable\", \"Segoe UI\", Helvetica, Arial, sans-serif);font-size:.9375rem;font-weight:600;letter-spacing:-.01em;border-radius:9px;cursor:pointer;width:44px;height:44px;padding:0;background:#e7f5ee;color:#14633e;border:1px solid #14633e}.ds-restore:hover{background:#d1e9dd}.ds-restore:focus-visible{outline:2px solid var(--muni-red,#b80003);outline-offset:3px;}"
+    },
+    {
+      "name": "Campo de formulario",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Campo blanco con borde de control visible y foco territorial; en diálogos permanece dentro del ancho disponible.",
+      "html": "<label class=\"ds-field-label\" for=\"ds-neighbor\">Nombre del vecino</label><input class=\"ds-input\" id=\"ds-neighbor\" placeholder=\"Nombre o apellido\">",
+      "css": ".ds-field-label{display:block;margin-bottom:8px;color:#344054;font:600 .875rem/1.5 var(--font-body,-apple-system, BlinkMacSystemFont, \"Segoe UI Variable Text\", \"Segoe UI Variable\", \"Segoe UI\", Helvetica, Arial, sans-serif)}.ds-input{width:100%;max-width:100%;min-width:0;min-height:48px;padding:10px 12px;border:1px solid var(--border-control,#8490a1);border-radius:9px;background:#fff;color:#17212f;font:400 1rem/1.5 var(--font-body,-apple-system, BlinkMacSystemFont, \"Segoe UI Variable Text\", \"Segoe UI Variable\", \"Segoe UI\", Helvetica, Arial, sans-serif);letter-spacing:-.005em}.ds-input::placeholder{color:#465469;opacity:1}.ds-input:focus-visible{outline:2px solid var(--muni-red,#b80003);outline-offset:3px;}"
+    },
+    {
+      "name": "Navegación activa",
+      "kind": "nav",
+      "refersTo": "navigation-active",
+      "description": "Fila seleccionada del menú por tareas: Atención y Gestión; Administración mantiene sus permisos.",
+      "html": "<nav aria-label=\"General\"><a href=\"#inicio\" class=\"ds-nav\" aria-current=\"page\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" aria-hidden=\"true\"><path d=\"m3 10 9-7 9 7M5 9v12h5v-7h4v7h5V9\"/></svg>Inicio</a></nav>",
+      "css": ".ds-nav{position:relative;display:flex;align-items:center;gap:12px;min-height:48px;padding:12px;border:1px solid var(--territory-edge,color-mix(in srgb,var(--muni-red-primary,#b80003) 28%,#e2e6ed));border-radius:10px;background:#fff;color:var(--muni-red,#b80003);font:600 .9375rem/1.4 var(--font-body,-apple-system, BlinkMacSystemFont, \"Segoe UI Variable Text\", \"Segoe UI Variable\", \"Segoe UI\", Helvetica, Arial, sans-serif);letter-spacing:-.01em;text-decoration:none;transition:background-color 160ms ease,color 160ms ease}.ds-nav::before{content:\"\";position:absolute;left:0;top:12px;bottom:12px;width:3px;border-radius:2px;background:var(--muni-red,#b80003)}.ds-nav:focus-visible{outline:2px solid var(--muni-red,#b80003);outline-offset:3px;}@media(prefers-reduced-motion:reduce){.ds-nav{transition:none}}"
+    },
+    {
+      "name": "Estado cumplido",
+      "kind": "chip",
+      "refersTo": "status-success",
+      "description": "Estado semántico textual, independiente de la delegación.",
+      "html": "<span class=\"ds-status\">Cumplida</span>",
+      "css": ".ds-status{display:inline-flex;align-items:center;gap:6px;padding:5px 9px;border-radius:6px;background:#e7f5ee;color:#14633e;font:600 .875rem/1.5 var(--font-body,-apple-system, BlinkMacSystemFont, \"Segoe UI Variable Text\", \"Segoe UI Variable\", \"Segoe UI\", Helvetica, Arial, sans-serif)}"
+    },
+    {
+      "name": "Sección de trabajo",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Sección blanca opaca con borde territorial, sin elevación decorativa; el tinte queda en el marco y las cabeceras.",
+      "html": "<section class=\"ds-card\"><h2 class=\"ds-card-title\">Metas vigentes</h2><p class=\"ds-card-text\">Consulta el avance del período actual.</p></section>",
+      "css": ".ds-card{padding:20px;border:1px solid var(--territory-edge,color-mix(in srgb,var(--muni-red-primary,#b80003) 28%,#e2e6ed));border-radius:14px;background:#fff;color:#17212f}.ds-card-title{margin:0 0 16px;font:600 1.1875rem/1.3 var(--font-body,-apple-system, BlinkMacSystemFont, \"Segoe UI Variable Text\", \"Segoe UI Variable\", \"Segoe UI\", Helvetica, Arial, sans-serif);letter-spacing:-.02em}.ds-card-text{margin:0;font:400 1rem/1.5 var(--font-body,-apple-system, BlinkMacSystemFont, \"Segoe UI Variable Text\", \"Segoe UI Variable\", \"Segoe UI\", Helvetica, Arial, sans-serif);color:#465469}@media(max-width:767.98px){.ds-card{padding:16px}}"
+    },
+    {
+      "name": "Indicador separado",
+      "kind": "custom",
+      "refersTo": "metric-card",
+      "description": "Estructura del indicador; la raya representa una cifra sin dato, no una métrica de ejemplo.",
+      "html": "<div class=\"ds-metric\"><span class=\"ds-metric-icon\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" aria-hidden=\"true\"><circle cx=\"9\" cy=\"7\" r=\"3\"/><path d=\"M3 21v-3a6 6 0 0 1 12 0v3M16 4a3 3 0 0 1 0 6M18 13a5 5 0 0 1 3 5v3\"/></svg></span><div><strong class=\"ds-metric-value\">—</strong><span class=\"ds-metric-label\">Personas atendidas</span></div></div>",
+      "css": ".ds-metric{display:flex;align-items:center;gap:12px;padding:16px;border:1px solid var(--border-stitch,#e2e6ed);border-radius:12px;background:#fff}.ds-metric-icon{display:grid;place-items:center;flex:0 0 44px;width:44px;height:48px;border-radius:12px;background:#e7f5ee;color:#14633e}.ds-metric-value{display:block;margin-bottom:4px;color:#17212f;font:600 1.875rem/1.2 var(--font-body,-apple-system, BlinkMacSystemFont, \"Segoe UI Variable Text\", \"Segoe UI Variable\", \"Segoe UI\", Helvetica, Arial, sans-serif);letter-spacing:-.035em;font-variant-numeric:tabular-nums}.ds-metric-label{display:block;color:#344054;font:400 .8125rem/1.4 var(--font-body,-apple-system, BlinkMacSystemFont, \"Segoe UI Variable Text\", \"Segoe UI Variable\", \"Segoe UI\", Helvetica, Arial, sans-serif)}@media(max-width:767.98px){.ds-metric{padding:12px;flex-direction:column;align-items:flex-start;gap:8px}.ds-metric-icon{width:36px;height:36px;flex-basis:36px;border-radius:9px}.ds-metric-value{font-size:1.625rem}}"
+    },
+    {
+      "name": "Acción pendiente del ámbito",
+      "kind": "custom",
+      "refersTo": "pending-action",
+      "description": "Estructura de un registro real: título, autor o delegación, estado y fecha de registro; el enlace depende del permiso.",
+      "html": "<a href=\"#accion\" class=\"ds-pending\"><span class=\"ds-pending-content\"><strong>Título de la acción</strong><small>Responsable del registro</small></span><span class=\"ds-pending-state\"><span class=\"ds-pending-chip\">Pendiente</span><span class=\"ds-pending-date\">Fecha de registro</span></span></a>",
+      "css": ".ds-pending{display:flex;align-items:center;gap:10px;padding:10px 0;min-height:64px;border-radius:6px;text-decoration:none;font-family:var(--font-body,-apple-system, BlinkMacSystemFont, \"Segoe UI Variable Text\", \"Segoe UI Variable\", \"Segoe UI\", Helvetica, Arial, sans-serif)}.ds-pending:hover{background:var(--surface-muted,#f5f5f7)}.ds-pending:focus-visible{outline:2px solid var(--muni-red,#b80003);outline-offset:3px;}.ds-pending-content{flex:1;min-width:0}.ds-pending-content strong{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere;font-size:.9375rem;line-height:1.4;font-weight:500;color:#17212f}.ds-pending-content small{display:block;margin-top:4px;overflow-wrap:anywhere;color:#465469;font-size:.8125rem}.ds-pending-state{display:flex;align-items:center;gap:10px;flex-shrink:0}.ds-pending-chip{padding:5px 9px;border-radius:6px;font-size:.8125rem;font-weight:600;background:#fff3dc;color:#835000}.ds-pending-date{color:#465469;font-size:.75rem;line-height:1.5}@media(max-width:575.98px){.ds-pending-state{flex-direction:column;align-items:flex-end;gap:6px}}"
+    },
+    {
+      "name": "Preferencia de ondas",
+      "kind": "input",
+      "refersTo": "ambient-toggle",
+      "description": "Primitiva nativa del menú de perfil; en la aplicación JavaScript guarda la preferencia por cuenta y pausa al ocultarse la pestaña.",
+      "html": "<div class=\"ds-ambient\"><label for=\"ds-ambient-toggle\"><input id=\"ds-ambient-toggle\" type=\"checkbox\" role=\"switch\" checked aria-describedby=\"ds-ambient-help\">Ondas del fondo</label><small id=\"ds-ambient-help\">Se guarda en este navegador y respeta reducir movimiento del equipo.</small></div>",
+      "css": ".ds-ambient{padding:4px 16px 8px;max-width:280px;font-family:var(--font-body,-apple-system, BlinkMacSystemFont, \"Segoe UI Variable Text\", \"Segoe UI Variable\", \"Segoe UI\", Helvetica, Arial, sans-serif)}.ds-ambient label{display:flex;align-items:center;gap:10px;min-height:44px;margin:0;font-size:.875rem;font-weight:600;color:#17212f}.ds-ambient input{width:18px;height:18px;accent-color:var(--muni-red,#b80003);flex-shrink:0}.ds-ambient input:focus-visible{outline:2px solid var(--muni-red,#b80003);outline-offset:3px;}.ds-ambient small{display:block;color:#465469;font-size:.8125rem;line-height:1.5}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Vidrio suave",
+    "overview": "La identidad territorial confirmada tiñe el lienzo y el marco de navegación, y reaparece en menús, bordes, formularios, tablas y cuenta. El trabajo conserva una superficie blanca opaca. El encabezado compacto, el logo municipal existente y los indicadores separados con iconos permiten reconocer la sede y recorrer la gestión cotidiana sin convertir el resumen en una portada decorativa.\n\nLa distribución aprobada es la propuesta 22, «Menú por tareas», conservando el material y la paleta de la propuesta 15, «Vidrio suave», sobre Django y Bootstrap. El inicio reúne búsqueda, hasta tres acciones realmente pendientes del ámbito y metas a ancho completo. La transparencia mejora el marco; las ondas lentas del fondo son opcionales. Los nombres, indicadores, fechas, metas y porcentajes proceden de la base de datos.",
+    "keyCharacteristics": [
+      "Color territorial confirmado, compartido por toda la sede, con tinta y primer plano calculados.",
+      "Marco translúcido y contenido blanco opaco.",
+      "Tipografía nativa, densidad de trabajo y controles amplios.",
+      "Menú por tareas y pendientes del ámbito consultado.",
+      "Ondas opcionales con pausa automática y alternativas opacas o de movimiento reducido."
+    ],
+    "rules": [
+      {
+        "name": "The Identidad territorial Rule",
+        "body": "Aplicar el color elegido solo tras su confirmación y compartirlo con toda la sede; antes, usar el rojo institucional con lienzo neutral. La tinta calculada se usa para texto y foco, y el primer plano calculado sobre el acento efectivo.",
+        "section": "colors"
+      },
+      {
+        "name": "The Estados estables Rule",
+        "body": "Éxito, advertencia y destrucción conservan su significado verde, naranja y rojo aunque cambie la delegación.",
+        "section": "colors"
+      },
+      {
+        "name": "The Fuente del sistema Rule",
+        "body": "Usar el stack nativo de la plataforma; no distribuir una fuente de Apple ni exigir su instalación en Windows.",
+        "section": "typography"
+      },
+      {
+        "name": "The Vidrio en el marco Rule",
+        "body": "Aplicar desenfoque al encabezado, menú lateral y navegación inferior; mantener opacos el contenido principal, las tablas, los formularios y las tarjetas de trabajo.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** conservar el logo municipal y consultar `PRODUCT.md` para las restricciones de producto.",
+      "**Do** reutilizar el tema calculado en menús, paneles, tablas, formularios y cuenta; verificar texto, foco y controles con colores claros, oscuros y saturados.",
+      "**Do** mantener el lienzo neutral y el rojo institucional hasta que la sede confirme su color, sin modificar el valor guardado por mostrar una página.",
+      "**Do** mantener indicadores separados con iconos, etiquetas y datos reales; representar la ausencia de cumplimiento con una raya.",
+      "**Do** conservar foco visible, áreas de acción de al menos 44 px y controles principales de 48 px.",
+      "**Do** respetar transparencia reducida, colores forzados, movimiento reducido, la preferencia de ondas y el estado opaco sin soporte de desenfoque."
+    ],
+    "donts": [
+      "**Don't** convertir el rosa de la referencia (`#d15785`) en una paleta universal: es un ejemplo de delegación.",
+      "**Don't** usar el color territorial para reemplazar los colores semánticos de error, advertencia o éxito.",
+      "**Don't** añadir desenfoque al área de datos ni mover las ondas si están desactivadas, la pestaña está oculta o el equipo reduce movimiento.",
+      "**Don't** copiar cifras o nombres ilustrativos de la referencia a la interfaz productiva.",
+      "**Don't** convertir los estilos históricos de las capas base en reglas nuevas cuando la capa compartida ya los sustituye."
+    ]
+  }
+}

@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}Mi cuenta | La Serena{% endblock %}
+{% block content %}
+<header class="page-heading"><div><h1>{% if settings_section == 'password' %}Cambiar contraseña{% else %}Nombre de usuario{% endif %}</h1><p>{% if settings_section == 'password' %}Confirma tu contraseña actual y elige una nueva.{% else %}Este es el nombre que usas para iniciar sesión.{% endif %}</p></div></header>
+<section class="dashboard-section account-form">
+    <form method="post">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        {% for field in form %}<div class="form-field mb-4"><label for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}{{ field.errors }}{% if field.help_text %}<div class="helptext">{{ field.help_text|safe }}</div>{% endif %}</div>{% endfor %}
+        <button type="submit" class="btn-stitch btn-stitch-primary">{% if settings_section == 'password' %}Actualizar contraseña{% else %}Guardar nombre de usuario{% endif %}</button>
+    </form>
+</section>
+{% endblock %}

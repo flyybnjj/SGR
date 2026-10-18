@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Administración | La Serena{% endblock %}
+{% block content %}
+<header class="page-heading"><div><h1>Administración</h1><p>Configura las sedes, los equipos y sus permisos.</p></div><a class="btn-stitch btn-stitch-secondary" href="{% url 'dashboard:inicio' %}">Ver resumen general</a></header>
+<section class="admin-workspace" aria-label="Administración de delegaciones y usuarios">
+    <div class="admin-workspace-intro"><h2>Configura el equipo municipal</h2><p>Crea la sede, asigna a sus funcionarios y define quién será su responsable.</p><a class="btn-stitch btn-stitch-primary" href="{% url 'territorial:delegaciones_list' %}#nuevaDelegacionModal"><i class="bi bi-plus-lg" aria-hidden="true"></i>Crear delegación</a></div>
+    <div class="admin-task-list">
+        <a href="{% url 'territorial:delegaciones_list' %}" class="admin-task"><i class="bi bi-geo-alt" aria-hidden="true"></i><span><strong>Delegaciones y responsables</strong><small>Administrar sedes y nombrar al responsable que configura su color.</small></span><i class="bi bi-chevron-right" aria-hidden="true"></i></a>
+        <a href="{% url 'usuarios:usuarios_list' %}" class="admin-task"><i class="bi bi-people" aria-hidden="true"></i><span><strong>Asignar usuarios a delegaciones</strong><small>Edita cada usuario y selecciona su delegación de trabajo y rol.</small></span><i class="bi bi-chevron-right" aria-hidden="true"></i></a>
+        <a href="{% url 'usuarios:usuarios_list' %}#nuevoUsuarioModal" class="admin-task"><i class="bi bi-person-plus" aria-hidden="true"></i><span><strong>Crear usuario</strong><small>Habilita una cuenta y vincúlala al equipo correspondiente.</small></span><i class="bi bi-chevron-right" aria-hidden="true"></i></a>
+        <a href="{% url 'usuarios:roles_list' %}" class="admin-task"><i class="bi bi-shield-check" aria-hidden="true"></i><span><strong>Roles y permisos</strong><small>Define quién puede registrar, gestionar y aprobar.</small></span><i class="bi bi-chevron-right" aria-hidden="true"></i></a>
+    </div>
+</section>
+
+<section class="dashboard-section"><h2 class="section-heading">Catálogos de trabajo</h2><p class="text-secondary">Mantén las opciones que usan los funcionarios al registrar su gestión.</p>
+<a class="quick-link" href="{% url 'territorial:metas_list' %}">Catálogo de metas <i class="bi bi-chevron-right" aria-hidden="true"></i></a>
+<a class="quick-link" href="{% url 'atenciones:tipo_atencion_list' %}">Tipos de atención <i class="bi bi-chevron-right" aria-hidden="true"></i></a>
+<a class="quick-link" href="{% url 'atenciones:sub_atencion_list' %}">Subatenciones <i class="bi bi-chevron-right" aria-hidden="true"></i></a>
+</section>
+{% endblock %}

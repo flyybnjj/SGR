@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Nueva persona y atención | La Serena{% endblock %}
+{% block content %}
+<header class="page-heading"><div><h1>Nueva persona y atención</h1><p>Solicita solo los datos necesarios. El RUT y los datos de contacto son opcionales.</p></div><a class="btn-stitch btn-stitch-secondary" href="{% url 'atenciones:attention_search' %}"><i class="bi bi-arrow-left" aria-hidden="true"></i>Volver a búsqueda</a></header>
+<section class="dashboard-section form-panel">
+    <form method="post">
+        {% csrf_token %}
+        <section aria-labelledby="new-person-title">
+            <h2 class="section-heading" id="new-person-title">Datos de la persona</h2>
+            {% include 'atenciones/fields.html' with form=person_form %}
+        </section>
+        <section class="mt-4 pt-4 border-top" aria-labelledby="new-attention-title">
+            <h2 class="section-heading" id="new-attention-title">Atención</h2>
+            {% include 'atenciones/fields.html' %}
+        </section>
+        <div class="form-actions"><a class="btn-stitch btn-stitch-secondary" href="{% url 'atenciones:attention_search' %}">Cancelar</a><button class="btn-stitch btn-stitch-primary" type="submit">Guardar persona y atención</button></div>
+    </form>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+{{ form.subtype_options|json_script:"attention-subtypes" }}
+<script src="{% static 'js/attention-form.js' %}"></script>
+{% endblock %}
