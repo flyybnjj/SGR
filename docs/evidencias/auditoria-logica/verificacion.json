@@ -5,7 +5,6 @@
   "fuentes_ejecucion_inventariadas": 69,
   "pruebas_datos_aislados": true,
   "correo_cache_en_memoria": true,
-  "datos_productivos_no_usados_en_pruebas": true,
   "revision_independiente": "23 pruebas finales y dos escenarios concurrentes adicionales sin bloqueantes pendientes",
   "concurrencia_sqlite_archivo": true,
   "http_resolucion_simultanea": [
@@ -17,5 +16,13 @@
     "guardado",
     "ValidationError"
   ],
-  "sin_migraciones": true
+  "sin_migraciones": true,
+  "suite_automatizada_sin_datos_productivos": true,
+  "http_sobre_datos_productivos_sin_modificarlos": true,
+  "application_commit": "5bac192970d8284eacaf1875b196300a8b508ea6",
+  "comprobaciones_http_permisos_aws": 27,
+  "comprobaciones_generales_aws": 36,
+  "desplegado_en_aws": true,
+  "sqlite_transaction_mode_productivo": "IMMEDIATE",
+  "respaldo_aws": "/home/ubuntu/sgr-backups/deploy-20261018-193703"
 }

@@ -29,4 +29,4 @@ Se revisaron los seis módulos Django, sus rutas, formularios, modelos, permisos
 - Diagnóstico de producción previo: ninguna responsabilidad cruzada, vecino sin territorio, atención con tipo/subtipo incompatible, acción con meta de otra sede, período inválido ni resolución duplicada. Dos cuentas activas sin sede conservan sus datos y quedan sin permisos operativos; no se les inventa una asignación.
 - La actualización de producción conserva base, cuentas, contraseñas, colores, medios y auditorías. No ejecuta precargas ni importadores.
 
-Los comprobantes posteriores al despliegue están en evidencias/auditoria-logica. Esta revisión cubre los flujos inventariados y las regresiones comprobadas; no sustituye pruebas futuras al añadir reglas o funcionalidades.
+AWS actualizado: 27 comprobaciones HTTP de permisos/acceso y 36 controles generales aprobados; SQLite productivo confirma IMMEDIATE. Cuentas, vecinos, atenciones y acciones mantienen sus conteos anteriores. Los comprobantes están en evidencias/auditoria-logica. Esta revisión cubre los flujos inventariados y las regresiones comprobadas; no sustituye pruebas futuras al añadir reglas o funcionalidades.
