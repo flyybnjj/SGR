@@ -6,8 +6,16 @@
     <a class="btn-stitch btn-stitch-secondary" href="{% url 'atenciones:action_list' %}"><i class="bi bi-arrow-left" aria-hidden="true"></i>Volver a acciones</a>
 </header>
 <section class="dashboard-section transaction-detail">
-    <span class="status-pill {{ action.estado }}">{{ action.estado }}</span>
+    <span class="small text-secondary me-2">Revisión</span><span class="status-pill {{ action.estado }}">{{ action.estado }}</span>
     <p class="mt-3">{{ action.descripcion|linebreaksbr }}</p>
+    {% if action.origen_historico %}
+    <dl class="profile-details mt-4 mb-0" aria-label="Datos originales del requerimiento">
+        <div><dt>Folio histórico</dt><dd>{{ action.origen_historico.folio }}</dd></div>
+        <div><dt>Estado original</dt><dd>{{ action.origen_historico.estado_original_texto }}</dd></div>
+        <div><dt>Vecino</dt><dd><a href="{% url 'atenciones:attention_detail' action.origen_historico.atencion.vecino_id %}">{{ action.origen_historico.atencion.vecino.nombre }}</a></dd></div>
+        <div><dt>Dirección original</dt><dd>{{ action.origen_historico.datos_originales.requerimiento.direccion }}</dd></div>
+    </dl>
+    {% endif %}
     {% if action.meta %}<p class="small text-secondary mb-0">Meta: {{ action.meta }}</p>{% endif %}
     {% if action.evidencia %}
     <div class="mt-4 pt-4 border-top">

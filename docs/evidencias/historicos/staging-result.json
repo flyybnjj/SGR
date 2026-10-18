@@ -1,0 +1,14 @@
+{
+  "ensayo_copia_real_aws": true,
+  "simulacion_sin_escrituras": true,
+  "repeticion_sin_duplicados": true,
+  "usuarios_y_originales_inalterados": true,
+  "conteos": {
+    "atenciones": 5,
+    "acciones": 5,
+    "auditorias": 1,
+    "vinculos": 5
+  },
+  "aprobaciones_historicas": 1,
+  "revisiones_pendientes": 4
+}

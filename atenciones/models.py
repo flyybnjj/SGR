@@ -126,3 +126,28 @@ class ResolucionAccion(models.Model):
         super().save(*args, **kwargs)
     def delete(self, *args, **kwargs):
         raise ValidationError('El registro de auditoría no se puede eliminar.')
+
+
+class RequerimientoHistorico(models.Model):
+    """Correspondencia inmutable; las tablas originales permanecen intactas."""
+    objects = ImmutableAuditQuerySet.as_manager()
+    requerimiento_id = models.PositiveBigIntegerField(unique=True)
+    atencion = models.OneToOneField(Atencion, on_delete=models.PROTECT, related_name='origen_historico')
+    accion = models.OneToOneField(Accion, on_delete=models.PROTECT, related_name='origen_historico')
+    folio = models.CharField(max_length=64)
+    estado_original = models.CharField(max_length=16)
+    huella_fuente = models.CharField(max_length=64)
+    datos_originales = models.JSONField()
+    importado_en = models.DateTimeField(auto_now_add=True)
+
+    @property
+    def estado_original_texto(self):
+        return {'PENDIENTE': 'Pendiente', 'EN_PROCESO': 'En proceso', 'RESUELTO': 'Resuelto'}.get(self.estado_original, self.estado_original)
+
+    def save(self, *args, **kwargs):
+        if self.pk:
+            raise ValidationError('El vínculo histórico no se puede modificar.')
+        super().save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        raise ValidationError('El vínculo histórico no se puede eliminar.')

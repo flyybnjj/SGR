@@ -1,0 +1,72 @@
+[
+  {
+    "page": "actions",
+    "width": 1440,
+    "overflow": false,
+    "axe": null
+  },
+  {
+    "page": "history",
+    "width": 1440,
+    "overflow": false,
+    "axe": {
+      "violations": [],
+      "incomplete": [
+        "aria-prohibited-attr",
+        "color-contrast"
+      ]
+    }
+  },
+  {
+    "page": "approved",
+    "width": 1440,
+    "overflow": false,
+    "axe": {
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ]
+    }
+  },
+  {
+    "page": "resolved-without-audit",
+    "width": 1440,
+    "overflow": false,
+    "axe": null
+  },
+  {
+    "page": "actions",
+    "width": 390,
+    "overflow": false,
+    "axe": null
+  },
+  {
+    "page": "history",
+    "width": 390,
+    "overflow": false,
+    "axe": {
+      "violations": [],
+      "incomplete": [
+        "aria-prohibited-attr",
+        "color-contrast"
+      ]
+    }
+  },
+  {
+    "page": "approved",
+    "width": 390,
+    "overflow": false,
+    "axe": {
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ]
+    }
+  },
+  {
+    "page": "resolved-without-audit",
+    "width": 390,
+    "overflow": false,
+    "axe": null
+  }
+]

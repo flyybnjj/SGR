@@ -187,6 +187,11 @@ def attention_search(request):
         return export_queryset_to_excel('Personas', 'Personas', ['Nombre', 'RUT', 'Dirección', 'Teléfono'], [[p.nombre, p.rut, p.direccion, p.telefono] for p in people])
     return render(request, 'atenciones/search.html', {'search': query, 'page_obj': paginate(request, people), 'can_register': can_register(request.user)})
 
+def historical_reference(record):
+    source = getattr(record, 'origen_historico', None)
+    return [source.folio, source.estado_original_texto] if source else ['', '']
+
+
 def attention_request_token(request):
     raw = request.POST.get('request_token')
     if raw:
@@ -219,12 +224,12 @@ def attention_confirmation(request, attention):
 def attention_detail(request, pk):
     ensure_active(request.user)
     person = get_object_or_404(Vecino, pk=pk)
-    history = person.atenciones.select_related('delegacion', 'funcionario', 'tipo_atencion', 'sub_atencion')
+    history = person.atenciones.select_related('delegacion', 'funcionario', 'tipo_atencion', 'sub_atencion', 'origen_historico')
     search = request.GET.get('q', '').strip()
     if search:
-        history = history.filter(Q(descripcion__icontains=search) | Q(delegacion__nombre__icontains=search) | Q(tipo_atencion__nombre__icontains=search))
+        history = history.filter(Q(descripcion__icontains=search) | Q(delegacion__nombre__icontains=search) | Q(tipo_atencion__nombre__icontains=search) | Q(origen_historico__folio__icontains=search))
     if request.GET.get('export') == 'excel':
-        return export_queryset_to_excel('Historial', 'Historial de atenciones', ['ID atención', 'Fecha', 'Delegación', 'Funcionario', 'Tipo', 'Subatención', 'Descripción'], [[a.pk, timezone.localtime(a.fecha_creacion).strftime('%d/%m/%Y %H:%M'), a.delegacion, a.funcionario, a.tipo_atencion, a.sub_atencion, a.descripcion] for a in history])
+        return export_queryset_to_excel('Historial', 'Historial de atenciones', ['ID atención', 'Fecha', 'Delegación', 'Funcionario', 'Tipo', 'Subatención', 'Descripción', 'Folio histórico', 'Estado histórico'], [[a.pk, timezone.localtime(a.fecha_creacion).strftime('%d/%m/%Y %H:%M'), a.delegacion, a.funcionario, a.tipo_atencion, a.sub_atencion, a.descripcion] + historical_reference(a) for a in history])
     form = None
     if can_register(request.user):
         form = AtencionForm(request.POST or None, user=request.user)
@@ -285,15 +290,15 @@ def attention_new(request):
 
 @login_required
 def action_list(request):
-    actions = scoped(Accion.objects.select_related('delegacion', 'creador', 'meta'), request.user)
+    actions = scoped(Accion.objects.select_related('delegacion', 'creador', 'meta', 'origen_historico'), request.user)
     search = request.GET.get('q', '').strip()
     state = request.GET.get('estado', '')
     if search:
-        actions = actions.filter(Q(titulo__icontains=search) | Q(descripcion__icontains=search) | Q(delegacion__nombre__icontains=search))
+        actions = actions.filter(Q(titulo__icontains=search) | Q(descripcion__icontains=search) | Q(delegacion__nombre__icontains=search) | Q(origen_historico__folio__icontains=search))
     if state in dict(Accion.ESTADOS):
         actions = actions.filter(estado=state)
     if request.GET.get('export') == 'excel':
-        return export_queryset_to_excel('Acciones', 'Acciones', ['Fecha', 'Título', 'Descripción', 'Delegación', 'Autor', 'Estado', 'Meta'], [[timezone.localtime(a.fecha_creacion).strftime('%d/%m/%Y'), a.titulo, a.descripcion, a.delegacion, a.creador, a.estado, a.meta] for a in actions])
+        return export_queryset_to_excel('Acciones', 'Acciones', ['Fecha', 'Título', 'Descripción', 'Delegación', 'Autor', 'Revisión', 'Meta', 'Folio histórico', 'Estado histórico'], [[timezone.localtime(a.fecha_creacion).strftime('%d/%m/%Y'), a.titulo, a.descripcion, a.delegacion, a.creador, a.estado, a.meta] + historical_reference(a) for a in actions])
     return render(request, 'atenciones/actions.html', {'page_obj': paginate(request, actions), 'search': search, 'estado': state, 'states': Accion.ESTADOS, 'can_review': can_approve(request.user), 'can_register': can_register(request.user)})
 
 @login_required
@@ -313,7 +318,7 @@ def action_review(request, pk):
     ensure_active(request.user)
     if not can_approve(request.user):
         raise PermissionDenied
-    action = get_object_or_404(scoped(Accion.objects.select_related('creador', 'delegacion', 'meta'), request.user), pk=pk)
+    action = get_object_or_404(scoped(Accion.objects.select_related('creador', 'delegacion', 'meta', 'origen_historico__atencion__vecino'), request.user), pk=pk)
     audit = action.resoluciones.select_related('responsable').order_by('-fecha')
     if request.GET.get('export') == 'excel':
         return export_queryset_to_excel('Auditoria', 'Resoluciones de acción', ['Fecha', 'Responsable', 'Estado anterior', 'Estado nuevo', 'Motivo'], [[timezone.localtime(r.fecha).strftime('%d/%m/%Y %H:%M'), r.responsable, r.estado_anterior, r.estado_nuevo, r.motivo] for r in audit])
@@ -327,7 +332,7 @@ def action_resolve(request, pk):
         raise PermissionDenied
     form = ResolucionForm(request.POST)
     if not form.is_valid():
-        action = get_object_or_404(scoped(Accion.objects.select_related('creador', 'delegacion', 'meta'), request.user), pk=pk)
+        action = get_object_or_404(scoped(Accion.objects.select_related('creador', 'delegacion', 'meta', 'origen_historico__atencion__vecino'), request.user), pk=pk)
         messages.error(request, 'Seleccione una decisión e indique el motivo.')
         return render(request, 'atenciones/review.html', {'action': action, 'form': form, 'page_obj': paginate(request, action.resoluciones.order_by('-fecha'))}, status=400)
     with transaction.atomic():

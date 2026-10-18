@@ -62,6 +62,6 @@ Pruebas usan bases temporales y correo en memoria; no modifican la base real. Ve
 
 ## Verificación registrada el 18/10/2026
 
-178 pruebas aprobadas; resultados individuales en docs/evidencias/matriz-funcional.csv. 36 comprobaciones HTTP de AWS y carga controlada de lectura sin errores hasta 10 concurrentes. El detalle y las validaciones humanas pendientes están en docs/segunda-evaluacion.md. Para regenerar la matriz: python scripts/verify_delivery.py. La carga se ejecuta con scripts/load_delivery.py y una sesión temporal privada; nunca se publica su archivo.
+192 pruebas aprobadas; resultados individuales en docs/evidencias/matriz-funcional.csv. 36 comprobaciones HTTP de AWS y carga controlada de lectura sin errores hasta 10 concurrentes. El detalle y las validaciones humanas pendientes están en docs/segunda-evaluacion.md. Para regenerar la matriz: python scripts/verify_delivery.py. La carga se ejecuta con scripts/load_delivery.py y una sesión temporal privada; nunca se publica su archivo.
 
-Los códigos de los catálogos corresponden a su ID. Los 5 requerimientos del esquema anterior se conservan; su conversión al nuevo flujo no fue automática. No hay datos simulados en los indicadores productivos.
+Los códigos de los catálogos corresponden a su ID. Los 5 requerimientos del esquema anterior se integran al historial y acciones con fechas, folios y estados originales; la aprobación se conserva solo cuando existe auditoría. Ver docs/migracion-historica.md. No hay datos simulados en los indicadores productivos.

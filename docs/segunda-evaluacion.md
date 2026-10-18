@@ -30,7 +30,7 @@ Pendientes que no pueden acreditarse por pruebas automáticas: entrega/lectura r
 
 ## Resultado de la segunda lectura y cierre
 
-Se releyeron las 10 páginas; huella del PDF en evidencias/fuente-requisitos.json. Suite final: 178 casos aprobados, con matriz individual en CSV/JSON. Incluye los seis CRUD completos, búsquedas/paginación/Excel, recuperación y límites, roles, RUT, dependencia e idempotencia. Revisión independiente: se corrigió la colisión entre usernames y correos en administración y autoservicio. La reserva de intentos usa incremento atómico compartido entre trabajadores.
+Se releyeron las 10 páginas; huella del PDF en evidencias/fuente-requisitos.json. Suite final: 192 casos aprobados, con matriz individual en CSV/JSON. Incluye los seis CRUD completos, búsquedas/paginación/Excel, recuperación y límites, roles, RUT, dependencia e idempotencia. Revisión independiente: se corrigió la colisión entre usernames y correos en administración y autoservicio. La reserva de intentos usa incremento atómico compartido entre trabajadores.
 
 Navegador: 14 capturas a 390/1440 px, sin desbordamiento; seis auditorías axe sin violaciones detectadas. Una comprobación quedó incompleta para revisión ARIA: no se presenta como certificación WCAG. Confirmación adicional del nombre completo de delegación en móvil, múltiples avisos y SweetAlert de error del servidor. Los diseños en evidencia usan datos ficticios y no sustituyen la comprobación HTTP real de AWS.
 
@@ -38,6 +38,6 @@ AWS: 36 comprobaciones HTTP aprobadas; exports de los seis catálogos, permisos 
 
 Carga de lectura: 1.177 solicitudes en cuatro niveles (más 20 de recuperación), cero errores. Con 10 concurrentes: 60,15 solicitudes/s, p95 de 172 ms. Máximo CPU 62,81%, memoria 498,23 MB de 909,52 MB. Cumple los umbrales declarados para este escenario; no acredita el máximo de capacidad ni carga de escrituras.
 
-Los 5 requerimientos del esquema anterior se conservan en sus tablas históricas; no se convirtieron automáticamente en acciones/atenciones del modelo nuevo. Esa conversión necesita validar la correspondencia de estados y datos, y queda identificada como mejora adicional. Las operaciones nuevas sí usan persistencia real.
+Los 5 requerimientos del esquema anterior se integran como 5 atenciones, 5 acciones y 1 aprobación auditada, con vínculos únicos e historial original. La simulación no guarda cambios; repetir la aplicación no duplica ni sobrescribe revisiones nuevas. Usuarios, catálogos y tablas originales se conservan. Ver migracion-historica.md y evidencias/historicos.
 
 Para la entrega presencial quedan la recepción real de correo, el registro físico de passkey, acceso del docente al repositorio privado y aprobación gráfica. La multi-delegación de coordinadores es condicional al perfil: actualmente cada funcionario tiene una sede fija y el administrador consulta todas. No se afirma cumplimiento absoluto de aspectos que necesitan estas decisiones/evidencias.
