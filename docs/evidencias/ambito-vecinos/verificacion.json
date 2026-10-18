@@ -1,0 +1,14 @@
+{
+  "suite_aprobada": 225,
+  "regresiones_nuevas": 16,
+  "pruebas_dirigidas_aprobadas": 30,
+  "fallo_reproducido_antes_de_corregir": true,
+  "revision_independiente": "Sin hallazgos bloqueantes; regresión histórica adicional incorporada",
+  "capturas_navegador": 4,
+  "anchos_css_px": [
+    1440,
+    390
+  ],
+  "datos_capturas": "ficticios",
+  "sin_migraciones": true
+}

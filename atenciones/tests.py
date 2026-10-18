@@ -30,7 +30,7 @@ class WorkflowTests(TestCase):
         review = Rol.objects.create(nombre='Revisor', puede_aprobar=True)
         self.user = get_user_model().objects.create_user(username='funcionario', rol=role, delegacion=self.d1)
         self.reviewer = get_user_model().objects.create_user(username='revisor', rol=review, delegacion=self.d1)
-        self.person = Vecino.objects.create(nombre='Ana Pérez', rut=None, direccion='Calle 1')
+        self.person = Vecino.objects.create(nombre='Ana Pérez', rut=None, direccion='Calle 1', territorio=self.d1)
         self.kind = TipoAtencion.objects.create(nombre='Social')
         self.client.force_login(self.user)
     def test_attention_ignores_forged_delegation_and_author(self):
@@ -39,10 +39,10 @@ class WorkflowTests(TestCase):
         attention = Atencion.objects.get()
         self.assertEqual(attention.delegacion, self.d1)
         self.assertEqual(attention.funcionario, self.user)
-    def test_history_visible_across_delegations(self):
+    def test_history_excludes_other_delegations(self):
         Atencion.objects.create(vecino=self.person, delegacion=self.d2, funcionario=self.reviewer, tipo_atencion=self.kind, descripcion='Historia compartida')
         response = self.client.get(reverse('atenciones:attention_detail', args=[self.person.pk]))
-        self.assertContains(response, 'Historia compartida')
+        self.assertNotContains(response, 'Historia compartida')
         self.assertEqual(self.client.get(reverse('atenciones:attention_detail', args=[self.person.pk]), {'export':'excel'}).status_code, 200)
     def test_new_person_without_rut_and_attention_saved_together(self):
         response = self.client.post(reverse('atenciones:attention_new'), {'person-nombre': 'María Soto', 'person-rut': '', 'person-direccion': 'Calle 2', 'delegacion': self.d2.pk, 'tipo_atencion': self.kind.pk, 'descripcion': 'Orientación'})

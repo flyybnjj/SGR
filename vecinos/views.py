@@ -10,6 +10,7 @@ from django.db.models import Q
 from config.excel_utils import export_queryset_to_excel
 from .models import Vecino
 from .forms import VecinoForm
+from .access import visible_neighbors
 from territorial.models import DelegacionMunicipal
 
 
@@ -20,7 +21,7 @@ from territorial.models import DelegacionMunicipal
 @login_required
 def vecinos_list_view(request):
     search = request.GET.get('q', '').strip()
-    queryset = Vecino.objects.select_related('territorio').all()
+    queryset = visible_neighbors(Vecino.objects.select_related('territorio'), request.user)
 
     if search:
         queryset = queryset.filter(
@@ -79,7 +80,7 @@ def vecinos_toggle_activo(request, pk):
 @login_required
 def vecinos_export_excel(request):
     search = request.GET.get('q', '').strip()
-    queryset = Vecino.objects.select_related('territorio').all()
+    queryset = visible_neighbors(Vecino.objects.select_related('territorio'), request.user)
 
     if search:
         queryset = queryset.filter(

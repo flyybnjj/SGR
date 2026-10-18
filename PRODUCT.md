@@ -46,3 +46,8 @@ El responsable solo personaliza la sede que tiene asignada como lugar de trabajo
 ## Cuenta raiz y movimiento ambiental
 
 Las cuentas superadministradoras no pertenecen al mantenedor de usuarios: no aparecen en listado, busqueda, paginacion ni Excel y no se editan desde sus rutas. Sus ajustes personales siguen disponibles en el perfil. Las ondas de la vista general utilizan rojo institucional sobre lienzo neutro; las sedes conservan su color compartido. El menu explica si la animacion esta activada, desactivada o detenida por Reducir movimiento del equipo.
+
+
+## Privacidad territorial de vecinos
+
+Cada funcionario o delegado consulta únicamente vecinos cuyo territorio coincide con su delegación de trabajo activa. La misma regla se aplica a listados, búsqueda por nombre/RUT, paginación, Excel y acceso directo GET/POST a la ficha. Sin delegación activa no se muestran datos de vecinos. El historial visible y exportado se limita a atenciones de esa sede; los registros históricos originales se conservan. El superadministrador mantiene consulta global, incluidos vecinos pendientes de asignación. Esta regla sustituye la consulta municipal compartida descrita en entregas anteriores.

@@ -30,7 +30,7 @@ El usuario confirmó el 18/10/2026 la recepción y uso de códigos por correo y 
 
 ## Resultado de la segunda lectura y cierre
 
-Se releyeron las 10 páginas; huella del PDF en evidencias/fuente-requisitos.json. Suite final: 209 casos aprobados, con matriz individual en CSV/JSON. Incluye los seis CRUD completos, búsquedas/paginación/Excel, recuperación y límites, roles, RUT, dependencia e idempotencia. Revisión independiente: se corrigió la colisión entre usernames y correos en administración y autoservicio. La reserva de intentos usa incremento atómico compartido entre trabajadores.
+Se releyeron las 10 páginas; huella del PDF en evidencias/fuente-requisitos.json. Suite final: 225 casos aprobados, con matriz individual en CSV/JSON. Incluye los seis CRUD completos, búsquedas/paginación/Excel, recuperación y límites, roles, RUT, dependencia e idempotencia. Revisión independiente: se corrigió la colisión entre usernames y correos en administración y autoservicio. La reserva de intentos usa incremento atómico compartido entre trabajadores.
 
 Navegador: 14 capturas a 390/1440 px, sin desbordamiento; seis auditorías axe sin violaciones detectadas. Una comprobación quedó incompleta para revisión ARIA: no se presenta como certificación WCAG. Confirmación adicional del nombre completo de delegación en móvil, múltiples avisos y SweetAlert de error del servidor. Los diseños en evidencia usan datos ficticios y no sustituyen la comprobación HTTP real de AWS.
 
@@ -43,3 +43,8 @@ Los 5 requerimientos del esquema anterior se integran como 5 atenciones, 5 accio
 Para la entrega presencial quedan la recuperación personal con passkey, el acceso del docente al repositorio privado y la aprobación gráfica. La multi-delegación de coordinadores es condicional al perfil: actualmente cada funcionario tiene una sede fija y el administrador consulta todas. No se afirma cumplimiento absoluto de aspectos que necesitan estas decisiones/evidencias.
 
 Corrección de color y responsabilidades: docs/color-delegacion.md. La sede de trabajo determina el tema heredado; la administración impide responsabilidades incompatibles y protege también la reactivación de sedes.
+
+
+## Corrección del aislamiento de vecinos
+
+Se eliminó la consulta global de vecinos para funcionarios y delegados: padrón, búsqueda, ficha GET/POST, historial, paginación y Excel usan el ámbito de su sede activa. Raíz conserva consulta global. Se agregaron 16 regresiones, incluidas reasignación de sede, rol de consulta, falta de sede y acceso a datos históricos. Suite completa: 225 pruebas aprobadas. Evidencias: evidencias/ambito-vecinos. La asignación actual del registro del Faro se corrige a Avenida del Mar, conservando las actuaciones y auditorías originales.

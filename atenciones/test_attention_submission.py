@@ -23,7 +23,7 @@ class AttentionSubmissionTests(TestCase):
         self.delegation = DelegacionMunicipal.objects.create(nombre='Centro', direccion='Principal')
         self.role = Rol.objects.create(nombre='Registro', puede_registrar_atenciones=True)
         self.user = get_user_model().objects.create_user(username='registro', rol=self.role, delegacion=self.delegation)
-        self.person = Vecino.objects.create(nombre='Ana Pérez')
+        self.person = Vecino.objects.create(nombre='Ana Pérez', territorio=self.delegation)
         self.kind = TipoAtencion.objects.create(nombre='Social')
         self.other_kind = TipoAtencion.objects.create(nombre='Salud')
         self.subtype = SubAtencion.objects.create(nombre='Apoyo social', tipo_atencion=self.kind)
@@ -131,7 +131,7 @@ class AttentionSubmissionTests(TestCase):
     def test_token_cannot_be_reused_on_another_person(self):
         data = self.payload()
         self.client.post(self.url, data)
-        other = Vecino.objects.create(nombre='Otra persona')
+        other = Vecino.objects.create(nombre='Otra persona', territorio=self.delegation)
         response = self.client.post(reverse('atenciones:attention_detail', args=[other.pk]), data)
         self.assertEqual(response.status_code, 403)
         self.assertEqual(Atencion.objects.count(), 1)

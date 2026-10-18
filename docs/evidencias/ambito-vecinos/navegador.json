@@ -1,0 +1,35 @@
+{
+  "datos": "ficticios en base aislada",
+  "capturas": [
+    {
+      "vista": "padron",
+      "ancho_css_px": 1440,
+      "filas_propias": 3,
+      "filas_ajenas": 0,
+      "desbordamiento_horizontal_pagina": false
+    },
+    {
+      "vista": "busqueda",
+      "ancho_css_px": 1440,
+      "filas_propias": 3,
+      "filas_ajenas": 0,
+      "desbordamiento_horizontal_pagina": false
+    },
+    {
+      "vista": "padron",
+      "ancho_css_px": 390,
+      "filas_propias": 3,
+      "filas_ajenas": 0,
+      "desbordamiento_horizontal_pagina": false
+    },
+    {
+      "vista": "busqueda",
+      "ancho_css_px": 390,
+      "filas_propias": 3,
+      "filas_ajenas": 0,
+      "desbordamiento_horizontal_pagina": false
+    }
+  ],
+  "errores_js": [],
+  "barra_movil_oculta_solo_en_exportacion": true
+}

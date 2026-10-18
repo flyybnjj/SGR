@@ -145,6 +145,7 @@ from django.db import transaction
 from django.http import FileResponse, HttpResponse
 from config.access import can_register, can_approve
 from vecinos.models import Vecino
+from vecinos.access import visible_neighbors
 from .models import Atencion, Accion, MetaPeriodo, ResolucionAccion
 from .forms import PersonaAtencionForm, AtencionForm, AccionForm, MetaPeriodoForm, ResolucionForm
 
@@ -169,7 +170,7 @@ def scoped(queryset, user):
 
 def search_people(request):
     query = request.GET.get('q', '').strip()
-    people = Vecino.objects.all()
+    people = visible_neighbors(Vecino.objects.all(), request.user)
     if query:
         from django.db.models import Value
         from django.db.models.functions import Replace, Upper
@@ -223,8 +224,8 @@ def attention_confirmation(request, attention):
 @login_required
 def attention_detail(request, pk):
     ensure_active(request.user)
-    person = get_object_or_404(Vecino, pk=pk)
-    history = person.atenciones.select_related('delegacion', 'funcionario', 'tipo_atencion', 'sub_atencion', 'origen_historico')
+    person = get_object_or_404(visible_neighbors(Vecino.objects.all(), request.user), pk=pk)
+    history = scoped(person.atenciones.select_related('delegacion', 'funcionario', 'tipo_atencion', 'sub_atencion', 'origen_historico'), request.user)
     search = request.GET.get('q', '').strip()
     if search:
         history = history.filter(Q(descripcion__icontains=search) | Q(delegacion__nombre__icontains=search) | Q(tipo_atencion__nombre__icontains=search) | Q(origen_historico__folio__icontains=search))

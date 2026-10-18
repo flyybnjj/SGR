@@ -145,6 +145,20 @@ class HistoricalMigrationTests(TestCase):
             c.execute('SELECT * FROM atenciones_requerimiento ORDER BY id')
             self.assertEqual(c.fetchall(),[tuple(row.values()) for row in self.rows])
 
+    def test_reassigned_neighbor_identity_is_not_exposed_in_historical_review(self):
+        self.run_import()
+        link = self.trace().objects.get(requerimiento_id=1)
+        self.person.territorio = self.other
+        self.person.save()
+        self.client.force_login(self.actor)
+        url = reverse('atenciones:action_review', args=[link.accion_id])
+        response = self.client.get(url)
+        self.assertContains(response, link.folio)
+        self.assertNotContains(response, self.person.nombre)
+        self.assertNotContains(response, reverse('atenciones:attention_detail', args=[self.person.pk]))
+        self.client.force_login(self.root)
+        self.assertContains(self.client.get(url), self.person.nombre)
+
     def test_history_links_cannot_be_mutated_or_deleted(self):
         from django.core.exceptions import ValidationError
         from django.db.models.deletion import ProtectedError

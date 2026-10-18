@@ -16,7 +16,7 @@
             </h1>
         </div>
         <p class="small mb-0" style="color: var(--text-muted);">
-            Gestión ciudadana territorial, registro de atenciones vecinales y solicitudes comunales
+            {% if user.is_superuser %}Vecinos de todas las delegaciones.{% else %}Vecinos asignados a {{ user.delegacion.nombre|default:'tu delegación' }}.{% endif %}
         </p>
     </div>
     <div class="d-flex gap-2">

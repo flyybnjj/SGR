@@ -12,7 +12,7 @@
     <dl class="profile-details mt-4 mb-0" aria-label="Datos originales del requerimiento">
         <div><dt>Folio histórico</dt><dd>{{ action.origen_historico.folio }}</dd></div>
         <div><dt>Estado original</dt><dd>{{ action.origen_historico.estado_original_texto }}</dd></div>
-        <div><dt>Vecino</dt><dd><a href="{% url 'atenciones:attention_detail' action.origen_historico.atencion.vecino_id %}">{{ action.origen_historico.atencion.vecino.nombre }}</a></dd></div>
+        <div><dt>Vecino</dt><dd>{% if user.is_superuser or user.delegacion_id and user.delegacion.activo and action.origen_historico.atencion.vecino.territorio_id == user.delegacion_id %}<a href="{% url 'atenciones:attention_detail' action.origen_historico.atencion.vecino_id %}">{{ action.origen_historico.atencion.vecino.nombre }}</a>{% else %}Ficha de otra delegación{% endif %}</dd></div>
         <div><dt>Dirección original</dt><dd>{{ action.origen_historico.datos_originales.requerimiento.direccion }}</dd></div>
     </dl>
     {% endif %}
