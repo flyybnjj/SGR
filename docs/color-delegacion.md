@@ -23,3 +23,5 @@ Se conserva la referencia aprobada «Vidrio suave / Menú por tareas»: encabeza
 Las regresiones reproducen la asignación contradictoria, el acceso indebido al editor, la herencia por el equipo, los formularios administrativos y la reactivación. La comprobación de navegador cubre azul, rosa y rojo predeterminado a 1440 y 390 px, estados de foco y hover, cambios sin guardar y contraste de texto de botones. Evidencias en `docs/evidencias/color-delegacion/`; los datos de capturas son ficticios.
 
 Confirmación funcional aportada por el usuario el 18/10/2026: los códigos por correo llegan y funcionan; se puede registrar, eliminar y usar una passkey para ingresar. No se presenta esa confirmación como una prueba de los demás flujos de recuperación con passkey.
+
+Aplicación verificada en AWS: 202 pruebas aprobadas, 30 controles HTTP específicos de color y permisos, y 36 controles generales. Una captura real de la página de apariencia confirma Las Compañías y el azul #1A33EA. Se liberaron tres relaciones de responsabilidad incompatibles; las cuentas y transacciones permanecieron intactas.

@@ -1,0 +1,151 @@
+{
+  "base": "https://100-49-246-233.sslip.io",
+  "version": {
+    "commit": "c876f6d5983e58b1e36e51d3cbd7348133efb142",
+    "deployed_at": "2026-10-18T16:54:54.530870+00:00"
+  },
+  "checks": [
+    {
+      "check": "Tema compartido Maria /",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Tema compartido Maria /atenciones/",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Tema compartido Maria /acciones/",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Tema compartido Maria /metas/",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Tema compartido Maria /reportes/",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Tema compartido Maria /ficha-usuario/",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Tema compartido Maria /mi-perfil/ajustes/",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Tema compartido Maria /mi-perfil/contrasena/",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Tema compartido Maria /mi-perfil/passkeys/",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Editor identifica sede correcta y vista previa",
+      "passed": true
+    },
+    {
+      "check": "CSS territorial actualizado sin cache anterior",
+      "passed": true
+    },
+    {
+      "check": "Editor de otra sede bloqueado 10",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "check": "Editor de otra sede bloqueado 1",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "check": "Editor de otra sede bloqueado 12",
+      "passed": true,
+      "status": 404
+    },
+    {
+      "check": "Editor de otra sede bloqueado 9",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "check": "Editor de otra sede bloqueado 8",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "check": "Editor de otra sede bloqueado 2",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "check": "Editor de otra sede bloqueado 4",
+      "passed": true,
+      "status": 404
+    },
+    {
+      "check": "Editor de otra sede bloqueado 11",
+      "passed": true,
+      "status": 404
+    },
+    {
+      "check": "Editor de otra sede bloqueado 5",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "check": "Editor de otra sede bloqueado 6",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "check": "Editor de otra sede bloqueado 3",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "check": "Editor de otra sede bloqueado 13",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "check": "POST no puede cambiar color de otra sede",
+      "passed": true
+    },
+    {
+      "check": "Guardar y aplicar mantiene sede y tema",
+      "passed": true
+    },
+    {
+      "check": "Perfil solo ofrece su delegacion",
+      "passed": true
+    },
+    {
+      "check": "Administrador conserva vista global /",
+      "passed": true
+    },
+    {
+      "check": "Administrador conserva vista global /mantenedores/delegaciones/",
+      "passed": true
+    },
+    {
+      "check": "Administrador conserva vista global /mi-perfil/ajustes/",
+      "passed": true
+    },
+    {
+      "check": "Funcionario existente hereda el mismo color",
+      "passed": true
+    }
+  ],
+  "same_team_production_account_available": true
+}

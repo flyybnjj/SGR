@@ -19,5 +19,9 @@
     "codigos_recibidos_y_funcionales": true,
     "passkey_registro_eliminacion_ingreso": true
   },
-  "esquema_sin_cambios": true
+  "esquema_sin_cambios": true,
+  "comprobaciones_HTTP_color": 30,
+  "comprobaciones_HTTP_generales": 36,
+  "verificacion_navegador_AWS": "Sede Las Compañías, acento #1A33EA, sin desbordamiento a 1440px",
+  "aplicacion_productiva_verificada": true
 }
