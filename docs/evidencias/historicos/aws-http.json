@@ -1,0 +1,157 @@
+{
+  "base": "https://100-49-246-233.sslip.io",
+  "version": {
+    "commit": "d34e8e7a6356f9b2273d6c690f71cd1cc79401a0",
+    "deployed_at": "2026-10-18T16:20:38.962635+00:00"
+  },
+  "checks": [
+    {
+      "check": "Acciones históricas visibles para administrador",
+      "passed": true
+    },
+    {
+      "check": "Excel de acciones disponible",
+      "passed": true
+    },
+    {
+      "check": "Excel conserva folio y estado histórico",
+      "passed": true
+    },
+    {
+      "check": "Historial del requerimiento 1",
+      "passed": true
+    },
+    {
+      "check": "Excel del historial 1",
+      "passed": true
+    },
+    {
+      "check": "Revisión y origen del requerimiento 1",
+      "passed": true
+    },
+    {
+      "check": "Búsqueda por folio 1",
+      "passed": true
+    },
+    {
+      "check": "Historial del requerimiento 2",
+      "passed": true
+    },
+    {
+      "check": "Excel del historial 2",
+      "passed": true
+    },
+    {
+      "check": "Revisión y origen del requerimiento 2",
+      "passed": true
+    },
+    {
+      "check": "Búsqueda por folio 2",
+      "passed": true
+    },
+    {
+      "check": "Historial del requerimiento 3",
+      "passed": true
+    },
+    {
+      "check": "Excel del historial 3",
+      "passed": true
+    },
+    {
+      "check": "Revisión y origen del requerimiento 3",
+      "passed": true
+    },
+    {
+      "check": "Búsqueda por folio 3",
+      "passed": true
+    },
+    {
+      "check": "Historial del requerimiento 4",
+      "passed": true
+    },
+    {
+      "check": "Excel del historial 4",
+      "passed": true
+    },
+    {
+      "check": "Revisión y origen del requerimiento 4",
+      "passed": true
+    },
+    {
+      "check": "Búsqueda por folio 4",
+      "passed": true
+    },
+    {
+      "check": "Historial del requerimiento 5",
+      "passed": true
+    },
+    {
+      "check": "Excel del historial 5",
+      "passed": true
+    },
+    {
+      "check": "Revisión y origen del requerimiento 5",
+      "passed": true
+    },
+    {
+      "check": "Aprobación histórica sin controles para volver a resolver",
+      "passed": true
+    },
+    {
+      "check": "Auditoría histórica exportable",
+      "passed": true
+    },
+    {
+      "check": "Búsqueda por folio 5",
+      "passed": true
+    },
+    {
+      "check": "Historial municipal compartido 1",
+      "passed": true
+    },
+    {
+      "check": "Revisión de otra sede protegida 1",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "check": "Historial municipal compartido 2",
+      "passed": true
+    },
+    {
+      "check": "Revisión de otra sede protegida 2",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "check": "Historial municipal compartido 3",
+      "passed": true
+    },
+    {
+      "check": "Revisión de otra sede protegida 3",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "check": "Historial municipal compartido 4",
+      "passed": true
+    },
+    {
+      "check": "Historial municipal compartido 5",
+      "passed": true
+    },
+    {
+      "check": "Revisión de otra sede protegida 5",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "check": "Excel de funcionario no expone acciones de otras sedes",
+      "passed": true
+    },
+    {
+      "check": "Versión productiva correcta",
+      "passed": true
+    }
+  ]
+}

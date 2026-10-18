@@ -29,4 +29,6 @@ Para revertir, detener escritores y restaurar el respaldo tomado inmediatamente 
 
 192 pruebas aprobadas, incluidas 14 de esta migración. El ensayo sobre una copia real de AWS verificó simulación, importación, repetición, cinco vínculos y conservación de originales/usuarios. La revisión independiente aprobó las 14 pruebas específicas. Ocho capturas con datos ficticios a 1440 y 390 px no presentan desbordamiento horizontal. Cuatro auditorías axe no detectaron violaciones; hubo comprobaciones incompletas de contraste/ARIA y no se afirma certificación WCAG.
 
+La aplicación productiva verificó cinco atenciones, cinco acciones y una auditoría nuevas; cero errores de integridad o claves foráneas. Pasaron 36 comprobaciones HTTP específicas y las 36 generales del despliegue.
+
 Los resultados del ensayo, navegador y aplicación productiva se guardan en `docs/evidencias/historicos/`. Las capturas son sintéticas y no publican datos de vecinos reales. El respaldo privado completo queda fuera de Git.

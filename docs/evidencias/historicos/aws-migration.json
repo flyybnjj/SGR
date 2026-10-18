@@ -1,0 +1,22 @@
+{
+  "fecha": "2026-10-18T16:21:17.028961+00:00",
+  "entorno": "AWS producci\u00f3n",
+  "conteos_antes": {
+    "atenciones_atencion": 0,
+    "atenciones_accion": 0,
+    "atenciones_resolucionaccion": 0,
+    "atenciones_requerimientohistorico": 0
+  },
+  "conteos_despues": {
+    "atenciones_atencion": 5,
+    "atenciones_accion": 5,
+    "atenciones_resolucionaccion": 1,
+    "atenciones_requerimientohistorico": 5
+  },
+  "originales_usuarios_catalogos_inalterados": true,
+  "transacciones_previas_inalteradas": true,
+  "repeticion_sin_duplicados": true,
+  "aprobaciones_historicas": 1,
+  "sqlite_integrity": "ok",
+  "foreign_key_errors": 0
+}

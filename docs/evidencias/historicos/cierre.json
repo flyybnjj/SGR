@@ -1,0 +1,19 @@
+{
+  "application_commit": "d34e8e7a6356f9b2273d6c690f71cd1cc79401a0",
+  "pruebas_automatizadas_aprobadas": 192,
+  "comprobaciones_HTTP_historicas": 36,
+  "comprobaciones_HTTP_generales": 36,
+  "migracion_productiva_verificada": true,
+  "requerimientos_integrados": 5,
+  "atenciones_creadas": 5,
+  "acciones_creadas": 5,
+  "aprobaciones_con_auditoria_real": 1,
+  "originales_y_usuarios_inalterados": true,
+  "repeticion_sin_duplicados": true,
+  "revision_independiente": "14 pruebas específicas aprobadas; sin hallazgos críticos o importantes",
+  "pendientes_humanos": [
+    "Registro físico de passkey con el teléfono del titular",
+    "Recepción real del correo y rotación de credencial SMTP anterior",
+    "Acceso del docente al repositorio privado y aprobación gráfica"
+  ]
+}
