@@ -19,10 +19,10 @@ class DelegacionMunicipalForm(NombreCatalogoUnicoMixin, forms.ModelForm):
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user', None)
         super().__init__(*args, **kwargs)
-        # Filtrar delegados activos o con rol de Delegado Municipal
-        self.fields['delegado'].queryset = Usuario.objects.filter(activo=True)
+
+        self.fields['delegado'].queryset = Usuario.objects.filter(activo=True, is_superuser=False)
         if user is not None and not user.is_superuser:
-            self.fields['delegado'].queryset = Usuario.objects.filter(pk=self.instance.delegado_id)
+            self.fields['delegado'].queryset = Usuario.objects.filter(pk=self.instance.delegado_id, is_superuser=False)
             self.fields['delegado'].disabled = True
 
     def clean_delegado(self):
@@ -40,6 +40,8 @@ class DelegacionMunicipalForm(NombreCatalogoUnicoMixin, forms.ModelForm):
         seat = super().save(commit=False)
         if not commit:
             return seat
+        if seat.pk:
+            DelegacionMunicipal.objects.select_for_update().get(pk=seat.pk)
         if seat.delegado_id:
             delegate = Usuario.objects.select_for_update().get(pk=seat.delegado_id)
             if delegate.delegacion_id and delegate.delegacion_id != seat.pk:
@@ -50,7 +52,7 @@ class DelegacionMunicipalForm(NombreCatalogoUnicoMixin, forms.ModelForm):
         seat.save()
         self.save_m2m()
         if seat.delegado_id and not seat.delegado.delegacion_id:
-            # A responsible without a work assignment joins the seat just created.
+
             seat.delegado.delegacion = seat
             seat.delegado.save(update_fields=['delegacion'])
         return seat

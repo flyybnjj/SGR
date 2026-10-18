@@ -9,7 +9,6 @@ echo "=========================================================="
 echo "[1/2] Ejecutando migraciones de base de datos..."
 python manage.py migrate --noinput
 
-# Opcional: si la variable POBLAR_SISTEMA está en True, precargar datos iniciales
 if [ "$POBLAR_SISTEMA" = "True" ] || [ "$POBLAR_SISTEMA" = "1" ]; then
     echo "==> Precargando roles, usuarios y datos municipales iniciales..."
     python manage.py poblar_sistema

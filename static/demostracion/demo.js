@@ -38,7 +38,7 @@
       preview.removeAttribute('src');
     }
   });
-  // Sin action ni llamadas de red: los valores de práctica nunca se persisten.
+
   form.addEventListener('submit', event => {
     event.preventDefault();
     const inputs = Array.from(form.querySelectorAll('input, textarea'));

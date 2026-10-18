@@ -1,4 +1,4 @@
-"""El mantenedor exige los mismos datos personales en servidor y formulario."""
+
 from django.test import TestCase
 from django.urls import reverse
 

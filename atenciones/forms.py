@@ -100,7 +100,7 @@ class AtencionForm(DelegationForm):
             selected = int(selected)
         except (ValueError, TypeError):
             selected = None
-        self.fields['sub_atencion'].queryset = SubAtencion.objects.filter(activo=True, tipo_atencion__activo=True, tipo_atencion_id=selected)
+        self.fields['sub_atencion'].queryset = SubAtencion.objects.filter(activo=True, tipo_atencion__activo=True, tipo_atencion_id=selected).select_related('tipo_atencion')
         self.subtype_options = list(SubAtencion.objects.filter(activo=True, tipo_atencion__activo=True).values('id', 'nombre', 'tipo_atencion_id'))
 
 class AccionForm(DelegationForm):
@@ -111,11 +111,25 @@ class AccionForm(DelegationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         today = timezone.localdate()
-        metas = MetaPeriodo.objects.filter(delegacion__activo=True, inicio__lte=today, fin__gte=today)
+        metas = MetaPeriodo.objects.filter(delegacion__activo=True, inicio__lte=today, fin__gte=today).select_related('item_meta', 'delegacion')
         if not self.user.is_superuser:
             metas = metas.filter(delegacion_id=self.user.delegacion_id)
         self.fields['meta'].queryset = metas
         self.fields['evidencia'].help_text = 'Imagen JPEG, PNG o WebP. Máximo 5 MB.'
+
+    @transaction.atomic
+    def save(self, commit=True):
+        action = super().save(commit=False)
+        if action.meta_id:
+            meta = MetaPeriodo.objects.select_for_update().get(pk=action.meta_id)
+            today = timezone.localdate()
+            if meta.delegacion_id != action.delegacion_id or not (meta.inicio <= today <= meta.fin):
+                raise ValidationError({'meta': 'La meta cambió mientras registraba la acción. Selecciónela nuevamente.'})
+            action.meta = meta
+        if commit:
+            action.save()
+            self.save_m2m()
+        return action
     def clean_evidencia(self):
         image = self.cleaned_data.get('evidencia')
         if image:
@@ -140,6 +154,18 @@ class MetaPeriodoForm(DelegationForm):
         if self.instance.pk and self.instance.acciones.exists() and delegation.pk != self.instance.delegacion_id:
             raise forms.ValidationError('No se puede cambiar la delegación de una meta que ya tiene acciones registradas.')
         return delegation
+
+    @transaction.atomic
+    def save(self, commit=True):
+        meta = super().save(commit=False)
+        if meta.pk:
+            original = MetaPeriodo.objects.select_for_update().get(pk=meta.pk)
+            if original.delegacion_id != meta.delegacion_id and original.acciones.exists():
+                raise ValidationError({'delegacion': 'Se registraron acciones mientras editaba. No se puede cambiar la delegación de esta meta.'})
+        if commit:
+            meta.save()
+            self.save_m2m()
+        return meta
 
 class ResolucionForm(forms.Form):
     estado = forms.ChoiceField(choices=[('Aprobada', 'Aprobar'), ('Rechazada', 'Rechazar')])

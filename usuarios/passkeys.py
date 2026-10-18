@@ -1,4 +1,4 @@
-"""Opt-in WebAuthn ceremonies and a narrowly scoped password-reset grant."""
+
 import hashlib
 import json
 from ipaddress import ip_address
@@ -39,7 +39,7 @@ def preferred_cookie(response, preferred):
 
 
 def rate_limit_ip(request):
-    """Accept a client IP only from an explicitly trusted loopback proxy."""
+
     peer = request.META.get('REMOTE_ADDR', '')
     if getattr(settings, 'WEBAUTHN_TRUST_LOOPBACK_PROXY', False):
         try:
@@ -95,8 +95,8 @@ def begin(request, options, purpose, user=None, name='', preferred=False):
     )
     request.session['passkey_challenge'] = str(challenge.pk)
     payload = json.loads(options_to_json(options))
-    # Prefer the browser's cross-device QR flow for registration, login and recovery.
-    # This is a UI hint; the browser/OS controls which providers it offers.
+
+
     payload['hints'] = ['hybrid']
     return JsonResponse(payload)
 
@@ -150,7 +150,10 @@ def registration_verify(request, data):
             require_user_verification=True,
         )
         with transaction.atomic():
-            profile = PasskeyProfile.objects.select_for_update().get(user=request.user)
+            user = Usuario.objects.select_for_update(of=('self',)).select_related('rol').get(pk=request.user.pk)
+            if not active(user) or not constant_time_compare(challenge.password_stamp, user.get_session_auth_hash()):
+                return denied()
+            profile = PasskeyProfile.objects.select_for_update().get(user=user)
             if profile.keys.filter(revoked_at__isnull=True).count() >= 10:
                 return denied()
             Passkey.objects.create(

@@ -1,4 +1,4 @@
-/* WebAuthn: private keys, biometrics and PINs stay in the user's authenticator. */
+
 (() => {
   'use strict';
   const decode = value => Uint8Array.from(atob(value.replace(/-/g, '+').replace(/_/g, '/').padEnd(Math.ceil(value.length / 4) * 4, '=')), c => c.charCodeAt(0));

@@ -1,4 +1,4 @@
-/* One authorized editor per grid, with cancellation and focus restoration. */
+
 (() => {
   'use strict';
   const element = document.getElementById('crudEditModal');
@@ -13,7 +13,11 @@
     isShown = false;
     sequence++;
     controller?.abort();
-    if (opener?.isConnected) opener.focus();
+    if (opener?.isConnected) {
+      opener.disabled = false;
+      opener.removeAttribute('aria-busy');
+      opener.focus();
+    }
   });
   document.addEventListener('click', async event => {
     const button = event.target.closest('[data-edit-form]');
@@ -34,7 +38,7 @@
       if (!response.ok || response.redirected) throw new Error('No se pudo cargar el formulario. Cierra esta ventana e intenta nuevamente.');
       const fragment = new DOMParser().parseFromString(await response.text(), 'text/html');
       const formContent = fragment.querySelector('.modal-content');
-      if (!formContent) throw new Error('El formulario no estÃ¡ disponible.');
+      if (!formContent) throw new Error('El formulario no está disponible.');
       if (current !== sequence) return;
       content.replaceChildren(...Array.from(formContent.childNodes));
       const title = content.querySelector('h2[id], h5[id]');

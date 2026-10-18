@@ -34,7 +34,7 @@ class DelegacionMunicipal(models.Model):
 
     @property
     def color_identificacion(self):
-        """El color del equipo solo se aplica después de confirmarlo."""
+
         return self.color if self.color_configurado else '#B80003'
 
 

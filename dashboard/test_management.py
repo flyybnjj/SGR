@@ -1,4 +1,3 @@
-from datetime import date
 from django.test import TestCase
 from django.urls import reverse
 from usuarios.models import Usuario, Rol

@@ -1,4 +1,4 @@
-"""Errores de formularios del servidor, sin incluir sus valores ni credenciales."""
+
 from django import template
 from django.forms import BaseForm
 from django.utils.html import json_script

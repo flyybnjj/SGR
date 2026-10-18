@@ -1,6 +1,5 @@
 from datetime import datetime, timezone
 from io import StringIO, BytesIO
-import json
 import openpyxl
 from django.apps import apps
 from django.core.management import call_command

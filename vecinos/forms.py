@@ -1,7 +1,6 @@
 from django import forms
 from .models import Vecino
 from config.validators import RutFormMixin
-from config.access import can_manage
 from territorial.models import DelegacionMunicipal
 
 

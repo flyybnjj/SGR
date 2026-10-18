@@ -1,11 +1,11 @@
 {% load static %}
-<!-- ============================================================================== -->
-<!-- PANEL DERECHO: CARRUSEL FOTOGRÁFICO OFICIAL DE LA SERENA (NAVEGACIÓN MANUAL) -->
-<!-- ============================================================================== -->
+
+
+
 <div class="auth-carousel-wrapper h-100 position-relative p-2 p-md-3 d-flex flex-column">
     <div id="laSerenaAuthCarousel" class="carousel slide carousel-fade h-100 rounded-4 overflow-hidden position-relative shadow-sm" data-bs-interval="false">
 
-        <!-- Indicadores Modernos (Pills) -->
+
         <div class="carousel-indicators mb-3">
             <button type="button" data-bs-target="#laSerenaAuthCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Faro Monumental"></button>
             <button type="button" data-bs-target="#laSerenaAuthCarousel" data-bs-slide-to="1" aria-label="Plaza de Armas"></button>
@@ -14,10 +14,10 @@
             <button type="button" data-bs-target="#laSerenaAuthCarousel" data-bs-slide-to="4" aria-label="Identidad Comunal"></button>
         </div>
 
-        <!-- Slides con Imágenes Reales de La Serena -->
+
         <div class="carousel-inner h-100">
 
-            <!-- Slide 1: Faro Monumental Restaurado -->
+
             <div class="carousel-item active h-100">
                 <img src="{% static 'img/carousel/faro_nuevo_2022-960.webp' %}" srcset="{% static 'img/carousel/faro_nuevo_2022-480.webp' %} 480w, {% static 'img/carousel/faro_nuevo_2022-960.webp' %} 960w" sizes="(min-width: 992px) 48vw, 100vw" width="1280" height="943" loading="eager" decoding="async" class="d-block w-100 h-100 object-fit-cover" alt="Faro Monumental de La Serena">
                 <div class="carousel-caption-stitch">
@@ -27,7 +27,7 @@
                 </div>
             </div>
 
-            <!-- Slide 2: Plaza de Armas de La Serena -->
+
             <div class="carousel-item h-100">
                 <img src="{% static 'img/carousel/plaza_armas_laserena-960.webp' %}" srcset="{% static 'img/carousel/plaza_armas_laserena-480.webp' %} 480w, {% static 'img/carousel/plaza_armas_laserena-960.webp' %} 960w" sizes="(min-width: 992px) 48vw, 100vw" width="1024" height="576" loading="lazy" decoding="async" class="d-block w-100 h-100 object-fit-cover" alt="Plaza de Armas La Serena">
                 <div class="carousel-caption-stitch">
@@ -37,7 +37,7 @@
                 </div>
             </div>
 
-            <!-- Slide 3: Mercado La Recova -->
+
             <div class="carousel-item h-100">
                 <img src="{% static 'img/carousel/recova_tradicion-960.webp' %}" srcset="{% static 'img/carousel/recova_tradicion-480.webp' %} 480w, {% static 'img/carousel/recova_tradicion-960.webp' %} 960w" sizes="(min-width: 992px) 48vw, 100vw" width="1280" height="960" loading="lazy" decoding="async" class="d-block w-100 h-100 object-fit-cover" alt="Mercado La Recova">
                 <div class="carousel-caption-stitch">
@@ -47,7 +47,7 @@
                 </div>
             </div>
 
-            <!-- Slide 4: Bahía de La Serena y Cordillera -->
+
             <div class="carousel-item h-100">
                 <img src="{% static 'img/carousel/costanera_bahia-960.webp' %}" srcset="{% static 'img/carousel/costanera_bahia-480.webp' %} 480w, {% static 'img/carousel/costanera_bahia-960.webp' %} 960w" sizes="(min-width: 992px) 48vw, 100vw" width="1280" height="258" loading="lazy" decoding="async" class="d-block w-100 h-100 object-fit-cover" alt="Bahía de La Serena">
                 <div class="carousel-caption-stitch">
@@ -57,7 +57,7 @@
                 </div>
             </div>
 
-            <!-- Slide 5: Panorámica Avenida del Mar -->
+
             <div class="carousel-item h-100">
                 <img src="{% static 'img/carousel/faro_monumental_panoramica-960.webp' %}" srcset="{% static 'img/carousel/faro_monumental_panoramica-480.webp' %} 480w, {% static 'img/carousel/faro_monumental_panoramica-960.webp' %} 960w" sizes="(min-width: 992px) 48vw, 100vw" width="1280" height="960" loading="lazy" decoding="async" class="d-block w-100 h-100 object-fit-cover" alt="Avenida del Mar La Serena">
                 <div class="carousel-caption-stitch">
@@ -72,7 +72,6 @@
 </div>
 
 <style>
-/* Estilos del Carrusel Split Screen */
 .auth-carousel-wrapper {
     min-height: 520px;
 }

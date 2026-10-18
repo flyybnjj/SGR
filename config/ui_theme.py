@@ -1,4 +1,4 @@
-"""Delegation accents with calculated accessible foregrounds."""
+
 import re
 
 
@@ -28,7 +28,7 @@ def theme_tokens(color):
     while min(contrast(ink, tint), contrast(ink, "#f5f5f7")) < 4.5:
         ink = hex_color(v * .9 for v in rgb(ink))
     foreground = max(("#ffffff", "#17212f"), key=lambda candidate: contrast(color, candidate))
-    # Near the crossover, pure black guarantees 4.5:1 for any valid sRGB accent.
+
     if contrast(color, foreground) < 4.5:
         foreground = "#000000"
     return {"color": color, "on_color": foreground, "ink": ink,

@@ -1,4 +1,4 @@
-<!-- Modal Editar Sub-Atención Stitch Style -->
+
                 <div class="modal fade" id="editSubModal{{ s.id }}" tabindex="-1" aria-hidden="true" aria-labelledby="editSubModal{{ s.id }}Title">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content modal-content-stitch">
@@ -13,7 +13,7 @@
                                         <label for="editSubModal{{ s.id }}-tipo_atencion" class="form-label small fw-semibold" style="color: var(--text-main);">Tipo de Atención Principal *</label>
                                         <select id="editSubModal{{ s.id }}-tipo_atencion" name="tipo_atencion" class="input-stitch" required>
                                             {% for t in tipos %}
-                                            <option value="{{ t.id }}" {% if s.tipo_atencion_id == t.id %}selected{% endif %}>{{ t.nombre }}</option>
+                                            <option value="{{ t.id }}" {% if s.tipo_atencion_id == t.id %}selected{% endif %}>{{ t.nombre }}{% if not t.activo %} (inactivo; selecciona uno activo){% endif %}</option>
                                             {% endfor %}
                                         </select>
                                     </div>

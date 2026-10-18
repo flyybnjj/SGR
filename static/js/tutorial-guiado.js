@@ -1,4 +1,4 @@
-/* Manual tutorial adapted to the current page and visible permissions. */
+
 (() => {
   'use strict';
   let tour;

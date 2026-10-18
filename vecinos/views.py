@@ -1,22 +1,17 @@
-from config.access import admin_required, superuser_required, register_required, can_manage, can_register
+from config.access import register_required
 from config.pagination import paginate
 from django.views.decorators.http import require_POST
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.core.paginator import Paginator
 from django.db.models import Q
+from django.db import transaction
 from config.excel_utils import export_queryset_to_excel
 from .models import Vecino
 from .forms import VecinoForm
 from .access import visible_neighbors
-from territorial.models import DelegacionMunicipal
 
-
-# ==============================================================================
-# MANTENEDOR / CRUD DE VECINOS (Mockup Página 6)
-# ==============================================================================
 
 @login_required
 def vecinos_list_view(request):
@@ -66,12 +61,13 @@ def vecinos_save_view(request, pk=None):
 @register_required
 @require_POST
 def vecinos_toggle_activo(request, pk):
-    """Borrado lógico exigido por el profesor: no borra de raíz, alterna activo/inactivo."""
-    vecino = get_object_or_404(Vecino, pk=pk)
-    if not request.user.is_superuser and vecino.territorio_id != request.user.delegacion_id:
-        raise PermissionDenied
-    vecino.activo = not vecino.activo
-    vecino.save()
+
+    with transaction.atomic():
+        vecino = get_object_or_404(Vecino.objects.select_for_update(), pk=pk)
+        if not request.user.is_superuser and vecino.territorio_id != request.user.delegacion_id:
+            raise PermissionDenied
+        vecino.activo = not vecino.activo
+        vecino.save(update_fields=['activo'])
     estado_str = "activado" if vecino.activo else "desactivado (borrado lógico)"
     messages.success(request, f"El registro de '{vecino.nombre}' fue {estado_str} exitosamente.")
     return redirect('vecinos:vecinos_list')

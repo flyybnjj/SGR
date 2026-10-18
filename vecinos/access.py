@@ -1,4 +1,4 @@
-"""Ámbito territorial común para consultar datos de vecinos."""
+
 from django.core.exceptions import PermissionDenied
 
 from config.access import active

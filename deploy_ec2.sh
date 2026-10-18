@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 set -euo pipefail
-# Actualiza una instalación existente sin reescribir Nginx, TLS, .env o usuarios.
 cd "$(dirname "$0")"
 test -f .env || { echo 'Configura .env desde .env.example antes de continuar.' >&2; exit 1; }
 test -x venv/bin/python || python3 -m venv venv

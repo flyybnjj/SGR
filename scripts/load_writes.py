@@ -77,7 +77,7 @@ MEDIA_ROOT = PRIVATE_MEDIA_ROOT = {str(work / 'media')!r}
     sub = SubAtencion.objects.create(nombre='LOAD sub', tipo_atencion=kind)
     client = Client(); client.force_login(user)
     cookie = client.cookies['sessionid'].value
-    # Un puerto efímero se solicita al sistema; el servidor sólo escucha loopback.
+
     with socket.socket() as probe:
         probe.bind(('127.0.0.1', 0)); port = probe.getsockname()[1]
     base = f'http://127.0.0.1:{port}'
@@ -149,7 +149,7 @@ MEDIA_ROOT = PRIVATE_MEDIA_ROOT = {str(work / 'media')!r}
         connection.close()
         actual = Atencion.objects.count()
         consistent = actual == len(writes) and not Atencion.objects.exclude(delegacion=seat, funcionario=user, vecino=person).exists()
-        # Repetir el último UUID no debe insertar otra atención.
+
         replay = client.post(path, {'tipo_atencion': kind.pk, 'sub_atencion': sub.pk,
             'descripcion': 'Carga sintética; no es una atención real.', 'request_token': writes[-1]}) if writes else None
         unique = bool(replay and replay.status_code == 302 and Atencion.objects.count() == actual)

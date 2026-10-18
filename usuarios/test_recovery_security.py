@@ -69,7 +69,7 @@ class RecoverySecurityTests(TestCase):
         start = timezone.now()
         with patch('usuarios.views.timezone.now', return_value=start):
             self.request_code()
-        # Cache uses real time: remove only the cooldown by advancing its backend clock.
+
         with patch('time.time', return_value=start.timestamp() + 46):
             response = self.client.post('/reenviar-codigo/')
         self.assertEqual(response.status_code, 302)
@@ -128,8 +128,8 @@ class RecoverySecurityTests(TestCase):
         key=f'recovery-attempt:{self.user.pk}'
         cache.set(key,5,900)
         original_get=cache.get
-        # Otro trabajador ya reservó el quinto intento; una lectura previa
-        # obsoleta no debe autorizar un sexto intento, aunque el código sea válido.
+
+
         with patch.object(cache,'get',side_effect=lambda k,*a,**kw: 4 if k==key else original_get(k,*a,**kw)):
             response=self.client.post('/validar-codigo/',{'codigo':self.user.reset_code},HTTP_ACCEPT='application/json')
         self.assertFalse(response.json()['valid'])

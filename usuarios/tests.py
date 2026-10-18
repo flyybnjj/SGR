@@ -8,12 +8,7 @@ from usuarios.models import Usuario, Rol
 
 @override_settings(EMAIL_BACKEND='django.core.mail.backends.locmem.EmailBackend', CACHES={'default': {'BACKEND': 'django.core.cache.backends.locmem.LocMemCache'}})
 class RecuperacionPasswordTests(TestCase):
-    """
-    Pruebas unitarias para el flujo completo de recuperación de contraseña:
-    1. Modelos con campos reset_code y reset_expires_at.
-    2. Solicitud con verificación de correo, generación de código de 6 dígitos que expira en 15 min y envío por email.
-    3. Validación del código y actualización segura con hashing de contraseña.
-    """
+
 
     def setUp(self):
         cache.clear()
@@ -42,7 +37,7 @@ class RecuperacionPasswordTests(TestCase):
         self.user.refresh_from_db()
         self.assertEqual(self.user.reset_code, "123456")
         self.assertIsNotNone(self.user.reset_expires_at)
-        # Sincronización con campos previos
+
         self.assertEqual(self.user.codigo_recuperacion, "123456")
 
     def test_solicitud_correo_no_existente_no_revela_cuentas(self):
@@ -68,13 +63,13 @@ class RecuperacionPasswordTests(TestCase):
         self.assertEqual(len(self.user.reset_code), 6)
         self.assertTrue(self.user.reset_code.isdigit())
 
-        # Expiración a 15 minutos (tolerancia de +/- 1 minuto en ejecución)
+
         ahora = timezone.now()
         tiempo_restante = (self.user.reset_expires_at - ahora).total_seconds()
         self.assertGreaterEqual(tiempo_restante, 14 * 60)
         self.assertLessEqual(tiempo_restante, 16 * 60)
 
-        # Envío de correo en django.core.mail.outbox
+
         self.assertEqual(len(mail.outbox), 1)
         self.assertIn("funcionario@laserena.cl", mail.outbox[0].to)
         self.assertIn(self.user.reset_code, mail.outbox[0].body)
@@ -85,7 +80,7 @@ class RecuperacionPasswordTests(TestCase):
         self.user.reset_expires_at = timezone.now() + timedelta(minutes=15)
         self.user.save()
 
-        # Establecer sesión
+
         s = self.client.session
         s['recovery_email'] = self.user.email
         s['recovery_user_id'] = self.user.id
@@ -99,7 +94,7 @@ class RecuperacionPasswordTests(TestCase):
     def test_validar_codigo_expirado_muestra_error(self):
         """Un código con más de 15 minutos de antigüedad debe expirar."""
         self.user.reset_code = "777777"
-        # Expirado hace 5 minutos
+
         self.user.reset_expires_at = timezone.now() - timedelta(minutes=5)
         self.user.save()
 
@@ -115,17 +110,17 @@ class RecuperacionPasswordTests(TestCase):
 
     def test_flujo_completo_con_hashing_seguro(self):
         """Validar código correcto y actualizar contraseña con hashing seguro (PBKDF2)."""
-        # Paso 1: Pedir recuperación
+
         self.client.post('/recuperar-password/', {'email': 'funcionario@laserena.cl'})
         self.user.refresh_from_db()
         codigo = self.user.reset_code
 
-        # Paso 2: Validar código
+
         val_response = self.client.post('/validar-codigo/', {'codigo': codigo})
         self.assertEqual(val_response.status_code, 302)
         self.assertRedirects(val_response, '/cambiar-password/')
 
-        # Paso 3: Guardar nueva contraseña
+
         nueva_clave = "Serena2026!NuevaSegura"
         cambio_response = self.client.post('/cambiar-password/', {
             'new_password': nueva_clave,
@@ -134,10 +129,10 @@ class RecuperacionPasswordTests(TestCase):
         self.assertEqual(cambio_response.status_code, 302)
         self.assertRedirects(cambio_response, '/login/')
 
-        # Verificar en base de datos que se aplicó hashing
+
         self.user.refresh_from_db()
         self.assertTrue(self.user.check_password(nueva_clave))
         self.assertFalse(self.user.check_password("PasswordVieja#2025"))
-        # Asegurarse que el código fue borrado tras su uso
+
         self.assertIsNone(self.user.reset_code)
         self.assertIsNone(self.user.reset_expires_at)

@@ -19,7 +19,7 @@ class WorkDelegationColorTests(TestCase):
         cls.own = DelegacionMunicipal.objects.create(nombre='Las Compañías', direccion='Calle Uno')
         cls.other = DelegacionMunicipal.objects.create(nombre='Norte', direccion='Calle Dos', color='#1A33EA', color_configurado=True)
         cls.delegate = Usuario.objects.create_user(username='color-owner', rol=cls.role, delegacion=cls.own)
-        # Reproduce the inherited contradiction that caused the reported bug.
+
         cls.other.delegado = cls.delegate
         cls.other.save()
         cls.staff = Usuario.objects.create_user(username='color-team', rol=cls.role, delegacion=cls.own)

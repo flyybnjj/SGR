@@ -1,4 +1,4 @@
-"""Self-service account settings; role and delegation remain administrator-owned."""
+
 from django import forms
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash

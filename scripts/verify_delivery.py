@@ -1,4 +1,4 @@
-"""Suite completa con matriz verificable; no usa cuentas ni correo productivos."""
+
 import csv
 import json
 import os

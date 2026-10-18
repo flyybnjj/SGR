@@ -1,7 +1,6 @@
 from config.access import active
 
 
-# Shared delegation accents; the municipal logo and semantic status colors stay institutional.
 HEADER_COLORS = (
     ('#B80003', 'Rojo municipal'),
     ('#16804A', 'Verde'),

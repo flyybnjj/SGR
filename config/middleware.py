@@ -6,7 +6,7 @@ from django.shortcuts import render
 
 
 class LocalPasskeyOriginMiddleware:
-    """Keep local pages and passkey ceremonies on the configured localhost origin."""
+
     def __init__(self, get_response):
         self.get_response = get_response
 
@@ -26,7 +26,7 @@ class LocalPasskeyOriginMiddleware:
 
 
 class ActiveProfileMiddleware:
-    """An inactive role cannot retain access through an existing session."""
+
     def __init__(self, get_response):
         self.get_response = get_response
 

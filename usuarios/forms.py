@@ -10,7 +10,7 @@ from territorial.models import DelegacionMunicipal
 
 
 def rut_en_otra_cuenta(value, campo, excluir_pk=None):
-    """Evita que el RUT y el usuario de ingreso identifiquen cuentas distintas."""
+
     try:
         rut = normalizar_rut(value)
     except ValidationError:
@@ -27,11 +27,8 @@ def rut_en_otra_cuenta(value, campo, excluir_pk=None):
 
 
 def validar_password_fuerte(password):
-    """
-    Exigencia del profesor: Contraseñas fuertes (mínimo 8 caracteres,
-    al menos una mayúscula, al menos una minúscula, al menos un número
-    y al menos un carácter especial).
-    """
+
+
     if len(password) < 8:
         raise ValidationError("La contraseña debe tener al menos 8 caracteres.")
     if not re.search(r'[A-Z]', password):
@@ -80,19 +77,6 @@ class RecuperarPasswordForm(forms.Form):
             'autocapitalize': 'none',
             'autocorrect': 'off',
             'spellcheck': 'false'
-        })
-    )
-
-
-class ValidarCodigoForm(forms.Form):
-    codigo = forms.CharField(
-        max_length=6,
-        min_length=6,
-        label="Código de verificación",
-        widget=forms.TextInput(attrs={
-            'class': 'form-control form-control-lg text-center letter-spacing-lg',
-            'placeholder': '123456',
-            'required': True
         })
     )
 
@@ -148,7 +132,7 @@ class UsuarioForm(RutFormMixin, forms.ModelForm):
 
     class Meta:
         model = Usuario
-        # Excluir 'password' de fields para no sobreescribir el hash con cadena vacía al editar
+
         fields = ['username', 'first_name', 'last_name', 'email', 'email_secundario', 'rut', 'telefono', 'rol', 'delegacion', 'activo']
         widgets = {
             'username': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'usuario.muni'}),
@@ -217,8 +201,16 @@ class UsuarioForm(RutFormMixin, forms.ModelForm):
         if user.pk:
             stored_users = Usuario.objects.select_for_update() if commit else Usuario.objects.all()
             stored_user = stored_users.get(pk=user.pk)
+        for field in ('username', 'rut'):
+            try:
+                getattr(self, f'clean_{field}')()
+            except ValidationError as error:
+                self.add_error(field, error)
+        self.clean()
+        if self.errors:
+            raise ValidationError(self.errors.as_data())
         if commit and stored_user:
-            # Comparte el bloqueo con la asignación de responsables de sede.
+
             if DelegacionMunicipal.objects.filter(delegado_id=user.pk).exclude(pk=user.delegacion_id).exists():
                 raise ValidationError({'delegacion': 'Se le asignó una responsabilidad mientras editaba. Reasigne esa responsabilidad antes de cambiar su sede.'})
         pwd = self.cleaned_data.get('password')
@@ -227,7 +219,7 @@ class UsuarioForm(RutFormMixin, forms.ModelForm):
             user.reset_code = user.codigo_recuperacion = None
             user.reset_expires_at = user.codigo_expiracion = None
         elif stored_user:
-            # Una edición de datos no debe restaurar credenciales ni códigos obsoletos.
+
             user.password = stored_user.password
             for field in ('reset_code', 'codigo_recuperacion', 'reset_expires_at', 'codigo_expiracion'):
                 setattr(user, field, getattr(stored_user, field))

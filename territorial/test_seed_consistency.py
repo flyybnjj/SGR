@@ -1,4 +1,4 @@
-"""La precarga de ejemplos no debe alterar registros institucionales existentes."""
+
 from io import StringIO
 
 from django.core.management import call_command

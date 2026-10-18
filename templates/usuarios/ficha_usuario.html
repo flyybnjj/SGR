@@ -5,6 +5,8 @@
 
 {% block extra_head %}
 <style>
+    .ficha-paper .badge.bg-success-subtle { color: #0a5132 !important; background-color: #d1e7dd !important; }
+    .ficha-paper .badge.bg-primary-subtle { color: #084298 !important; background-color: #cfe2ff !important; }
     .ficha-paper {
         background: #FFFFFF;
         border-radius: var(--radius-lg);
@@ -66,15 +68,15 @@
 
 {% block content %}
 <div class="container-fluid py-2">
-    <!-- Barra Superior de Acciones (No se imprime) -->
+
     <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4 no-print">
         <div>
             <a href="{% url 'dashboard:inicio' %}" class="btn btn-sm btn-apple-ghost d-inline-flex align-items-center gap-1.5 mb-2">
                 <i class="bi bi-arrow-left"></i>
                 <span>Volver a la Consola</span>
             </a>
-            <h1 class="h3 fw-semibold text-dark mb-0" style="letter-spacing: -0.025em;">Ficha Oficial de Funcionario</h1>
-            <p class="text-secondary small mb-0">Expediente de gestión territorial y actividad municipal.</p>
+            <h1 class="h3 fw-semibold text-dark mb-0" style="letter-spacing: -0.025em;">Ficha de funcionario</h1>
+            <p class="text-secondary small mb-0">Datos de la cuenta y su ámbito autorizado.</p>
         </div>
 
         <div class="d-flex align-items-center gap-2">
@@ -106,9 +108,9 @@
             {% else %}<p class="mb-0 text-secondary">Aún no tienes una delegación asignada. Solicita su asignación al administrador.</p>{% endif %}
         {% endfor %}
     </section>
-    <!-- Hoja / Expediente Oficial de Funcionario -->
+
     <div class="ficha-paper apple-transition">
-        <!-- Membrete Oficial -->
+
         <div class="d-flex align-items-center justify-content-between pb-2 border-bottom">
             <div class="d-flex align-items-center gap-3">
                 <img src="{% static 'img/horizontal-color.svg' %}" width="10153" height="2784" alt="Municipalidad de La Serena" style="height: 52px; width: auto;" onerror="this.onerror=null; this.src='{% static 'img/escudo_laserena.svg' %}';">
@@ -119,23 +121,23 @@
             </div>
             <div class="text-end">
                 <span class="badge rounded-pill" style="background: rgba(184, 0, 3, 0.1); color: var(--muni-red); border: 1px solid rgba(184, 0, 3, 0.2); font-size: 0.72rem; font-weight: 700;">
-                    DOCUMENTO OFICIAL
+                    FICHA DEL SISTEMA
                 </span>
                 <div class="text-muted small mt-1" style="font-size: 0.75rem;">
-                    Fecha: {{ fecha_emision|date:"d/m/Y H:i" }} CLT
+                    Fecha: {{ fecha_emision|date:"d/m/Y H:i T" }}
                 </div>
             </div>
         </div>
 
         <div class="ficha-header-rule"></div>
 
-        <!-- Título del Documento -->
+
         <div class="text-center mb-4">
             <h2 class="h4 fw-bold text-dark mb-1" style="letter-spacing: -0.02em;">REGISTRO INDIVIDUAL DE FUNCIONARIO Y ACTIVIDAD TERRITORIAL</h2>
             <div class="text-secondary small">Folio Único: SGR-FUNC-{{ funcionario.id }}-{{ fecha_emision|date:"Ymd" }}</div>
         </div>
 
-        <!-- 1. Identificación del Funcionario -->
+
         <div class="mb-4">
             <h3 class="h6 fw-bold text-uppercase text-secondary mb-3" style="letter-spacing: 0.05em; font-size: 0.78rem;">
                 <i class="bi bi-person-badge text-danger me-1"></i> 1. Identificación y Cargo
@@ -155,11 +157,11 @@
                 </div>
                 <div class="col-md-6">
                     <div class="text-muted small" style="font-size: 0.75rem;">Correo Electrónico Institucional</div>
-                    <div class="fw-semibold text-dark">{{ funcionario.email|default:"funcionario@laserena.cl" }}</div>
+                    <div class="fw-semibold text-dark">{{ funcionario.email|default:"Sin correo registrado" }}</div>
                 </div>
                 <div class="col-md-3">
                     <div class="text-muted small" style="font-size: 0.75rem;">Teléfono de Contacto</div>
-                    <div class="fw-semibold text-dark">{{ funcionario.telefono|default:"+56 51 220 6100" }}</div>
+                    <div class="fw-semibold text-dark">{{ funcionario.telefono|default:"Sin teléfono registrado" }}</div>
                 </div>
                 <div class="col-md-3">
                     <div class="text-muted small" style="font-size: 0.75rem;">Estado de la Cuenta</div>
@@ -174,7 +176,7 @@
             </div>
         </div>
 
-        <!-- 2. Asignación Territorial y Roles -->
+
         <div class="mb-4">
             <h3 class="h6 fw-bold text-uppercase text-secondary mb-3" style="letter-spacing: 0.05em; font-size: 0.78rem;">
                 <i class="bi bi-geo-alt text-warning me-1"></i> 2. Rol y Cobertura Territorial
@@ -182,28 +184,27 @@
             <div class="row g-3 p-3 bg-light rounded-3 border">
                 <div class="col-md-6">
                     <div class="text-muted small" style="font-size: 0.75rem;">Rol Asignado (RBAC)</div>
-                    <div class="fw-bold text-dark fs-6">{{ funcionario.rol.nombre|default:"Coordinador de Delegaciones" }}</div>
-                    <div class="text-muted small mt-1">{{ funcionario.rol.descripcion|default:"Acceso a módulos operativos y supervisión territorial comunal." }}</div>
+                    <div class="fw-bold text-dark fs-6">{% if funcionario.is_superuser %}Superadministrador{% else %}{{ funcionario.rol.nombre|default:'Sin rol asignado' }}{% endif %}</div>
+                    <div class="text-muted small mt-1">{% if funcionario.is_superuser %}Administración y consulta global de la plataforma.{% else %}{{ funcionario.rol.descripcion|default:'Sin descripción de rol' }}{% endif %}</div>
                 </div>
                 <div class="col-md-6">
-                    <div class="text-muted small" style="font-size: 0.75rem;">Delegaciones a Cargo / Asignadas</div>
+                    <div class="text-muted small" style="font-size: 0.75rem;">Delegaciones del ámbito autorizado ({{ total_delegaciones_cargo }})</div>
                     {% if delegaciones_cargo %}
                         <div class="d-flex flex-wrap gap-1 mt-1">
                             {% for d in delegaciones_cargo %}
                             <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-2.5 py-1">
-                                <i class="bi bi-building me-1"></i>{{ d.nombre }}
+                                <i class="bi bi-building me-1" aria-hidden="true"></i>{{ d.nombre }}{% if not d.activo %} · Inactiva{% endif %}
                             </span>
                             {% endfor %}
                         </div>
                     {% else %}
-                        <div class="fw-semibold text-dark mt-1">Todas las 6 Delegaciones Comunales (Alcance Central)</div>
-                        <div class="text-muted small">Centro, Las Compañías, La Pampa, La Antena, Avenida del Mar, Sector Rural.</div>
+                        <div class="text-muted small mt-1">No hay delegaciones registradas en este ámbito.</div>
                     {% endif %}
                 </div>
             </div>
         </div>
 
-        <!-- 3. Resumen de Operaciones y Actividad -->
+
         <div class="mb-4">
             <h3 class="h6 fw-bold text-uppercase text-secondary mb-3" style="letter-spacing: 0.05em; font-size: 0.78rem;">
                 <i class="bi bi-speedometer2 text-primary me-1"></i> 3. Desempeño y Trazabilidad Operativa
@@ -221,42 +222,42 @@
                         <tr>
                             <td class="fw-semibold">Acceso a Consola Territorial</td>
                             <td><span class="badge bg-success rounded-pill">Autorizado</span></td>
-                            <td class="text-muted">Registro de sesiones auditado con fecha y hora.</td>
+                            <td class="text-muted">Último ingreso registrado: {{ funcionario.last_login|date:"d/m/Y H:i T"|default:"Sin fecha registrada" }}.</td>
                         </tr>
                         <tr>
-                            <td class="fw-semibold">Validación de Trabajos (Check=1)</td>
+                            <td class="fw-semibold">Revisión de acciones</td>
                             <td><span class="badge bg-info text-dark rounded-pill">Facultado</span></td>
-                            <td class="text-muted">Permisos para auditar evidencias fotográficas antes/después.</td>
+                            <td class="text-muted">Aprobación y rechazo auditados de acciones con evidencia única.</td>
                         </tr>
                         <tr>
                             <td class="fw-semibold">Descarga de Reportes Oficiales</td>
                             <td><span class="badge bg-success rounded-pill">Habilitado</span></td>
-                            <td class="text-muted">Exportación a planillas Microsoft Excel (.xlsx) con firma digital.</td>
+                            <td class="text-muted">Exportación a planillas Microsoft Excel (.xlsx) de los datos autorizados.</td>
                         </tr>
                         <tr>
                             <td class="fw-semibold">Padrón Comunal Vinculado</td>
                             <td class="fw-bold">{{ total_vecinos_comuna }} Vecinos</td>
-                            <td class="text-muted">Cobertura transversal en los 4 pilares operativos territoriales.</td>
+                            <td class="text-muted">Vecinos activos del ámbito autorizado.</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
 
-        <!-- 4. Cuadro de Firmas y Timbre Oficial (Para impresión física) -->
+
         <div class="mt-5 pt-3">
             <div class="row align-items-end text-center">
                 <div class="col-6">
                     <div style="border-top: 1.5px solid #000000; width: 80%; margin: 0 auto; padding-top: 0.5rem;">
                         <div class="fw-bold text-dark small">{{ funcionario.nombre_completo }}</div>
                         <div class="text-muted small" style="font-size: 0.72rem;">Firma del Funcionario</div>
-                        <div class="text-muted small" style="font-size: 0.68rem;">RUT: {{ funcionario.rut|default:"La Serena" }}</div>
+                        <div class="text-muted small" style="font-size: 0.68rem;">RUT: {{ funcionario.rut|default:"No registrado" }}</div>
                     </div>
                 </div>
                 <div class="col-6">
                     <div style="border-top: 1.5px solid #000000; width: 80%; margin: 0 auto; padding-top: 0.5rem;">
-                        <div class="fw-bold text-dark small">Javier Godoy</div>
-                        <div class="text-muted small" style="font-size: 0.72rem;">Coordinador General de Delegaciones</div>
+                        <div class="fw-bold text-dark small">Nombre y firma de quien revisa</div>
+                        <div class="text-muted small" style="font-size: 0.72rem;">Espacio para firma manuscrita</div>
                         <div class="text-muted small" style="font-size: 0.68rem;">Ilustre Municipalidad de La Serena</div>
                     </div>
                 </div>

@@ -1,12 +1,12 @@
-from config.access import admin_required, superuser_required, register_required, can_manage, can_register
+from config.access import admin_required
 from config.pagination import paginate
 from django.views.decorators.http import require_POST
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.core.paginator import Paginator
 from django.db.models import Q
+from django.db import transaction
 from config.excel_utils import export_queryset_to_excel
 from .models import DelegacionMunicipal, ItemMeta
 from .forms import DelegacionMunicipalForm, ItemMetaForm
@@ -32,7 +32,7 @@ def appearance_view(request, pk):
                 allowed = allowed.filter(delegado=request.user, pk=request.user.delegacion_id)
             if form.cleaned_data['configuracion'] == 'inicial':
                 allowed = allowed.filter(color_configurado=False)
-            # Conditional update prevents a second first-login tab overwriting setup.
+
             updated = allowed.update(color=form.cleaned_data['color'], color_configurado=True)
             if updated:
                 messages.success(request, f'Color guardado para {delegation.nombre}. Todo su equipo verá el cambio en la aplicación.')
@@ -50,10 +50,6 @@ def appearance_view(request, pk):
         'appearance_theme_style': theme_style(form.cleaned_data.get('color', delegation.color_identificacion) if form.is_bound else delegation.color_identificacion),
     }, status=status)
 
-
-# ==============================================================================
-# MANTENEDOR DE DELEGACIONES MUNICIPALES (Mockup Página 4 Superior)
-# ==============================================================================
 
 @admin_required
 def delegaciones_list_view(request):
@@ -74,7 +70,7 @@ def delegaciones_list_view(request):
     page_obj = paginate(request, queryset)
 
     form = DelegacionMunicipalForm(user=request.user)
-    delegados = Usuario.objects.filter(activo=True) if request.user.is_superuser else Usuario.objects.none()
+    delegados = form.fields['delegado'].queryset if request.user.is_superuser else Usuario.objects.none()
 
     return render(request, 'mantenedores/delegaciones_list.html', {
         'page_obj': page_obj,
@@ -111,15 +107,18 @@ def delegaciones_save_view(request, pk=None):
 @admin_required
 @require_POST
 def delegaciones_toggle_activo(request, pk):
-    allowed = DelegacionMunicipal.objects.all()
-    if not request.user.is_superuser:
-        allowed = allowed.filter(pk=request.user.delegacion_id)
-    delg = get_object_or_404(allowed, pk=pk)
-    if not delg.activo and delg.delegado_id and delg.delegado.delegacion_id != delg.pk:
-        messages.error(request, 'No se puede restaurar la delegación: su responsable trabaja en otra sede. Corrige el responsable antes de restaurarla.')
-        return redirect('territorial:delegaciones_list')
-    delg.activo = not delg.activo
-    delg.save()
+    with transaction.atomic():
+        allowed = DelegacionMunicipal.objects.select_for_update()
+        if not request.user.is_superuser:
+            allowed = allowed.filter(pk=request.user.delegacion_id)
+        delg = get_object_or_404(allowed, pk=pk)
+        if not delg.activo and delg.delegado_id:
+            delegate = Usuario.objects.select_for_update().get(pk=delg.delegado_id)
+            if delegate.delegacion_id != delg.pk:
+                messages.error(request, 'No se puede restaurar la delegación: su responsable trabaja en otra sede. Corrige el responsable antes de restaurarla.')
+                return redirect('territorial:delegaciones_list')
+        delg.activo = not delg.activo
+        delg.save(update_fields=['activo'])
     estado_str = "activada" if delg.activo else "desactivada (borrado lógico)"
     messages.success(request, f"La delegación '{delg.nombre}' fue {estado_str} exitosamente.")
     return redirect('territorial:delegaciones_list')
@@ -154,10 +153,6 @@ def delegaciones_export_excel(request):
     return export_queryset_to_excel("Reporte_Delegaciones_LaSerena", "Delegaciones Municipales", headers, rows)
 
 
-# ==============================================================================
-# MANTENEDOR DE ÍTEMS DE METAS (Mockup Página 4 Inferior)
-# ==============================================================================
-
 @admin_required
 def metas_list_view(request):
     search = request.GET.get('q', '').strip()
@@ -184,8 +179,12 @@ def metas_save_view(request, pk=None):
         instance = get_object_or_404(ItemMeta, pk=pk) if pk else None
         form = ItemMetaForm(request.POST, instance=instance)
         if form.is_valid():
-            meta = form.save()
-            messages.success(request, f"Meta '{meta.nombre}' {'modificada' if pk else 'creada'} correctamente.")
+            try:
+                meta = form.save()
+            except ValidationError as error:
+                messages.error(request, ' '.join(error.messages))
+            else:
+                messages.success(request, f"Meta '{meta.nombre}' {'modificada' if pk else 'creada'} correctamente.")
         else:
             messages.error(request, "Error al guardar la meta. Revisa los datos ingresados.")
     return redirect('territorial:metas_list')
@@ -194,9 +193,10 @@ def metas_save_view(request, pk=None):
 @admin_required
 @require_POST
 def metas_toggle_activo(request, pk):
-    meta = get_object_or_404(ItemMeta, pk=pk)
-    meta.activo = not meta.activo
-    meta.save()
+    with transaction.atomic():
+        meta = get_object_or_404(ItemMeta.objects.select_for_update(), pk=pk)
+        meta.activo = not meta.activo
+        meta.save(update_fields=['activo'])
     estado_str = "activada" if meta.activo else "desactivada (borrado lógico)"
     messages.success(request, f"La meta '{meta.nombre}' fue {estado_str} exitosamente.")
     return redirect('territorial:metas_list')

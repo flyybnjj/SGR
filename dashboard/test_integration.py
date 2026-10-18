@@ -1,5 +1,5 @@
 from io import BytesIO
-from django.test import TestCase, SimpleTestCase, override_settings
+from django.test import TestCase, SimpleTestCase
 from django.urls import reverse
 from django.utils import timezone
 from openpyxl import load_workbook

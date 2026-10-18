@@ -16,7 +16,7 @@ urlpatterns = [
     path('passkeys/restablecer-password/', passkeys.password_reset, name='passkey_password'),
     path('passkeys/<int:pk>/revocar/', passkeys.revoke, name='passkey_revoke'),
     path('passkeys/preferencia/', passkeys.preference, name='passkey_preference'),
-    # Autenticación y Recuperación
+
     path('login/', views.login_view, name='login'),
     path('logout/', views.logout_view, name='logout'),
     path('ficha-usuario/', views.ficha_usuario_view, name='ficha_usuario'),
@@ -25,14 +25,14 @@ urlpatterns = [
     path('reenviar-codigo/', views.reenviar_codigo_view, name='reenviar_codigo'),
     path('cambiar-password/', views.cambiar_password_view, name='cambiar_password'),
 
-    # Mantenedor de Roles
+
     path('mantenedores/roles/', views.roles_list_view, name='roles_list'),
     path('mantenedores/roles/crear/', views.roles_save_view, name='roles_create'),
     path('mantenedores/roles/<int:pk>/editar/', views.roles_save_view, name='roles_edit'),
     path('mantenedores/roles/<int:pk>/toggle/', views.roles_toggle_activo, name='roles_toggle'),
     path('mantenedores/roles/exportar-excel/', views.roles_export_excel, name='roles_excel'),
 
-    # Mantenedor de Usuarios
+
     path('mantenedores/usuarios/', views.usuarios_list_view, name='usuarios_list'),
     path('mantenedores/usuarios/crear/', views.usuarios_save_view, name='usuarios_create'),
     path('mantenedores/usuarios/<int:pk>/editar/', views.usuarios_save_view, name='usuarios_edit'),

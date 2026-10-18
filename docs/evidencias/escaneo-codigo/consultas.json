@@ -1,0 +1,23 @@
+{
+  "scenario": "SQLite temporal; mismos registros sintéticos, cuatro filas; consultas específicas del cálculo/etiquetas, no peticiones totales",
+  "meta_grid_count": {
+    "before": 16,
+    "after": 2
+  },
+  "meta_export_count": {
+    "before": 8,
+    "after": 1
+  },
+  "meta_selector": {
+    "before": 9,
+    "after": 1
+  },
+  "action_export_item_meta": {
+    "before": 4,
+    "after": 0
+  },
+  "attention_subtype_selector": {
+    "before": 9,
+    "after": 5
+  }
+}

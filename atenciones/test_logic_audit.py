@@ -1,4 +1,4 @@
-"""Casos de regresión de permisos e integridad de flujos municipales."""
+
 import io
 import tempfile
 from pathlib import Path

@@ -1,8 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from django.utils import timezone
 from django.core.exceptions import ValidationError
-from config.validators import validar_rut, validar_telefono, validar_texto, normalizar_rut
+from config.validators import validar_rut, validar_telefono, validar_texto
 import uuid
 
 
@@ -32,7 +31,7 @@ class Usuario(AbstractUser):
     delegacion = models.ForeignKey("territorial.DelegacionMunicipal", on_delete=models.PROTECT, null=True, blank=True, related_name="funcionarios")
     activo = models.BooleanField(default=True, verbose_name="Estado Activo")
 
-    # Recuperación autónoma de contraseña vía código (Requerimiento explícito: reset_code y reset_expires_at)
+
     reset_code = models.CharField(max_length=6, blank=True, null=True, verbose_name="Código de Recuperación (Reset Code)")
     reset_expires_at = models.DateTimeField(blank=True, null=True, verbose_name="Expiración del Código (Reset Expires At)")
     codigo_recuperacion = models.CharField(max_length=6, blank=True, null=True, verbose_name="Código de Verificación")
@@ -42,10 +41,10 @@ class Usuario(AbstractUser):
         if self.pk and type(self).objects.filter(pk=self.pk, is_superuser=True).exists():
             if not self.is_superuser or not self.activo or not self.is_active:
                 raise ValidationError("El administrador raíz no puede desactivarse ni perder sus privilegios.")
-        # Sincronización entre activo y el atributo estándar is_active de Django Auth
+
         self.is_active = bool(self.activo)
 
-        # Sincronización bidireccional entre reset_code/reset_expires_at y los campos previos
+
         if self.reset_code:
             self.codigo_recuperacion = self.reset_code
         elif self.codigo_recuperacion:

@@ -1,4 +1,4 @@
-"""Integra transacciones antiguas en una BD en uso; no importa usuarios ni catálogos."""
+
 from datetime import datetime, timezone as datetime_timezone
 import hashlib
 import json
@@ -97,7 +97,7 @@ class Command(BaseCommand):
             for row in sorted(requirements, key=lambda r: r['id']):
                 audit = audits.get(row['id'])
                 snapshot = {'requerimiento': row, 'auditoria': audit}
-                # Las tablas SQLite antiguas guardan las fechas como texto UTC.
+
                 serialized = json.dumps(snapshot, sort_keys=True, ensure_ascii=False, separators=(',', ':'), default=str)
                 fingerprint = hashlib.sha256(serialized.encode()).hexdigest()
                 previous = RequerimientoHistorico.objects.filter(requerimiento_id=row['id']).first()
@@ -120,7 +120,7 @@ class Command(BaseCommand):
                 if audit:
                     resolution = ResolucionAccion.objects.create(accion=action, responsable_id=audit['supervisor_id'],
                         estado_anterior='Pendiente', estado_nuevo='Aprobada', motivo=audit['observaciones'])
-                    # Sólo esta importación restaura la fecha del registro inmutable.
+
                     with connection.cursor() as cursor:
                         cursor.execute('UPDATE atenciones_resolucionaccion SET fecha=%s WHERE id=%s',
                             [connection.ops.adapt_datetimefield_value(historical_date(audit['fecha_auditoria'], 'fecha_auditoria')), resolution.pk])

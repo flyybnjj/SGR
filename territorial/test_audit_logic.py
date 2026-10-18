@@ -1,4 +1,4 @@
-"""Regresiones de auditoría; ejecutar exclusivamente con settings aislados."""
+
 from io import BytesIO
 
 from django.core.exceptions import ValidationError

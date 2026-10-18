@@ -1,4 +1,4 @@
-"""Interfaces de evaluación. Sólo lectura HTTP; las simulaciones viven en el navegador."""
+
 from django.core.exceptions import PermissionDenied
 from django.http import Http404
 from django.shortcuts import render

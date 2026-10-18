@@ -1,5 +1,5 @@
 {% if request.user.is_superuser or request.user.delegacion_id == d.id %}
-                <!-- Modal Editar Delegación Stitch Style -->
+
                 <div class="modal fade" id="editDelegacionModal{{ d.id }}" tabindex="-1" aria-hidden="true" aria-labelledby="editDelegacionModal{{ d.id }}Title">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content modal-content-stitch">
@@ -26,8 +26,9 @@
                                         <label for="editDelegacionModal{{ d.id }}-delegado" class="form-label small fw-semibold" style="color: var(--text-main);">Delegado a Cargo</label>
                                         <select id="editDelegacionModal{{ d.id }}-delegado" name="delegado" class="input-stitch" {% if not request.user.is_superuser %}disabled{% endif %}>
                                             <option value="">-- Sin Delegado Asignado --</option>
+                                            {% if d.delegado.is_superuser %}<option value="{{ d.delegado_id }}" selected>Responsable no disponible; selecciona otro</option>{% endif %}
                                             {% for delg in delegados %}
-                                            <option value="{{ delg.id }}" {% if d.delegado_id == delg.id %}selected{% endif %}>{{ delg.nombre_completo }} ({{ delg.email }})</option>
+                                            <option value="{{ delg.id }}" {% if d.delegado_id == delg.id %}selected{% endif %}>{{ delg.nombre_completo }} ({{ delg.email }}){% if not delg.activo %} (inactivo; selecciona uno activo){% endif %}</option>
                                             {% endfor %}
                                         </select>
                                     </div>

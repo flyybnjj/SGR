@@ -1,4 +1,4 @@
-from config.access import admin_required, superuser_required, register_required, can_manage, can_register
+from config.access import superuser_required
 from config.pagination import paginate
 from django.views.decorators.http import require_POST
 from django.core.exceptions import PermissionDenied, ValidationError
@@ -10,24 +10,17 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.utils import timezone
 from datetime import timedelta
-from django.core.paginator import Paginator
 from django.db.models import Q
 from django.db import transaction
 from django.http import JsonResponse
 from config.excel_utils import export_queryset_to_excel
 from .models import Usuario, Rol
 from django.conf import settings
-from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from .forms import (
-    LoginForm, RecuperarPasswordForm, ValidarCodigoForm,
-    CambiarPasswordForm, RolForm, UsuarioForm
+    LoginForm, RecuperarPasswordForm, CambiarPasswordForm, RolForm, UsuarioForm
 )
 
-
-# ==============================================================================
-# 1. FLUJO DE AUTENTICACIÓN Y RECUPERACIÓN DE CLAVE (Mockups Páginas 1, 2, 3, 4)
-# ==============================================================================
 
 def login_view(request):
     if request.user.is_authenticated:
@@ -38,17 +31,16 @@ def login_view(request):
         login_input = form.cleaned_data['username'].strip()
         password = form.cleaned_data['password']
 
-        # 1. Búsqueda flexible del usuario:
-        # a) Por nombre de usuario exacto o insensible a mayúsculas/minúsculas
+
         user_candidate = Usuario.objects.filter(username__iexact=login_input).first()
 
-        # b) Si no se encontró, buscar por correo principal o correo secundario de recuperación
+
         if not user_candidate and '@' in login_input:
             user_candidate = Usuario.objects.filter(
                 Q(email__iexact=login_input) | Q(email_secundario__iexact=login_input)
             ).first()
 
-        # c) Si no se encontró, buscar por RUT (normalizando dígitos y guión)
+
         if not user_candidate:
             rut_clean = re.sub(r'[^0-9kK]', '', login_input).upper()
             if rut_clean:
@@ -58,7 +50,7 @@ def login_view(request):
                         user_candidate = u
                         break
 
-        # Si localizamos al usuario, autenticamos usando su username canónico
+
         canonical_username = user_candidate.username if user_candidate else login_input
         user = authenticate(request, username=canonical_username, password=password)
 
@@ -90,7 +82,6 @@ def logout_view(request):
     return redirect('usuarios:login')
 
 
-# Los límites usan Redis en AWS para compartirse entre procesos Gunicorn.
 RECOVERY_NOTICE = 'Si los datos corresponden a una cuenta activa, recibirás un código por correo. Revisa también spam.'
 
 
@@ -113,7 +104,7 @@ def recovery_issue(request, user, recipients):
         return
     if not recovery_count(f'recovery-send:{user.pk}', 5):
         return
-    # Nunca escribir códigos en la consola ni anunciar como enviado un fallo SMTP.
+
     if settings.EMAIL_BACKEND.endswith(('console.EmailBackend', 'dummy.EmailBackend')):
         return
     codigo = f'{secrets.randbelow(900000) + 100000}'
@@ -124,14 +115,16 @@ def recovery_issue(request, user, recipients):
         if sent != 1:
             return
     except Exception:
-        # Respuesta pública idéntica; no registrar destinatarios/códigos/respuestas SMTP.
+
         import logging
         logging.getLogger(__name__).warning('No se pudo entregar un correo de recuperación.')
         return
     expires = timezone.now() + timedelta(minutes=15)
-    Usuario.objects.filter(pk=user.pk, activo=True, is_active=True).update(
+    updated = Usuario.objects.filter(pk=user.pk, password=user.password, activo=True, is_active=True).update(
         reset_code=codigo, codigo_recuperacion=codigo,
         reset_expires_at=expires, codigo_expiracion=expires)
+    if not updated:
+        return
     cache.delete(f'recovery-attempt:{user.pk}')
     request.session['recovery_code_sent_at'] = timezone.now().isoformat()
 
@@ -259,10 +252,6 @@ def cambiar_password_view(request):
     return render(request, 'usuarios/cambiar_password.html', {'form': form, 'user_target': user})
 
 
-# ==============================================================================
-# 2. MANTENEDOR DE ROLES (Mockup Página 3 Superior)
-# ==============================================================================
-
 @superuser_required
 def roles_list_view(request):
     search = request.GET.get('q', '').strip()
@@ -288,8 +277,12 @@ def roles_save_view(request, pk=None):
         instance = get_object_or_404(Rol, pk=pk) if pk else None
         form = RolForm(request.POST, instance=instance)
         if form.is_valid():
-            form.save()
-            messages.success(request, f"Rol {'modificado' if pk else 'creado'} correctamente.")
+            try:
+                form.save()
+            except ValidationError as error:
+                messages.error(request, ' '.join(error.messages))
+            else:
+                messages.success(request, f"Rol {'modificado' if pk else 'creado'} correctamente.")
         else:
             messages.error(request, "Error al guardar el rol. Revisa los campos.")
     return redirect('usuarios:roles_list')
@@ -298,10 +291,11 @@ def roles_save_view(request, pk=None):
 @superuser_required
 @require_POST
 def roles_toggle_activo(request, pk):
-    """Borrado lógico exigido por el profesor: no borra de raíz, alterna activo/inactivo."""
-    rol = get_object_or_404(Rol, pk=pk)
-    rol.activo = not rol.activo
-    rol.save()
+
+    with transaction.atomic():
+        rol = get_object_or_404(Rol.objects.select_for_update(), pk=pk)
+        rol.activo = not rol.activo
+        rol.save(update_fields=['activo'])
     estado_str = "activado" if rol.activo else "desactivado (borrado lógico)"
     messages.success(request, f"El rol '{rol.nombre}' fue {estado_str} exitosamente.")
     return redirect('usuarios:roles_list')
@@ -323,10 +317,6 @@ def roles_export_excel(request):
     ]
     return export_queryset_to_excel("Reporte_Roles_LaSerena", "Roles del Sistema", headers, rows)
 
-
-# ==============================================================================
-# 3. MANTENEDOR DE USUARIOS (Mockup Página 3 Inferior)
-# ==============================================================================
 
 @superuser_required
 def usuarios_list_view(request):
@@ -380,15 +370,13 @@ def usuarios_save_view(request, pk=None):
 @superuser_required
 @require_POST
 def usuarios_toggle_activo(request, pk):
-    """Borrado lógico exigido por el profesor: no borra de raíz, alterna activo/inactivo."""
-    user = get_object_or_404(Usuario, pk=pk)
-    if user.is_superuser:
-        raise PermissionDenied("El administrador raíz no puede desactivarse.")
-    if user == request.user:
-        messages.error(request, "No puedes desactivar tu propia cuenta activa.")
-        return redirect('usuarios:usuarios_list')
-    user.activo = not user.activo
-    user.save()
+
+    with transaction.atomic():
+        user = get_object_or_404(Usuario.objects.select_for_update(), pk=pk)
+        if user.is_superuser:
+            raise PermissionDenied("El administrador raíz no puede desactivarse.")
+        user.activo = not user.activo
+        user.save(update_fields=['activo', 'is_active'])
     estado_str = "activado" if user.activo else "desactivado (borrado lógico)"
     messages.success(request, f"El usuario '{user.username}' fue {estado_str} exitosamente.")
     return redirect('usuarios:usuarios_list')
@@ -424,14 +412,16 @@ def usuarios_export_excel(request):
 
 @login_required
 def ficha_usuario_view(request):
-    """Genera la Ficha Oficial del Funcionario para imprimir su historial y datos."""
+
     from territorial.models import DelegacionMunicipal
     from vecinos.models import Vecino
 
     usuario = request.user
-    delegaciones_cargo = DelegacionMunicipal.objects.filter(delegado=usuario, activo=True)
-    total_delegaciones_cargo = delegaciones_cargo.count()
-    total_vecinos_comuna = Vecino.objects.filter(activo=True).count()
+    delegaciones_cargo = DelegacionMunicipal.objects.all() if usuario.is_superuser else DelegacionMunicipal.objects.filter(delegado=usuario, activo=True)
+    delegaciones_cargo = list(delegaciones_cargo)
+    total_delegaciones_cargo = len(delegaciones_cargo)
+    from vecinos.access import visible_neighbors
+    total_vecinos_comuna = visible_neighbors(Vecino.objects.filter(activo=True), usuario).count()
     appearance_delegations = DelegacionMunicipal.objects.filter(activo=True)
     if not usuario.is_superuser:
         appearance_delegations = appearance_delegations.filter(pk=usuario.delegacion_id, delegado=usuario)

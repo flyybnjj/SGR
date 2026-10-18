@@ -1,4 +1,4 @@
-"""Regresiones de credenciales detectadas durante la auditoría de lógica."""
+
 from datetime import timedelta
 from unittest.mock import patch
 

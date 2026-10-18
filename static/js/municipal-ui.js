@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const preferenceKey = `muni:ambient-motion:${document.body.dataset.userId}`;
   let ambientEnabled = true;
-  try { ambientEnabled = localStorage.getItem(preferenceKey) !== 'off'; } catch (_) { /* Preferencia opcional si el almacenamiento está bloqueado. */ }
+  try { ambientEnabled = localStorage.getItem(preferenceKey) !== 'off'; } catch (_) {                                                                 }
   const updateAmbientMotion = () => {
     document.body.dataset.ambientMotion = ambientEnabled && !reducedMotion.matches && !document.hidden ? 'running' : 'paused';
     document.querySelectorAll('[data-ambient-toggle]').forEach(toggle => {
@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   };
   document.querySelectorAll('[data-ambient-toggle]').forEach(toggle => toggle.addEventListener('change', () => {
     ambientEnabled = toggle.checked;
-    try { localStorage.setItem(preferenceKey, ambientEnabled ? 'on' : 'off'); } catch (_) { /* La preferencia funciona durante la sesión. */ }
+    try { localStorage.setItem(preferenceKey, ambientEnabled ? 'on' : 'off'); } catch (_) {                                                  }
     updateAmbientMotion();
   }));
   reducedMotion.addEventListener('change', updateAmbientMotion);
@@ -107,6 +107,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const mobile = window.innerWidth < 992;
     sidebar.inert = mobile && !sidebar.classList.contains('mobile-open');
     if (!mobile) {
+      sidebar.classList.remove('mobile-open');
       document.body.classList.remove('sidebar-drawer-open');
       document.getElementById('sidebarBackdrop').classList.remove('active');
       sidebar.inert = document.querySelector('.layout-stitch').classList.contains('sidebar-collapsed');

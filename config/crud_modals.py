@@ -1,6 +1,7 @@
-"""Authorized, read-only form fragments for the shared grid editor."""
+
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
+from django.db.models import Q
 from django.http import Http404
 from django.shortcuts import get_object_or_404, render
 from django.views.decorators.cache import never_cache
@@ -40,13 +41,17 @@ def edit_form(request, resource, pk):
         elif resource == "vecinos":
             queryset = queryset.filter(territorio_id=user.delegacion_id)
     context = {alias: get_object_or_404(queryset, pk=pk)}
+    record = context[alias]
     if resource == "usuarios":
-        context.update(roles=Rol.objects.filter(activo=True), delegaciones=DelegacionMunicipal.objects.filter(activo=True))
+        context.update(roles=Rol.objects.filter(Q(activo=True) | Q(pk=record.rol_id)),
+                       delegaciones=DelegacionMunicipal.objects.filter(Q(activo=True) | Q(pk=record.delegacion_id)))
     elif resource == "delegaciones":
-        context["delegados"] = (Usuario.objects.filter(activo=True) if user.is_superuser
-                                else Usuario.objects.filter(pk=context[alias].delegado_id))
+        context["delegados"] = (Usuario.objects.filter(Q(activo=True) | Q(pk=record.delegado_id), is_superuser=False) if user.is_superuser
+                                else Usuario.objects.filter(pk=record.delegado_id, is_superuser=False))
     elif resource == "vecinos":
         context["territorios"] = VecinoForm(user=user).fields["territorio"].queryset
+        if user.is_superuser:
+            context["territorios"] = DelegacionMunicipal.objects.filter(Q(activo=True) | Q(pk=record.territorio_id))
     elif resource == "sub_atencion":
-        context["tipos"] = TipoAtencion.objects.filter(activo=True)
+        context["tipos"] = TipoAtencion.objects.filter(Q(activo=True) | Q(pk=record.tipo_atencion_id))
     return render(request, f"mantenedores/partials/{resource}_edit.html", context)

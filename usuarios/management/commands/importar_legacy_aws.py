@@ -1,10 +1,6 @@
-"""Import the previous AWS schema into a migrated, empty database.
 
-Original business rows remain in private ``legacy_*`` tables. This command
-does not rewrite migration history, passwords, roles into superusers, or the
-source database. Run it against a stopped/staged deployment, never in place
-over a database containing municipal records.
-"""
+
+
 from contextlib import closing
 from datetime import timezone as datetime_timezone
 import importlib
@@ -44,7 +40,7 @@ SOURCE_TABLES = (
 
 
 def fail(table, field):
-    # Describe the schema problem without exposing names, addresses or secrets.
+
     raise CommandError(f'Datos heredados inválidos o incompatibles: {table}.{field}. No se importó ningún registro.')
 
 
@@ -57,7 +53,7 @@ def timestamp(value, table, field):
         fail(table, field)
     if result is None:
         fail(table, field)
-    # Django's old SQLite backend persisted UTC dates without an offset.
+
     return timezone.make_aware(result, datetime_timezone.utc) if timezone.is_naive(result) else result
 
 
@@ -92,10 +88,10 @@ class Command(BaseCommand):
 
             self.archive_source(data, schema)
             self.copy_model(Rol, data['usuarios_rol'], extras=lambda row: {
-                # Los permisos nuevos requieren una selección explícita por ID.
+
                 'puede_aprobar': row['id'] in approval_role_ids,
-                # The new management flag also grants global catalog access;
-                # a partial old permission must not broaden that privilege.
+
+
                 'puede_gestionar': False,
                 'puede_registrar_atenciones': True,
             })
@@ -275,8 +271,8 @@ class Command(BaseCommand):
             if extras:
                 values.update(extras(row))
             instances.append(model(**values))
-        # bulk_create deliberately preserves password hashes and bypasses the
-        # new Usuario.save() synchronization of historical privilege flags.
+
+
         model.objects.bulk_create(instances)
         for row in rows:
             dates = {
@@ -312,8 +308,8 @@ class Command(BaseCommand):
             ResolucionAccion(id=row['id'], accion_id=row['requerimiento_id'], responsable_id=row['supervisor_id'], estado_anterior='Pendiente', estado_nuevo='Aprobada', motivo=row['observaciones'])
             for row in audits.values()
         ])
-        # The audit manager prohibits update(); restore the actual historical
-        # date with one migration-only SQL write before the transaction commits.
+
+
         with connection.cursor() as cursor:
             for row in audits.values():
                 original = timestamp(row['fecha_auditoria'], 'atenciones_resolucionauditoria', 'fecha_auditoria')

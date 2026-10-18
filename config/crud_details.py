@@ -1,4 +1,4 @@
-"""Consultas de mantenedores con permisos y campos públicos explícitos."""
+
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.http import Http404
@@ -13,8 +13,6 @@ from usuarios.models import Rol, Usuario
 from .access import active, can_manage
 
 
-# La lista explícita evita publicar contraseñas, recuperación o claves al añadir
-# futuros campos a los modelos. Sólo se pasan estos valores a la plantilla.
 RESOURCES = {
     'delegaciones': (DelegacionMunicipal, 'Delegación municipal', 'territorial:delegaciones_list', (
         ('Código', 'codigo'), ('Nombre', 'nombre'), ('Dirección', 'direccion'),

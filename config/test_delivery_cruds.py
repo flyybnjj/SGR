@@ -18,7 +18,7 @@ class SixCRUDDeliveryTests(TestCase):
         self.client.force_login(self.root)
 
     def check_crud(self, model, prefix, resource, field='nombre', **extra):
-        """Crear/consultar/editar/desactivar, rechazar requerido y duplicado; buscar/paginar/exportar todas las páginas."""
+
         create, edit, listing, toggle, excel = [reverse(prefix + suffix) if suffix in ('_create','_list','_excel') else None for suffix in ('_create','_edit','_list','_toggle','_excel')]
         data = {field:'Entrega registro', 'activo':'on', **extra}
         if field == 'username':

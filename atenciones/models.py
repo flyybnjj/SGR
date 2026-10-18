@@ -83,6 +83,8 @@ class MetaPeriodo(models.Model):
         return f'{self.item_meta} · {self.delegacion} ({self.inicio} – {self.fin})'
     @property
     def ejecutado(self):
+        if hasattr(self, 'ejecutado_calculado'):
+            return self.ejecutado_calculado
         return self.acciones.filter(estado='Aprobada', fecha_creacion__date__range=(self.inicio, self.fin)).count()
     @property
     def porcentaje(self):
@@ -129,7 +131,7 @@ class ResolucionAccion(models.Model):
 
 
 class RequerimientoHistorico(models.Model):
-    """Correspondencia inmutable; las tablas originales permanecen intactas."""
+
     objects = ImmutableAuditQuerySet.as_manager()
     requerimiento_id = models.PositiveBigIntegerField(unique=True)
     atencion = models.OneToOneField(Atencion, on_delete=models.PROTECT, related_name='origen_historico')

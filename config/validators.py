@@ -1,6 +1,6 @@
 import re
 from django.core.exceptions import ValidationError
-from django.core.validators import RegexValidator, validate_email
+from django.core.validators import RegexValidator
 
 validar_texto = RegexValidator(r'\S', 'Ingrese texto; no se permiten campos vacíos.')
 validar_color = RegexValidator(r'^#[0-9A-Fa-f]{6}$', 'Use un color hexadecimal como #B80003.')

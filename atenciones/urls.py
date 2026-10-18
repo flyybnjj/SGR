@@ -4,14 +4,14 @@ from . import views
 app_name = 'atenciones'
 
 urlpatterns = [
-    # Tipos de Atención
+
     path('mantenedores/tipos-atencion/', views.tipo_atencion_list_view, name='tipo_atencion_list'),
     path('mantenedores/tipos-atencion/crear/', views.tipo_atencion_save_view, name='tipo_atencion_create'),
     path('mantenedores/tipos-atencion/<int:pk>/editar/', views.tipo_atencion_save_view, name='tipo_atencion_edit'),
     path('mantenedores/tipos-atencion/<int:pk>/toggle/', views.tipo_atencion_toggle_activo, name='tipo_atencion_toggle'),
     path('mantenedores/tipos-atencion/exportar-excel/', views.tipo_atencion_export_excel, name='tipo_atencion_excel'),
 
-    # Sub-Atenciones
+
     path('mantenedores/sub-atenciones/', views.sub_atencion_list_view, name='sub_atencion_list'),
     path('mantenedores/sub-atenciones/crear/', views.sub_atencion_save_view, name='sub_atencion_create'),
     path('mantenedores/sub-atenciones/<int:pk>/editar/', views.sub_atencion_save_view, name='sub_atencion_edit'),

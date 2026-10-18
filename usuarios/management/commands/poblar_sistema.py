@@ -26,7 +26,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         self.stdout.write(self.style.WARNING("Precarga de DEMOSTRACIÓN: personas, RUT, contactos y direcciones son ejemplos ficticios. Use una base de pruebas. Los registros existentes no se corrigen ni reasignan."))
 
-        # 1. ROLES OBLIGATORIOS (Orden de carga #1)
+
         roles_data = [
             ("Súper Administrador", "Acceso total y gobierno de todos los mantenedores y parámetros del sistema."),
             ("Organizador Territorial Comunitario", "Vinculación con juntas de vecinos, dirigentes y levantamiento territorial."),
@@ -47,7 +47,7 @@ class Command(BaseCommand):
             if created:
                 self.stdout.write(self.style.SUCCESS(f"  [+] Rol creado: {nombre}"))
 
-        # 2. SEDES: los nombres se conservan; las direcciones son ejemplos explícitos.
+
         delegaciones_data = ["Centro", "Las Compañías", "La Pampa", "La Antena", "Avenida del Mar", "Rural"]
         delegs_dict = {}
         new_seats = set()
@@ -61,11 +61,7 @@ class Command(BaseCommand):
                 new_seats.add(seat.pk)
                 self.stdout.write(self.style.SUCCESS(f"  [+] Delegación creada: {nombre}"))
 
-        # 3. USUARIOS DE EJEMPLO
-        # El administrador se inicializa explícitamente con inicializar_admin.
-        # Este comando nunca crea una cuenta privilegiada con clave pública.
 
-        # Delegados y Usuarios de prueba
         delegado_rol = roles_dict["Delegado Municipal"]
         gestor_rol = roles_dict["Gestor Social"]
 
@@ -103,15 +99,14 @@ class Command(BaseCommand):
                 self.stdout.write(self.style.SUCCESS(f"  [+] Usuario creado: {uname} (sin acceso hasta que el administrador asigne una clave)"))
             users_dict[uname] = usr
 
-        # Solo las sedes recién creadas reciben responsables coherentes. Nunca se
-        # mueve un usuario existente ni se reemplaza el responsable de una sede.
+
         for sede, username in (("Centro", "juan.perez"), ("Las Compañías", "maria.lopez"), ("La Pampa", "carlos.diaz")):
             seat, user = delegs_dict[sede], users_dict.get(username)
             if user is not None and seat.pk in new_seats and user.delegacion_id == seat.pk and not user.delegaciones_a_cargo.exclude(pk=seat.pk).exists():
                 seat.delegado = user
                 seat.save(update_fields=['delegado'])
 
-        # 4. ÍTEMS DE METAS (Orden de carga #4)
+
         metas_data = [
             ("DISERCO - 150 Podas y Aseo Trimestral", "Aseo, podas y retiro de escombros en cuadrantes prioritarios"),
             ("DIDECO - 200 Subsidios y Fichas Sociales", "Evaluación y entrega oportuna de subsidios y ayudas sociales"),
@@ -129,7 +124,7 @@ class Command(BaseCommand):
             if created:
                 self.stdout.write(self.style.SUCCESS(f"  [+] Meta creada: {nom}"))
 
-        # 5. CATÁLOGO DE TIPOS Y SUBATENCIONES DE EJEMPLO
+
         atenciones_data = {
             "DISERCO (Aseo y Obras)": ("Aseo, áreas verdes, podas, retiro de escombros, maquinaria pesada y emergencias", [
                 "Poda de Árboles en Vía Pública", "Retiro de Escombros y Microbasural", "Bacheo de Calles y Veredas", "Limpieza de Quebradas y Canales", "Operativo de Maquinaria Pesada"
@@ -164,8 +159,7 @@ class Command(BaseCommand):
                 if s_created:
                     self.stdout.write(self.style.SUCCESS(f"      - Sub-Atención: {sub_nom}"))
 
-        # 6. VECINOS FICTICIOS. El RUT antiguo se reconoce para no duplicar
-        # ejemplos de entregas anteriores; esos registros se dejan intactos.
+
         vecinos_data = [
             ("Ana González", "12345678-5", "12.345.678-9", "Domicilio de ejemplo Centro 1", "+56 9 8765 4321", "Centro", "Solicitud", True),
             ("Pedro Rojas", "9876543-3", "9.876.543-2", "Domicilio de ejemplo Las Compañías 2", "+56 9 7654 3210", "Las Compañías", "Reclamo", True),

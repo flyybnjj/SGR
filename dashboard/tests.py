@@ -12,7 +12,7 @@ User = get_user_model()
 class SGRPlataformaTerritorialTests(TestCase):
     def setUp(self):
         self.client = Client()
-        # Crear Rol y Usuario para pruebas
+
         self.rol_admin = Rol.objects.create(nombre="Administrador Comunal", descripcion="Control total")
         self.user = User.objects.create_superuser(
             username="test_supervisor",
@@ -24,7 +24,7 @@ class SGRPlataformaTerritorialTests(TestCase):
             activo=True
         )
 
-        # Crear registros base para las 6 delegaciones y modelos
+
         self.delegacion = DelegacionMunicipal.objects.create(
             nombre="La Pampa (Sede Estadio)",
             direccion="Av. Estadio #1200",
@@ -112,7 +112,7 @@ class SGRPlataformaTerritorialTests(TestCase):
         self.client.force_login(self.user)
         self.assertTrue(self.vecino.activo)
 
-        # Alternar estado (borrado lógico)
+
         toggle_url = reverse('vecinos:vecinos_toggle', args=[self.vecino.pk])
         self.assertEqual(self.client.get(toggle_url).status_code, 405)
         resp = self.client.post(toggle_url)
@@ -120,7 +120,7 @@ class SGRPlataformaTerritorialTests(TestCase):
 
         self.vecino.refresh_from_db()
         self.assertFalse(self.vecino.activo)
-        # El registro aún existe en BD para efectos de auditoría
+
         self.assertEqual(Vecino.objects.filter(pk=self.vecino.pk).count(), 1)
 
     def test_rut_modulo_11_chilean_validation(self):

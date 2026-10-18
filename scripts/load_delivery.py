@@ -1,4 +1,4 @@
-"""Carga de lectura controlada; requiere cookie temporal local NO versionada."""
+
 import argparse,json,statistics,time,threading
 from datetime import datetime, timezone
 from concurrent.futures import ThreadPoolExecutor

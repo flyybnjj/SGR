@@ -1,0 +1,156 @@
+{
+  "checks": [
+    {
+      "page": "perfil-root",
+      "width": 1440,
+      "overflow": false,
+      "axe": {
+        "violations": [],
+        "incomplete": []
+      }
+    },
+    {
+      "page": "dashboard",
+      "width": 1440,
+      "overflow": false,
+      "axe": {
+        "violations": [],
+        "incomplete": []
+      }
+    },
+    {
+      "page": "usuarios",
+      "width": 1440,
+      "overflow": false,
+      "axe": {
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      }
+    },
+    {
+      "page": "delegaciones",
+      "width": 1440,
+      "overflow": false,
+      "axe": {
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      }
+    },
+    {
+      "page": "metas",
+      "width": 1440,
+      "overflow": false,
+      "axe": {
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      }
+    },
+    {
+      "page": "passkeys",
+      "width": 1440,
+      "overflow": false,
+      "axe": {
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      }
+    },
+    {
+      "page": "login",
+      "width": 1440,
+      "overflow": false,
+      "axe": {
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      }
+    },
+    {
+      "page": "perfil-root",
+      "width": 390,
+      "overflow": false,
+      "axe": {
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      }
+    },
+    {
+      "page": "dashboard",
+      "width": 390,
+      "overflow": false,
+      "axe": {
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      }
+    },
+    {
+      "page": "usuarios",
+      "width": 390,
+      "overflow": false,
+      "axe": {
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      }
+    },
+    {
+      "page": "delegaciones",
+      "width": 390,
+      "overflow": false,
+      "axe": {
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      }
+    },
+    {
+      "page": "metas",
+      "width": 390,
+      "overflow": false,
+      "axe": {
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      }
+    },
+    {
+      "page": "passkeys",
+      "width": 390,
+      "overflow": false,
+      "axe": {
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      }
+    },
+    {
+      "page": "login",
+      "width": 390,
+      "overflow": false,
+      "axe": {
+        "violations": [],
+        "incomplete": []
+      }
+    }
+  ],
+  "sidebar_resize": true,
+  "javascript_errors": [],
+  "synthetic": true,
+  "screenshots": false
+}

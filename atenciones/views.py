@@ -8,15 +8,11 @@ from django.contrib import messages
 from config.pagination import paginate
 from config.access import admin_required
 from django.views.decorators.http import require_POST
-from django.db.models import Q
+from django.db.models import Count, F, Q
 from config.excel_utils import export_queryset_to_excel
 from .models import TipoAtencion, SubAtencion
 from .forms import TipoAtencionForm, SubAtencionForm
 
-
-# ==============================================================================
-# MANTENEDOR DE TIPO DE ATENCIÓN (Mockup Página 5 Superior)
-# ==============================================================================
 
 @admin_required
 def tipo_atencion_list_view(request):
@@ -43,8 +39,12 @@ def tipo_atencion_save_view(request, pk=None):
         instance = get_object_or_404(TipoAtencion, pk=pk) if pk else None
         form = TipoAtencionForm(request.POST, instance=instance)
         if form.is_valid():
-            tipo = form.save()
-            messages.success(request, f"Tipo de atención '{tipo.nombre}' {'modificado' if pk else 'creado'} correctamente.")
+            try:
+                tipo = form.save()
+            except ValidationError as error:
+                messages.error(request, ' '.join(error.messages))
+            else:
+                messages.success(request, f"Tipo de atención '{tipo.nombre}' {'modificado' if pk else 'creado'} correctamente.")
         else:
             messages.error(request, "Error al guardar el tipo de atención.")
     return redirect('atenciones:tipo_atencion_list')
@@ -53,9 +53,10 @@ def tipo_atencion_save_view(request, pk=None):
 @admin_required
 @require_POST
 def tipo_atencion_toggle_activo(request, pk):
-    tipo = get_object_or_404(TipoAtencion, pk=pk)
-    tipo.activo = not tipo.activo
-    tipo.save()
+    with transaction.atomic():
+        tipo = get_object_or_404(TipoAtencion.objects.select_for_update(), pk=pk)
+        tipo.activo = not tipo.activo
+        tipo.save(update_fields=['activo'])
     estado_str = "activado" if tipo.activo else "desactivado (borrado lógico)"
     messages.success(request, f"El tipo de atención '{tipo.nombre}' fue {estado_str} exitosamente.")
     return redirect('atenciones:tipo_atencion_list')
@@ -74,10 +75,6 @@ def tipo_atencion_export_excel(request):
     ]
     return export_queryset_to_excel("Reporte_Tipos_Atencion_LaSerena", "Tipos de Atención", headers, rows)
 
-
-# ==============================================================================
-# MANTENEDOR DE SUB-ATENCIÓN (Mockup Página 5 Inferior)
-# ==============================================================================
 
 @admin_required
 def sub_atencion_list_view(request):
@@ -123,9 +120,10 @@ def sub_atencion_save_view(request, pk=None):
 @admin_required
 @require_POST
 def sub_atencion_toggle_activo(request, pk):
-    sub = get_object_or_404(SubAtencion, pk=pk)
-    sub.activo = not sub.activo
-    sub.save()
+    with transaction.atomic():
+        sub = get_object_or_404(SubAtencion.objects.select_for_update(), pk=pk)
+        sub.activo = not sub.activo
+        sub.save(update_fields=['activo'])
     estado_str = "activada" if sub.activo else "desactivada (borrado lógico)"
     messages.success(request, f"La sub-atención '{sub.nombre}' fue {estado_str} exitosamente.")
     return redirect('atenciones:sub_atencion_list')
@@ -147,7 +145,7 @@ def sub_atencion_export_excel(request):
 from django.core.exceptions import PermissionDenied
 from django.core.exceptions import ValidationError
 from django.db import transaction
-from django.http import FileResponse, HttpResponse
+from django.http import FileResponse
 from config.access import can_register, can_approve, can_manage, operational
 from vecinos.models import Vecino
 from vecinos.access import visible_neighbors
@@ -205,8 +203,8 @@ def attention_request_token(request):
             return uuid.UUID(raw)
         except (ValueError, TypeError, AttributeError):
             return None
-    # Compatibilidad con formularios anteriores: un mismo envío en esta sesión
-    # obtiene la misma llave. Los formularios actuales siempre incluyen UUID nuevo.
+
+
     if not request.session.session_key:
         request.session.create()
     pairs = sorted((key, request.POST.getlist(key)) for key in request.POST if key != 'csrfmiddlewaretoken')
@@ -228,7 +226,7 @@ def attention_confirmation(request, attention):
 
 
 def lock_attention_catalog(form):
-    """Revalida y bloquea el catálogo en la transacción que registra la atención."""
+
     kind = TipoAtencion.objects.select_for_update().filter(pk=form.cleaned_data['tipo_atencion'].pk, activo=True).first()
     if not kind:
         form.add_error('tipo_atencion', 'El tipo de atención dejó de estar disponible. Selecciona otro.')
@@ -320,7 +318,7 @@ def attention_new(request):
 
 @login_required
 def action_list(request):
-    actions = scoped(Accion.objects.select_related('delegacion', 'creador', 'meta', 'origen_historico'), request.user)
+    actions = scoped(Accion.objects.select_related('delegacion', 'creador', 'meta__item_meta', 'meta__delegacion', 'origen_historico'), request.user)
     search = request.GET.get('q', '').strip()
     state = request.GET.get('estado', '')
     if search:
@@ -336,11 +334,17 @@ def action_create(request):
     ensure_register(request.user)
     form = AccionForm(request.POST or None, request.FILES or None, user=request.user)
     if request.method == 'POST' and form.is_valid():
-        action = form.save(commit=False)
-        action.creador = request.user
-        action.save()
-        messages.success(request, 'Acción enviada para revisión.')
-        return redirect('atenciones:action_list')
+        try:
+            with transaction.atomic():
+                action = form.save(commit=False)
+                action.creador = request.user
+                action.save()
+        except ValidationError as error:
+            for field, errors in error.message_dict.items():
+                form.add_error(field, errors)
+        else:
+            messages.success(request, 'Acción enviada para revisión.')
+            return redirect('atenciones:action_list')
     return render(request, 'atenciones/form.html', {'form': form, 'title': 'Nueva acción', 'back_url': 'atenciones:action_list'})
 
 @login_required
@@ -367,8 +371,8 @@ def action_resolve(request, pk):
         return render(request, 'atenciones/review.html', {'action': action, 'form': form, 'page_obj': paginate(request, action.resoluciones.order_by('-fecha'))}, status=400)
     action = get_object_or_404(scoped(Accion.objects.all(), request.user), pk=pk)
     with transaction.atomic():
-        # La transición condicional también es atómica en SQLite, donde
-        # select_for_update no bloquea filas. Estado y auditoría se confirman juntos.
+
+
         claimed = Accion.objects.filter(pk=action.pk, estado='Pendiente').update(estado=form.cleaned_data['estado'])
         if claimed:
             ResolucionAccion.objects.create(accion=action, responsable=request.user, estado_anterior='Pendiente', estado_nuevo=form.cleaned_data['estado'], motivo=form.cleaned_data['motivo'])
@@ -411,7 +415,9 @@ def can_manage_metas(user):
 
 @login_required
 def meta_list(request):
-    metas = scoped(MetaPeriodo.objects.select_related('item_meta', 'delegacion'), request.user)
+    metas = scoped(MetaPeriodo.objects.select_related('item_meta', 'delegacion'), request.user).annotate(
+        ejecutado_calculado=Count('acciones', filter=Q(acciones__estado='Aprobada',
+            acciones__fecha_creacion__date__gte=F('inicio'), acciones__fecha_creacion__date__lte=F('fin')))).order_by('-inicio', '-pk')
     search = request.GET.get('q', '').strip()
     if search:
         metas = metas.filter(Q(item_meta__nombre__icontains=search) | Q(delegacion__nombre__icontains=search))
@@ -427,7 +433,12 @@ def meta_save(request, pk=None):
     instance = get_object_or_404(scoped(MetaPeriodo.objects.all(), request.user), pk=pk) if pk else None
     form = MetaPeriodoForm(request.POST or None, instance=instance, user=request.user)
     if request.method == 'POST' and form.is_valid():
-        form.save()
-        messages.success(request, 'Meta guardada.')
-        return redirect('atenciones:meta_list')
+        try:
+            form.save()
+        except ValidationError as error:
+            for field, errors in error.message_dict.items():
+                form.add_error(field, errors)
+        else:
+            messages.success(request, 'Meta guardada.')
+            return redirect('atenciones:meta_list')
     return render(request, 'atenciones/form.html', {'form': form, 'title': 'Editar meta' if pk else 'Nueva meta', 'back_url': 'atenciones:meta_list'})

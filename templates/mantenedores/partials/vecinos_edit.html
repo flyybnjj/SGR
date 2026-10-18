@@ -1,4 +1,4 @@
-<!-- Modal Editar Vecino Stitch Style -->
+
                 <div class="modal fade" id="editVecinoModal{{ v.id }}" tabindex="-1" aria-hidden="true" aria-labelledby="editVecinoModal{{ v.id }}Title">
                     <div class="modal-dialog modal-dialog-centered modal-lg">
                         <div class="modal-content modal-content-stitch">
@@ -36,7 +36,7 @@
                                             <select id="editVecinoModal{{ v.id }}-territorio" name="territorio" class="input-stitch">
                                                 <option value="">-- Sin Asignar --</option>
                                                 {% for terr in territorios %}
-                                                <option value="{{ terr.id }}" {% if v.territorio_id == terr.id %}selected{% endif %}>{{ terr.nombre }}</option>
+                                                <option value="{{ terr.id }}" {% if v.territorio_id == terr.id %}selected{% endif %}>{{ terr.nombre }}{% if not terr.activo %} (inactiva; selecciona una activa){% endif %}</option>
                                                 {% endfor %}
                                             </select>
                                         </div>

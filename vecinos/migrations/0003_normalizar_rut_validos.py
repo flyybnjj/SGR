@@ -20,7 +20,7 @@ def normalize_legacy(apps, schema_editor):
         if dv == expected:
             canonical = f"{int(body)}-{dv}"
             groups.setdefault(canonical, []).append(pk)
-    # Ambiguous legacy duplicates remain intact for manual review: never merge people.
+
     for canonical, ids in groups.items():
         if len(ids) == 1:
             Model.objects.filter(pk=ids[0]).update(rut=canonical)
