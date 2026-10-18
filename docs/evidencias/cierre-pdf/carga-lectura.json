@@ -1,0 +1,74 @@
+{
+  "environment": "https://100-49-246-233.sslip.io",
+  "date": "2026-10-18T20:43:41.438080+00:00",
+  "application_commit": "a87512e08f55603e32ca9f8eb5cf61fb0d048e65",
+  "safe_concurrency_ceiling": 10,
+  "tool": "Python requests / ThreadPoolExecutor",
+  "scenario": "GET autenticados de dashboard y seis mantenedores; sin escrituras de negocio",
+  "thresholds": {
+    "p95_ms": 1500,
+    "errors_percent_below": 1,
+    "stop_errors_percent": 5,
+    "stop_p95_ms": 2000
+  },
+  "levels": [
+    {
+      "concurrency": 1,
+      "duration_s": 10.016,
+      "requests": 65,
+      "rps": 6.49,
+      "mean_ms": 153.85,
+      "p95_ms": 187.0,
+      "errors": 0,
+      "error_percent": 0.0,
+      "status_codes": [
+        200
+      ]
+    },
+    {
+      "concurrency": 3,
+      "duration_s": 10.031,
+      "requests": 194,
+      "rps": 19.34,
+      "mean_ms": 154.88,
+      "p95_ms": 157.0,
+      "errors": 0,
+      "error_percent": 0.0,
+      "status_codes": [
+        200
+      ]
+    },
+    {
+      "concurrency": 5,
+      "duration_s": 10.14,
+      "requests": 323,
+      "rps": 31.85,
+      "mean_ms": 155.62,
+      "p95_ms": 157.0,
+      "errors": 0,
+      "error_percent": 0.0,
+      "status_codes": [
+        200
+      ]
+    },
+    {
+      "concurrency": 10,
+      "duration_s": 10.125,
+      "requests": 616,
+      "rps": 60.84,
+      "mean_ms": 163.41,
+      "p95_ms": 157.0,
+      "errors": 0,
+      "error_percent": 0.0,
+      "status_codes": [
+        200
+      ]
+    }
+  ],
+  "recovery": {
+    "requests": 20,
+    "errors": 0,
+    "p95_ms": 157.0
+  },
+  "accepted": true
+}

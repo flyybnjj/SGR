@@ -1,0 +1,118 @@
+{
+  "base": "https://100-49-246-233.sslip.io",
+  "version": {
+    "commit": "a87512e08f55603e32ca9f8eb5cf61fb0d048e65",
+    "deployed_at": "2026-10-18T20:40:45.491080+00:00"
+  },
+  "checks": [
+    {
+      "check": "Las Compañías no ve al vecino del Faro en el padrón",
+      "passed": true
+    },
+    {
+      "check": "El filtro manipulado no amplía el padrón",
+      "passed": true
+    },
+    {
+      "check": "Excel contiene únicamente los vecinos de Las Compañías",
+      "passed": true,
+      "filas": 2
+    },
+    {
+      "check": "Búsqueda ajena sin resultados por nombre",
+      "passed": true
+    },
+    {
+      "check": "Excel de búsqueda ajena vacío por nombre",
+      "passed": true
+    },
+    {
+      "check": "Búsqueda ajena sin resultados por RUT",
+      "passed": true
+    },
+    {
+      "check": "Excel de búsqueda ajena vacío por RUT",
+      "passed": true
+    },
+    {
+      "check": "Ficha ajena bloqueada GET",
+      "passed": true
+    },
+    {
+      "check": "Ficha ajena bloqueada Excel",
+      "passed": true
+    },
+    {
+      "check": "Ficha propia disponible",
+      "passed": true
+    },
+    {
+      "check": "POST directo a vecino ajeno bloqueado antes de registrar",
+      "passed": true
+    },
+    {
+      "check": "Fragmento de edición ajena bloqueado",
+      "passed": true
+    },
+    {
+      "check": "Escritura ajena bloqueada editar",
+      "passed": true
+    },
+    {
+      "check": "Escritura ajena bloqueada toggle",
+      "passed": true
+    },
+    {
+      "check": "Superadministrador conserva padrón completo",
+      "passed": true
+    },
+    {
+      "check": "Superadministrador puede abrir vecino del Faro",
+      "passed": true
+    },
+    {
+      "check": "Vecino del Faro aparece en Avenida del Mar para raíz",
+      "passed": true
+    },
+    {
+      "check": "Acceso de funcionario conservado /",
+      "passed": true
+    },
+    {
+      "check": "Acceso de funcionario conservado /mi-perfil/passkeys/",
+      "passed": true
+    },
+    {
+      "check": "Sin sede no gestiona /mantenedores/tipos-atencion/",
+      "passed": true
+    },
+    {
+      "check": "Sin sede no gestiona /mantenedores/sub-atenciones/",
+      "passed": true
+    },
+    {
+      "check": "Sin sede no gestiona /mantenedores/delegaciones/",
+      "passed": true
+    },
+    {
+      "check": "Sin sede no gestiona /metas/nueva/",
+      "passed": true
+    },
+    {
+      "check": "Sin sede sin datos operativos /acciones/",
+      "passed": true
+    },
+    {
+      "check": "Sin sede sin datos operativos /metas/",
+      "passed": true
+    },
+    {
+      "check": "Sin sede sin datos operativos /mantenedores/vecinos/",
+      "passed": true
+    },
+    {
+      "check": "Sin sede mantiene cuenta personal",
+      "passed": true
+    }
+  ]
+}

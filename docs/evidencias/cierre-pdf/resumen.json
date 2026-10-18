@@ -1,0 +1,14 @@
+{
+  "application_commit": "a87512e08f55603e32ca9f8eb5cf61fb0d048e65",
+  "suite_cases": 297,
+  "http_checks": 95,
+  "browser_checks": 16,
+  "read_requests_including_recovery": 1218,
+  "isolated_write_requests_including_recovery": 2118,
+  "read_accepted": true,
+  "write_accepted": true,
+  "synthetic_rows_only": 534,
+  "data_preserved": true,
+  "repository_access": "Privado; acceso del docente pendiente por instrucción del titular",
+  "pdf_pages_rechecked": 10
+}

@@ -63,7 +63,7 @@ Pruebas usan bases temporales y correo en memoria; no modifican la base real. Ve
 
 ## Verificación previa y cierre del 18/10/2026
 
-La revisión anterior registró 261 pruebas. El cierre incorpora nuevos casos; consultar el resultado actualizado y los registros individuales en docs/evidencias/matriz-funcional.csv. 36 comprobaciones HTTP de AWS y carga controlada de lectura sin errores hasta 10 concurrentes. El detalle y las validaciones humanas pendientes están en docs/segunda-evaluacion.md. Para regenerar la matriz: python scripts/verify_delivery.py. La carga de lectura se ejecuta con scripts/load_delivery.py --commit SHA y una sesión temporal privada; nunca se publica su archivo. Para escrituras, scripts/load_writes.py utiliza Gunicorn en loopback y una base sintética nueva fuera del proyecto; no utilizar la base productiva. Ver docs/cierre-segunda-evaluacion.md para el resultado final.
+La revisión anterior registró 261 pruebas y 36 comprobaciones HTTP. El cierre actual registra 297 pruebas y 95 controles HTTP; resultados individuales en docs/evidencias/matriz-funcional.csv y detalle en docs/evidencias/cierre-pdf. El detalle y las validaciones humanas pendientes están en docs/segunda-evaluacion.md. Para regenerar la matriz: python scripts/verify_delivery.py. La carga de lectura se ejecuta con scripts/load_delivery.py --commit SHA y una sesión temporal privada; nunca se publica su archivo. Para escrituras, scripts/load_writes.py utiliza Gunicorn en loopback y una base sintética nueva fuera del proyecto; no utilizar la base productiva. Ver docs/cierre-segunda-evaluacion.md para el resultado final.
 
 Los códigos de los catálogos corresponden a su ID. Los 5 requerimientos del esquema anterior se integran al historial y acciones con fechas, folios y estados originales; la aprobación se conserva solo cuando existe auditoría. Ver docs/migracion-historica.md. No hay datos simulados en los indicadores productivos.
 
@@ -78,3 +78,7 @@ El padrón, la búsqueda, los Excel y las fichas de atención se limitan a la de
 ## Auditoría de lógica y permisos
 
 Revisión de seis módulos, formularios, modelos, rutas, comandos y JS; 13 fallos reproducidos y corregidos. Suite ampliada a 261 pruebas, con casos concurrentes SQLite. Ver docs/auditoria-logica.md y docs/evidencias/auditoria-logica. Para importar un esquema antiguo con aprobación autorizada, indicar --approval-role-id ID por cada rol; el nombre del rol no otorga ese permiso. Los comandos de ejemplo no deben ejecutarse sobre producción.
+
+## Cierre actual contra el PDF
+
+297 pruebas aprobadas y 95 comprobaciones HTTP en AWS. Se añadieron las seis consultas separadas, requeridos de usuario en servidor, SweetAlert para errores del servidor y navegación por capacidades efectivas. Lectura: 1218 solicitudes sin errores. Escritura sobre base aislada: 2118 solicitudes sin errores, con conteo/contexto/UUID comprobados. Detalles, diferencias de escenarios y pendientes externos: [cierre de evaluación](docs/cierre-segunda-evaluacion.md). El repositorio permanece privado hasta conocer la cuenta del profesor, según instrucción del titular.

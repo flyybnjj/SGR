@@ -28,11 +28,13 @@
 
 ## Tareas
 
-- [ ] Usuarios: prueba de POST incompleto, validación del servidor, coherencia de etiquetas y regresiones.
-- [ ] Consulta: seis vistas de detalle, enlaces, pruebas de campos y autorización.
-- [ ] Resultados: prueba de formulario inválido del servidor, SweetAlert2 seguro y foco, verificación en navegador.
-- [ ] Perfiles: matriz de permisos, navegación a módulos reales e interfaces pendientes claramente identificadas.
-- [ ] Identidad: comprobar logo, contraste y contextos a 390/1440 px sin alterar el diseño aprobado.
-- [ ] Revisión: suite completa, matriz funcional y revisión independiente de los cambios.
-- [ ] Entrega: respaldo, despliegue, comprobaciones HTTP, carga progresiva y CPU/RAM sobre la versión final.
-- [ ] Relectura: contrastar las diez páginas, documentar límites externos, sincronizar Git y ZIP del escritorio.
+- [x] Usuarios: prueba de POST incompleto, validación del servidor, coherencia de etiquetas y regresiones.
+- [x] Consulta: seis vistas de detalle, enlaces, pruebas de campos y autorización.
+- [x] Resultados: prueba de formulario inválido del servidor, SweetAlert2 seguro y foco, verificación en navegador.
+- [x] Perfiles: matriz de permisos, navegación a módulos reales e interfaces pendientes claramente identificadas.
+- [x] Identidad: comprobar logo, contraste y contextos a 390/1440 px sin alterar el diseño aprobado.
+- [x] Revisión: suite completa y matriz funcional aprobadas; revisión independiente solicitada pero no disponible, límite registrado.
+- [x] Entrega: respaldo, despliegue, comprobaciones HTTP, carga progresiva y CPU/RAM sobre la versión final.
+- [x] Relectura: contrastar las diez páginas, documentar límites externos, sincronizar Git y ZIP del escritorio.
+
+Acceso del docente al repositorio: pendiente externo, mantenido privado por instrucción expresa del titular. No se declara habilitado.
