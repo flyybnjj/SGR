@@ -1,0 +1,85 @@
+{
+  "integrity_check": "ok",
+  "tables": {
+    "usuarios_usuario": {
+      "before": 11,
+      "after": 11,
+      "stable_fields_unchanged": true
+    },
+    "usuarios_rol": {
+      "before": 12,
+      "after": 12,
+      "stable_fields_unchanged": true
+    },
+    "territorial_delegacionmunicipal": {
+      "before": 13,
+      "after": 13,
+      "stable_fields_unchanged": true
+    },
+    "territorial_itemmeta": {
+      "before": 11,
+      "after": 11,
+      "stable_fields_unchanged": true
+    },
+    "vecinos_vecino": {
+      "before": 12,
+      "after": 12,
+      "stable_fields_unchanged": true
+    },
+    "atenciones_tipoatencion": {
+      "before": 9,
+      "after": 9,
+      "stable_fields_unchanged": true
+    },
+    "atenciones_subatencion": {
+      "before": 35,
+      "after": 35,
+      "stable_fields_unchanged": true
+    },
+    "atenciones_requerimiento": {
+      "before": 5,
+      "after": 5,
+      "stable_fields_unchanged": true
+    },
+    "atenciones_evidenciafotografica": {
+      "before": 0,
+      "after": 0,
+      "stable_fields_unchanged": true
+    },
+    "atenciones_resolucionauditoria": {
+      "before": 1,
+      "after": 1,
+      "stable_fields_unchanged": true
+    },
+    "atenciones_atencion": {
+      "before": 0,
+      "after": 0,
+      "stable_fields_unchanged": true
+    },
+    "atenciones_accion": {
+      "before": 0,
+      "after": 0,
+      "stable_fields_unchanged": true
+    },
+    "atenciones_metaperiodo": {
+      "before": 0,
+      "after": 0,
+      "stable_fields_unchanged": true
+    },
+    "atenciones_resolucionaccion": {
+      "before": 0,
+      "after": 0,
+      "stable_fields_unchanged": true
+    },
+    "usuarios_passkey": {
+      "before": 0,
+      "after": 0,
+      "stable_fields_unchanged": true
+    },
+    "usuarios_passkeyprofile": {
+      "before": 0,
+      "after": 0,
+      "stable_fields_unchanged": true
+    }
+  }
+}
