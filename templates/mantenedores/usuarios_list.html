@@ -59,7 +59,7 @@
                     <th scope="col">Rol Asignado</th>
                     <th scope="col">Delegación</th>
 <th scope="col" class="text-center" style="width: 120px;">Estado</th>
-                    <th scope="col" class="text-center" style="width: 110px;">Acciones</th>
+                    <th scope="col" class="text-center record-actions-column">Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -84,14 +84,14 @@
                         <span class="badge-stitch-inactivo">Inactivo</span>
                         {% endif %}
                     </td>
-                    <td class="text-center">
+                    <td class="text-center record-actions-column">
                         {% if can_manage %}
                         <div class="record-actions"><a href="{% url 'crud_detail' 'usuarios' u.pk %}" class="btn-stitch-icon" title="Ver detalle" aria-label="Ver detalle de {{ u.nombre_completo }}"><i class="bi bi-eye" aria-hidden="true"></i><span class="visually-hidden">Ver detalle</span></a>
                         <button type="button" class="btn-stitch-icon" title="Editar usuario" aria-label="Editar {{ u.nombre_completo }}" data-edit-form="{% url 'crud_edit_form' 'usuarios' u.pk %}"><i class="bi bi-pencil" aria-hidden="true"></i></button>
                         {% if u != request.user and not u.is_superuser %}
-                        <form method="post" action="{% url 'usuarios:usuarios_toggle' u.id %}" data-confirm-action="{% if u.activo %}delete{% else %}restore{% endif %}" data-confirm="{% if u.activo %}¿Eliminar a {{ u.nombre_completo }}? La cuenta quedará inactiva y no podrá iniciar sesión. Su historial se conservará y podrás restaurarla desde este listado.{% else %}¿Restaurar a {{ u.nombre_completo }}? La cuenta volverá a estar activa.{% endif %}">
+                        <form method="post" action="{% url 'usuarios:usuarios_toggle' u.id %}" data-confirm-action="{% if u.activo %}delete{% else %}restore{% endif %}" data-confirm-title="{% if u.activo %}Desactivar{% else %}Restaurar{% endif %} usuario" data-confirm-record="{{ u.nombre_completo }} · @{{ u.username }}" data-confirm="{% if u.activo %}No podrá iniciar sesión. Su historial se conservará y podrás restaurar la cuenta desde este listado.{% else %}La cuenta volverá a estar activa y podrá iniciar sesión.{% endif %}">
                             {% csrf_token %}
-                            <button type="submit" class="btn-stitch-icon {% if u.activo %}btn-stitch-icon-delete btn-record-delete{% else %}btn-record-restore{% endif %}" title="{% if u.activo %}Eliminar usuario{% else %}Restaurar usuario{% endif %}" aria-label="{% if u.activo %}Eliminar{% else %}Restaurar{% endif %} {{ u.username }}"><i class="bi {% if u.activo %}bi-trash3{% else %}bi-arrow-counterclockwise{% endif %}" aria-hidden="true"></i></button>
+                            <button type="submit" class="btn-stitch-icon {% if u.activo %}btn-stitch-icon-delete btn-record-delete{% else %}btn-record-restore{% endif %}" title="{% if u.activo %}Desactivar usuario (papelera){% else %}Restaurar usuario{% endif %}" aria-label="{% if u.activo %}Desactivar{% else %}Restaurar{% endif %} {{ u.username }}">{% include 'includes/record_state_icon.html' with active=u.activo %}</button>
                         </form>
                         {% endif %}
                         </div>

@@ -179,19 +179,29 @@ input.input-stitch, textarea.input-stitch { cursor: text !important; }
 .management-grid .search-box-stitch { flex: 1; }
 .record-actions { display: flex; justify-content: center; align-items: center; gap: 4px; }
 .record-actions form { display: flex; margin: 0; }
+.table-stitch .record-actions-column { position: sticky; right: 0; z-index: 1; width: 172px; min-width: 172px; background: #fff; border-left: 1px solid var(--border-stitch); }
+.table-stitch thead .record-actions-column { z-index: 2; background: #f7f8fa; }
+.btn-stitch-icon.btn-record-delete svg, .btn-stitch-icon.btn-record-restore svg { flex: none; pointer-events: none; }
 .btn-stitch-icon.btn-record-delete, .swal2-confirm.confirm-record-delete { color: #fff !important; background: #b42318 !important; border: 1px solid #b42318 !important; }
 .btn-stitch-icon.btn-record-delete:hover, .swal2-confirm.confirm-record-delete:hover { background: #912018 !important; border-color: #912018 !important; box-shadow: none !important; }
+.btn-stitch-icon.btn-record-delete:active, .swal2-confirm.confirm-record-delete:active { background: #7a1b15 !important; }
+.btn-stitch-icon:is(.btn-record-delete, .btn-record-restore):focus-visible { outline: 3px solid #17212f; outline-offset: 3px; }
 .btn-stitch-icon.btn-record-delete i { color: #fff !important; }
 .btn-stitch-icon.btn-record-restore { background: #e7f5ee !important; color: #14633e !important; border: 1px solid #14633e !important; }
 .btn-stitch-icon.btn-record-restore i { color: #14633e; }
 body[data-delegation-theme] .btn-stitch-icon.btn-record-restore:hover,
 .btn-stitch-icon.btn-record-restore:hover { background: #d1e9dd !important; color: #14633e !important; border-color: #14633e !important; box-shadow: none !important; }
 .swal2-confirm.confirm-record-restore { background: #14633e !important; color: #fff !important; }
-.swal2-popup.record-confirmation { width: 480px; padding: 24px; }
-.record-confirmation .swal2-title { padding: 0; font-size: 1.25rem; }
-.record-confirmation .swal2-html-container { margin: 12px 0 0; font-size: .9375rem; line-height: 1.5; }
-.record-confirmation .swal2-actions { margin: 20px 0 0; gap: 8px; }
-.record-confirmation .swal2-styled { min-height: 44px; margin: 0; padding: 10px 16px; }
+.swal2-popup.record-confirmation { width: 448px; max-width: calc(100vw - 32px); padding: 24px !important; text-align: left; }
+.record-confirmation .swal2-icon.record-confirm-icon { width: 48px; height: 48px; margin: 0 0 20px; border: 0; border-radius: 12px; background: #fceaea; color: #b42318; }
+.record-confirmation .swal2-icon.record-confirm-icon-restore { background: #e7f5ee; color: #14633e; }
+.record-confirmation .swal2-title { padding: 0; font-size: 1.25rem; text-align: left; }
+.record-confirmation .swal2-html-container { margin: 12px 0 0; font-size: .9375rem !important; line-height: 1.5; text-align: left; white-space: pre-line; overflow-wrap: anywhere; }
+.record-confirmation .swal2-actions { width: 100%; justify-content: flex-end; margin: 24px 0 0; padding-top: 20px; border-top: 1px solid var(--border-stitch); gap: 8px; }
+.record-confirmation .swal2-styled { min-height: 44px; margin: 0; padding: 10px 16px !important; font-size: .9375rem; font-weight: 600 !important; transition: background-color 160ms ease !important; }
+.record-confirmation .swal2-cancel.cancel-record-change { background: #f5f5f7 !important; color: #344054 !important; border: 1px solid #8490a1; }
+.record-confirmation .swal2-cancel.cancel-record-change:hover { background: #e9ecf0 !important; }
+.record-confirmation .swal2-styled:focus-visible { outline: 3px solid #17212f; outline-offset: 3px; box-shadow: none !important; }
 .status-pill { padding: 5px 9px; font-size: .875rem; border-radius: 6px; }
 .grid-pagination { padding: 16px 24px !important; gap: 16px !important; }
 .grid-pagination>p { font-size: .875rem; color: var(--text-muted); }

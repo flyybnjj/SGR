@@ -60,23 +60,41 @@
     form.dataset.confirmReady = 'true';
     form.addEventListener('submit', async event => {
       event.preventDefault();
-      const question = form.dataset.confirm;
+      if (form.dataset.confirmPending === 'true') return;
+      form.dataset.confirmPending = 'true';
+      const question = [form.dataset.confirmRecord, form.dataset.confirm].filter(Boolean).join('\n\n');
       const deleting = form.dataset.confirmAction === 'delete';
+      const deactivating = deleting || form.dataset.confirmAction === 'deactivate';
       const restoring = form.dataset.confirmAction === 'restore';
-      const confirmed = window.Swal
+      const stateAction = deactivating || restoring;
+      const icon = restoring
+        ? '<path d="M3 11a9 9 0 1 1 2.6 7M3 4v7h7"/>'
+        : deleting
+          ? '<path d="M3 6h18M9 6V3h6v3M5 6l1 15h12l1-15M10 10v7M14 10v7"/>'
+          : '<path d="M12 2v10M5.6 5.6a9 9 0 1 0 12.8 0"/>';
+      try {
+        const confirmed = window.Swal
         ? (await Swal.fire({
-          icon: deleting || restoring ? undefined : 'question',
-          title: deleting ? 'Eliminar registro' : restoring ? 'Restaurar registro' : 'Cambiar estado',
+          icon: stateAction ? 'warning' : 'question',
+          iconHtml: stateAction ? `<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">${icon}</svg>` : undefined,
+          titleText: form.dataset.confirmTitle || (deactivating ? 'Desactivar registro' : restoring ? 'Restaurar registro' : 'Cambiar estado'),
           text: question, showCancelButton: true,
-          confirmButtonText: deleting ? 'Eliminar' : restoring ? 'Restaurar' : 'Confirmar',
-          cancelButtonText: 'Cancelar', focusCancel: true,
+          confirmButtonText: deactivating ? 'Desactivar' : restoring ? 'Restaurar' : 'Confirmar',
+          cancelButtonText: 'Cancelar', focusCancel: true, reverseButtons: true,
           customClass: {
-            popup: deleting || restoring ? 'record-confirmation' : '',
-            confirmButton: deleting ? 'confirm-record-delete' : restoring ? 'confirm-record-restore' : '',
+            popup: stateAction ? 'record-confirmation' : '',
+            icon: stateAction ? `record-confirm-icon ${restoring ? 'record-confirm-icon-restore' : ''}` : '',
+            confirmButton: deactivating ? 'confirm-record-delete' : restoring ? 'confirm-record-restore' : '',
+            cancelButton: stateAction ? 'cancel-record-change' : '',
           },
         })).isConfirmed
         : window.confirm(question);
-      if (confirmed) HTMLFormElement.prototype.submit.call(form);
+        if (confirmed) HTMLFormElement.prototype.submit.call(form);
+        else delete form.dataset.confirmPending;
+      } catch (error) {
+        delete form.dataset.confirmPending;
+        throw error;
+      }
     });
   });
   };

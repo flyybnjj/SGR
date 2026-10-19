@@ -14,7 +14,7 @@
     <link href="{% static 'css/muni-laserena.css' %}?v=20261017-grid-heading" rel="stylesheet">
     {% block extra_head %}{% endblock %}
     <link href="{% static 'css/municipal-ui.css' %}?v=20261004-delegation-theme" rel="stylesheet">
-    <link href="{% static 'css/municipal-design.css' %}?v=20261019-soft-waves" rel="stylesheet">
+    <link href="{% static 'css/municipal-design.css' %}?v=20261019-record-actions" rel="stylesheet">
 </head>
 <body data-user-id="{{ user.pk }}"{% if account_area %} class="account-page"{% endif %}{% if delegacion_actual %} data-delegation-theme{% if delegacion_actual.color_configurado %} data-delegation-custom{% endif %} style="{{ delegation_theme_style }}"{% endif %}>
 <a class="skip-link" href="#main-content">Saltar al contenido</a>
@@ -108,7 +108,7 @@
 {% server_form_feedback %}
 <script src="{% static 'js/tutorial-guiado.js' %}?v=20261018-authorized-tour"></script>
 <script src="{% static 'js/municipal-ui.js' %}?v=20261018-server-feedback"></script>
-<script src="{% static 'js/crud-validation.js' %}?v=20261017-record-trash"></script>
+<script src="{% static 'js/crud-validation.js' %}?v=20261019-record-actions"></script>
 <script src="{% static 'js/crud-editor.js' %}?v=20261018-load-feedback"></script>
 {% block extra_scripts %}{% endblock %}
 </body>
