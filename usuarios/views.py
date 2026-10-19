@@ -6,9 +6,11 @@ import re
 import secrets
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.utils import timezone
+from django.utils.crypto import salted_hmac
 from datetime import timedelta
 from django.db.models import Q
 from django.db import transaction
@@ -22,6 +24,40 @@ from .forms import (
 )
 
 
+def identify_account(identifier, *, active_only=False):
+    accounts = Usuario.objects.all()
+    if active_only:
+        accounts = accounts.filter(activo=True, is_active=True)
+    matches = list(accounts.filter(username__iexact=identifier)[:2])
+    if matches:
+        return matches[0] if len(matches) == 1 else None
+    if '@' in identifier:
+        matches = list(accounts.filter(Q(email__iexact=identifier) | Q(email_secundario__iexact=identifier))[:2])
+        return matches[0] if len(matches) == 1 else None
+    if re.fullmatch(r'[0-9.Kk -]+', identifier):
+        compact = re.sub(r'[^0-9kK]', '', identifier).upper()
+        if compact:
+            matches = [user for user in accounts.exclude(rut__isnull=True).exclude(rut='')
+                       if re.sub(r'[^0-9kK]', '', user.rut).upper() == compact]
+            return matches[0] if len(matches) == 1 else None
+    return None
+
+
+def recovery_recipients(user):
+    if not user:
+        return []
+    recipients = dict.fromkeys(email.strip().lower() for email in (user.email, user.email_secundario) if email and email.strip())
+    others = Usuario.objects.exclude(pk=user.pk)
+    return [email for email in recipients if not others.filter(
+        Q(email__iexact=email) | Q(email_secundario__iexact=email) | Q(username__iexact=email)).exists()]
+
+
+def recovery_stamp(user):
+    return salted_hmac('usuarios.email_recovery', '|'.join([
+        str(user.pk), user.get_session_auth_hash(), user.email or '', user.email_secundario or '',
+    ])).hexdigest()
+
+
 def login_view(request):
     if request.user.is_authenticated:
         return redirect('dashboard:inicio')
@@ -32,27 +68,14 @@ def login_view(request):
         password = form.cleaned_data['password']
 
 
-        user_candidate = Usuario.objects.filter(username__iexact=login_input).first()
+        user_candidate = identify_account(login_input)
 
 
-        if not user_candidate and '@' in login_input:
-            user_candidate = Usuario.objects.filter(
-                Q(email__iexact=login_input) | Q(email_secundario__iexact=login_input)
-            ).first()
-
-
-        if not user_candidate:
-            rut_clean = re.sub(r'[^0-9kK]', '', login_input).upper()
-            if rut_clean:
-                for u in Usuario.objects.exclude(rut__isnull=True).exclude(rut=''):
-                    u_rut_clean = re.sub(r'[^0-9kK]', '', u.rut or '').upper()
-                    if u_rut_clean == rut_clean:
-                        user_candidate = u
-                        break
-
-
-        canonical_username = user_candidate.username if user_candidate else login_input
-        user = authenticate(request, username=canonical_username, password=password)
+        if user_candidate:
+            user = authenticate(request, username=user_candidate.username, password=password)
+        else:
+            make_password(password)
+            user = None
 
         if user is not None:
             if not user.activo or not user.is_active:
@@ -120,12 +143,14 @@ def recovery_issue(request, user, recipients):
         logging.getLogger(__name__).warning('No se pudo entregar un correo de recuperación.')
         return
     expires = timezone.now() + timedelta(minutes=15)
-    updated = Usuario.objects.filter(pk=user.pk, password=user.password, activo=True, is_active=True).update(
+    updated = Usuario.objects.filter(pk=user.pk, password=user.password, email=user.email,
+                                    email_secundario=user.email_secundario, activo=True, is_active=True).update(
         reset_code=codigo, codigo_recuperacion=codigo,
         reset_expires_at=expires, codigo_expiracion=expires)
     if not updated:
         return
     cache.delete(f'recovery-attempt:{user.pk}')
+    request.session['recovery_identity_stamp'] = recovery_stamp(user)
     request.session['recovery_code_sent_at'] = timezone.now().isoformat()
 
 
@@ -138,14 +163,8 @@ def recuperar_password_view(request):
             if key.startswith('recovery_') or key == 'passkey_reset':
                 request.session.pop(key, None)
         identifier = form.cleaned_data['email'].strip()
-        user = Usuario.objects.filter(Q(email__iexact=identifier) | Q(email_secundario__iexact=identifier) |
-                                      Q(username__iexact=identifier), activo=True, is_active=True).first()
-        if not user:
-            compact = re.sub(r'[^0-9kK]', '', identifier).upper()
-            if compact and re.fullmatch(r'[0-9.Kk -]+', identifier):
-                user = next((u for u in Usuario.objects.filter(activo=True, is_active=True).exclude(rut__isnull=True)
-                             if re.sub(r'[^0-9kK]', '', u.rut or '').upper() == compact), None)
-        recipients = list(dict.fromkeys(e.lower() for e in (user.email, user.email_secundario) if e)) if user else []
+        user = identify_account(identifier, active_only=True)
+        recipients = recovery_recipients(user)
         request.session['recovery_pending'] = True
         if user and recipients:
             request.session['recovery_user_id'] = user.pk
@@ -174,17 +193,19 @@ def validar_codigo_view(request):
         attempts = f'recovery-attempt:{user_id}' if user else 'recovery-unknown:' + ip_key
         attempt_reserved = recovery_count(attempts, 5)
         expires = (user.reset_expires_at or user.codigo_expiracion) if user else None
-        matches = bool(user and re.fullmatch(r'[0-9]{6}', code) and
+        matches = bool(user and request.session.get('recovery_identity_stamp') == recovery_stamp(user) and
+                       re.fullmatch(r'[0-9]{6}', code) and
                        (secrets.compare_digest(user.reset_code or '', code) or secrets.compare_digest(user.codigo_recuperacion or '', code)))
         if allowed and attempt_reserved and matches and expires and timezone.now() < expires:
-            consumed = Usuario.objects.filter(pk=user.pk).filter(
+            consumed = Usuario.objects.filter(pk=user.pk, password=user.password, email=user.email,
+                                              email_secundario=user.email_secundario, activo=True, is_active=True).filter(
                 Q(reset_code=code, reset_expires_at__gt=timezone.now()) |
                 Q(codigo_recuperacion=code, codigo_expiracion__gt=timezone.now())).update(
                     reset_code=None, codigo_recuperacion=None, reset_expires_at=None, codigo_expiracion=None)
             if consumed:
                 request.session['recovery_verified'] = True
                 request.session['recovery_verified_user_id'] = user.pk
-                request.session['recovery_verified_stamp'] = user.get_session_auth_hash()
+                request.session['recovery_verified_stamp'] = recovery_stamp(user)
                 request.session['recovery_verified_until'] = (timezone.now() + timedelta(minutes=5)).timestamp()
                 if is_ajax:
                     return JsonResponse({'valid': True, 'redirect_url': '/cambiar-password/'})
@@ -206,7 +227,7 @@ def reenviar_codigo_view(request):
     if not request.session.get('recovery_pending') and not request.session.get('recovery_user_id'):
         return redirect('usuarios:recuperar_password')
     user = Usuario.objects.filter(pk=request.session.get('recovery_user_id'), activo=True, is_active=True).first()
-    recipients = list(dict.fromkeys(e.lower() for e in (user.email, user.email_secundario) if e)) if user else []
+    recipients = recovery_recipients(user)
     key = hashlib.sha256(rate_limit_ip(request).encode()).hexdigest()
     if recovery_count('recovery-request:' + key, 10):
         recovery_issue(request, user, recipients)
@@ -224,7 +245,7 @@ def cambiar_password_view(request):
         return redirect('usuarios:recuperar_password')
 
     user = Usuario.objects.filter(id=user_id, activo=True, is_active=True).first()
-    if not user or request.session.get('recovery_verified_stamp') != user.get_session_auth_hash():
+    if not user or request.session.get('recovery_verified_stamp') != recovery_stamp(user):
         request.session.pop('recovery_verified', None)
         return redirect('usuarios:recuperar_password')
 
@@ -234,7 +255,7 @@ def cambiar_password_view(request):
         if user:
             with transaction.atomic():
                 user = Usuario.objects.select_for_update().get(pk=user.pk)
-                if not user.activo or not user.is_active or request.session.get('recovery_verified_stamp') != user.get_session_auth_hash():
+                if not user.activo or not user.is_active or request.session.get('recovery_verified_stamp') != recovery_stamp(user):
                     request.session.pop('recovery_verified', None)
                     return redirect('usuarios:recuperar_password')
                 user.set_password(new_pwd)

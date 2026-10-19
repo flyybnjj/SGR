@@ -1540,5 +1540,25 @@
       "vecinos.test_save_conflicts.NeighborSaveConflictTests.test_neighbor_created_after_validation_reports_conflict",
       "vecinos.test_save_conflicts.NeighborSaveConflictTests.test_new_attention_preserves_input_when_neighbor_was_created_concurrently"
     ]
+  },
+  {
+    "id": "EV-108",
+    "requisito": "PDF p. 2: acceso y recuperación de contraseña",
+    "modulo": "Identidad y correos de recuperación",
+    "tipo": "Funcional",
+    "precondiciones": "Cuentas sintéticas con correos heredados duplicados; correo en memoria.",
+    "pasos": "Solicitar recuperación e ingreso con correo compartido y con usuario exacto; cambiar el correo durante el envío y después de verificar el código.",
+    "esperado": "No se elige una cuenta arbitraria ni se envían códigos a correos asociados a otra cuenta. Los cambios de correo invalidan los códigos y permisos de recuperación anteriores; el acceso por usuario y los correos secundarios exclusivos siguen funcionando.",
+    "pruebas": [
+      "usuarios.test_shared_email.SharedEmailSecurityTests.test_shared_email_never_selects_an_arbitrary_account_for_recovery",
+      "usuarios.test_shared_email.SharedEmailSecurityTests.test_admin_code_is_not_delivered_to_another_accounts_email",
+      "usuarios.test_shared_email.SharedEmailSecurityTests.test_shared_email_cannot_log_in_as_first_account_with_its_password",
+      "usuarios.test_shared_email.SharedEmailSecurityTests.test_exact_username_selects_its_owner_even_when_used_as_another_email",
+      "usuarios.test_shared_email.SharedEmailSecurityTests.test_unique_secondary_email_still_works",
+      "usuarios.test_shared_email.SharedEmailSecurityTests.test_changing_recovery_email_invalidates_verified_grant",
+      "usuarios.test_shared_email.SharedEmailSecurityTests.test_changing_email_invalidates_pending_code",
+      "usuarios.test_shared_email.SharedEmailSecurityTests.test_delivery_cannot_restore_a_code_after_email_changed_during_smtp",
+      "usuarios.test_shared_email.SharedEmailSecurityTests.test_explicit_usernames_still_log_in_to_their_own_accounts"
+    ]
   }
 ]

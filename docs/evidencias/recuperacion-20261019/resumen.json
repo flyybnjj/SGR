@@ -1,0 +1,22 @@
+{
+  "fecha": "2026-10-19T08:56:45.052014+00:00",
+  "tests_distintos": 374,
+  "casos": 108,
+  "motores": {
+    "sqlite": {
+      "APROBADO": 371,
+      "OMITIDO": 3
+    },
+    "mysql": {
+      "APROBADO": 339,
+      "OMITIDO": 35
+    }
+  },
+  "regresiones_nuevas": 9,
+  "fallos_reproducidos_antes_de_corregir": 7,
+  "fuentes_sha256": {
+    "usuarios/views.py": "4bc12155c5fcab3a61067768d414c079a13d2956ebf5de00254d6a81731af746",
+    "usuarios/test_shared_email.py": "4a59560c115d303571f9aae7160122b3a0ab881e6eede992610d8a60e490ef9a"
+  },
+  "alcance": "Bases temporales sin SMTP real. Confirmación de acceso, recuperación y passkeys por tests. La revisión de navegador anterior está en revision-total-20261019; no se tomaron capturas nuevas."
+}

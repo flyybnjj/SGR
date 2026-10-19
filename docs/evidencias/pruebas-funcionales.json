@@ -12,7 +12,7 @@
     "evidencia": "atenciones/test_attention_submission.py:139",
     "pruebas": "atenciones.test_attention_submission.AttentionSubmissionTests.test_database_rejects_duplicate_token_even_outside_http_worker",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:31:42.003343+00:00; 2026-10-19T08:31:48.396746+00:00"
+    "fecha": "2026-10-19T08:51:02.973181+00:00; 2026-10-19T08:52:20.989788+00:00"
   },
   {
     "id": "EV-002",
@@ -27,7 +27,7 @@
     "evidencia": "atenciones/test_attention_submission.py:106",
     "pruebas": "atenciones.test_attention_submission.AttentionSubmissionTests.test_error_preserves_token_for_corrected_resubmission",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:31:42.078295+00:00; 2026-10-19T08:31:48.475120+00:00"
+    "fecha": "2026-10-19T08:51:03.075673+00:00; 2026-10-19T08:52:21.093903+00:00"
   },
   {
     "id": "EV-003",
@@ -42,7 +42,7 @@
     "evidencia": "atenciones/test_attention_submission.py:52",
     "pruebas": "atenciones.test_attention_submission.AttentionSubmissionTests.test_foreign_or_inactive_subtype_cannot_be_saved",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:31:42.168127+00:00; 2026-10-19T08:31:48.542552+00:00"
+    "fecha": "2026-10-19T08:51:03.142909+00:00; 2026-10-19T08:52:21.196476+00:00"
   },
   {
     "id": "EV-004",
@@ -57,7 +57,7 @@
     "evidencia": "atenciones/test_attention_submission.py:114",
     "pruebas": "atenciones.test_attention_submission.AttentionSubmissionTests.test_form_gets_fresh_hidden_token_on_each_open",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:31:42.213493+00:00; 2026-10-19T08:31:48.599514+00:00"
+    "fecha": "2026-10-19T08:51:03.199125+00:00; 2026-10-19T08:52:21.250998+00:00"
   },
   {
     "id": "EV-005",
@@ -72,7 +72,7 @@
     "evidencia": "atenciones/test_attention_submission.py:93",
     "pruebas": "atenciones.test_attention_submission.AttentionSubmissionTests.test_get_and_cancel_navigation_do_not_create_records",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:31:42.255667+00:00; 2026-10-19T08:31:48.646540+00:00"
+    "fecha": "2026-10-19T08:51:03.245850+00:00; 2026-10-19T08:52:21.299527+00:00"
   },
   {
     "id": "EV-006",
@@ -87,7 +87,7 @@
     "evidencia": "atenciones/test_attention_submission.py:121",
     "pruebas": "atenciones.test_attention_submission.AttentionSubmissionTests.test_history_and_excel_include_attention_id",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:31:42.343090+00:00; 2026-10-19T08:31:48.728867+00:00"
+    "fecha": "2026-10-19T08:51:03.326170+00:00; 2026-10-19T08:52:21.396715+00:00"
   },
   {
     "id": "EV-007",
@@ -102,7 +102,7 @@
     "evidencia": "atenciones/test_attention_submission.py:76",
     "pruebas": "atenciones.test_attention_submission.AttentionSubmissionTests.test_independent_tokens_allow_intentional_identical_requests",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:31:42.379379+00:00; 2026-10-19T08:31:48.778837+00:00"
+    "fecha": "2026-10-19T08:51:03.374046+00:00; 2026-10-19T08:52:21.446432+00:00"
   },
   {
     "id": "EV-008",
@@ -117,7 +117,7 @@
     "evidencia": "atenciones/test_attention_submission.py:48",
     "pruebas": "atenciones.test_attention_submission.AttentionSubmissionTests.test_initial_subtype_options_are_empty_until_type_selected",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:31:42.388935+00:00; 2026-10-19T08:31:48.797568+00:00"
+    "fecha": "2026-10-19T08:51:03.391855+00:00; 2026-10-19T08:52:21.451401+00:00"
   },
   {
     "id": "EV-009",
@@ -132,7 +132,7 @@
     "evidencia": "atenciones/test_attention_submission.py:99",
     "pruebas": "atenciones.test_attention_submission.AttentionSubmissionTests.test_invalid_token_does_not_create_person_or_attention",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:31:42.429479+00:00; 2026-10-19T08:31:48.839180+00:00"
+    "fecha": "2026-10-19T08:51:03.430024+00:00; 2026-10-19T08:52:21.493439+00:00"
   },
   {
     "id": "EV-010",
@@ -147,7 +147,7 @@
     "evidencia": "atenciones/test_attention_submission.py:69",
     "pruebas": "atenciones.test_attention_submission.AttentionSubmissionTests.test_legacy_repeated_post_is_deduplicated",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:31:42.471692+00:00; 2026-10-19T08:31:48.883151+00:00"
+    "fecha": "2026-10-19T08:51:03.475799+00:00; 2026-10-19T08:52:21.538436+00:00"
   },
   {
     "id": "EV-011",
@@ -162,7 +162,7 @@
     "evidencia": "atenciones/test_attention_submission.py:81",
     "pruebas": "atenciones.test_attention_submission.AttentionSubmissionTests.test_new_person_repeated_post_creates_one_person_and_attention",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:31:42.512811+00:00; 2026-10-19T08:31:48.959128+00:00"
+    "fecha": "2026-10-19T08:51:03.557859+00:00; 2026-10-19T08:52:21.614011+00:00"
   },
   {
     "id": "EV-012",
@@ -177,7 +177,7 @@
     "evidencia": "atenciones/test_attention_submission.py:60",
     "pruebas": "atenciones.test_attention_submission.AttentionSubmissionTests.test_same_token_post_creates_one_attention_and_reports_its_id",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:31:42.567187+00:00; 2026-10-19T08:31:49.026813+00:00"
+    "fecha": "2026-10-19T08:51:03.622062+00:00; 2026-10-19T08:52:21.719085+00:00"
   },
   {
     "id": "EV-013",
@@ -192,7 +192,7 @@
     "evidencia": "atenciones/test_attention_submission.py:44",
     "pruebas": "atenciones.test_attention_submission.AttentionSubmissionTests.test_subtype_options_only_belong_to_selected_active_type",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:31:42.573256+00:00; 2026-10-19T08:31:49.046009+00:00"
+    "fecha": "2026-10-19T08:51:03.641077+00:00; 2026-10-19T08:52:21.729813+00:00"
   },
   {
     "id": "EV-014",
@@ -207,7 +207,7 @@
     "evidencia": "atenciones/test_attention_submission.py:131",
     "pruebas": "atenciones.test_attention_submission.AttentionSubmissionTests.test_token_cannot_be_reused_on_another_person",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:31:42.645968+00:00; 2026-10-19T08:31:49.094736+00:00"
+    "fecha": "2026-10-19T08:51:03.684540+00:00; 2026-10-19T08:52:21.885373+00:00"
   },
   {
     "id": "EV-015",
@@ -222,7 +222,7 @@
     "evidencia": "atenciones/test_historical_migration.py:105; atenciones/test_historical_migration.py:110; atenciones/test_historical_migration.py:119; atenciones/test_historical_migration.py:141; atenciones/test_historical_migration.py:149; atenciones/test_historical_migration.py:163; atenciones/test_historical_migration.py:172; atenciones/test_historical_migration.py:178; atenciones/test_historical_migration.py:188; atenciones/test_historical_migration.py:46; atenciones/test_historical_migration.py:65; atenciones/test_historical_migration.py:72; atenciones/test_historical_migration.py:82; atenciones/test_historical_migration.py:92; atenciones/test_historical_migration.py:98",
     "pruebas": "atenciones.test_historical_migration.HistoricalMigrationTests.test_approval_without_original_audit_is_rejected; atenciones.test_historical_migration.HistoricalMigrationTests.test_catalog_subtype_drift_and_invalid_dates_abort; atenciones.test_historical_migration.HistoricalMigrationTests.test_default_preview_rolls_back_every_write; atenciones.test_historical_migration.HistoricalMigrationTests.test_history_actions_review_and_excel_expose_folio_without_cross_scope; atenciones.test_historical_migration.HistoricalMigrationTests.test_history_links_cannot_be_mutated_or_deleted; atenciones.test_historical_migration.HistoricalMigrationTests.test_import_preserves_links_dates_original_states_and_real_approval; atenciones.test_historical_migration.HistoricalMigrationTests.test_invalid_reference_aborts_complete_batch; atenciones.test_historical_migration.HistoricalMigrationTests.test_legacy_tables_and_credentials_are_unchanged; atenciones.test_historical_migration.HistoricalMigrationTests.test_modern_records_and_primary_keys_are_preserved; atenciones.test_historical_migration.HistoricalMigrationTests.test_new_legacy_rows_can_be_added_without_reimporting_old_rows; atenciones.test_historical_migration.HistoricalMigrationTests.test_reassigned_neighbor_identity_is_not_exposed_in_historical_review; atenciones.test_historical_migration.HistoricalMigrationTests.test_repetition_does_not_duplicate_or_overwrite_new_resolutions; atenciones.test_historical_migration.HistoricalMigrationTests.test_snapshot_keeps_codes_addresses_sla_and_original_audit_hash; atenciones.test_historical_migration.HistoricalMigrationTests.test_source_drift_aborts_without_overwriting_imported_records; atenciones.test_historical_migration.HistoricalMigrationTests.test_unknown_state_and_unmoved_evidence_are_rejected",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:31:42.655274+00:00; 2026-10-19T08:31:42.668407+00:00; 2026-10-19T08:31:42.676282+00:00; 2026-10-19T08:31:42.774658+00:00; 2026-10-19T08:31:42.789136+00:00; 2026-10-19T08:31:42.813976+00:00; 2026-10-19T08:31:42.821976+00:00; 2026-10-19T08:31:42.840112+00:00; 2026-10-19T08:31:42.856157+00:00; 2026-10-19T08:31:42.884251+00:00; 2026-10-19T08:31:42.942129+00:00; 2026-10-19T08:31:42.969401+00:00; 2026-10-19T08:31:42.981422+00:00; 2026-10-19T08:31:43.009105+00:00; 2026-10-19T08:31:43.009787+00:00; 2026-10-19T08:31:49.098957+00:00; 2026-10-19T08:31:49.099364+00:00; 2026-10-19T08:31:49.099678+00:00; 2026-10-19T08:31:49.100361+00:00; 2026-10-19T08:31:49.100743+00:00; 2026-10-19T08:31:49.101395+00:00; 2026-10-19T08:31:49.101692+00:00; 2026-10-19T08:31:49.102102+00:00; 2026-10-19T08:31:49.102526+00:00; 2026-10-19T08:31:49.102955+00:00; 2026-10-19T08:31:49.103364+00:00; 2026-10-19T08:31:49.103702+00:00; 2026-10-19T08:31:49.104053+00:00; 2026-10-19T08:31:49.104363+00:00; 2026-10-19T08:31:49.104670+00:00"
+    "fecha": "2026-10-19T08:51:03.688522+00:00; 2026-10-19T08:51:03.688985+00:00; 2026-10-19T08:51:03.689335+00:00; 2026-10-19T08:51:03.690084+00:00; 2026-10-19T08:51:03.690513+00:00; 2026-10-19T08:51:03.691195+00:00; 2026-10-19T08:51:03.691523+00:00; 2026-10-19T08:51:03.691929+00:00; 2026-10-19T08:51:03.692361+00:00; 2026-10-19T08:51:03.692752+00:00; 2026-10-19T08:51:03.693194+00:00; 2026-10-19T08:51:03.693554+00:00; 2026-10-19T08:51:03.693921+00:00; 2026-10-19T08:51:03.694262+00:00; 2026-10-19T08:51:03.694610+00:00; 2026-10-19T08:52:21.900739+00:00; 2026-10-19T08:52:21.911845+00:00; 2026-10-19T08:52:21.956209+00:00; 2026-10-19T08:52:22.148206+00:00; 2026-10-19T08:52:22.178493+00:00; 2026-10-19T08:52:22.226960+00:00; 2026-10-19T08:52:22.245205+00:00; 2026-10-19T08:52:22.275452+00:00; 2026-10-19T08:52:22.317888+00:00; 2026-10-19T08:52:22.376942+00:00; 2026-10-19T08:52:22.499502+00:00; 2026-10-19T08:52:22.548217+00:00; 2026-10-19T08:52:22.584552+00:00; 2026-10-19T08:52:22.633009+00:00; 2026-10-19T08:52:22.645171+00:00"
   },
   {
     "id": "EV-016",
@@ -237,7 +237,7 @@
     "evidencia": "atenciones/test_logic_audit.py:109; atenciones/test_logic_audit.py:123; atenciones/test_logic_audit.py:133; atenciones/test_logic_audit.py:38; atenciones/test_logic_audit.py:50; atenciones/test_logic_audit.py:62; atenciones/test_logic_audit.py:73; atenciones/test_logic_audit.py:81; atenciones/test_logic_audit.py:92",
     "pruebas": "atenciones.test_logic_audit.WorkflowLogicAuditTests.test_attention_rechecks_subtype_changed_after_validation; atenciones.test_logic_audit.WorkflowLogicAuditTests.test_inactive_or_missing_seat_cannot_manage_or_approve; atenciones.test_logic_audit.WorkflowLogicAuditTests.test_inactive_seat_cannot_read_actions_metas_or_exports; atenciones.test_logic_audit.WorkflowLogicAuditTests.test_missing_evidence_file_returns_404_without_internal_error; atenciones.test_logic_audit.WorkflowLogicAuditTests.test_previous_attention_token_is_not_replayed_after_user_changes_seat; atenciones.test_logic_audit.WorkflowLogicAuditTests.test_second_resolution_cannot_enter_while_first_audit_is_saved; atenciones.test_logic_audit.WorkflowLogicAuditTests.test_subtype_move_rechecks_attentions_created_after_validation; atenciones.test_logic_audit.WorkflowLogicAuditTests.test_unused_subtype_can_move_to_another_type; atenciones.test_logic_audit.WorkflowLogicAuditTests.test_used_subtype_cannot_be_moved_to_another_type",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:31:43.055730+00:00; 2026-10-19T08:31:43.096597+00:00; 2026-10-19T08:31:43.147327+00:00; 2026-10-19T08:31:43.203618+00:00; 2026-10-19T08:31:43.234389+00:00; 2026-10-19T08:31:43.335051+00:00; 2026-10-19T08:31:43.342082+00:00; 2026-10-19T08:31:43.377439+00:00; 2026-10-19T08:31:43.409595+00:00; 2026-10-19T08:31:49.184611+00:00; 2026-10-19T08:31:49.222187+00:00; 2026-10-19T08:31:49.283545+00:00; 2026-10-19T08:31:49.332649+00:00; 2026-10-19T08:31:49.358686+00:00; 2026-10-19T08:31:49.453671+00:00; 2026-10-19T08:31:49.475683+00:00; 2026-10-19T08:31:49.506562+00:00; 2026-10-19T08:31:49.532887+00:00"
+    "fecha": "2026-10-19T08:51:03.806877+00:00; 2026-10-19T08:51:03.847525+00:00; 2026-10-19T08:51:03.921298+00:00; 2026-10-19T08:51:03.982745+00:00; 2026-10-19T08:51:04.005271+00:00; 2026-10-19T08:51:04.061420+00:00; 2026-10-19T08:51:04.086648+00:00; 2026-10-19T08:51:04.115519+00:00; 2026-10-19T08:51:04.139371+00:00; 2026-10-19T08:52:22.730032+00:00; 2026-10-19T08:52:22.814881+00:00; 2026-10-19T08:52:22.917901+00:00; 2026-10-19T08:52:22.996898+00:00; 2026-10-19T08:52:23.032853+00:00; 2026-10-19T08:52:23.146328+00:00; 2026-10-19T08:52:23.148065+00:00; 2026-10-19T08:52:23.192955+00:00; 2026-10-19T08:52:23.226854+00:00"
   },
   {
     "id": "EV-017",
@@ -252,7 +252,7 @@
     "evidencia": "atenciones/tests.py:103; atenciones/tests.py:108; atenciones/tests.py:114; atenciones/tests.py:135; atenciones/tests.py:146; atenciones/tests.py:155; atenciones/tests.py:36; atenciones/tests.py:42; atenciones/tests.py:47; atenciones/tests.py:51; atenciones/tests.py:55; atenciones/tests.py:61; atenciones/tests.py:66; atenciones/tests.py:78; atenciones/tests.py:86; atenciones/tests.py:90; atenciones/tests.py:96",
     "pruebas": "atenciones.tests.WorkflowTests.test_actions_and_exports_exclude_other_delegations; atenciones.tests.WorkflowTests.test_all_transaction_screens_render; atenciones.tests.WorkflowTests.test_attention_ignores_forged_delegation_and_author; atenciones.tests.WorkflowTests.test_audit_cannot_be_modified_or_deleted; atenciones.tests.WorkflowTests.test_duplicate_rut_does_not_create_person_or_attention; atenciones.tests.WorkflowTests.test_evidence_preview_is_private_and_scope_checked; atenciones.tests.WorkflowTests.test_history_excludes_other_delegations; atenciones.tests.WorkflowTests.test_inactive_role_cannot_read_or_write; atenciones.tests.WorkflowTests.test_invalid_attention_does_not_create_person; atenciones.tests.WorkflowTests.test_mismatched_subtype_rejected; atenciones.tests.WorkflowTests.test_new_person_without_rut_and_attention_saved_together; atenciones.tests.WorkflowTests.test_non_image_evidence_rejected; atenciones.tests.WorkflowTests.test_operator_cannot_review_or_resolve; atenciones.tests.WorkflowTests.test_oversized_evidence_rejected; atenciones.tests.WorkflowTests.test_resolution_logged_once_and_counts_only_approved_actions; atenciones.tests.WorkflowTests.test_reviewer_cannot_read_or_resolve_other_delegation; atenciones.tests.WorkflowTests.test_search_formatted_and_compact_rut",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:31:43.456177+00:00; 2026-10-19T08:31:43.539243+00:00; 2026-10-19T08:31:43.575124+00:00; 2026-10-19T08:31:43.579078+00:00; 2026-10-19T08:31:43.615675+00:00; 2026-10-19T08:31:43.658064+00:00; 2026-10-19T08:31:43.713688+00:00; 2026-10-19T08:31:43.783358+00:00; 2026-10-19T08:31:43.821164+00:00; 2026-10-19T08:31:43.861556+00:00; 2026-10-19T08:31:43.897884+00:00; 2026-10-19T08:31:43.954375+00:00; 2026-10-19T08:31:43.997147+00:00; 2026-10-19T08:31:44.005210+00:00; 2026-10-19T08:31:44.050013+00:00; 2026-10-19T08:31:44.087813+00:00; 2026-10-19T08:31:44.130948+00:00; 2026-10-19T08:31:49.620346+00:00; 2026-10-19T08:31:49.757704+00:00; 2026-10-19T08:31:49.792108+00:00; 2026-10-19T08:31:49.813590+00:00; 2026-10-19T08:31:49.856534+00:00; 2026-10-19T08:31:49.892917+00:00; 2026-10-19T08:31:49.943279+00:00; 2026-10-19T08:31:49.968613+00:00; 2026-10-19T08:31:50.004896+00:00; 2026-10-19T08:31:50.046785+00:00; 2026-10-19T08:31:50.077136+00:00; 2026-10-19T08:31:50.241116+00:00; 2026-10-19T08:31:50.280163+00:00; 2026-10-19T08:31:50.310782+00:00; 2026-10-19T08:31:50.369967+00:00; 2026-10-19T08:31:50.406564+00:00; 2026-10-19T08:31:50.467328+00:00"
+    "fecha": "2026-10-19T08:51:04.274577+00:00; 2026-10-19T08:51:04.429626+00:00; 2026-10-19T08:51:04.462576+00:00; 2026-10-19T08:51:04.480534+00:00; 2026-10-19T08:51:04.521406+00:00; 2026-10-19T08:51:04.556094+00:00; 2026-10-19T08:51:04.608621+00:00; 2026-10-19T08:51:04.633821+00:00; 2026-10-19T08:51:04.670658+00:00; 2026-10-19T08:51:04.779080+00:00; 2026-10-19T08:51:04.808711+00:00; 2026-10-19T08:51:04.900644+00:00; 2026-10-19T08:51:04.939507+00:00; 2026-10-19T08:51:04.966174+00:00; 2026-10-19T08:51:05.025706+00:00; 2026-10-19T08:51:05.063477+00:00; 2026-10-19T08:51:05.114974+00:00; 2026-10-19T08:52:23.294884+00:00; 2026-10-19T08:52:23.464121+00:00; 2026-10-19T08:52:23.524305+00:00; 2026-10-19T08:52:23.540410+00:00; 2026-10-19T08:52:23.615187+00:00; 2026-10-19T08:52:23.700079+00:00; 2026-10-19T08:52:23.802543+00:00; 2026-10-19T08:52:23.924297+00:00; 2026-10-19T08:52:24.009159+00:00; 2026-10-19T08:52:24.095973+00:00; 2026-10-19T08:52:24.173954+00:00; 2026-10-19T08:52:24.313312+00:00; 2026-10-19T08:52:24.397604+00:00; 2026-10-19T08:52:24.412267+00:00; 2026-10-19T08:52:24.519126+00:00; 2026-10-19T08:52:24.610354+00:00; 2026-10-19T08:52:24.712999+00:00"
   },
   {
     "id": "EV-018",
@@ -267,7 +267,7 @@
     "evidencia": "atenciones/tests.py:6",
     "pruebas": "atenciones.tests.WriteProtectionTests.test_catalog_toggle_requires_post",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:31:44.667435+00:00; 2026-10-19T08:31:51.586064+00:00"
+    "fecha": "2026-10-19T08:51:06.219075+00:00; 2026-10-19T08:52:25.567173+00:00"
   },
   {
     "id": "EV-019",
@@ -282,7 +282,7 @@
     "evidencia": "config/test_audit_boundaries.py:26; config/test_audit_boundaries.py:34",
     "pruebas": "config.test_audit_boundaries.DelegationFragmentPrivacyTests.test_local_manager_cannot_read_other_teams_through_disabled_selector; config.test_audit_boundaries.DelegationFragmentPrivacyTests.test_root_can_still_choose_responsible_users_globally",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:31:44.741673+00:00; 2026-10-19T08:31:44.772419+00:00; 2026-10-19T08:31:51.649679+00:00; 2026-10-19T08:31:51.667734+00:00"
+    "fecha": "2026-10-19T08:51:06.286666+00:00; 2026-10-19T08:51:06.304063+00:00; 2026-10-19T08:52:25.712400+00:00; 2026-10-19T08:52:25.781133+00:00"
   },
   {
     "id": "EV-020",
@@ -297,7 +297,7 @@
     "evidencia": "config/test_crud_modals.py:22; config/test_crud_modals.py:30; config/test_crud_modals.py:42; config/test_crud_modals.py:50; config/test_crud_modals.py:69",
     "pruebas": "config.test_crud_modals.EditModalTests.test_catalog_grids_and_recovery_email_round_trip; config.test_crud_modals.EditModalTests.test_every_resource_renders_and_disabled_user_is_denied; config.test_crud_modals.EditModalTests.test_list_has_one_shared_editor; config.test_crud_modals.EditModalTests.test_read_only_and_partial; config.test_crud_modals.EditModalTests.test_scope_and_root_only_resources",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:38:02.536974+00:00; 2026-10-19T08:38:02.610485+00:00; 2026-10-19T08:38:02.684978+00:00; 2026-10-19T08:38:02.712549+00:00; 2026-10-19T08:38:02.761326+00:00; 2026-10-19T08:38:05.423320+00:00; 2026-10-19T08:38:05.475387+00:00; 2026-10-19T08:38:05.563086+00:00; 2026-10-19T08:38:05.600405+00:00; 2026-10-19T08:38:05.643812+00:00"
+    "fecha": "2026-10-19T08:51:07.505972+00:00; 2026-10-19T08:51:07.565108+00:00; 2026-10-19T08:51:07.645671+00:00; 2026-10-19T08:51:07.669402+00:00; 2026-10-19T08:51:07.711487+00:00; 2026-10-19T08:52:26.905686+00:00; 2026-10-19T08:52:27.018230+00:00; 2026-10-19T08:52:27.146366+00:00; 2026-10-19T08:52:27.217651+00:00; 2026-10-19T08:52:27.305802+00:00"
   },
   {
     "id": "EV-021",
@@ -312,7 +312,7 @@
     "evidencia": "config/test_delivery_cruds.py:76",
     "pruebas": "config.test_delivery_cruds.SixCRUDDeliveryTests.test_attention_subtypes",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:31:45.594369+00:00; 2026-10-19T08:31:53.186425+00:00"
+    "fecha": "2026-10-19T08:51:07.846984+00:00; 2026-10-19T08:52:27.451348+00:00"
   },
   {
     "id": "EV-022",
@@ -327,7 +327,7 @@
     "evidencia": "config/test_delivery_cruds.py:73",
     "pruebas": "config.test_delivery_cruds.SixCRUDDeliveryTests.test_attention_types",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:31:45.652034+00:00; 2026-10-19T08:31:53.279187+00:00"
+    "fecha": "2026-10-19T08:51:07.939584+00:00; 2026-10-19T08:52:27.596964+00:00"
   },
   {
     "id": "EV-023",
@@ -342,7 +342,7 @@
     "evidencia": "config/test_delivery_cruds.py:61",
     "pruebas": "config.test_delivery_cruds.SixCRUDDeliveryTests.test_delegations",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:31:45.770621+00:00; 2026-10-19T08:31:53.397593+00:00"
+    "fecha": "2026-10-19T08:51:08.050258+00:00; 2026-10-19T08:52:27.809206+00:00"
   },
   {
     "id": "EV-024",
@@ -357,7 +357,7 @@
     "evidencia": "config/test_delivery_cruds.py:70",
     "pruebas": "config.test_delivery_cruds.SixCRUDDeliveryTests.test_meta_catalog",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:31:45.831920+00:00; 2026-10-19T08:31:53.503386+00:00"
+    "fecha": "2026-10-19T08:51:08.140199+00:00; 2026-10-19T08:52:27.938917+00:00"
   },
   {
     "id": "EV-025",
@@ -372,7 +372,7 @@
     "evidencia": "config/test_delivery_cruds.py:64",
     "pruebas": "config.test_delivery_cruds.SixCRUDDeliveryTests.test_roles",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:31:45.907117+00:00; 2026-10-19T08:31:53.595937+00:00"
+    "fecha": "2026-10-19T08:51:08.248665+00:00; 2026-10-19T08:52:28.085410+00:00"
   },
   {
     "id": "EV-026",
@@ -387,7 +387,7 @@
     "evidencia": "config/test_delivery_cruds.py:79",
     "pruebas": "config.test_delivery_cruds.SixCRUDDeliveryTests.test_type_and_scoped_subtype_duplicate_rules",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:31:45.917877+00:00; 2026-10-19T08:31:53.614120+00:00"
+    "fecha": "2026-10-19T08:51:08.269053+00:00; 2026-10-19T08:52:28.087407+00:00"
   },
   {
     "id": "EV-027",
@@ -402,7 +402,7 @@
     "evidencia": "config/test_delivery_cruds.py:67",
     "pruebas": "config.test_delivery_cruds.SixCRUDDeliveryTests.test_users",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:31:47.013922+00:00; 2026-10-19T08:31:55.846724+00:00"
+    "fecha": "2026-10-19T08:51:10.524211+00:00; 2026-10-19T08:52:30.041303+00:00"
   },
   {
     "id": "EV-028",
@@ -417,7 +417,7 @@
     "evidencia": "config/test_form_feedback.py:43",
     "pruebas": "config.test_form_feedback.ServerValidationFeedbackTests.test_invalid_goal_period_reports_error_and_preserves_fields_without_saving",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:31:47.554002+00:00; 2026-10-19T08:31:56.959649+00:00"
+    "fecha": "2026-10-19T08:51:11.632162+00:00; 2026-10-19T08:52:31.009530+00:00"
   },
   {
     "id": "EV-029",
@@ -432,7 +432,7 @@
     "evidencia": "config/test_pdf_context.py:19; config/test_pdf_context.py:9",
     "pruebas": "config.test_pdf_context.PDFContextTests.test_header_keeps_code_user_and_role_in_all_viewports; config.test_pdf_context.PDFContextTests.test_operational_errors_are_not_skipped_by_sweetalert",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:31:47.590686+00:00; 2026-10-19T08:31:47.592010+00:00; 2026-10-19T08:31:57.031515+00:00; 2026-10-19T08:31:57.033816+00:00"
+    "fecha": "2026-10-19T08:51:11.710962+00:00; 2026-10-19T08:51:11.713487+00:00; 2026-10-19T08:52:31.093461+00:00; 2026-10-19T08:52:31.096508+00:00"
   },
   {
     "id": "EV-030",
@@ -447,7 +447,7 @@
     "evidencia": "config/test_role_demo.py:109; config/test_role_demo.py:117; config/test_role_demo.py:125; config/test_role_demo.py:134; config/test_role_demo.py:138; config/test_role_demo.py:32; config/test_role_demo.py:36; config/test_role_demo.py:42; config/test_role_demo.py:49; config/test_role_demo.py:57; config/test_role_demo.py:68; config/test_role_demo.py:74; config/test_role_demo.py:80; config/test_role_demo.py:86; config/test_role_demo.py:92; config/test_role_demo.py:99",
     "pruebas": "config.test_role_demo.RoleDemoTests.test_anonymous_cannot_open_any_screen; config.test_role_demo.RoleDemoTests.test_get_and_rejected_post_do_not_create_business_records; config.test_role_demo.RoleDemoTests.test_inactive_role_or_delegation_has_no_access; config.test_role_demo.RoleDemoTests.test_index_marks_denied_permissions_and_fixed_scope; config.test_role_demo.RoleDemoTests.test_index_only_links_authorized_scenarios; config.test_role_demo.RoleDemoTests.test_only_demo_link_is_marked_active_on_demonstration_index; config.test_role_demo.RoleDemoTests.test_permission_matrix_is_enforced_on_direct_urls; config.test_role_demo.RoleDemoTests.test_real_navigation_reverses_and_is_reachable; config.test_role_demo.RoleDemoTests.test_role_name_and_query_parameters_do_not_grant_privileges; config.test_role_demo.RoleDemoTests.test_root_can_open_demonstration; config.test_role_demo.RoleDemoTests.test_root_does_not_need_a_delegation_or_role; config.test_role_demo.RoleDemoTests.test_scenarios_disclose_simulation_and_pending_backend; config.test_role_demo.RoleDemoTests.test_unknown_scenario_returns_404; config.test_role_demo.RoleDemoTests.test_user_without_active_account_cannot_open_demo; config.test_role_demo.RoleDemoTests.test_user_without_delegation_has_no_access; config.test_role_demo.RoleDemoTests.test_user_without_role_cannot_open_demo",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:31:48.124015+00:00; 2026-10-19T08:31:48.172516+00:00; 2026-10-19T08:31:48.205087+00:00; 2026-10-19T08:31:48.237132+00:00; 2026-10-19T08:31:48.314688+00:00; 2026-10-19T08:31:48.342947+00:00; 2026-10-19T08:31:48.428245+00:00; 2026-10-19T08:31:48.485860+00:00; 2026-10-19T08:31:48.520126+00:00; 2026-10-19T08:31:48.549006+00:00; 2026-10-19T08:31:48.581416+00:00; 2026-10-19T08:31:48.609706+00:00; 2026-10-19T08:31:48.649204+00:00; 2026-10-19T08:31:48.676305+00:00; 2026-10-19T08:31:48.710959+00:00; 2026-10-19T08:31:48.741247+00:00; 2026-10-19T08:31:58.126676+00:00; 2026-10-19T08:31:58.184941+00:00; 2026-10-19T08:31:58.207383+00:00; 2026-10-19T08:31:58.225589+00:00; 2026-10-19T08:31:58.243750+00:00; 2026-10-19T08:31:58.259809+00:00; 2026-10-19T08:31:58.413177+00:00; 2026-10-19T08:31:58.490672+00:00; 2026-10-19T08:31:58.514264+00:00; 2026-10-19T08:31:58.529270+00:00; 2026-10-19T08:31:58.544704+00:00; 2026-10-19T08:31:58.573997+00:00; 2026-10-19T08:31:58.586959+00:00; 2026-10-19T08:31:58.600561+00:00; 2026-10-19T08:31:58.616248+00:00; 2026-10-19T08:31:58.630756+00:00"
+    "fecha": "2026-10-19T08:51:12.811675+00:00; 2026-10-19T08:51:12.866335+00:00; 2026-10-19T08:51:12.887562+00:00; 2026-10-19T08:51:12.905975+00:00; 2026-10-19T08:51:12.924478+00:00; 2026-10-19T08:51:12.940702+00:00; 2026-10-19T08:51:13.092109+00:00; 2026-10-19T08:51:13.170623+00:00; 2026-10-19T08:51:13.195007+00:00; 2026-10-19T08:51:13.211101+00:00; 2026-10-19T08:51:13.226847+00:00; 2026-10-19T08:51:13.255328+00:00; 2026-10-19T08:51:13.267861+00:00; 2026-10-19T08:51:13.281520+00:00; 2026-10-19T08:51:13.297786+00:00; 2026-10-19T08:51:13.313044+00:00; 2026-10-19T08:52:32.040930+00:00; 2026-10-19T08:52:32.142766+00:00; 2026-10-19T08:52:32.216896+00:00; 2026-10-19T08:52:32.287830+00:00; 2026-10-19T08:52:32.425880+00:00; 2026-10-19T08:52:32.490170+00:00; 2026-10-19T08:52:32.669387+00:00; 2026-10-19T08:52:32.801201+00:00; 2026-10-19T08:52:32.872608+00:00; 2026-10-19T08:52:32.940834+00:00; 2026-10-19T08:52:33.008607+00:00; 2026-10-19T08:52:33.085395+00:00; 2026-10-19T08:52:33.148225+00:00; 2026-10-19T08:52:33.214962+00:00; 2026-10-19T08:52:33.277564+00:00; 2026-10-19T08:52:33.342145+00:00"
   },
   {
     "id": "EV-031",
@@ -462,7 +462,7 @@
     "evidencia": "config/test_scan_business.py:109; config/test_scan_business.py:123; config/test_scan_business.py:137; config/test_scan_business.py:150; config/test_scan_business.py:164; config/test_scan_business.py:182; config/test_scan_business.py:198; config/test_scan_business.py:203; config/test_scan_business.py:227; config/test_scan_business.py:231; config/test_scan_business.py:235; config/test_scan_business.py:240; config/test_scan_business.py:247; config/test_scan_business.py:252; config/test_scan_business.py:268; config/test_scan_business.py:40; config/test_scan_business.py:54; config/test_scan_business.py:71; config/test_scan_business.py:90",
     "pruebas": "config.test_scan_business.BusinessScanTests.test_action_export_uses_constant_number_of_meta_label_queries; config.test_scan_business.BusinessScanTests.test_action_http_race_preserves_form_and_does_not_write; config.test_scan_business.BusinessScanTests.test_action_meta_choices_use_constant_number_of_queries; config.test_scan_business.BusinessScanTests.test_action_rechecks_meta_moved_after_validation; config.test_scan_business.BusinessScanTests.test_attention_subtype_choices_use_constant_number_of_queries; config.test_scan_business.BusinessScanTests.test_attention_subtype_toggle_preserves_concurrent_parent; config.test_scan_business.BusinessScanTests.test_attention_type_toggle_preserves_concurrent_description; config.test_scan_business.BusinessScanTests.test_delegation_edit_locks_seat_before_responsible; config.test_scan_business.BusinessScanTests.test_delegation_grid_does_not_expose_root_email; config.test_scan_business.BusinessScanTests.test_delegation_responsible_choices_exclude_root_accounts; config.test_scan_business.BusinessScanTests.test_delegation_restore_rechecks_fresh_delegate_workplace; config.test_scan_business.BusinessScanTests.test_delegation_toggle_preserves_concurrent_appearance_and_delegate; config.test_scan_business.BusinessScanTests.test_meta_export_uses_constant_number_of_progress_queries; config.test_scan_business.BusinessScanTests.test_meta_grid_uses_constant_number_of_progress_queries; config.test_scan_business.BusinessScanTests.test_meta_http_race_preserves_form_and_original_scope; config.test_scan_business.BusinessScanTests.test_meta_item_toggle_preserves_concurrent_description; config.test_scan_business.BusinessScanTests.test_meta_relocation_rechecks_actions_registered_after_validation; config.test_scan_business.BusinessScanTests.test_neighbor_toggle_preserves_concurrent_territory; config.test_scan_business.BusinessScanTests.test_progress_annotation_matches_approved_actions_in_period",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:31:48.844132+00:00; 2026-10-19T08:31:48.876366+00:00; 2026-10-19T08:31:48.885824+00:00; 2026-10-19T08:31:48.900681+00:00; 2026-10-19T08:31:48.930890+00:00; 2026-10-19T08:31:48.960469+00:00; 2026-10-19T08:31:48.967397+00:00; 2026-10-19T08:31:48.998789+00:00; 2026-10-19T08:31:48.999787+00:00; 2026-10-19T08:31:49.031222+00:00; 2026-10-19T08:31:49.062092+00:00; 2026-10-19T08:31:49.110066+00:00; 2026-10-19T08:31:49.143100+00:00; 2026-10-19T08:31:49.187637+00:00; 2026-10-19T08:31:49.215889+00:00; 2026-10-19T08:31:49.219429+00:00; 2026-10-19T08:31:49.253857+00:00; 2026-10-19T08:31:49.340233+00:00; 2026-10-19T08:31:58.721538+00:00; 2026-10-19T08:31:58.760599+00:00; 2026-10-19T08:31:58.771945+00:00; 2026-10-19T08:31:58.788751+00:00; 2026-10-19T08:31:58.806306+00:00; 2026-10-19T08:31:58.823005+00:00; 2026-10-19T08:31:58.839135+00:00; 2026-10-19T08:31:58.854601+00:00; 2026-10-19T08:31:58.873423+00:00; 2026-10-19T08:31:58.875808+00:00; 2026-10-19T08:31:58.894205+00:00; 2026-10-19T08:31:58.910181+00:00; 2026-10-19T08:31:58.953415+00:00; 2026-10-19T08:31:58.991534+00:00; 2026-10-19T08:31:59.025524+00:00; 2026-10-19T08:31:59.041539+00:00; 2026-10-19T08:31:59.054394+00:00; 2026-10-19T08:31:59.071438+00:00; 2026-10-19T08:31:59.097515+00:00"
+    "fecha": "2026-10-19T08:51:13.418863+00:00; 2026-10-19T08:51:13.461211+00:00; 2026-10-19T08:51:13.471657+00:00; 2026-10-19T08:51:13.488798+00:00; 2026-10-19T08:51:13.507545+00:00; 2026-10-19T08:51:13.524405+00:00; 2026-10-19T08:51:13.540041+00:00; 2026-10-19T08:51:13.555335+00:00; 2026-10-19T08:51:13.574286+00:00; 2026-10-19T08:51:13.576652+00:00; 2026-10-19T08:51:13.595290+00:00; 2026-10-19T08:51:13.611229+00:00; 2026-10-19T08:51:13.656101+00:00; 2026-10-19T08:51:13.694469+00:00; 2026-10-19T08:51:13.727198+00:00; 2026-10-19T08:51:13.742659+00:00; 2026-10-19T08:51:13.756209+00:00; 2026-10-19T08:51:13.773368+00:00; 2026-10-19T08:51:13.800211+00:00; 2026-10-19T08:52:33.523984+00:00; 2026-10-19T08:52:33.604985+00:00; 2026-10-19T08:52:33.615231+00:00; 2026-10-19T08:52:33.625426+00:00; 2026-10-19T08:52:33.649864+00:00; 2026-10-19T08:52:33.711722+00:00; 2026-10-19T08:52:33.774623+00:00; 2026-10-19T08:52:33.784630+00:00; 2026-10-19T08:52:33.851278+00:00; 2026-10-19T08:52:33.857366+00:00; 2026-10-19T08:52:33.917917+00:00; 2026-10-19T08:52:33.984612+00:00; 2026-10-19T08:52:34.087636+00:00; 2026-10-19T08:52:34.166406+00:00; 2026-10-19T08:52:34.245227+00:00; 2026-10-19T08:52:34.311930+00:00; 2026-10-19T08:52:34.467284+00:00; 2026-10-19T08:52:34.536123+00:00"
   },
   {
     "id": "EV-032",
@@ -477,7 +477,7 @@
     "evidencia": "config/test_scan_catalogs.py:27; config/test_scan_catalogs.py:30; config/test_scan_catalogs.py:33; config/test_scan_catalogs.py:36; config/test_scan_catalogs.py:39; config/test_scan_catalogs.py:43; config/test_scan_catalogs.py:57",
     "pruebas": "config.test_scan_catalogs.CatalogSaveRaceScanTests.test_attention_subtype_save_rechecks_name_validated_before_another_save; config.test_scan_catalogs.CatalogSaveRaceScanTests.test_attention_type_save_rechecks_name_validated_before_another_save; config.test_scan_catalogs.CatalogSaveRaceScanTests.test_crud_reports_conflicts_found_after_initial_validation_without_success; config.test_scan_catalogs.CatalogSaveRaceScanTests.test_delegation_save_rechecks_name_validated_before_another_save; config.test_scan_catalogs.CatalogSaveRaceScanTests.test_meta_item_save_rechecks_name_validated_before_another_save; config.test_scan_catalogs.CatalogSaveRaceScanTests.test_role_save_rechecks_name_validated_before_another_save; config.test_scan_catalogs.CatalogSaveRaceScanTests.test_user_save_rechecks_login_identity_validated_before_another_save",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:31:49.345124+00:00; 2026-10-19T08:31:49.347131+00:00; 2026-10-19T08:31:49.536901+00:00; 2026-10-19T08:31:49.540184+00:00; 2026-10-19T08:31:49.542184+00:00; 2026-10-19T08:31:49.545042+00:00; 2026-10-19T08:31:50.070350+00:00; 2026-10-19T08:31:59.147618+00:00; 2026-10-19T08:31:59.158197+00:00; 2026-10-19T08:31:59.278536+00:00; 2026-10-19T08:31:59.292214+00:00; 2026-10-19T08:31:59.300513+00:00; 2026-10-19T08:31:59.311219+00:00; 2026-10-19T08:32:00.565506+00:00"
+    "fecha": "2026-10-19T08:51:13.852656+00:00; 2026-10-19T08:51:13.863637+00:00; 2026-10-19T08:51:13.991663+00:00; 2026-10-19T08:51:14.010037+00:00; 2026-10-19T08:51:14.019162+00:00; 2026-10-19T08:51:14.032390+00:00; 2026-10-19T08:51:15.119904+00:00; 2026-10-19T08:52:34.548260+00:00; 2026-10-19T08:52:34.554322+00:00; 2026-10-19T08:52:34.948260+00:00; 2026-10-19T08:52:34.954293+00:00; 2026-10-19T08:52:34.966447+00:00; 2026-10-19T08:52:35.857318+00:00"
   },
   {
     "id": "EV-033",
@@ -492,7 +492,7 @@
     "evidencia": "config/test_scan_front.py:59; config/test_scan_front.py:62; config/test_scan_front.py:65; config/test_scan_front.py:68; config/test_scan_front.py:73; config/test_scan_front.py:79; config/test_scan_front.py:86",
     "pruebas": "config.test_scan_front.ExistingInactiveRelationTests.test_edit_delegation_excludes_root_from_delegate_choices; config.test_scan_front.ExistingInactiveRelationTests.test_edit_delegation_preserves_existing_inactive_delegate; config.test_scan_front.ExistingInactiveRelationTests.test_edit_employee_preserves_existing_inactive_delegation; config.test_scan_front.ExistingInactiveRelationTests.test_edit_employee_preserves_existing_inactive_role; config.test_scan_front.ExistingInactiveRelationTests.test_edit_neighbor_preserves_existing_inactive_territory; config.test_scan_front.ExistingInactiveRelationTests.test_edit_subtype_preserves_existing_inactive_parent; config.test_scan_front.ExistingInactiveRelationTests.test_legacy_root_assignment_uses_selected_anonymous_placeholder",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:31:50.609643+00:00; 2026-10-19T08:31:50.640417+00:00; 2026-10-19T08:31:50.671725+00:00; 2026-10-19T08:31:50.703919+00:00; 2026-10-19T08:31:50.786936+00:00; 2026-10-19T08:31:50.810044+00:00; 2026-10-19T08:31:50.846097+00:00; 2026-10-19T08:32:02.475363+00:00; 2026-10-19T08:32:02.517038+00:00; 2026-10-19T08:32:02.553488+00:00; 2026-10-19T08:32:02.587353+00:00; 2026-10-19T08:32:02.612306+00:00; 2026-10-19T08:32:02.635732+00:00; 2026-10-19T08:32:02.667454+00:00"
+    "fecha": "2026-10-19T08:51:16.245097+00:00; 2026-10-19T08:51:16.266651+00:00; 2026-10-19T08:51:16.286351+00:00; 2026-10-19T08:51:16.312110+00:00; 2026-10-19T08:51:16.335878+00:00; 2026-10-19T08:51:16.352988+00:00; 2026-10-19T08:51:16.378755+00:00; 2026-10-19T08:52:36.802627+00:00; 2026-10-19T08:52:36.869456+00:00; 2026-10-19T08:52:36.928354+00:00; 2026-10-19T08:52:36.996724+00:00; 2026-10-19T08:52:37.142230+00:00; 2026-10-19T08:52:37.208891+00:00; 2026-10-19T08:52:37.281638+00:00"
   },
   {
     "id": "EV-034",
@@ -507,7 +507,7 @@
     "evidencia": "config/test_ui_theme.py:25; config/test_ui_theme.py:45; config/test_ui_theme.py:70; config/test_ui_theme.py:82",
     "pruebas": "config.test_ui_theme.InheritedThemeTests.test_confirmed_color_follows_the_team_and_refreshes_after_delegate_changes_it; config.test_ui_theme.InheritedThemeTests.test_delegate_and_staff_receive_the_same_theme_without_changing_data; config.test_ui_theme.InheritedThemeTests.test_login_keeps_municipal_identity_and_five_photo_carousel; config.test_ui_theme.InheritedThemeTests.test_unconfigured_delegation_uses_municipal_red_on_every_account_page",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:31:51.029109+00:00; 2026-10-19T08:31:51.076409+00:00; 2026-10-19T08:31:51.109111+00:00; 2026-10-19T08:31:51.172595+00:00; 2026-10-19T08:32:03.140699+00:00; 2026-10-19T08:32:03.193421+00:00; 2026-10-19T08:32:03.214460+00:00; 2026-10-19T08:32:03.325674+00:00"
+    "fecha": "2026-10-19T08:51:16.838018+00:00; 2026-10-19T08:51:16.890558+00:00; 2026-10-19T08:51:16.910987+00:00; 2026-10-19T08:51:17.011918+00:00; 2026-10-19T08:52:37.663126+00:00; 2026-10-19T08:52:37.748407+00:00; 2026-10-19T08:52:37.820983+00:00; 2026-10-19T08:52:37.954377+00:00"
   },
   {
     "id": "EV-035",
@@ -522,7 +522,7 @@
     "evidencia": "config/tests_crud_details.py:64",
     "pruebas": "config.tests_crud_details.CatalogDetailTests.test_anonymous_users_are_redirected_from_every_detail",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:31:52.203617+00:00; 2026-10-19T08:32:05.470718+00:00"
+    "fecha": "2026-10-19T08:51:19.160024+00:00; 2026-10-19T08:52:39.754913+00:00"
   },
   {
     "id": "EV-036",
@@ -537,7 +537,7 @@
     "evidencia": "config/tests_crud_details.py:114",
     "pruebas": "config.tests_crud_details.CatalogDetailTests.test_every_catalog_list_has_accessible_consultation_link",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:31:52.252113+00:00; 2026-10-19T08:32:05.533461+00:00"
+    "fecha": "2026-10-19T08:51:19.228352+00:00; 2026-10-19T08:52:39.863440+00:00"
   },
   {
     "id": "EV-037",
@@ -552,7 +552,7 @@
     "evidencia": "config/tests_crud_details.py:97",
     "pruebas": "config.tests_crud_details.CatalogDetailTests.test_inactive_records_are_still_consultable_and_html_is_escaped",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:31:52.286728+00:00; 2026-10-19T08:32:05.551184+00:00"
+    "fecha": "2026-10-19T08:51:19.246109+00:00; 2026-10-19T08:52:39.928317+00:00"
   },
   {
     "id": "EV-038",
@@ -567,7 +567,7 @@
     "evidencia": "config/tests_crud_details.py:77",
     "pruebas": "config.tests_crud_details.CatalogDetailTests.test_manager_can_consult_own_seat_and_global_catalogs_only",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:31:52.338111+00:00; 2026-10-19T08:32:05.616076+00:00"
+    "fecha": "2026-10-19T08:51:19.305324+00:00; 2026-10-19T08:52:40.033111+00:00"
   },
   {
     "id": "EV-039",
@@ -582,7 +582,7 @@
     "evidencia": "config/tests_crud_details.py:71",
     "pruebas": "config.tests_crud_details.CatalogDetailTests.test_readers_cannot_consult_management_details",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:31:52.379406+00:00; 2026-10-19T08:32:05.661572+00:00"
+    "fecha": "2026-10-19T08:51:19.347221+00:00; 2026-10-19T08:52:40.123691+00:00"
   },
   {
     "id": "EV-040",
@@ -597,7 +597,7 @@
     "evidencia": "config/tests_crud_details.py:86",
     "pruebas": "config.tests_crud_details.CatalogDetailTests.test_root_accounts_are_hidden_even_from_root_via_direct_url",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:31:52.461717+00:00; 2026-10-19T08:32:05.676916+00:00"
+    "fecha": "2026-10-19T08:51:19.360749+00:00; 2026-10-19T08:52:40.269950+00:00"
   },
   {
     "id": "EV-041",
@@ -612,7 +612,7 @@
     "evidencia": "config/tests_crud_details.py:43",
     "pruebas": "config.tests_crud_details.CatalogDetailTests.test_six_details_show_public_data_and_read_only_fields",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:31:52.504903+00:00; 2026-10-19T08:32:05.726622+00:00"
+    "fecha": "2026-10-19T08:51:19.406891+00:00; 2026-10-19T08:52:40.369743+00:00"
   },
   {
     "id": "EV-042",
@@ -627,7 +627,7 @@
     "evidencia": "config/tests_crud_details.py:107",
     "pruebas": "config.tests_crud_details.CatalogDetailTests.test_unknown_resources_and_write_requests_are_rejected",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:31:52.535947+00:00; 2026-10-19T08:32:05.744163+00:00"
+    "fecha": "2026-10-19T08:51:19.422586+00:00; 2026-10-19T08:52:40.433936+00:00"
   },
   {
     "id": "EV-043",
@@ -642,7 +642,7 @@
     "evidencia": "config/tests_crud_details.py:90",
     "pruebas": "config.tests_crud_details.CatalogDetailTests.test_user_consultation_never_includes_credentials_or_recovery_codes",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:31:52.567417+00:00; 2026-10-19T08:32:05.761632+00:00"
+    "fecha": "2026-10-19T08:51:19.438866+00:00; 2026-10-19T08:52:40.503148+00:00"
   },
   {
     "id": "EV-044",
@@ -657,7 +657,7 @@
     "evidencia": "dashboard/test_integration.py:33; dashboard/test_integration.py:40; dashboard/test_integration.py:53; dashboard/test_integration.py:65; dashboard/test_integration.py:70; dashboard/test_integration.py:75; dashboard/test_integration.py:83",
     "pruebas": "dashboard.test_integration.IntegrationBoundaries.test_filtered_actions_preserve_state_in_pagination; dashboard.test_integration.IntegrationBoundaries.test_manager_can_edit_own_delegation_and_root_can_edit_any; dashboard.test_integration.IntegrationBoundaries.test_manager_cannot_create_person_under_other_delegation; dashboard.test_integration.IntegrationBoundaries.test_manager_cannot_edit_person_from_another_delegation; dashboard.test_integration.IntegrationBoundaries.test_manager_cannot_modify_other_delegation_or_create_one; dashboard.test_integration.IntegrationBoundaries.test_meta_edit_renders_iso_date_and_cannot_change_linked_delegation; dashboard.test_integration.IntegrationBoundaries.test_no_role_cannot_read_municipal_person_data",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:31:52.606112+00:00; 2026-10-19T08:31:53.142030+00:00; 2026-10-19T08:31:53.173429+00:00; 2026-10-19T08:31:53.203592+00:00; 2026-10-19T08:31:53.242201+00:00; 2026-10-19T08:31:53.791478+00:00; 2026-10-19T08:31:53.821829+00:00; 2026-10-19T08:32:05.841550+00:00; 2026-10-19T08:32:06.919980+00:00; 2026-10-19T08:32:06.935736+00:00; 2026-10-19T08:32:06.953561+00:00; 2026-10-19T08:32:06.991019+00:00; 2026-10-19T08:32:08.072654+00:00; 2026-10-19T08:32:08.086069+00:00"
+    "fecha": "2026-10-19T08:51:19.513331+00:00; 2026-10-19T08:51:20.596368+00:00; 2026-10-19T08:51:20.613783+00:00; 2026-10-19T08:51:20.632391+00:00; 2026-10-19T08:51:20.671518+00:00; 2026-10-19T08:51:21.749146+00:00; 2026-10-19T08:51:21.761613+00:00; 2026-10-19T08:52:40.584541+00:00; 2026-10-19T08:52:41.517981+00:00; 2026-10-19T08:52:41.578590+00:00; 2026-10-19T08:52:41.645216+00:00; 2026-10-19T08:52:41.731103+00:00; 2026-10-19T08:52:42.675677+00:00; 2026-10-19T08:52:42.736039+00:00"
   },
   {
     "id": "EV-045",
@@ -672,7 +672,7 @@
     "evidencia": "dashboard/test_management.py:23; dashboard/test_management.py:32; dashboard/test_management.py:38; dashboard/test_management.py:44",
     "pruebas": "dashboard.test_management.ManagementDashboardTests.test_dashboard_counts_only_assigned_delegation; dashboard.test_management.ManagementDashboardTests.test_inactive_role_cannot_access_dashboard; dashboard.test_management.ManagementDashboardTests.test_missing_delegation_has_no_operational_counts; dashboard.test_management.ManagementDashboardTests.test_superuser_counts_all_delegations",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:31:54.411990+00:00; 2026-10-19T08:31:54.443316+00:00; 2026-10-19T08:31:54.534291+00:00; 2026-10-19T08:31:54.570928+00:00; 2026-10-19T08:32:09.200232+00:00; 2026-10-19T08:32:09.216127+00:00; 2026-10-19T08:32:09.237595+00:00; 2026-10-19T08:32:09.265367+00:00"
+    "fecha": "2026-10-19T08:51:22.874908+00:00; 2026-10-19T08:51:22.889643+00:00; 2026-10-19T08:51:22.910077+00:00; 2026-10-19T08:51:22.937859+00:00; 2026-10-19T08:52:43.657368+00:00; 2026-10-19T08:52:43.724113+00:00; 2026-10-19T08:52:43.875398+00:00; 2026-10-19T08:52:43.953846+00:00"
   },
   {
     "id": "EV-046",
@@ -687,7 +687,7 @@
     "evidencia": "dashboard/test_navigation.py:19; dashboard/test_navigation.py:30; dashboard/test_navigation.py:39",
     "pruebas": "dashboard.test_navigation.DashboardNavigationTests.test_general_and_administration_are_separate; dashboard.test_navigation.DashboardNavigationTests.test_general_filters_by_territory_or_responsible; dashboard.test_navigation.DashboardNavigationTests.test_staff_cannot_expand_scope_or_open_administration",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:31:55.609678+00:00; 2026-10-19T08:31:56.676537+00:00; 2026-10-19T08:31:57.726981+00:00; 2026-10-19T08:32:11.434195+00:00; 2026-10-19T08:32:13.630903+00:00; 2026-10-19T08:32:15.757424+00:00"
+    "fecha": "2026-10-19T08:51:25.097441+00:00; 2026-10-19T08:51:27.296612+00:00; 2026-10-19T08:51:29.421454+00:00; 2026-10-19T08:52:45.768350+00:00; 2026-10-19T08:52:47.627079+00:00; 2026-10-19T08:52:49.453844+00:00"
   },
   {
     "id": "EV-047",
@@ -702,7 +702,7 @@
     "evidencia": "dashboard/test_pending_summary.py:21; dashboard/test_pending_summary.py:30; dashboard/test_pending_summary.py:39",
     "pruebas": "dashboard.test_pending_summary.PendingSummaryTests.test_admin_summary_uses_the_same_filters_as_the_metrics; dashboard.test_pending_summary.PendingSummaryTests.test_resolved_action_disappears_and_unassigned_staff_sees_no_pending; dashboard.test_pending_summary.PendingSummaryTests.test_staff_sees_three_latest_pending_from_their_scope",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:31:57.779494+00:00; 2026-10-19T08:31:57.821889+00:00; 2026-10-19T08:31:57.861626+00:00; 2026-10-19T08:32:15.878141+00:00; 2026-10-19T08:32:15.921208+00:00; 2026-10-19T08:32:15.948965+00:00"
+    "fecha": "2026-10-19T08:51:29.534054+00:00; 2026-10-19T08:51:29.574432+00:00; 2026-10-19T08:51:29.601904+00:00; 2026-10-19T08:52:49.566459+00:00; 2026-10-19T08:52:49.651519+00:00; 2026-10-19T08:52:49.729936+00:00"
   },
   {
     "id": "EV-048",
@@ -717,7 +717,7 @@
     "evidencia": "dashboard/tests.py:110; dashboard/tests.py:126; dashboard/tests.py:64; dashboard/tests.py:70; dashboard/tests.py:89",
     "pruebas": "dashboard.tests.SGRPlataformaTerritorialTests.test_authenticated_access_all_endpoints; dashboard.tests.SGRPlataformaTerritorialTests.test_excel_exports_binary_spreadsheet; dashboard.tests.SGRPlataformaTerritorialTests.test_logical_deletion_preserves_records; dashboard.tests.SGRPlataformaTerritorialTests.test_rut_modulo_11_chilean_validation; dashboard.tests.SGRPlataformaTerritorialTests.test_unauthenticated_access_redirects_to_login",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:31:58.429931+00:00; 2026-10-19T08:31:59.064492+00:00; 2026-10-19T08:31:59.609719+00:00; 2026-10-19T08:32:00.122280+00:00; 2026-10-19T08:32:00.664382+00:00; 2026-10-19T08:32:17.140572+00:00; 2026-10-19T08:32:18.300458+00:00; 2026-10-19T08:32:19.376705+00:00; 2026-10-19T08:32:20.483116+00:00; 2026-10-19T08:32:21.540869+00:00"
+    "fecha": "2026-10-19T08:51:30.781117+00:00; 2026-10-19T08:51:31.913342+00:00; 2026-10-19T08:51:32.980744+00:00; 2026-10-19T08:51:34.026103+00:00; 2026-10-19T08:51:35.088306+00:00; 2026-10-19T08:52:50.730700+00:00; 2026-10-19T08:52:51.748926+00:00; 2026-10-19T08:52:52.687656+00:00; 2026-10-19T08:52:53.597432+00:00; 2026-10-19T08:52:54.536720+00:00"
   },
   {
     "id": "EV-049",
@@ -732,7 +732,7 @@
     "evidencia": "territorial/test_appearance.py:23; territorial/test_appearance.py:38; territorial/test_appearance.py:45; territorial/test_appearance.py:53; territorial/test_appearance.py:64; territorial/test_appearance.py:74; territorial/test_appearance.py:81",
     "pruebas": "territorial.test_appearance.DelegationAppearanceTests.test_catalog_cannot_bypass_lock_or_claim_delegate_ownership; territorial.test_appearance.DelegationAppearanceTests.test_delegate_gets_setup_once_and_staff_inherits_saved_color; territorial.test_appearance.DelegationAppearanceTests.test_get_and_anonymous_requests_do_not_configure; territorial.test_appearance.DelegationAppearanceTests.test_invalid_color_never_saved_and_stale_setup_cannot_overwrite; territorial.test_appearance.DelegationAppearanceTests.test_profile_edit_updates_every_staff_header; territorial.test_appearance.DelegationAppearanceTests.test_root_can_configure_and_inactive_delegation_is_protected; territorial.test_appearance.DelegationAppearanceTests.test_staff_and_other_delegate_cannot_change_design",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:32:01.266717+00:00; 2026-10-19T08:32:01.322397+00:00; 2026-10-19T08:32:01.353229+00:00; 2026-10-19T08:32:01.396444+00:00; 2026-10-19T08:32:01.442345+00:00; 2026-10-19T08:32:01.475486+00:00; 2026-10-19T08:32:01.512285+00:00; 2026-10-19T08:32:22.668611+00:00; 2026-10-19T08:32:22.746087+00:00; 2026-10-19T08:32:22.766253+00:00; 2026-10-19T08:32:22.801971+00:00; 2026-10-19T08:32:22.853847+00:00; 2026-10-19T08:32:22.872898+00:00; 2026-10-19T08:32:22.903367+00:00"
+    "fecha": "2026-10-19T08:51:36.203802+00:00; 2026-10-19T08:51:36.289525+00:00; 2026-10-19T08:51:36.309700+00:00; 2026-10-19T08:51:36.346533+00:00; 2026-10-19T08:51:36.398896+00:00; 2026-10-19T08:51:36.418728+00:00; 2026-10-19T08:51:36.453485+00:00; 2026-10-19T08:52:55.613226+00:00; 2026-10-19T08:52:55.724540+00:00; 2026-10-19T08:52:55.791456+00:00; 2026-10-19T08:52:55.870511+00:00; 2026-10-19T08:52:55.961085+00:00; 2026-10-19T08:52:56.028006+00:00; 2026-10-19T08:52:56.106650+00:00"
   },
   {
     "id": "EV-050",
@@ -747,7 +747,7 @@
     "evidencia": "territorial/test_audit_logic.py:25; territorial/test_audit_logic.py:45; territorial/test_audit_logic.py:55; territorial/test_audit_logic.py:71",
     "pruebas": "territorial.test_audit_logic.TerritorialLogicAuditTests.test_delegation_excel_uses_effective_unconfirmed_color; territorial.test_audit_logic.TerritorialLogicAuditTests.test_inactivated_workplace_does_not_keep_operational_dashboard_data; territorial.test_audit_logic.TerritorialLogicAuditTests.test_interleaved_assignments_cannot_leave_incoherent_responsibility; territorial.test_audit_logic.TerritorialLogicAuditTests.test_legacy_unassigned_delegate_cannot_take_a_second_seat",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:32:01.554299+00:00; 2026-10-19T08:32:01.589217+00:00; 2026-10-19T08:32:01.600083+00:00; 2026-10-19T08:32:01.605099+00:00; 2026-10-19T08:32:22.968385+00:00; 2026-10-19T08:32:22.994187+00:00; 2026-10-19T08:32:23.016980+00:00; 2026-10-19T08:32:23.024278+00:00"
+    "fecha": "2026-10-19T08:51:36.523949+00:00; 2026-10-19T08:51:36.553399+00:00; 2026-10-19T08:51:36.579118+00:00; 2026-10-19T08:51:36.588028+00:00; 2026-10-19T08:52:56.179330+00:00; 2026-10-19T08:52:56.221765+00:00; 2026-10-19T08:52:56.239719+00:00; 2026-10-19T08:52:56.245887+00:00"
   },
   {
     "id": "EV-051",
@@ -762,7 +762,7 @@
     "evidencia": "territorial/test_color_consistency.py:104; territorial/test_color_consistency.py:113; territorial/test_color_consistency.py:31; territorial/test_color_consistency.py:39; territorial/test_color_consistency.py:47; territorial/test_color_consistency.py:64; territorial/test_color_consistency.py:69; territorial/test_color_consistency.py:78; territorial/test_color_consistency.py:87; territorial/test_color_consistency.py:94",
     "pruebas": "territorial.test_color_consistency.WorkDelegationColorTests.test_assigning_an_unassigned_responsible_also_assigns_their_work_delegation; territorial.test_color_consistency.WorkDelegationColorTests.test_catalog_rejects_responsible_working_in_another_delegation; territorial.test_color_consistency.WorkDelegationColorTests.test_correct_work_responsibility_applies_saved_color_on_every_page_to_the_team; territorial.test_color_consistency.WorkDelegationColorTests.test_inactive_responsibility_cannot_be_left_behind_when_user_moves; territorial.test_color_consistency.WorkDelegationColorTests.test_preview_names_the_actual_seat_and_has_a_working_theme_preview; territorial.test_color_consistency.WorkDelegationColorTests.test_profile_and_onboarding_never_offer_the_wrong_delegation; territorial.test_color_consistency.WorkDelegationColorTests.test_reactivating_legacy_bad_assignment_requires_fixing_responsible; territorial.test_color_consistency.WorkDelegationColorTests.test_root_can_still_configure_any_delegation_without_changing_work_scope; territorial.test_color_consistency.WorkDelegationColorTests.test_stale_responsibility_does_not_allow_editing_a_different_work_delegation; territorial.test_color_consistency.WorkDelegationColorTests.test_user_reassignment_requires_releasing_current_responsibility_first",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:32:02.112810+00:00; 2026-10-19T08:32:02.122104+00:00; 2026-10-19T08:32:02.209771+00:00; 2026-10-19T08:32:02.219032+00:00; 2026-10-19T08:32:02.254437+00:00; 2026-10-19T08:32:02.288501+00:00; 2026-10-19T08:32:02.322548+00:00; 2026-10-19T08:32:02.419119+00:00; 2026-10-19T08:32:02.446167+00:00; 2026-10-19T08:32:24.136091+00:00; 2026-10-19T08:32:24.141636+00:00; 2026-10-19T08:32:24.322065+00:00; 2026-10-19T08:32:24.333741+00:00; 2026-10-19T08:32:24.353339+00:00; 2026-10-19T08:32:24.392215+00:00; 2026-10-19T08:32:24.408682+00:00; 2026-10-19T08:32:24.424030+00:00; 2026-10-19T08:32:24.447504+00:00; 2026-10-19T08:32:24.458419+00:00"
+    "fecha": "2026-10-19T08:51:37.687593+00:00; 2026-10-19T08:51:37.693245+00:00; 2026-10-19T08:51:37.869258+00:00; 2026-10-19T08:51:37.879863+00:00; 2026-10-19T08:51:37.898314+00:00; 2026-10-19T08:51:37.931778+00:00; 2026-10-19T08:51:37.947858+00:00; 2026-10-19T08:51:37.962956+00:00; 2026-10-19T08:51:37.984316+00:00; 2026-10-19T08:51:37.994975+00:00; 2026-10-19T08:52:57.130908+00:00; 2026-10-19T08:52:57.136814+00:00; 2026-10-19T08:52:57.337011+00:00; 2026-10-19T08:52:57.349029+00:00; 2026-10-19T08:52:57.415796+00:00; 2026-10-19T08:52:57.488272+00:00; 2026-10-19T08:52:57.537016+00:00; 2026-10-19T08:52:57.682307+00:00; 2026-10-19T08:52:57.754333+00:00; 2026-10-19T08:52:57.761232+00:00"
   },
   {
     "id": "EV-052",
@@ -777,7 +777,7 @@
     "evidencia": "territorial/test_delegation_list_scope.py:20; territorial/test_delegation_list_scope.py:31",
     "pruebas": "territorial.test_delegation_list_scope.DelegationListScopeTests.test_manager_list_search_and_excel_only_include_assigned_seat; territorial.test_delegation_list_scope.DelegationListScopeTests.test_root_can_list_and_export_all_seats",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:32:03.041460+00:00; 2026-10-19T08:32:03.079223+00:00; 2026-10-19T08:32:25.639556+00:00; 2026-10-19T08:32:25.675427+00:00"
+    "fecha": "2026-10-19T08:51:39.173747+00:00; 2026-10-19T08:51:39.212264+00:00; 2026-10-19T08:52:58.761077+00:00; 2026-10-19T08:52:58.829760+00:00"
   },
   {
     "id": "EV-053",
@@ -792,7 +792,7 @@
     "evidencia": "territorial/test_seed_consistency.py:19; territorial/test_seed_consistency.py:32; territorial/test_seed_consistency.py:36; territorial/test_seed_consistency.py:55; territorial/test_seed_consistency.py:62; territorial/test_seed_consistency.py:71",
     "pruebas": "territorial.test_seed_consistency.SeedConsistencyTests.test_existing_records_are_preserved_and_not_duplicated; territorial.test_seed_consistency.SeedConsistencyTests.test_existing_rut_holder_is_not_duplicated_or_overwritten; territorial.test_seed_consistency.SeedConsistencyTests.test_inactive_existing_seat_is_preserved_without_new_active_users; territorial.test_seed_consistency.SeedConsistencyTests.test_new_examples_have_no_usable_passwords_or_privileges; territorial.test_seed_consistency.SeedConsistencyTests.test_new_examples_have_valid_normalized_ruts_and_existing_seats; territorial.test_seed_consistency.SeedConsistencyTests.test_new_faro_example_belongs_to_avenida_del_mar",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:32:03.132788+00:00; 2026-10-19T08:32:03.153257+00:00; 2026-10-19T08:32:03.189231+00:00; 2026-10-19T08:32:03.219528+00:00; 2026-10-19T08:32:03.255336+00:00; 2026-10-19T08:32:03.288483+00:00; 2026-10-19T08:32:25.866666+00:00; 2026-10-19T08:32:25.973410+00:00; 2026-10-19T08:32:26.077794+00:00; 2026-10-19T08:32:26.200927+00:00; 2026-10-19T08:32:26.328550+00:00; 2026-10-19T08:32:26.446584+00:00"
+    "fecha": "2026-10-19T08:51:39.407534+00:00; 2026-10-19T08:51:39.516001+00:00; 2026-10-19T08:51:39.617096+00:00; 2026-10-19T08:51:39.732222+00:00; 2026-10-19T08:51:39.858006+00:00; 2026-10-19T08:51:39.974029+00:00; 2026-10-19T08:52:58.908849+00:00; 2026-10-19T08:52:58.967304+00:00; 2026-10-19T08:52:59.026881+00:00; 2026-10-19T08:52:59.088502+00:00; 2026-10-19T08:52:59.142787+00:00; 2026-10-19T08:52:59.203525+00:00"
   },
   {
     "id": "EV-054",
@@ -807,7 +807,7 @@
     "evidencia": "territorial/tests_pdf_catalogs.py:16; territorial/tests_pdf_catalogs.py:22; territorial/tests_pdf_catalogs.py:27; territorial/tests_pdf_catalogs.py:32; territorial/tests_pdf_catalogs.py:8",
     "pruebas": "territorial.tests_pdf_catalogs.CatalogNameValidationTests.test_delegation_rejects_case_and_spacing_duplicate; territorial.tests_pdf_catalogs.CatalogNameValidationTests.test_distinct_name_is_saved_with_single_spaces; territorial.tests_pdf_catalogs.CatalogNameValidationTests.test_edit_cannot_take_another_catalog_name; territorial.tests_pdf_catalogs.CatalogNameValidationTests.test_edit_excludes_own_record; territorial.tests_pdf_catalogs.CatalogNameValidationTests.test_meta_rejects_duplicate_even_when_existing_record_is_inactive",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:32:03.290702+00:00; 2026-10-19T08:32:03.291701+00:00; 2026-10-19T08:32:03.293693+00:00; 2026-10-19T08:32:03.294547+00:00; 2026-10-19T08:32:26.487657+00:00; 2026-10-19T08:32:26.492921+00:00; 2026-10-19T08:32:26.497065+00:00; 2026-10-19T08:32:26.500886+00:00; 2026-10-19T08:32:26.504468+00:00"
+    "fecha": "2026-10-19T08:51:40.017489+00:00; 2026-10-19T08:51:40.022783+00:00; 2026-10-19T08:51:40.027155+00:00; 2026-10-19T08:51:40.031167+00:00; 2026-10-19T08:51:40.035152+00:00; 2026-10-19T08:52:59.208887+00:00; 2026-10-19T08:52:59.209779+00:00; 2026-10-19T08:52:59.214945+00:00; 2026-10-19T08:52:59.215784+00:00"
   },
   {
     "id": "EV-055",
@@ -822,7 +822,7 @@
     "evidencia": "usuarios/test_account.py:13; usuarios/test_account.py:21; usuarios/test_account.py:34; usuarios/test_account.py:43; usuarios/test_account.py:56; usuarios/test_account.py:64; usuarios/test_account.py:71",
     "pruebas": "usuarios.test_account.AccountSettingsTests.test_account_pages_have_personal_navigation_without_work_sidebar; usuarios.test_account.AccountSettingsTests.test_administration_actions_are_only_shown_to_superuser; usuarios.test_account.AccountSettingsTests.test_duplicate_and_invalid_username_rejected; usuarios.test_account.AccountSettingsTests.test_invalid_passwords_do_not_change_account; usuarios.test_account.AccountSettingsTests.test_password_change_keeps_current_session_and_invalidates_other_sessions; usuarios.test_account.AccountSettingsTests.test_settings_require_login_and_csrf; usuarios.test_account.AccountSettingsTests.test_username_change_requires_password_and_does_not_change_privileges",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:32:03.838440+00:00; 2026-10-19T08:32:04.886153+00:00; 2026-10-19T08:32:06.952291+00:00; 2026-10-19T08:32:09.502962+00:00; 2026-10-19T08:32:11.588908+00:00; 2026-10-19T08:32:12.152941+00:00; 2026-10-19T08:32:14.200540+00:00; 2026-10-19T08:32:27.643723+00:00; 2026-10-19T08:32:29.777929+00:00; 2026-10-19T08:32:34.014433+00:00; 2026-10-19T08:32:39.655144+00:00; 2026-10-19T08:32:44.321729+00:00; 2026-10-19T08:32:45.401142+00:00; 2026-10-19T08:32:49.635459+00:00"
+    "fecha": "2026-10-19T08:51:41.162209+00:00; 2026-10-19T08:51:43.323673+00:00; 2026-10-19T08:51:47.547290+00:00; 2026-10-19T08:51:52.816302+00:00; 2026-10-19T08:51:57.037962+00:00; 2026-10-19T08:51:58.128159+00:00; 2026-10-19T08:52:03.554399+00:00; 2026-10-19T08:53:00.191572+00:00; 2026-10-19T08:53:02.070400+00:00; 2026-10-19T08:53:05.688801+00:00; 2026-10-19T08:53:10.081618+00:00; 2026-10-19T08:53:13.712629+00:00; 2026-10-19T08:53:14.743168+00:00; 2026-10-19T08:53:18.397347+00:00"
   },
   {
     "id": "EV-056",
@@ -837,7 +837,7 @@
     "evidencia": "usuarios/test_audit_accounts.py:109; usuarios/test_audit_accounts.py:113; usuarios/test_audit_accounts.py:119; usuarios/test_audit_accounts.py:134; usuarios/test_audit_accounts.py:32; usuarios/test_audit_accounts.py:53; usuarios/test_audit_accounts.py:58; usuarios/test_audit_accounts.py:64; usuarios/test_audit_accounts.py:70; usuarios/test_audit_accounts.py:76; usuarios/test_audit_accounts.py:82; usuarios/test_audit_accounts.py:92",
     "pruebas": "usuarios.test_audit_accounts.AccountLogicAuditTests.test_admin_cannot_create_username_that_shadows_another_users_rut; usuarios.test_audit_accounts.AccountLogicAuditTests.test_admin_edit_cannot_change_rut_to_another_accounts_username; usuarios.test_audit_accounts.AccountLogicAuditTests.test_admin_edit_cannot_change_username_to_another_users_rut; usuarios.test_audit_accounts.AccountLogicAuditTests.test_administrator_password_reset_invalidates_existing_email_code; usuarios.test_audit_accounts.AccountLogicAuditTests.test_editor_reports_a_responsibility_assigned_after_validation; usuarios.test_audit_accounts.AccountLogicAuditTests.test_moving_user_rechecks_new_responsibility_before_saving; usuarios.test_audit_accounts.AccountLogicAuditTests.test_own_rut_can_remain_the_username; usuarios.test_audit_accounts.AccountLogicAuditTests.test_password_unchanged_preserves_pending_recovery; usuarios.test_audit_accounts.AccountLogicAuditTests.test_rut_cannot_shadow_an_existing_rut_shaped_username; usuarios.test_audit_accounts.AccountLogicAuditTests.test_self_service_username_cannot_shadow_another_users_rut; usuarios.test_audit_accounts.AccountLogicAuditTests.test_unchanged_legacy_ambiguous_username_can_update_other_fields; usuarios.test_audit_accounts.AccountLogicAuditTests.test_unrelated_edit_cannot_restore_a_code_consumed_after_validation",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:32:14.708967+00:00; 2026-10-19T08:32:15.209706+00:00; 2026-10-19T08:32:15.722097+00:00; 2026-10-19T08:32:17.785600+00:00; 2026-10-19T08:32:18.399901+00:00; 2026-10-19T08:32:18.912864+00:00; 2026-10-19T08:32:19.923236+00:00; 2026-10-19T08:32:20.935353+00:00; 2026-10-19T08:32:21.444291+00:00; 2026-10-19T08:32:22.963856+00:00; 2026-10-19T08:32:23.471796+00:00; 2026-10-19T08:32:24.979469+00:00; 2026-10-19T08:32:50.747136+00:00; 2026-10-19T08:32:51.815571+00:00; 2026-10-19T08:32:52.885205+00:00; 2026-10-19T08:32:57.139377+00:00; 2026-10-19T08:32:58.229521+00:00; 2026-10-19T08:32:59.314541+00:00; 2026-10-19T08:33:01.856997+00:00; 2026-10-19T08:33:04.087487+00:00; 2026-10-19T08:33:05.215810+00:00; 2026-10-19T08:33:08.384213+00:00; 2026-10-19T08:33:09.472714+00:00; 2026-10-19T08:33:12.668853+00:00"
+    "fecha": "2026-10-19T08:52:04.652585+00:00; 2026-10-19T08:52:05.724863+00:00; 2026-10-19T08:52:06.787207+00:00; 2026-10-19T08:52:11.063061+00:00; 2026-10-19T08:52:12.150696+00:00; 2026-10-19T08:52:13.224988+00:00; 2026-10-19T08:52:15.328621+00:00; 2026-10-19T08:52:17.472258+00:00; 2026-10-19T08:52:18.536637+00:00; 2026-10-19T08:52:21.687334+00:00; 2026-10-19T08:52:22.758890+00:00; 2026-10-19T08:52:25.916889+00:00; 2026-10-19T08:53:19.288543+00:00; 2026-10-19T08:53:20.173243+00:00; 2026-10-19T08:53:21.045214+00:00; 2026-10-19T08:53:24.591467+00:00; 2026-10-19T08:53:25.646088+00:00; 2026-10-19T08:53:26.555046+00:00; 2026-10-19T08:53:28.264221+00:00; 2026-10-19T08:53:30.051959+00:00; 2026-10-19T08:53:30.936989+00:00; 2026-10-19T08:53:33.579413+00:00; 2026-10-19T08:53:34.512347+00:00; 2026-10-19T08:53:37.215770+00:00"
   },
   {
     "id": "EV-057",
@@ -852,7 +852,7 @@
     "evidencia": "usuarios/test_catalog_validation.py:15; usuarios/test_catalog_validation.py:9",
     "pruebas": "usuarios.test_catalog_validation.RoleCatalogValidationTests.test_role_can_edit_itself; usuarios.test_catalog_validation.RoleCatalogValidationTests.test_role_rejects_case_and_spacing_duplicate",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:32:24.988755+00:00; 2026-10-19T08:33:12.711216+00:00; 2026-10-19T08:33:12.715997+00:00"
+    "fecha": "2026-10-19T08:52:25.958189+00:00; 2026-10-19T08:52:25.963150+00:00; 2026-10-19T08:53:37.221822+00:00; 2026-10-19T08:53:37.227941+00:00"
   },
   {
     "id": "EV-058",
@@ -867,7 +867,7 @@
     "evidencia": "usuarios/test_catalog_validation.py:32; usuarios/test_catalog_validation.py:38; usuarios/test_catalog_validation.py:48; usuarios/test_catalog_validation.py:55; usuarios/test_catalog_validation.py:62; usuarios/test_catalog_validation.py:67; usuarios/test_catalog_validation.py:72; usuarios/test_catalog_validation.py:78; usuarios/test_catalog_validation.py:85",
     "pruebas": "usuarios.test_catalog_validation.UserIdentityValidationTests.test_account_settings_cannot_take_another_accounts_email; usuarios.test_catalog_validation.UserIdentityValidationTests.test_blank_optional_secondary_emails_do_not_collide; usuarios.test_catalog_validation.UserIdentityValidationTests.test_edit_preserves_unchanged_legacy_ambiguous_identifiers; usuarios.test_catalog_validation.UserIdentityValidationTests.test_edit_rejects_new_ambiguous_email; usuarios.test_catalog_validation.UserIdentityValidationTests.test_email_cannot_take_another_accounts_username; usuarios.test_catalog_validation.UserIdentityValidationTests.test_own_email_can_be_moved_between_fields; usuarios.test_catalog_validation.UserIdentityValidationTests.test_rejects_email_in_either_email_field_of_another_user; usuarios.test_catalog_validation.UserIdentityValidationTests.test_rejects_username_with_only_case_difference; usuarios.test_catalog_validation.UserIdentityValidationTests.test_username_cannot_take_another_accounts_email",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:32:26.004493+00:00; 2026-10-19T08:32:26.008494+00:00; 2026-10-19T08:32:26.017623+00:00; 2026-10-19T08:32:26.022660+00:00; 2026-10-19T08:32:26.029072+00:00; 2026-10-19T08:32:26.035795+00:00; 2026-10-19T08:32:26.052329+00:00; 2026-10-19T08:32:26.058828+00:00; 2026-10-19T08:32:26.065798+00:00; 2026-10-19T08:33:14.861107+00:00; 2026-10-19T08:33:14.875114+00:00; 2026-10-19T08:33:14.898071+00:00; 2026-10-19T08:33:14.913154+00:00; 2026-10-19T08:33:14.938347+00:00; 2026-10-19T08:33:14.952537+00:00; 2026-10-19T08:33:15.031447+00:00; 2026-10-19T08:33:15.045170+00:00; 2026-10-19T08:33:15.059615+00:00"
+    "fecha": "2026-10-19T08:52:28.097006+00:00; 2026-10-19T08:52:28.110575+00:00; 2026-10-19T08:52:28.131850+00:00; 2026-10-19T08:52:28.149552+00:00; 2026-10-19T08:52:28.172969+00:00; 2026-10-19T08:52:28.186995+00:00; 2026-10-19T08:52:28.272380+00:00; 2026-10-19T08:52:28.284804+00:00; 2026-10-19T08:52:28.297499+00:00; 2026-10-19T08:53:38.961302+00:00; 2026-10-19T08:53:38.967665+00:00; 2026-10-19T08:53:38.979499+00:00; 2026-10-19T08:53:38.985471+00:00; 2026-10-19T08:53:38.997654+00:00; 2026-10-19T08:53:39.009798+00:00; 2026-10-19T08:53:39.052435+00:00; 2026-10-19T08:53:39.063579+00:00; 2026-10-19T08:53:39.070659+00:00"
   },
   {
     "id": "EV-059",
@@ -882,7 +882,7 @@
     "evidencia": "usuarios/test_credential_storage.py:7",
     "pruebas": "usuarios.test_credential_storage.CredentialStorageTests.test_long_case_sensitive_credentials_round_trip_without_truncation",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:32:26.068801+00:00; 2026-10-19T08:33:15.115981+00:00"
+    "fecha": "2026-10-19T08:52:28.371519+00:00; 2026-10-19T08:53:39.076501+00:00"
   },
   {
     "id": "EV-060",
@@ -897,7 +897,7 @@
     "evidencia": "usuarios/test_legacy_aws_import.py:101; usuarios/test_legacy_aws_import.py:107; usuarios/test_legacy_aws_import.py:114; usuarios/test_legacy_aws_import.py:122; usuarios/test_legacy_aws_import.py:129; usuarios/test_legacy_aws_import.py:136; usuarios/test_legacy_aws_import.py:144; usuarios/test_legacy_aws_import.py:151; usuarios/test_legacy_aws_import.py:158; usuarios/test_legacy_aws_import.py:166; usuarios/test_legacy_aws_import.py:171; usuarios/test_legacy_aws_import.py:183; usuarios/test_legacy_aws_import.py:192; usuarios/test_legacy_aws_import.py:199; usuarios/test_legacy_aws_import.py:206; usuarios/test_legacy_aws_import.py:64",
     "pruebas": "usuarios.test_legacy_aws_import.LegacyAWSImportTests.test_approval_without_original_audit_is_rejected; usuarios.test_legacy_aws_import.LegacyAWSImportTests.test_delegate_role_name_does_not_grant_approval_by_default; usuarios.test_legacy_aws_import.LegacyAWSImportTests.test_existing_business_data_refuses_without_modifying_it; usuarios.test_legacy_aws_import.LegacyAWSImportTests.test_explicit_approval_role_ids_are_repeatable_and_do_not_use_names; usuarios.test_legacy_aws_import.LegacyAWSImportTests.test_invalid_goal_period_is_rejected; usuarios.test_legacy_aws_import.LegacyAWSImportTests.test_invalid_legacy_rut_remains_unchanged; usuarios.test_legacy_aws_import.LegacyAWSImportTests.test_mismatched_responsible_is_preserved_and_reported; usuarios.test_legacy_aws_import.LegacyAWSImportTests.test_missing_creator_aborts_every_record; usuarios.test_legacy_aws_import.LegacyAWSImportTests.test_preserves_credentials_ids_assignments_history_dates_and_archives; usuarios.test_legacy_aws_import.LegacyAWSImportTests.test_role_name_does_not_create_administrator_privileges; usuarios.test_legacy_aws_import.LegacyAWSImportTests.test_runtime_failure_rolls_back_records_and_legacy_tables; usuarios.test_legacy_aws_import.LegacyAWSImportTests.test_second_import_refuses_without_duplicates; usuarios.test_legacy_aws_import.LegacyAWSImportTests.test_subtype_mismatch_is_rejected; usuarios.test_legacy_aws_import.LegacyAWSImportTests.test_unknown_approval_role_id_aborts_before_writing_records_or_archives; usuarios.test_legacy_aws_import.LegacyAWSImportTests.test_unknown_business_table_is_rejected; usuarios.test_legacy_aws_import.LegacyAWSImportTests.test_unknown_state_aborts_every_record",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:32:26.086793+00:00; 2026-10-19T08:32:26.104458+00:00; 2026-10-19T08:32:26.117584+00:00; 2026-10-19T08:32:26.139332+00:00; 2026-10-19T08:32:26.153148+00:00; 2026-10-19T08:32:26.173458+00:00; 2026-10-19T08:32:26.197791+00:00; 2026-10-19T08:32:26.213868+00:00; 2026-10-19T08:32:26.240437+00:00; 2026-10-19T08:32:26.264412+00:00; 2026-10-19T08:32:26.284265+00:00; 2026-10-19T08:32:26.306658+00:00; 2026-10-19T08:32:26.323980+00:00; 2026-10-19T08:32:26.335402+00:00; 2026-10-19T08:32:26.343131+00:00; 2026-10-19T08:32:26.362623+00:00; 2026-10-19T08:33:15.120958+00:00; 2026-10-19T08:33:15.121330+00:00; 2026-10-19T08:33:15.121650+00:00; 2026-10-19T08:33:15.122230+00:00; 2026-10-19T08:33:15.122559+00:00; 2026-10-19T08:33:15.122907+00:00; 2026-10-19T08:33:15.123229+00:00; 2026-10-19T08:33:15.123502+00:00; 2026-10-19T08:33:15.124579+00:00; 2026-10-19T08:33:15.124956+00:00; 2026-10-19T08:33:15.125257+00:00; 2026-10-19T08:33:15.125505+00:00; 2026-10-19T08:33:15.125796+00:00; 2026-10-19T08:33:15.126205+00:00; 2026-10-19T08:33:15.126502+00:00; 2026-10-19T08:33:15.126847+00:00"
+    "fecha": "2026-10-19T08:52:28.376162+00:00; 2026-10-19T08:52:28.376603+00:00; 2026-10-19T08:52:28.376982+00:00; 2026-10-19T08:52:28.377438+00:00; 2026-10-19T08:52:28.377800+00:00; 2026-10-19T08:52:28.378178+00:00; 2026-10-19T08:52:28.378583+00:00; 2026-10-19T08:52:28.378941+00:00; 2026-10-19T08:52:28.380065+00:00; 2026-10-19T08:52:28.380465+00:00; 2026-10-19T08:52:28.380843+00:00; 2026-10-19T08:52:28.381139+00:00; 2026-10-19T08:52:28.381517+00:00; 2026-10-19T08:52:28.381962+00:00; 2026-10-19T08:52:28.382291+00:00; 2026-10-19T08:52:28.382666+00:00; 2026-10-19T08:53:39.100496+00:00; 2026-10-19T08:53:39.118718+00:00; 2026-10-19T08:53:39.130757+00:00; 2026-10-19T08:53:39.154984+00:00; 2026-10-19T08:53:39.173197+00:00; 2026-10-19T08:53:39.193362+00:00; 2026-10-19T08:53:39.220899+00:00; 2026-10-19T08:53:39.239889+00:00; 2026-10-19T08:53:39.282417+00:00; 2026-10-19T08:53:39.312648+00:00; 2026-10-19T08:53:39.332409+00:00; 2026-10-19T08:53:39.361177+00:00; 2026-10-19T08:53:39.379357+00:00; 2026-10-19T08:53:39.391397+00:00; 2026-10-19T08:53:39.403470+00:00; 2026-10-19T08:53:39.420120+00:00"
   },
   {
     "id": "EV-061",
@@ -912,7 +912,7 @@
     "evidencia": "usuarios/test_passkeys.py:106; usuarios/test_passkeys.py:121; usuarios/test_passkeys.py:135; usuarios/test_passkeys.py:147; usuarios/test_passkeys.py:152; usuarios/test_passkeys.py:169; usuarios/test_passkeys.py:176; usuarios/test_passkeys.py:183; usuarios/test_passkeys.py:194; usuarios/test_passkeys.py:204; usuarios/test_passkeys.py:55; usuarios/test_passkeys.py:60; usuarios/test_passkeys.py:75; usuarios/test_passkeys.py:84; usuarios/test_passkeys.py:95",
     "pruebas": "usuarios.test_passkeys.PasskeyTests.test_csrf_and_origin_are_required_for_ceremonies; usuarios.test_passkeys.PasskeyTests.test_email_code_without_expiration_is_not_a_reset_grant; usuarios.test_passkeys.PasskeyTests.test_email_recovery_cannot_reuse_previous_verification; usuarios.test_passkeys.PasskeyTests.test_expired_and_other_browser_challenges_rejected; usuarios.test_passkeys.PasskeyTests.test_invalid_origin_missing_verification_wrong_handle_and_signature_rejected; usuarios.test_passkeys.PasskeyTests.test_phone_flow_is_preferred_for_registration_login_and_recovery; usuarios.test_passkeys.PasskeyTests.test_real_registration_login_and_single_use_challenge; usuarios.test_passkeys.PasskeyTests.test_recovery_without_email_changes_only_verified_account_and_is_single_use; usuarios.test_passkeys.PasskeyTests.test_registration_requires_signed_in_user_and_current_password; usuarios.test_passkeys.PasskeyTests.test_repeated_signature_counter_rejected; usuarios.test_passkeys.PasskeyTests.test_resend_uses_its_own_post_form_without_nested_forms; usuarios.test_passkeys.PasskeyTests.test_reset_grant_expires_and_revocation_invalidates_it; usuarios.test_passkeys.PasskeyTests.test_revoke_requires_owner_password_and_disables_preference; usuarios.test_passkeys.PasskeyTests.test_revoked_passkey_and_inactive_user_cannot_authenticate; usuarios.test_passkeys.PasskeyTests.test_signed_in_reset_cannot_target_another_account",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:32:37.125086+00:00; 2026-10-19T08:32:37.667128+00:00; 2026-10-19T08:32:38.201184+00:00; 2026-10-19T08:32:39.281666+00:00; 2026-10-19T08:32:40.362682+00:00; 2026-10-19T08:32:41.414737+00:00; 2026-10-19T08:32:42.471365+00:00; 2026-10-19T08:32:44.603139+00:00; 2026-10-19T08:32:45.676622+00:00; 2026-10-19T08:32:46.742590+00:00; 2026-10-19T08:32:47.288043+00:00; 2026-10-19T08:32:48.349791+00:00; 2026-10-19T08:32:51.001170+00:00; 2026-10-19T08:32:52.053513+00:00; 2026-10-19T08:32:53.111313+00:00; 2026-10-19T08:33:33.321459+00:00; 2026-10-19T08:33:34.394125+00:00; 2026-10-19T08:33:35.468318+00:00; 2026-10-19T08:33:37.623606+00:00; 2026-10-19T08:33:39.807730+00:00; 2026-10-19T08:33:41.944001+00:00; 2026-10-19T08:33:44.110186+00:00; 2026-10-19T08:33:48.396684+00:00; 2026-10-19T08:33:50.512885+00:00; 2026-10-19T08:33:52.684646+00:00; 2026-10-19T08:33:53.748297+00:00; 2026-10-19T08:33:55.945520+00:00; 2026-10-19T08:34:01.708444+00:00; 2026-10-19T08:34:04.171681+00:00; 2026-10-19T08:34:06.344116+00:00"
+    "fecha": "2026-10-19T08:52:45.696313+00:00; 2026-10-19T08:52:46.758119+00:00; 2026-10-19T08:52:47.820347+00:00; 2026-10-19T08:52:49.964602+00:00; 2026-10-19T08:52:52.132396+00:00; 2026-10-19T08:52:54.260572+00:00; 2026-10-19T08:52:56.406718+00:00; 2026-10-19T08:53:00.802285+00:00; 2026-10-19T08:53:03.476433+00:00; 2026-10-19T08:53:05.631786+00:00; 2026-10-19T08:53:06.711348+00:00; 2026-10-19T08:53:08.899982+00:00; 2026-10-19T08:53:14.233243+00:00; 2026-10-19T08:53:16.388880+00:00; 2026-10-19T08:53:18.536817+00:00; 2026-10-19T08:53:54.836129+00:00; 2026-10-19T08:53:55.888728+00:00; 2026-10-19T08:53:56.628042+00:00; 2026-10-19T08:53:58.397574+00:00; 2026-10-19T08:54:00.221866+00:00; 2026-10-19T08:54:02.100717+00:00; 2026-10-19T08:54:03.973427+00:00; 2026-10-19T08:54:07.640154+00:00; 2026-10-19T08:54:09.458374+00:00; 2026-10-19T08:54:11.324948+00:00; 2026-10-19T08:54:12.282492+00:00; 2026-10-19T08:54:14.137315+00:00; 2026-10-19T08:54:18.791727+00:00; 2026-10-19T08:54:20.694831+00:00; 2026-10-19T08:54:22.597893+00:00"
   },
   {
     "id": "EV-062",
@@ -927,7 +927,7 @@
     "evidencia": "usuarios/test_profile_facts.py:13; usuarios/test_profile_facts.py:21; usuarios/test_profile_facts.py:31",
     "pruebas": "usuarios.test_profile_facts.RootProfileFactsTests.test_active_neighbor_total_is_derived_from_actual_rows; usuarios.test_profile_facts.RootProfileFactsTests.test_profile_does_not_invent_contact_identity_or_unimplemented_features; usuarios.test_profile_facts.RootProfileFactsTests.test_profile_uses_actual_scope_instead_of_a_fixed_six_delegations",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:32:53.143240+00:00; 2026-10-19T08:32:53.175268+00:00; 2026-10-19T08:32:53.207167+00:00; 2026-10-19T08:34:06.409010+00:00; 2026-10-19T08:34:06.429592+00:00; 2026-10-19T08:34:06.451648+00:00"
+    "fecha": "2026-10-19T08:53:18.601733+00:00; 2026-10-19T08:53:18.621829+00:00; 2026-10-19T08:53:18.645286+00:00; 2026-10-19T08:54:22.670102+00:00; 2026-10-19T08:54:22.737217+00:00; 2026-10-19T08:54:22.803826+00:00"
   },
   {
     "id": "EV-063",
@@ -942,7 +942,7 @@
     "evidencia": "usuarios/test_protected_root.py:19; usuarios/test_protected_root.py:26; usuarios/test_protected_root.py:31; usuarios/test_protected_root.py:38; usuarios/test_protected_root.py:42; usuarios/test_protected_root.py:54; usuarios/test_protected_root.py:59",
     "pruebas": "usuarios.test_protected_root.ProtectedRootDirectoryTests.test_direct_edit_cannot_change_root_credentials_or_privileges; usuarios.test_protected_root.ProtectedRootDirectoryTests.test_direct_editor_cannot_expose_a_root_account; usuarios.test_protected_root.ProtectedRootDirectoryTests.test_excel_also_excludes_root_accounts_with_and_without_search; usuarios.test_protected_root.ProtectedRootDirectoryTests.test_regular_employee_editor_and_updates_still_work; usuarios.test_protected_root.ProtectedRootDirectoryTests.test_root_accounts_are_absent_from_directory_and_paginator; usuarios.test_protected_root.ProtectedRootDirectoryTests.test_root_toggle_is_rejected_and_personal_settings_remain_available; usuarios.test_protected_root.ProtectedRootDirectoryTests.test_search_never_returns_root_accounts",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:32:54.252382+00:00; 2026-10-19T08:32:54.286173+00:00; 2026-10-19T08:32:54.345529+00:00; 2026-10-19T08:32:54.385796+00:00; 2026-10-19T08:32:54.410140+00:00; 2026-10-19T08:32:54.446329+00:00; 2026-10-19T08:32:54.496572+00:00; 2026-10-19T08:34:08.610827+00:00; 2026-10-19T08:34:08.627180+00:00; 2026-10-19T08:34:08.684522+00:00; 2026-10-19T08:34:08.720200+00:00; 2026-10-19T08:34:08.740623+00:00; 2026-10-19T08:34:08.776220+00:00; 2026-10-19T08:34:08.814903+00:00"
+    "fecha": "2026-10-19T08:53:20.802750+00:00; 2026-10-19T08:53:20.824512+00:00; 2026-10-19T08:53:20.947168+00:00; 2026-10-19T08:53:20.983816+00:00; 2026-10-19T08:53:21.004074+00:00; 2026-10-19T08:53:21.038540+00:00; 2026-10-19T08:53:21.076842+00:00; 2026-10-19T08:54:24.657575+00:00; 2026-10-19T08:54:24.724565+00:00; 2026-10-19T08:54:24.828122+00:00; 2026-10-19T08:54:24.906149+00:00; 2026-10-19T08:54:24.973582+00:00; 2026-10-19T08:54:25.052201+00:00; 2026-10-19T08:54:25.143117+00:00"
   },
   {
     "id": "EV-064",
@@ -957,7 +957,7 @@
     "evidencia": "usuarios/test_recovery_security.py:125",
     "pruebas": "usuarios.test_recovery_security.RecoverySecurityTests.test_attempt_reservation_rejects_a_stale_counter_read",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:32:55.030257+00:00; 2026-10-19T08:34:09.920508+00:00"
+    "fecha": "2026-10-19T08:53:22.170353+00:00; 2026-10-19T08:54:26.100770+00:00"
   },
   {
     "id": "EV-065",
@@ -972,7 +972,7 @@
     "evidencia": "usuarios/test_recovery_security.py:115",
     "pruebas": "usuarios.test_recovery_security.RecoverySecurityTests.test_console_backend_never_prints_recovery_code",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:32:55.562604+00:00; 2026-10-19T08:34:10.979160+00:00"
+    "fecha": "2026-10-19T08:53:23.229071+00:00; 2026-10-19T08:54:27.076638+00:00"
   },
   {
     "id": "EV-066",
@@ -987,7 +987,7 @@
     "evidencia": "usuarios/test_recovery_security.py:33",
     "pruebas": "usuarios.test_recovery_security.RecoverySecurityTests.test_existing_unknown_and_missing_email_have_identical_public_response",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:32:56.723743+00:00; 2026-10-19T08:34:13.116018+00:00"
+    "fecha": "2026-10-19T08:53:25.362856+00:00; 2026-10-19T08:54:29.172677+00:00"
   },
   {
     "id": "EV-067",
@@ -1002,7 +1002,7 @@
     "evidencia": "usuarios/test_recovery_security.py:78",
     "pruebas": "usuarios.test_recovery_security.RecoverySecurityTests.test_five_wrong_attempts_invalidate_code_across_sessions_and_ips",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:32:57.399240+00:00; 2026-10-19T08:34:14.221415+00:00"
+    "fecha": "2026-10-19T08:53:26.456478+00:00; 2026-10-19T08:54:30.391691+00:00"
   },
   {
     "id": "EV-068",
@@ -1017,7 +1017,7 @@
     "evidencia": "usuarios/test_recovery_security.py:95",
     "pruebas": "usuarios.test_recovery_security.RecoverySecurityTests.test_ip_request_limit_covers_different_accounts_and_sessions",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:32:58.287127+00:00; 2026-10-19T08:34:15.327958+00:00"
+    "fecha": "2026-10-19T08:53:27.555366+00:00; 2026-10-19T08:54:31.991662+00:00"
   },
   {
     "id": "EV-069",
@@ -1032,7 +1032,7 @@
     "evidencia": "usuarios/test_recovery_security.py:68",
     "pruebas": "usuarios.test_recovery_security.RecoverySecurityTests.test_resend_after_cooldown_delivers_new_code",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:32:58.822186+00:00; 2026-10-19T08:34:16.409805+00:00"
+    "fecha": "2026-10-19T08:53:28.619071+00:00; 2026-10-19T08:54:32.954746+00:00"
   },
   {
     "id": "EV-070",
@@ -1047,7 +1047,7 @@
     "evidencia": "usuarios/test_recovery_security.py:58",
     "pruebas": "usuarios.test_recovery_security.RecoverySecurityTests.test_resend_and_new_session_cannot_bypass_account_cooldown",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:32:59.379716+00:00; 2026-10-19T08:34:17.483269+00:00"
+    "fecha": "2026-10-19T08:53:29.693747+00:00; 2026-10-19T08:54:33.972918+00:00"
   },
   {
     "id": "EV-071",
@@ -1062,7 +1062,7 @@
     "evidencia": "usuarios/test_recovery_security.py:48",
     "pruebas": "usuarios.test_recovery_security.RecoverySecurityTests.test_smtp_failure_never_leaves_usable_code_or_claims_success",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:32:59.912325+00:00; 2026-10-19T08:34:18.542568+00:00"
+    "fecha": "2026-10-19T08:53:30.748047+00:00; 2026-10-19T08:54:34.937285+00:00"
   },
   {
     "id": "EV-072",
@@ -1077,7 +1077,7 @@
     "evidencia": "usuarios/test_recovery_security.py:103",
     "pruebas": "usuarios.test_recovery_security.RecoverySecurityTests.test_valid_code_is_consumed_once_and_grant_expires_in_five_minutes",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:33:00.469881+00:00; 2026-10-19T08:34:19.617961+00:00"
+    "fecha": "2026-10-19T08:53:31.822813+00:00; 2026-10-19T08:54:35.943464+00:00"
   },
   {
     "id": "EV-073",
@@ -1092,7 +1092,7 @@
     "evidencia": "usuarios/test_required_fields.py:24; usuarios/test_required_fields.py:31; usuarios/test_required_fields.py:38; usuarios/test_required_fields.py:45; usuarios/test_required_fields.py:53",
     "pruebas": "usuarios.test_required_fields.UserRequiredFieldsTests.test_complete_account_can_be_created_without_assigned_delegation; usuarios.test_required_fields.UserRequiredFieldsTests.test_create_rejects_each_missing_required_identity_field; usuarios.test_required_fields.UserRequiredFieldsTests.test_create_rejects_whitespace_only_names; usuarios.test_required_fields.UserRequiredFieldsTests.test_direct_post_cannot_create_incomplete_account; usuarios.test_required_fields.UserRequiredFieldsTests.test_edit_requires_personal_fields_but_allows_legacy_account_without_rut",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:33:01.486456+00:00; 2026-10-19T08:33:01.506182+00:00; 2026-10-19T08:33:01.513058+00:00; 2026-10-19T08:33:01.543363+00:00; 2026-10-19T08:33:02.576093+00:00; 2026-10-19T08:34:21.819116+00:00; 2026-10-19T08:34:21.862153+00:00; 2026-10-19T08:34:21.883050+00:00; 2026-10-19T08:34:21.901809+00:00; 2026-10-19T08:34:24.038179+00:00"
+    "fecha": "2026-10-19T08:53:33.963607+00:00; 2026-10-19T08:53:34.004415+00:00; 2026-10-19T08:53:34.022952+00:00; 2026-10-19T08:53:34.041062+00:00; 2026-10-19T08:53:36.325744+00:00; 2026-10-19T08:54:37.700969+00:00; 2026-10-19T08:54:37.736443+00:00; 2026-10-19T08:54:37.749510+00:00; 2026-10-19T08:54:37.815969+00:00; 2026-10-19T08:54:39.585968+00:00"
   },
   {
     "id": "EV-074",
@@ -1107,7 +1107,7 @@
     "evidencia": "usuarios/test_requirements.py:105; usuarios/test_requirements.py:114; usuarios/test_requirements.py:43; usuarios/test_requirements.py:53; usuarios/test_requirements.py:62; usuarios/test_requirements.py:68; usuarios/test_requirements.py:75; usuarios/test_requirements.py:82; usuarios/test_requirements.py:89",
     "pruebas": "usuarios.test_requirements.MunicipalBoundaryTests.test_bootstrap_idempotent_and_no_defaults; usuarios.test_requirements.MunicipalBoundaryTests.test_export_respects_same_search; usuarios.test_requirements.MunicipalBoundaryTests.test_form_rejects_territory_tampering_and_bad_color; usuarios.test_requirements.MunicipalBoundaryTests.test_get_cannot_mutate_and_cross_territory_denied; usuarios.test_requirements.MunicipalBoundaryTests.test_inactive_role_and_unassigned_user_cannot_register; usuarios.test_requirements.MunicipalBoundaryTests.test_manager_cannot_change_roles; usuarios.test_requirements.MunicipalBoundaryTests.test_paginate_sizes_are_bounded; usuarios.test_requirements.MunicipalBoundaryTests.test_rut_duplicate_legacy_format_rejected; usuarios.test_requirements.MunicipalBoundaryTests.test_superuser_cannot_delete_or_demote",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:33:03.619202+00:00; 2026-10-19T08:33:04.157270+00:00; 2026-10-19T08:33:04.670662+00:00; 2026-10-19T08:33:05.207080+00:00; 2026-10-19T08:33:05.747402+00:00; 2026-10-19T08:33:06.331244+00:00; 2026-10-19T08:33:06.868812+00:00; 2026-10-19T08:33:07.409152+00:00; 2026-10-19T08:33:07.937234+00:00; 2026-10-19T08:34:26.208281+00:00; 2026-10-19T08:34:27.288722+00:00; 2026-10-19T08:34:28.351825+00:00; 2026-10-19T08:34:29.430110+00:00; 2026-10-19T08:34:30.489601+00:00; 2026-10-19T08:34:31.562477+00:00; 2026-10-19T08:34:32.628284+00:00; 2026-10-19T08:34:33.684452+00:00; 2026-10-19T08:34:34.735848+00:00"
+    "fecha": "2026-10-19T08:53:38.486635+00:00; 2026-10-19T08:53:39.551480+00:00; 2026-10-19T08:53:40.600594+00:00; 2026-10-19T08:53:41.694700+00:00; 2026-10-19T08:53:42.747094+00:00; 2026-10-19T08:53:43.817253+00:00; 2026-10-19T08:53:44.865473+00:00; 2026-10-19T08:53:45.920042+00:00; 2026-10-19T08:53:46.968468+00:00; 2026-10-19T08:54:41.373687+00:00; 2026-10-19T08:54:42.343545+00:00; 2026-10-19T08:54:43.246295+00:00; 2026-10-19T08:54:44.227425+00:00; 2026-10-19T08:54:45.088806+00:00; 2026-10-19T08:54:46.052579+00:00; 2026-10-19T08:54:46.890792+00:00; 2026-10-19T08:54:47.797950+00:00; 2026-10-19T08:54:48.700974+00:00"
   },
   {
     "id": "EV-075",
@@ -1122,7 +1122,7 @@
     "evidencia": "usuarios/test_requirements.py:13; usuarios/test_requirements.py:18; usuarios/test_requirements.py:24; usuarios/test_requirements.py:8",
     "pruebas": "usuarios.test_requirements.MunicipalSecurityTests.test_optional_rut_and_checksum; usuarios.test_requirements.MunicipalSecurityTests.test_regular_user_cannot_manage_roles; usuarios.test_requirements.MunicipalSecurityTests.test_role_name_does_not_grant_superadmin; usuarios.test_requirements.MunicipalSecurityTests.test_superuser_cannot_be_deactivated",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:33:07.940456+00:00; 2026-10-19T08:33:07.970982+00:00; 2026-10-19T08:33:07.971982+00:00; 2026-10-19T08:33:08.476726+00:00; 2026-10-19T08:34:34.777424+00:00; 2026-10-19T08:34:34.792752+00:00; 2026-10-19T08:34:34.796526+00:00; 2026-10-19T08:34:35.839036+00:00"
+    "fecha": "2026-10-19T08:53:47.011630+00:00; 2026-10-19T08:53:47.030383+00:00; 2026-10-19T08:53:47.034745+00:00; 2026-10-19T08:53:48.083847+00:00; 2026-10-19T08:54:48.707137+00:00; 2026-10-19T08:54:48.767474+00:00; 2026-10-19T08:54:49.634187+00:00"
   },
   {
     "id": "EV-076",
@@ -1137,7 +1137,7 @@
     "evidencia": "usuarios/test_scan_auth.py:117; usuarios/test_scan_auth.py:27; usuarios/test_scan_auth.py:50; usuarios/test_scan_auth.py:82; usuarios/test_scan_auth.py:98",
     "pruebas": "usuarios.test_scan_auth.ConcurrentAuthScanTests.test_account_toggle_preserves_credentials_changed_after_row_was_read; usuarios.test_scan_auth.ConcurrentAuthScanTests.test_passkey_registration_locks_only_account_when_role_is_nullable; usuarios.test_scan_auth.ConcurrentAuthScanTests.test_pending_recovery_delivery_cannot_restore_code_after_password_change; usuarios.test_scan_auth.ConcurrentAuthScanTests.test_registration_does_not_persist_a_key_after_password_changed_during_verification; usuarios.test_scan_auth.ConcurrentAuthScanTests.test_role_toggle_does_not_restore_permissions_changed_after_row_was_read",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:33:09.602809+00:00; 2026-10-19T08:33:10.713107+00:00; 2026-10-19T08:33:12.269349+00:00; 2026-10-19T08:33:13.810179+00:00; 2026-10-19T08:33:14.346600+00:00; 2026-10-19T08:34:37.989101+00:00; 2026-10-19T08:34:40.108037+00:00; 2026-10-19T08:34:43.250147+00:00; 2026-10-19T08:34:46.749111+00:00; 2026-10-19T08:34:47.814551+00:00"
+    "fecha": "2026-10-19T08:53:50.228913+00:00; 2026-10-19T08:53:52.358854+00:00; 2026-10-19T08:53:55.511047+00:00; 2026-10-19T08:53:58.674953+00:00; 2026-10-19T08:53:59.749215+00:00; 2026-10-19T08:54:51.634195+00:00; 2026-10-19T08:54:53.513102+00:00; 2026-10-19T08:54:56.222009+00:00; 2026-10-19T08:54:58.955387+00:00; 2026-10-19T08:54:59.887973+00:00"
   },
   {
     "id": "EV-077",
@@ -1152,7 +1152,7 @@
     "evidencia": "usuarios/tests.py:111",
     "pruebas": "usuarios.tests.RecuperacionPasswordTests.test_flujo_completo_con_hashing_seguro",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:33:16.409970+00:00; 2026-10-19T08:34:52.044430+00:00"
+    "fecha": "2026-10-19T08:54:29.210062+00:00; 2026-10-19T08:55:23.597960+00:00"
   },
   {
     "id": "EV-078",
@@ -1167,7 +1167,7 @@
     "evidencia": "usuarios/tests.py:27",
     "pruebas": "usuarios.tests.RecuperacionPasswordTests.test_model_has_reset_code_and_expires_at_fields",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:33:16.913049+00:00; 2026-10-19T08:34:53.092297+00:00"
+    "fecha": "2026-10-19T08:54:30.265379+00:00; 2026-10-19T08:55:24.513164+00:00"
   },
   {
     "id": "EV-079",
@@ -1182,7 +1182,7 @@
     "evidencia": "usuarios/tests.py:43",
     "pruebas": "usuarios.tests.RecuperacionPasswordTests.test_solicitud_correo_no_existente_no_revela_cuentas",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:33:17.446468+00:00; 2026-10-19T08:34:54.143994+00:00"
+    "fecha": "2026-10-19T08:54:31.322068+00:00; 2026-10-19T08:55:25.592109+00:00"
   },
   {
     "id": "EV-080",
@@ -1197,7 +1197,7 @@
     "evidencia": "usuarios/tests.py:53",
     "pruebas": "usuarios.tests.RecuperacionPasswordTests.test_solicitud_correo_valido_genera_codigo_15_minutos_y_envia_email",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:33:17.990542+00:00; 2026-10-19T08:34:55.203841+00:00"
+    "fecha": "2026-10-19T08:54:32.387514+00:00; 2026-10-19T08:55:26.561499+00:00"
   },
   {
     "id": "EV-081",
@@ -1212,7 +1212,7 @@
     "evidencia": "usuarios/tests.py:94",
     "pruebas": "usuarios.tests.RecuperacionPasswordTests.test_validar_codigo_expirado_muestra_error",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:33:18.522895+00:00; 2026-10-19T08:34:56.255446+00:00"
+    "fecha": "2026-10-19T08:54:33.442504+00:00; 2026-10-19T08:55:27.507326+00:00"
   },
   {
     "id": "EV-082",
@@ -1227,7 +1227,7 @@
     "evidencia": "usuarios/tests.py:77",
     "pruebas": "usuarios.tests.RecuperacionPasswordTests.test_validar_codigo_incorrecto_muestra_error",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:33:19.058926+00:00; 2026-10-19T08:34:57.322350+00:00"
+    "fecha": "2026-10-19T08:54:34.498349+00:00; 2026-10-19T08:55:28.470051+00:00"
   },
   {
     "id": "EV-083",
@@ -1242,7 +1242,7 @@
     "evidencia": "vecinos/test_territorial_scope.py:100; vecinos/test_territorial_scope.py:107; vecinos/test_territorial_scope.py:116; vecinos/test_territorial_scope.py:123; vecinos/test_territorial_scope.py:130; vecinos/test_territorial_scope.py:138; vecinos/test_territorial_scope.py:148; vecinos/test_territorial_scope.py:41; vecinos/test_territorial_scope.py:48; vecinos/test_territorial_scope.py:55; vecinos/test_territorial_scope.py:59; vecinos/test_territorial_scope.py:72; vecinos/test_territorial_scope.py:81; vecinos/test_territorial_scope.py:87; vecinos/test_territorial_scope.py:93",
     "pruebas": "vecinos.test_territorial_scope.NeighborTerritorialScopeTests.test_cannot_register_attention_for_foreign_person_by_posting_directly; vecinos.test_territorial_scope.NeighborTerritorialScopeTests.test_changed_user_delegation_takes_effect_on_next_request; vecinos.test_territorial_scope.NeighborTerritorialScopeTests.test_direct_foreign_and_unassigned_detail_and_export_are_blocked; vecinos.test_territorial_scope.NeighborTerritorialScopeTests.test_directory_contains_only_assigned_delegation_and_count; vecinos.test_territorial_scope.NeighborTerritorialScopeTests.test_directory_export_excludes_other_and_unassigned_people; vecinos.test_territorial_scope.NeighborTerritorialScopeTests.test_foreign_person_cannot_be_edited_toggled_or_loaded_in_fragment; vecinos.test_territorial_scope.NeighborTerritorialScopeTests.test_inactive_delegation_has_no_person_access; vecinos.test_territorial_scope.NeighborTerritorialScopeTests.test_local_history_and_its_export_are_scoped; vecinos.test_territorial_scope.NeighborTerritorialScopeTests.test_pagination_and_export_use_same_scope_on_every_page; vecinos.test_territorial_scope.NeighborTerritorialScopeTests.test_read_only_role_has_same_territorial_read_scope; vecinos.test_territorial_scope.NeighborTerritorialScopeTests.test_root_keeps_global_directory_search_and_history; vecinos.test_territorial_scope.NeighborTerritorialScopeTests.test_search_export_excludes_other_delegations; vecinos.test_territorial_scope.NeighborTerritorialScopeTests.test_search_finds_local_person; vecinos.test_territorial_scope.NeighborTerritorialScopeTests.test_searches_cannot_override_scope_with_query_or_delegation; vecinos.test_territorial_scope.NeighborTerritorialScopeTests.test_unassigned_user_cannot_read_unassigned_or_foreign_people",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:33:19.172430+00:00; 2026-10-19T08:33:19.210119+00:00; 2026-10-19T08:33:19.249705+00:00; 2026-10-19T08:33:19.285162+00:00; 2026-10-19T08:33:19.404519+00:00; 2026-10-19T08:33:19.441899+00:00; 2026-10-19T08:33:19.478041+00:00; 2026-10-19T08:33:19.531787+00:00; 2026-10-19T08:33:19.585925+00:00; 2026-10-19T08:33:19.625668+00:00; 2026-10-19T08:33:19.695002+00:00; 2026-10-19T08:33:19.745793+00:00; 2026-10-19T08:33:19.779944+00:00; 2026-10-19T08:33:19.819250+00:00; 2026-10-19T08:33:19.846439+00:00; 2026-10-19T08:34:57.486694+00:00; 2026-10-19T08:34:57.515782+00:00; 2026-10-19T08:34:57.550933+00:00; 2026-10-19T08:34:57.572799+00:00; 2026-10-19T08:34:57.600223+00:00; 2026-10-19T08:34:57.631877+00:00; 2026-10-19T08:34:57.658830+00:00; 2026-10-19T08:34:57.710133+00:00; 2026-10-19T08:34:57.774202+00:00; 2026-10-19T08:34:57.803601+00:00; 2026-10-19T08:34:57.886321+00:00; 2026-10-19T08:34:57.914593+00:00; 2026-10-19T08:34:57.937087+00:00; 2026-10-19T08:34:57.969668+00:00; 2026-10-19T08:34:57.994911+00:00"
+    "fecha": "2026-10-19T08:54:34.662878+00:00; 2026-10-19T08:54:34.693862+00:00; 2026-10-19T08:54:34.730968+00:00; 2026-10-19T08:54:34.753032+00:00; 2026-10-19T08:54:34.779983+00:00; 2026-10-19T08:54:34.809404+00:00; 2026-10-19T08:54:34.835862+00:00; 2026-10-19T08:54:34.897009+00:00; 2026-10-19T08:54:34.960275+00:00; 2026-10-19T08:54:34.990619+00:00; 2026-10-19T08:54:35.095360+00:00; 2026-10-19T08:54:35.125144+00:00; 2026-10-19T08:54:35.146718+00:00; 2026-10-19T08:54:35.179396+00:00; 2026-10-19T08:54:35.206958+00:00; 2026-10-19T08:55:28.695114+00:00; 2026-10-19T08:55:28.767689+00:00; 2026-10-19T08:55:28.851891+00:00; 2026-10-19T08:55:28.919280+00:00; 2026-10-19T08:55:28.999206+00:00; 2026-10-19T08:55:29.064872+00:00; 2026-10-19T08:55:29.131356+00:00; 2026-10-19T08:55:29.233962+00:00; 2026-10-19T08:55:29.339607+00:00; 2026-10-19T08:55:29.513287+00:00; 2026-10-19T08:55:29.646395+00:00; 2026-10-19T08:55:29.719273+00:00; 2026-10-19T08:55:29.791087+00:00; 2026-10-19T08:55:29.852614+00:00; 2026-10-19T08:55:29.925517+00:00"
   },
   {
     "id": "EV-084",
@@ -1257,7 +1257,7 @@
     "evidencia": "config/test_database_config.py:16; config/test_database_config.py:24",
     "pruebas": "config.test_database_config.DatabaseConfigTests.test_mysql_uses_utf8_strict_mode_and_read_committed; config.test_database_config.DatabaseConfigTests.test_sqlite_local_fallback_keeps_existing_transaction_options",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:33:19.858106+00:00; 2026-10-19T08:33:19.860947+00:00; 2026-10-19T08:34:58.003301+00:00; 2026-10-19T08:34:58.005369+00:00"
+    "fecha": "2026-10-19T08:54:35.216861+00:00; 2026-10-19T08:54:35.219014+00:00; 2026-10-19T08:55:29.931430+00:00; 2026-10-19T08:55:29.937574+00:00"
   },
   {
     "id": "EV-085",
@@ -1272,7 +1272,7 @@
     "evidencia": "config/test_error_pages.py:15; config/test_error_pages.py:22",
     "pruebas": "config.test_error_pages.ErrorPageTests.test_missing_route_has_a_recovery_link; config.test_error_pages.ErrorPageTests.test_server_error_has_safe_feedback_and_sweetalert",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:33:19.889395+00:00; 2026-10-19T08:33:19.919312+00:00; 2026-10-19T08:34:58.011201+00:00; 2026-10-19T08:34:58.013712+00:00"
+    "fecha": "2026-10-19T08:54:35.222970+00:00; 2026-10-19T08:54:35.224948+00:00; 2026-10-19T08:55:29.998117+00:00; 2026-10-19T08:55:30.057987+00:00"
   },
   {
     "id": "EV-086",
@@ -1287,7 +1287,7 @@
     "evidencia": "config/test_form_feedback.py:20; config/test_form_feedback.py:24; config/test_form_feedback.py:33",
     "pruebas": "config.test_form_feedback.FeedbackPayloadTests.test_errors_include_label_and_focus_without_submitted_values; config.test_form_feedback.FeedbackPayloadTests.test_unbound_and_valid_forms_do_not_emit_error; config.test_form_feedback.FeedbackPayloadTests.test_untrusted_error_text_cannot_close_json_script",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:33:19.939569+00:00; 2026-10-19T08:33:19.940576+00:00; 2026-10-19T08:34:58.038492+00:00; 2026-10-19T08:34:58.039164+00:00; 2026-10-19T08:34:58.039714+00:00"
+    "fecha": "2026-10-19T08:54:35.250233+00:00; 2026-10-19T08:54:35.250961+00:00; 2026-10-19T08:54:35.251606+00:00; 2026-10-19T08:55:30.088028+00:00; 2026-10-19T08:55:30.088883+00:00"
   },
   {
     "id": "EV-087",
@@ -1302,7 +1302,7 @@
     "evidencia": "config/test_launcher.py:14; config/test_launcher.py:21; config/test_launcher.py:24",
     "pruebas": "config.test_launcher.LocalLauncherTests.test_background_launch_preserves_paths_with_spaces_and_hides_window; config.test_launcher.LocalLauncherTests.test_detection_launch_and_browser_share_canonical_localhost_port; config.test_launcher.LocalLauncherTests.test_launcher_does_not_publish_account_credentials",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:33:20.180131+00:00; 2026-10-19T08:33:20.189672+00:00; 2026-10-19T08:34:58.041075+00:00; 2026-10-19T08:34:58.042379+00:00; 2026-10-19T08:34:58.042985+00:00"
+    "fecha": "2026-10-19T08:54:35.252353+00:00; 2026-10-19T08:54:35.253019+00:00; 2026-10-19T08:54:35.253805+00:00; 2026-10-19T08:55:30.349562+00:00; 2026-10-19T08:55:30.354710+00:00; 2026-10-19T08:55:30.355558+00:00"
   },
   {
     "id": "EV-088",
@@ -1317,7 +1317,7 @@
     "evidencia": "config/test_mysql_concurrency.py:13; config/test_mysql_concurrency.py:33; config/test_mysql_concurrency.py:59",
     "pruebas": "config.test_mysql_concurrency.MySQLSaveConcurrencyTests.test_account_email_insert_is_serialized_between_connections; config.test_mysql_concurrency.MySQLSaveConcurrencyTests.test_late_catalog_check_obeys_mysql_unique_collation; config.test_mysql_concurrency.MySQLSaveConcurrencyTests.test_normalized_catalog_insert_is_serialized_between_connections",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:33:20.189672+00:00; 2026-10-19T08:34:59.226356+00:00; 2026-10-19T08:34:59.357137+00:00; 2026-10-19T08:34:59.547836+00:00"
+    "fecha": "2026-10-19T08:54:36.440429+00:00; 2026-10-19T08:54:36.572165+00:00; 2026-10-19T08:54:36.770795+00:00; 2026-10-19T08:55:30.355558+00:00"
   },
   {
     "id": "EV-089",
@@ -1332,7 +1332,7 @@
     "evidencia": "config/test_passkey_origin.py:17; config/test_passkey_origin.py:22; config/test_passkey_origin.py:26; config/test_passkey_origin.py:32; config/test_passkey_origin.py:37; config/test_passkey_origin.py:42; config/test_passkey_origin.py:49; config/test_passkey_origin.py:55; config/test_passkey_origin.py:9",
     "pruebas": "config.test_passkey_origin.LocalPasskeyOriginTests.test_account_path_query_and_head_use_the_same_canonical_origin; config.test_passkey_origin.LocalPasskeyOriginTests.test_canonical_login_does_not_redirect; config.test_passkey_origin.LocalPasskeyOriginTests.test_invalid_host_port_is_rejected_without_a_server_error; config.test_passkey_origin.LocalPasskeyOriginTests.test_local_alias_redirects_login_before_a_session_starts; config.test_passkey_origin.LocalPasskeyOriginTests.test_other_ports_schemes_and_host_lookalikes_are_not_redirected; config.test_passkey_origin.LocalPasskeyOriginTests.test_path_and_next_parameter_cannot_replace_the_redirect_host; config.test_passkey_origin.LocalPasskeyOriginTests.test_production_requests_are_not_canonicalized; config.test_passkey_origin.LocalPasskeyOriginTests.test_real_site_configuration_does_not_redirect_local_requests; config.test_passkey_origin.LocalPasskeyOriginTests.test_wrong_origin_post_is_still_rejected_without_redirect",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:33:20.189672+00:00; 2026-10-19T08:33:20.199118+00:00; 2026-10-19T08:33:20.200113+00:00; 2026-10-19T08:33:20.201116+00:00; 2026-10-19T08:33:20.206193+00:00; 2026-10-19T08:33:20.207184+00:00; 2026-10-19T08:33:20.237632+00:00; 2026-10-19T08:33:20.243577+00:00; 2026-10-19T08:33:20.244577+00:00; 2026-10-19T08:34:59.636017+00:00; 2026-10-19T08:34:59.647471+00:00; 2026-10-19T08:34:59.648733+00:00; 2026-10-19T08:34:59.650283+00:00; 2026-10-19T08:34:59.658106+00:00; 2026-10-19T08:34:59.659144+00:00; 2026-10-19T08:34:59.664389+00:00; 2026-10-19T08:34:59.669778+00:00; 2026-10-19T08:34:59.671266+00:00"
+    "fecha": "2026-10-19T08:54:36.873021+00:00; 2026-10-19T08:54:36.882696+00:00; 2026-10-19T08:54:36.884042+00:00; 2026-10-19T08:54:36.885525+00:00; 2026-10-19T08:54:36.893502+00:00; 2026-10-19T08:54:36.894578+00:00; 2026-10-19T08:54:36.900206+00:00; 2026-10-19T08:54:36.905902+00:00; 2026-10-19T08:54:36.907500+00:00; 2026-10-19T08:55:30.355558+00:00; 2026-10-19T08:55:30.366861+00:00; 2026-10-19T08:55:30.367744+00:00; 2026-10-19T08:55:30.373584+00:00; 2026-10-19T08:55:30.379757+00:00; 2026-10-19T08:55:30.385828+00:00; 2026-10-19T08:55:30.452504+00:00; 2026-10-19T08:55:30.464708+00:00"
   },
   {
     "id": "EV-090",
@@ -1347,7 +1347,7 @@
     "evidencia": "config/test_scan_front.py:131; config/test_scan_front.py:136",
     "pruebas": "config.test_scan_front.EditorCancellationFocusTests.test_closing_editor_does_not_focus_a_disconnected_trigger; config.test_scan_front.EditorCancellationFocusTests.test_closing_editor_during_load_restores_focus_to_enabled_trigger",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:33:20.288824+00:00; 2026-10-19T08:33:20.342570+00:00; 2026-10-19T08:34:59.671851+00:00; 2026-10-19T08:34:59.672097+00:00"
+    "fecha": "2026-10-19T08:54:36.908137+00:00; 2026-10-19T08:54:36.908418+00:00; 2026-10-19T08:55:30.546057+00:00; 2026-10-19T08:55:30.604064+00:00"
   },
   {
     "id": "EV-091",
@@ -1362,7 +1362,7 @@
     "evidencia": "config/test_scan_front.py:143",
     "pruebas": "config.test_scan_front.SidebarResizeTests.test_mobile_drawer_closes_consistently_when_crossing_desktop_breakpoint",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:33:20.389415+00:00; 2026-10-19T08:34:59.672456+00:00"
+    "fecha": "2026-10-19T08:54:36.908842+00:00; 2026-10-19T08:55:30.664804+00:00"
   },
   {
     "id": "EV-092",
@@ -1377,7 +1377,7 @@
     "evidencia": "config/test_ui_theme.py:14; config/test_ui_theme.py:6",
     "pruebas": "config.test_ui_theme.DelegationThemeTests.test_arbitrary_colors_have_legible_action_and_selected_text; config.test_ui_theme.DelegationThemeTests.test_untrusted_color_is_not_inserted_in_styles",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:33:20.389415+00:00; 2026-10-19T08:34:59.673878+00:00; 2026-10-19T08:34:59.674262+00:00"
+    "fecha": "2026-10-19T08:54:36.910258+00:00; 2026-10-19T08:54:36.910660+00:00; 2026-10-19T08:55:30.664804+00:00"
   },
   {
     "id": "EV-093",
@@ -1392,7 +1392,7 @@
     "evidencia": "dashboard/test_integration.py:14",
     "pruebas": "dashboard.test_integration.ExportTests.test_excel_keeps_numeric_values_filters_and_literal_text",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:33:20.402221+00:00; 2026-10-19T08:34:59.685557+00:00"
+    "fecha": "2026-10-19T08:54:36.921904+00:00; 2026-10-19T08:55:30.682703+00:00"
   },
   {
     "id": "EV-094",
@@ -1407,7 +1407,7 @@
     "evidencia": "usuarios/test_passkey_proxy.py:33; usuarios/test_passkey_proxy.py:38; usuarios/test_passkey_proxy.py:44; usuarios/test_passkey_proxy.py:52; usuarios/test_passkey_proxy.py:57; usuarios/test_passkey_proxy.py:64",
     "pruebas": "usuarios.test_passkey_proxy.PasskeyProxyRateLimitTests.test_direct_client_cannot_evade_limit_with_forged_header; usuarios.test_passkey_proxy.PasskeyProxyRateLimitTests.test_disabled_proxy_flag_ignores_header_on_loopback; usuarios.test_passkey_proxy.PasskeyProxyRateLimitTests.test_equivalent_ipv6_headers_share_the_same_limit; usuarios.test_passkey_proxy.PasskeyProxyRateLimitTests.test_invalid_peer_address_does_not_authorize_header; usuarios.test_passkey_proxy.PasskeyProxyRateLimitTests.test_invalid_real_ip_headers_fall_back_to_peer_limit; usuarios.test_passkey_proxy.PasskeyProxyRateLimitTests.test_trusted_loopback_proxy_gives_each_valid_client_its_own_limit",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:33:20.407273+00:00; 2026-10-19T08:33:20.410110+00:00; 2026-10-19T08:33:20.419459+00:00; 2026-10-19T08:34:59.694169+00:00; 2026-10-19T08:34:59.700234+00:00; 2026-10-19T08:34:59.707709+00:00; 2026-10-19T08:34:59.714092+00:00; 2026-10-19T08:34:59.721646+00:00; 2026-10-19T08:34:59.734152+00:00"
+    "fecha": "2026-10-19T08:54:36.929102+00:00; 2026-10-19T08:54:36.935046+00:00; 2026-10-19T08:54:36.942405+00:00; 2026-10-19T08:54:36.948712+00:00; 2026-10-19T08:54:36.956341+00:00; 2026-10-19T08:54:36.968701+00:00; 2026-10-19T08:55:30.694098+00:00; 2026-10-19T08:55:30.701032+00:00; 2026-10-19T08:55:30.707016+00:00; 2026-10-19T08:55:30.718550+00:00; 2026-10-19T08:55:30.725443+00:00; 2026-10-19T08:55:30.742784+00:00"
   },
   {
     "id": "EV-095",
@@ -1422,7 +1422,7 @@
     "evidencia": "usuarios/test_login_delivery.py:27",
     "pruebas": "usuarios.test_login_delivery.LoginDeliveryTests.test_valid_username_enters_authorized_dashboard",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:32:35.864503+00:00; 2026-10-19T08:33:31.161290+00:00"
+    "fecha": "2026-10-19T08:55:51.688687+00:00; 2026-10-19T08:56:30.201397+00:00"
   },
   {
     "id": "EV-096",
@@ -1437,7 +1437,7 @@
     "evidencia": "usuarios/test_login_delivery.py:35",
     "pruebas": "usuarios.test_login_delivery.LoginDeliveryTests.test_email_and_formatted_rut_reach_same_account",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:32:29.539344+00:00; 2026-10-19T08:33:21.535651+00:00"
+    "fecha": "2026-10-19T08:55:41.819088+00:00; 2026-10-19T08:56:24.240222+00:00"
   },
   {
     "id": "EV-097",
@@ -1452,7 +1452,7 @@
     "evidencia": "usuarios/test_login_delivery.py:42",
     "pruebas": "usuarios.test_login_delivery.LoginDeliveryTests.test_wrong_password_never_creates_authenticated_session",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:32:36.478498+00:00; 2026-10-19T08:33:32.216089+00:00"
+    "fecha": "2026-10-19T08:55:52.789884+00:00; 2026-10-19T08:56:30.979077+00:00"
   },
   {
     "id": "EV-098",
@@ -1467,7 +1467,7 @@
     "evidencia": "usuarios/test_login_delivery.py:46",
     "pruebas": "usuarios.test_login_delivery.LoginDeliveryTests.test_unknown_account_never_creates_authenticated_session",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:32:35.311039+00:00; 2026-10-19T08:33:30.080387+00:00"
+    "fecha": "2026-10-19T08:55:50.343663+00:00; 2026-10-19T08:56:29.404571+00:00"
   },
   {
     "id": "EV-099",
@@ -1482,7 +1482,7 @@
     "evidencia": "usuarios/test_login_delivery.py:50",
     "pruebas": "usuarios.test_login_delivery.LoginDeliveryTests.test_empty_credentials_are_rejected",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:32:29.575677+00:00; 2026-10-19T08:33:21.548313+00:00"
+    "fecha": "2026-10-19T08:55:41.832778+00:00; 2026-10-19T08:56:24.283337+00:00"
   },
   {
     "id": "EV-100",
@@ -1497,7 +1497,7 @@
     "evidencia": "usuarios/test_login_delivery.py:56",
     "pruebas": "usuarios.test_login_delivery.LoginDeliveryTests.test_both_inactive_account_flags_deny_login",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:32:27.926122+00:00; 2026-10-19T08:33:18.336841+00:00"
+    "fecha": "2026-10-19T08:55:38.659152+00:00; 2026-10-19T08:56:22.312878+00:00"
   },
   {
     "id": "EV-101",
@@ -1512,7 +1512,7 @@
     "evidencia": "usuarios/test_login_delivery.py:64",
     "pruebas": "usuarios.test_login_delivery.LoginDeliveryTests.test_logout_removes_session_and_protects_dashboard",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:32:30.186190+00:00; 2026-10-19T08:33:22.618575+00:00"
+    "fecha": "2026-10-19T08:55:42.892654+00:00; 2026-10-19T08:56:24.944277+00:00"
   },
   {
     "id": "EV-102",
@@ -1527,7 +1527,7 @@
     "evidencia": "usuarios/test_login_delivery.py:72",
     "pruebas": "usuarios.test_login_delivery.LoginDeliveryTests.test_login_post_requires_csrf",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:32:29.611412+00:00; 2026-10-19T08:33:21.552633+00:00"
+    "fecha": "2026-10-19T08:55:41.838292+00:00; 2026-10-19T08:56:24.319105+00:00"
   },
   {
     "id": "EV-103",
@@ -1542,7 +1542,7 @@
     "evidencia": "usuarios/test_login_delivery.py:84",
     "pruebas": "usuarios.test_login_delivery.LoginDeliveryTests.test_new_password_screen_requires_verified_code",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:32:30.756410+00:00; 2026-10-19T08:33:23.674426+00:00"
+    "fecha": "2026-10-19T08:55:43.938885+00:00; 2026-10-19T08:56:25.561163+00:00"
   },
   {
     "id": "EV-104",
@@ -1557,7 +1557,7 @@
     "evidencia": "usuarios/test_login_delivery.py:91",
     "pruebas": "usuarios.test_login_delivery.LoginDeliveryTests.test_recovery_rejects_weak_or_mismatched_password",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:32:34.762379+00:00; 2026-10-19T08:33:29.026208+00:00"
+    "fecha": "2026-10-19T08:55:49.280560+00:00; 2026-10-19T08:56:28.653323+00:00"
   },
   {
     "id": "EV-105",
@@ -1572,7 +1572,7 @@
     "evidencia": "usuarios/test_login_delivery.py:100",
     "pruebas": "usuarios.test_login_delivery.LoginDeliveryTests.test_recovery_new_password_logs_in_and_old_password_fails",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:32:33.695117+00:00; 2026-10-19T08:33:26.892945+00:00"
+    "fecha": "2026-10-19T08:55:47.117332+00:00; 2026-10-19T08:56:27.362622+00:00"
   },
   {
     "id": "EV-106",
@@ -1587,7 +1587,7 @@
     "evidencia": "config/test_export_resilience.py:16; config/test_export_resilience.py:21",
     "pruebas": "config.test_export_resilience.ExcelResilienceTests.test_copied_control_characters_do_not_break_export; config.test_export_resilience.ExcelResilienceTests.test_export_keeps_formulas_as_text_and_preserves_native_values",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:38:02.892805+00:00; 2026-10-19T08:38:02.904675+00:00; 2026-10-19T08:38:05.738679+00:00; 2026-10-19T08:38:05.746956+00:00"
+    "fecha": "2026-10-19T08:54:35.236828+00:00; 2026-10-19T08:54:35.248265+00:00; 2026-10-19T08:55:30.070627+00:00; 2026-10-19T08:55:30.082712+00:00"
   },
   {
     "id": "EV-107",
@@ -1602,6 +1602,21 @@
     "evidencia": "vecinos/test_save_conflicts.py:38; vecinos/test_save_conflicts.py:50",
     "pruebas": "vecinos.test_save_conflicts.NeighborSaveConflictTests.test_neighbor_created_after_validation_reports_conflict; vecinos.test_save_conflicts.NeighborSaveConflictTests.test_new_attention_preserves_input_when_neighbor_was_created_concurrently",
     "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
-    "fecha": "2026-10-19T08:38:02.826145+00:00; 2026-10-19T08:38:02.874461+00:00; 2026-10-19T08:38:05.677918+00:00; 2026-10-19T08:38:05.724823+00:00"
+    "fecha": "2026-10-19T08:54:34.558908+00:00; 2026-10-19T08:54:34.600000+00:00; 2026-10-19T08:55:28.537663+00:00; 2026-10-19T08:55:28.622025+00:00"
+  },
+  {
+    "id": "EV-108",
+    "requisito": "PDF p. 2: acceso y recuperación de contraseña",
+    "modulo": "Identidad y correos de recuperación",
+    "tipo": "Funcional",
+    "precondiciones": "Cuentas sintéticas con correos heredados duplicados; correo en memoria.",
+    "pasos": "Solicitar recuperación e ingreso con correo compartido y con usuario exacto; cambiar el correo durante el envío y después de verificar el código.",
+    "esperado": "No se elige una cuenta arbitraria ni se envían códigos a correos asociados a otra cuenta. Los cambios de correo invalidan los códigos y permisos de recuperación anteriores; el acceso por usuario y los correos secundarios exclusivos siguen funcionando.",
+    "obtenido": "No se elige una cuenta arbitraria ni se envían códigos a correos asociados a otra cuenta. Los cambios de correo invalidan los códigos y permisos de recuperación anteriores; el acceso por usuario y los correos secundarios exclusivos siguen funcionando. Comprobado mediante 9 test(s), en el motor aplicable: mysql, sqlite.",
+    "estado": "APROBADO",
+    "evidencia": "usuarios/test_shared_email.py:25; usuarios/test_shared_email.py:31; usuarios/test_shared_email.py:35; usuarios/test_shared_email.py:41; usuarios/test_shared_email.py:48; usuarios/test_shared_email.py:54; usuarios/test_shared_email.py:66; usuarios/test_shared_email.py:75; usuarios/test_shared_email.py:85",
+    "pruebas": "usuarios.test_shared_email.SharedEmailSecurityTests.test_shared_email_never_selects_an_arbitrary_account_for_recovery; usuarios.test_shared_email.SharedEmailSecurityTests.test_admin_code_is_not_delivered_to_another_accounts_email; usuarios.test_shared_email.SharedEmailSecurityTests.test_shared_email_cannot_log_in_as_first_account_with_its_password; usuarios.test_shared_email.SharedEmailSecurityTests.test_exact_username_selects_its_owner_even_when_used_as_another_email; usuarios.test_shared_email.SharedEmailSecurityTests.test_unique_secondary_email_still_works; usuarios.test_shared_email.SharedEmailSecurityTests.test_changing_recovery_email_invalidates_verified_grant; usuarios.test_shared_email.SharedEmailSecurityTests.test_changing_email_invalidates_pending_code; usuarios.test_shared_email.SharedEmailSecurityTests.test_delivery_cannot_restore_a_code_after_email_changed_during_smtp; usuarios.test_shared_email.SharedEmailSecurityTests.test_explicit_usernames_still_log_in_to_their_own_accounts",
+    "responsable": "Benjamin Avalos; ejecución automatizada asistida por Codex",
+    "fecha": "2026-10-19T08:55:13.184934+00:00; 2026-10-19T08:55:15.301746+00:00; 2026-10-19T08:55:18.448090+00:00; 2026-10-19T08:55:20.547077+00:00; 2026-10-19T08:55:23.681501+00:00; 2026-10-19T08:55:27.865636+00:00; 2026-10-19T08:55:31.004270+00:00; 2026-10-19T08:55:33.095265+00:00; 2026-10-19T08:55:35.204877+00:00; 2026-10-19T08:56:01.434302+00:00; 2026-10-19T08:56:03.064614+00:00; 2026-10-19T08:56:05.944068+00:00; 2026-10-19T08:56:08.172227+00:00; 2026-10-19T08:56:11.190053+00:00; 2026-10-19T08:56:15.766597+00:00; 2026-10-19T08:56:17.592768+00:00; 2026-10-19T08:56:18.775080+00:00; 2026-10-19T08:56:19.983280+00:00"
   }
 ]
