@@ -1,0 +1,1467 @@
+{
+  "baseline_before_background_refinement": {
+    "templates_compiled": 53,
+    "views": [
+      {
+        "page": "root:/",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "root:/atenciones/?q=Vecino",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "root:/atenciones/persona/1/",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "aria-prohibited-attr",
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "root:/atenciones/nueva-persona/",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "aria-prohibited-attr",
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "root:/acciones/",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "root:/acciones/nueva/",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "aria-prohibited-attr",
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "root:/acciones/1/revision/",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "root:/metas/",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "root:/metas/nueva/",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "aria-prohibited-attr"
+        ]
+      },
+      {
+        "page": "root:/metas/1/editar/",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "aria-prohibited-attr"
+        ]
+      },
+      {
+        "page": "root:/reportes/",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": []
+      },
+      {
+        "page": "root:/ficha-usuario/",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": []
+      },
+      {
+        "page": "root:/mi-perfil/ajustes/",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "aria-valid-attr-value"
+        ]
+      },
+      {
+        "page": "root:/mi-perfil/contrasena/",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "aria-valid-attr-value"
+        ]
+      },
+      {
+        "page": "root:/mi-perfil/passkeys/",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "root:/demostracion/",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": []
+      },
+      {
+        "page": "root:/mi-perfil/apariencia/1/",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": []
+      },
+      {
+        "page": "root:/demostracion/terreno/",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "root:/demostracion/cierre/",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "root:/demostracion/revision/",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "root:/demostracion/proyeccion/",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": []
+      },
+      {
+        "page": "root:/administracion/",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": []
+      },
+      {
+        "page": "root:/mantenedores/usuarios/",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "root:/mantenedores/usuarios/:editor",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": []
+      },
+      {
+        "page": "root:/mantenedores/roles/",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "root:/mantenedores/roles/:editor",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": []
+      },
+      {
+        "page": "root:/mantenedores/delegaciones/",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "root:/mantenedores/delegaciones/:editor",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": []
+      },
+      {
+        "page": "root:/mantenedores/metas/",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "root:/mantenedores/metas/:editor",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": []
+      },
+      {
+        "page": "root:/mantenedores/tipos-atencion/",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "root:/mantenedores/tipos-atencion/:editor",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": []
+      },
+      {
+        "page": "root:/mantenedores/sub-atenciones/",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "root:/mantenedores/sub-atenciones/:editor",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": []
+      },
+      {
+        "page": "root:/mantenedores/vecinos/",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "root:/mantenedores/vecinos/:editor",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": []
+      },
+      {
+        "page": "root:/consulta/usuarios/2/",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": []
+      },
+      {
+        "page": "root:/consulta/roles/1/",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": []
+      },
+      {
+        "page": "root:/consulta/delegaciones/1/",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": []
+      },
+      {
+        "page": "root:/consulta/metas/1/",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": []
+      },
+      {
+        "page": "root:/consulta/tipo_atencion/1/",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": []
+      },
+      {
+        "page": "root:/consulta/sub_atencion/1/",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": []
+      },
+      {
+        "page": "staff:/",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "staff:/atenciones/?q=Vecino",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "staff:/atenciones/persona/1/",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "aria-prohibited-attr",
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "staff:/atenciones/nueva-persona/",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "aria-prohibited-attr",
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "staff:/acciones/",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "staff:/acciones/nueva/",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "aria-prohibited-attr",
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "staff:/acciones/1/revision/",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "staff:/metas/",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "staff:/metas/nueva/",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "aria-prohibited-attr"
+        ]
+      },
+      {
+        "page": "staff:/metas/1/editar/",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "aria-prohibited-attr"
+        ]
+      },
+      {
+        "page": "staff:/reportes/",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": []
+      },
+      {
+        "page": "staff:/ficha-usuario/",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": []
+      },
+      {
+        "page": "staff:/mi-perfil/ajustes/",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "aria-valid-attr-value"
+        ]
+      },
+      {
+        "page": "staff:/mi-perfil/contrasena/",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "aria-valid-attr-value"
+        ]
+      },
+      {
+        "page": "staff:/mi-perfil/passkeys/",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "staff:/demostracion/",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": []
+      },
+      {
+        "page": "staff:/mi-perfil/apariencia/1/",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": []
+      },
+      {
+        "page": "staff:/demostracion/terreno/",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "staff:/demostracion/cierre/",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "staff:/demostracion/revision/",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "staff:/demostracion/proyeccion/",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": []
+      },
+      {
+        "page": "staff:/mantenedores/vecinos/",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "anon:/login/",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "anon:/recuperar-password/",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "anon:/validar-codigo/",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "anon:/cambiar-password/",
+        "width": 1440,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "root:/",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "root:/atenciones/?q=Vecino",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "root:/atenciones/persona/1/",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "aria-prohibited-attr",
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "root:/atenciones/nueva-persona/",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "aria-prohibited-attr",
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "root:/acciones/",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "root:/acciones/nueva/",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "aria-prohibited-attr",
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "root:/acciones/1/revision/",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "root:/metas/",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "root:/metas/nueva/",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "aria-prohibited-attr"
+        ]
+      },
+      {
+        "page": "root:/metas/1/editar/",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "aria-prohibited-attr"
+        ]
+      },
+      {
+        "page": "root:/reportes/",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "root:/ficha-usuario/",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": []
+      },
+      {
+        "page": "root:/mi-perfil/ajustes/",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "aria-valid-attr-value"
+        ]
+      },
+      {
+        "page": "root:/mi-perfil/contrasena/",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "aria-valid-attr-value",
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "root:/mi-perfil/passkeys/",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "root:/demostracion/",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "root:/mi-perfil/apariencia/1/",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "root:/demostracion/terreno/",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "root:/demostracion/cierre/",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "root:/demostracion/revision/",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "root:/demostracion/proyeccion/",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "root:/administracion/",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "root:/mantenedores/usuarios/",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "root:/mantenedores/usuarios/:editor",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": []
+      },
+      {
+        "page": "root:/mantenedores/roles/",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "root:/mantenedores/roles/:editor",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": []
+      },
+      {
+        "page": "root:/mantenedores/delegaciones/",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "root:/mantenedores/delegaciones/:editor",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": []
+      },
+      {
+        "page": "root:/mantenedores/metas/",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "root:/mantenedores/metas/:editor",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": []
+      },
+      {
+        "page": "root:/mantenedores/tipos-atencion/",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "root:/mantenedores/tipos-atencion/:editor",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": []
+      },
+      {
+        "page": "root:/mantenedores/sub-atenciones/",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "root:/mantenedores/sub-atenciones/:editor",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": []
+      },
+      {
+        "page": "root:/mantenedores/vecinos/",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "root:/mantenedores/vecinos/:editor",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": []
+      },
+      {
+        "page": "root:/consulta/usuarios/2/",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "root:/consulta/roles/1/",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "root:/consulta/delegaciones/1/",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "root:/consulta/metas/1/",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": []
+      },
+      {
+        "page": "root:/consulta/tipo_atencion/1/",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": []
+      },
+      {
+        "page": "root:/consulta/sub_atencion/1/",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": []
+      },
+      {
+        "page": "staff:/",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "staff:/atenciones/?q=Vecino",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "staff:/atenciones/persona/1/",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "aria-prohibited-attr",
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "staff:/atenciones/nueva-persona/",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "aria-prohibited-attr",
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "staff:/acciones/",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "staff:/acciones/nueva/",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "aria-prohibited-attr",
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "staff:/acciones/1/revision/",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "staff:/metas/",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "staff:/metas/nueva/",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "aria-prohibited-attr"
+        ]
+      },
+      {
+        "page": "staff:/metas/1/editar/",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "aria-prohibited-attr"
+        ]
+      },
+      {
+        "page": "staff:/reportes/",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": []
+      },
+      {
+        "page": "staff:/ficha-usuario/",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "staff:/mi-perfil/ajustes/",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "aria-valid-attr-value"
+        ]
+      },
+      {
+        "page": "staff:/mi-perfil/contrasena/",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "aria-valid-attr-value",
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "staff:/mi-perfil/passkeys/",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "staff:/demostracion/",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "staff:/mi-perfil/apariencia/1/",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "staff:/demostracion/terreno/",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "staff:/demostracion/cierre/",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "staff:/demostracion/revision/",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "staff:/demostracion/proyeccion/",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "staff:/mantenedores/vecinos/",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "page": "anon:/login/",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": []
+      },
+      {
+        "page": "anon:/recuperar-password/",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": []
+      },
+      {
+        "page": "anon:/validar-codigo/",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": []
+      },
+      {
+        "page": "anon:/cambiar-password/",
+        "width": 390,
+        "overflow": false,
+        "violations": [],
+        "incomplete": []
+      }
+    ],
+    "javascript_errors": [],
+    "missing_assets": [],
+    "screenshots": false,
+    "synthetic": true
+  },
+  "confirmation_after_background_refinement": {
+    "checks": [
+      {
+        "check": "Accesibilidad automática de confirmación",
+        "passed": true,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "check": "root 1440: fondo suave y contenido nítido",
+        "passed": true,
+        "filter": "blur(18px)",
+        "opacity": 0.78,
+        "contentFilter": "none",
+        "motion": "running",
+        "transform": "matrix(1, 0, 0, 1, -64.0807, -33.3755)"
+      },
+      {
+        "check": "root 1440: ondas siguen moviéndose",
+        "passed": true
+      },
+      {
+        "check": "root 1440: desactivar conserva fondo estático",
+        "passed": true
+      },
+      {
+        "check": "root 1440: respeta Reducir movimiento",
+        "passed": true
+      },
+      {
+        "check": "root 1440: vuelve al movimiento elegido",
+        "passed": true
+      },
+      {
+        "check": "root 1440: sin desborde",
+        "passed": true
+      },
+      {
+        "check": "Accesibilidad automática de confirmación",
+        "passed": true,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "check": "staff 1440: fondo suave y contenido nítido",
+        "passed": true,
+        "filter": "blur(18px)",
+        "opacity": 0.82,
+        "contentFilter": "none",
+        "motion": "running",
+        "transform": "matrix(1, 0, 0, 1, -64.1546, -33.4139)"
+      },
+      {
+        "check": "staff 1440: ondas siguen moviéndose",
+        "passed": true
+      },
+      {
+        "check": "staff 1440: desactivar conserva fondo estático",
+        "passed": true
+      },
+      {
+        "check": "staff 1440: respeta Reducir movimiento",
+        "passed": true
+      },
+      {
+        "check": "staff 1440: vuelve al movimiento elegido",
+        "passed": true
+      },
+      {
+        "check": "staff 1440: sin desborde",
+        "passed": true
+      },
+      {
+        "check": "Accesibilidad automática de confirmación",
+        "passed": true,
+        "violations": [],
+        "incomplete": [
+          "aria-hidden-focus",
+          "color-contrast"
+        ]
+      },
+      {
+        "check": "contraseña 1440: error servidor en SweetAlert2",
+        "passed": true
+      },
+      {
+        "check": "contraseña 1440: validación cliente 16",
+        "passed": true
+      },
+      {
+        "check": "contraseña 1440: validación cliente 17",
+        "passed": true
+      },
+      {
+        "check": "contraseña 1440: validación cliente 18",
+        "passed": true
+      },
+      {
+        "check": "contraseña 1440: validación cliente 19",
+        "passed": true
+      },
+      {
+        "check": "contraseña 1440: validación cliente 20",
+        "passed": true
+      },
+      {
+        "check": "contraseña 1440: validación cliente 21",
+        "passed": true
+      },
+      {
+        "check": "contraseña 1440: validación cliente 22",
+        "passed": true
+      },
+      {
+        "check": "contraseña 1440: validación cliente 23",
+        "passed": true
+      },
+      {
+        "check": "contraseña 1440: punto es símbolo válido",
+        "passed": true
+      },
+      {
+        "check": "Accesibilidad automática de confirmación",
+        "passed": true,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "check": "root 390: fondo suave y contenido nítido",
+        "passed": true,
+        "filter": "blur(18px)",
+        "opacity": 0.78,
+        "contentFilter": "none",
+        "motion": "running",
+        "transform": "matrix(1, 0, 0, 1, -17.3274, -28.1235)"
+      },
+      {
+        "check": "root 390: ondas siguen moviéndose",
+        "passed": true
+      },
+      {
+        "check": "root 390: desactivar conserva fondo estático",
+        "passed": true
+      },
+      {
+        "check": "root 390: respeta Reducir movimiento",
+        "passed": true
+      },
+      {
+        "check": "root 390: vuelve al movimiento elegido",
+        "passed": true
+      },
+      {
+        "check": "root 390: sin desborde",
+        "passed": true
+      },
+      {
+        "check": "Accesibilidad automática de confirmación",
+        "passed": true,
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "check": "staff 390: fondo suave y contenido nítido",
+        "passed": true,
+        "filter": "blur(18px)",
+        "opacity": 0.82,
+        "contentFilter": "none",
+        "motion": "running",
+        "transform": "matrix(1, 0, 0, 1, -17.3389, -28.1421)"
+      },
+      {
+        "check": "staff 390: ondas siguen moviéndose",
+        "passed": true
+      },
+      {
+        "check": "staff 390: desactivar conserva fondo estático",
+        "passed": true
+      },
+      {
+        "check": "staff 390: respeta Reducir movimiento",
+        "passed": true
+      },
+      {
+        "check": "staff 390: vuelve al movimiento elegido",
+        "passed": true
+      },
+      {
+        "check": "staff 390: sin desborde",
+        "passed": true
+      },
+      {
+        "check": "Accesibilidad automática de confirmación",
+        "passed": true,
+        "violations": [],
+        "incomplete": [
+          "aria-hidden-focus",
+          "color-contrast"
+        ]
+      },
+      {
+        "check": "contraseña 390: error servidor en SweetAlert2",
+        "passed": true
+      },
+      {
+        "check": "contraseña 390: validación cliente 41",
+        "passed": true
+      },
+      {
+        "check": "contraseña 390: validación cliente 42",
+        "passed": true
+      },
+      {
+        "check": "contraseña 390: validación cliente 43",
+        "passed": true
+      },
+      {
+        "check": "contraseña 390: validación cliente 44",
+        "passed": true
+      },
+      {
+        "check": "contraseña 390: validación cliente 45",
+        "passed": true
+      },
+      {
+        "check": "contraseña 390: validación cliente 46",
+        "passed": true
+      },
+      {
+        "check": "contraseña 390: validación cliente 47",
+        "passed": true
+      },
+      {
+        "check": "contraseña 390: validación cliente 48",
+        "passed": true
+      },
+      {
+        "check": "contraseña 390: punto es símbolo válido",
+        "passed": true
+      },
+      {
+        "check": "Sin errores JavaScript",
+        "passed": true,
+        "errors": []
+      }
+    ],
+    "axe": [
+      {
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "violations": [],
+        "incomplete": [
+          "aria-hidden-focus",
+          "color-contrast"
+        ]
+      },
+      {
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "violations": [],
+        "incomplete": [
+          "aria-hidden-focus",
+          "color-contrast"
+        ]
+      }
+    ],
+    "screenshots": false,
+    "synthetic": true,
+    "javascript_errors": []
+  }
+}

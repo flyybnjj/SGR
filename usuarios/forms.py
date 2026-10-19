@@ -89,7 +89,7 @@ class CambiarPasswordForm(forms.Form):
         widget=forms.PasswordInput(attrs={
             'class': 'form-control form-control-lg',
             'placeholder': 'Nueva contraseña',
-            'id': 'newPasswordInput',
+            'id': 'newPassword',
             'required': True
         })
     )
@@ -98,7 +98,7 @@ class CambiarPasswordForm(forms.Form):
         widget=forms.PasswordInput(attrs={
             'class': 'form-control form-control-lg',
             'placeholder': 'Confirmar nueva contraseña',
-            'id': 'confirmPasswordInput',
+            'id': 'confirmPassword',
             'required': True
         })
     )
@@ -152,8 +152,10 @@ class UsuarioForm(RutFormMixin, forms.ModelForm):
         for field in ("first_name", "last_name", "email", "rol"):
             self.fields[field].required = True
         self.fields["rut"].required = not bool(self.instance.pk)
-        self.fields["rol"].queryset = Rol.objects.filter(activo=True)
-        self.fields["delegacion"].queryset = DelegacionMunicipal.objects.filter(activo=True)
+        current_role = self.instance.rol_id if self.instance.pk else None
+        current_delegation = self.instance.delegacion_id if self.instance.pk else None
+        self.fields["rol"].queryset = Rol.objects.filter(Q(activo=True) | Q(pk=current_role))
+        self.fields["delegacion"].queryset = DelegacionMunicipal.objects.filter(Q(activo=True) | Q(pk=current_delegation))
         self.fields["delegacion"].widget.attrs["class"] = "form-select"
         self.fields["password"].required = not bool(self.instance.pk)
         if self.instance.is_superuser:

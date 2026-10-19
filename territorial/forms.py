@@ -5,6 +5,7 @@ from .models import DelegacionMunicipal, ItemMeta
 from usuarios.models import Usuario
 from config.validators import validar_color
 from django.db import transaction
+from django.db.models import Q
 from django.core.exceptions import ValidationError
 
 
@@ -21,7 +22,8 @@ class DelegacionMunicipalForm(NombreCatalogoUnicoMixin, forms.ModelForm):
         user = kwargs.pop('user', None)
         super().__init__(*args, **kwargs)
 
-        self.fields['delegado'].queryset = Usuario.objects.filter(activo=True, is_superuser=False)
+        current_delegate = self.instance.delegado_id if self.instance.pk else None
+        self.fields['delegado'].queryset = Usuario.objects.filter(Q(activo=True) | Q(pk=current_delegate), is_superuser=False)
         if user is not None and not user.is_superuser:
             self.fields['delegado'].queryset = Usuario.objects.filter(pk=self.instance.delegado_id, is_superuser=False)
             self.fields['delegado'].disabled = True
@@ -43,7 +45,9 @@ class DelegacionMunicipalForm(NombreCatalogoUnicoMixin, forms.ModelForm):
         if not commit:
             return seat
         if seat.pk:
-            DelegacionMunicipal.objects.select_for_update().get(pk=seat.pk)
+            stored = DelegacionMunicipal.objects.select_for_update().get(pk=seat.pk)
+            if self.fields['delegado'].disabled:
+                seat.delegado_id = stored.delegado_id
         if seat.delegado_id:
             delegate = Usuario.objects.select_for_update().get(pk=seat.delegado_id)
             if delegate.delegacion_id and delegate.delegacion_id != seat.pk:
@@ -51,7 +55,7 @@ class DelegacionMunicipalForm(NombreCatalogoUnicoMixin, forms.ModelForm):
             if delegate.delegaciones_a_cargo.exclude(pk=seat.pk).exists():
                 raise ValidationError({'delegado': 'El responsable ya dirige otra delegación. Reasigne esa responsabilidad antes de guardar.'})
             seat.delegado = delegate
-        seat.save()
+        seat.save(update_fields=self._meta.fields if seat.pk else None)
         self.save_m2m()
         if seat.delegado_id and not seat.delegado.delegacion_id:
 

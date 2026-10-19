@@ -2,7 +2,8 @@ from urllib.parse import urlsplit
 
 from django.conf import settings
 from django.http import HttpResponseBadRequest, HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import redirect, render
+from django.contrib.auth import logout
 
 
 class LocalPasskeyOriginMiddleware:
@@ -32,6 +33,9 @@ class ActiveProfileMiddleware:
 
     def __call__(self, request):
         user = request.user
+        if user.is_authenticated and (not user.activo or not user.is_active):
+            logout(request)
+            return redirect('usuarios:login')
         if user.is_authenticated and not user.is_superuser and (not user.rol_id or not user.rol.activo):
             if request.path != '/logout/':
                 return render(request, '403.html', status=403)

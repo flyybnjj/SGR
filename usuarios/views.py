@@ -88,10 +88,7 @@ def login_view(request):
                 preferred = PasskeyProfile.objects.filter(user=user, preferred=True).exists()
                 return preferred_cookie(redirect('dashboard:inicio'), preferred)
         else:
-            if user_candidate:
-                messages.error(request, "Contraseña incorrecta. Por favor verifica tus credenciales.")
-            else:
-                messages.error(request, "Usuario o credenciales incorrectas. Verifica tus datos.")
+            messages.error(request, "Usuario o contraseña incorrectos. Revisa tus datos.")
 
     return render(request, 'usuarios/login.html', {
         'form': form,

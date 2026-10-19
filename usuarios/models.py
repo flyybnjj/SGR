@@ -44,6 +44,8 @@ class Usuario(AbstractUser):
                 raise ValidationError("El administrador raíz no puede desactivarse ni perder sus privilegios.")
 
         self.is_active = bool(self.activo)
+        if kwargs.get('update_fields') and 'activo' in kwargs['update_fields']:
+            kwargs['update_fields'] = set(kwargs['update_fields']) | {'is_active'}
 
 
         if self.reset_code:

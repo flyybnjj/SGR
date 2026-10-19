@@ -163,6 +163,8 @@ La distribución aprobada es la propuesta 22, «Menú por tareas», conservando 
 
 **Key Characteristics:**
 
+El fondo usa un tinte territorial del 12 % y el marco del 6 %. Las ondas conservan sus recorridos de 18 y 26 segundos, con desenfoque fijo de 18 px y opacidad de .78 (.82 con color personalizado). Formularios, tablas, textos y botones permanecen nítidos; Reducir transparencia elimina el filtro y Reducir movimiento conserva el fondo estático.
+
 - Color territorial confirmado, compartido por toda la sede, con tinta y primer plano calculados.
 - Marco translúcido y contenido blanco opaco.
 - Tipografía nativa, densidad de trabajo y controles amplios.

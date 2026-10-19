@@ -2,6 +2,7 @@ from django import forms
 from .models import Vecino
 from config.validators import RutFormMixin
 from territorial.models import DelegacionMunicipal
+from django.db.models import Q
 
 
 class VecinoForm(RutFormMixin, forms.ModelForm):
@@ -9,6 +10,8 @@ class VecinoForm(RutFormMixin, forms.ModelForm):
         user = kwargs.pop("user", None)
         super().__init__(*args, **kwargs)
         self.fields['territorio'].queryset = DelegacionMunicipal.objects.filter(activo=True)
+        if self.instance.pk and user and user.is_superuser:
+            self.fields['territorio'].queryset = DelegacionMunicipal.objects.filter(Q(activo=True) | Q(pk=self.instance.territorio_id))
         if user and not user.is_superuser:
             self.fields['territorio'].queryset = self.fields['territorio'].queryset.filter(pk=user.delegacion_id)
             self.fields['territorio'].required = True

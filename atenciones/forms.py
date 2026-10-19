@@ -4,6 +4,7 @@ from config.catalog_validation import NombreCatalogoUnicoMixin
 from django import forms
 from django.core.exceptions import ValidationError
 from django.db import transaction
+from django.db.models import Q
 from .models import TipoAtencion, SubAtencion
 
 
@@ -41,7 +42,8 @@ class SubAtencionForm(NombreCatalogoUnicoMixin, forms.ModelForm):
         return subtype
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['tipo_atencion'].queryset = TipoAtencion.objects.filter(activo=True)
+        current_kind = self.instance.tipo_atencion_id if self.instance.pk else None
+        self.fields['tipo_atencion'].queryset = TipoAtencion.objects.filter(Q(activo=True) | Q(pk=current_kind))
 
     class Meta:
         model = SubAtencion

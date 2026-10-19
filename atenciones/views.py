@@ -267,6 +267,9 @@ def attention_detail(request, pk):
             attention = None
             try:
                 with transaction.atomic():
+                    person = get_object_or_404(visible_neighbors(Vecino.objects.select_for_update(), request.user), pk=pk)
+                    if not person.activo:
+                        raise PermissionDenied('Esta persona se encuentra inactiva.')
                     if lock_attention_catalog(form):
                         attention = form.save(commit=False)
                         attention.request_token = token

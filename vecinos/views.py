@@ -52,6 +52,10 @@ def vecinos_save_view(request, pk=None):
         if form.is_valid():
             try:
                 with transaction.atomic():
+                    if pk:
+                        current = get_object_or_404(Vecino.objects.select_for_update(), pk=pk)
+                        if not request.user.is_superuser and current.territorio_id != request.user.delegacion_id:
+                            raise PermissionDenied
                     vecino = form.save()
             except IntegrityError:
                 rut = form.cleaned_data.get('rut')
