@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Q
-from django.db import transaction
+from django.db import IntegrityError, transaction
 from config.excel_utils import export_queryset_to_excel
 from .models import Vecino
 from .forms import VecinoForm
@@ -50,9 +50,17 @@ def vecinos_save_view(request, pk=None):
             raise PermissionDenied
         form = VecinoForm(request.POST, instance=instance, user=request.user)
         if form.is_valid():
-            vecino = form.save()
-            messages.success(request, f"Vecino(a) '{vecino.nombre}' {'modificado(a)' if pk else 'registrado(a)'} exitosamente.")
-        else:
+            try:
+                with transaction.atomic():
+                    vecino = form.save()
+            except IntegrityError:
+                rut = form.cleaned_data.get('rut')
+                if not rut or not Vecino.objects.filter(rut=rut).exclude(pk=pk).exists():
+                    raise
+                form.add_error('rut', 'Ya existe un registro con este RUT. Recarga la lista antes de continuar.')
+            else:
+                messages.success(request, f"Vecino(a) '{vecino.nombre}' {'modificado(a)' if pk else 'registrado(a)'} exitosamente.")
+        if form.errors:
             errors_str = " ".join([f"{k}: {v[0]}" for k, v in form.errors.items()])
             messages.error(request, f"Error al guardar vecino: {errors_str}")
     return redirect('vecinos:vecinos_list')

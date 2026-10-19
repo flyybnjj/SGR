@@ -310,8 +310,12 @@ def attention_new(request):
             except IntegrityError:
                 previous = previous_attention(request, token)
                 if not previous:
-                    raise
-                attention = previous
+                    rut = person_form.cleaned_data.get('rut')
+                    if not rut or not Vecino.objects.filter(rut=rut).exists():
+                        raise
+                    person_form.add_error('rut', 'Ya existe un registro con este RUT. Busca al vecino antes de registrar la atención.')
+                else:
+                    attention = previous
             if attention:
                 return attention_confirmation(request, attention)
     return render(request, 'atenciones/new.html', {'person_form': person_form, 'form': form})

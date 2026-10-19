@@ -1514,5 +1514,31 @@
     "pruebas": [
       "usuarios.test_login_delivery.LoginDeliveryTests.test_recovery_new_password_logs_in_and_old_password_fails"
     ]
+  },
+  {
+    "id": "EV-106",
+    "requisito": "PDF p. 3: exportación Excel y validación de datos",
+    "modulo": "Reportes Excel",
+    "tipo": "Funcional",
+    "precondiciones": "Exportador con texto copiado, caracteres de control, fórmulas como texto, números y fechas. Sin datos productivos.",
+    "pasos": "1. Exportar texto con caracteres no admitidos por XML. 2. Abrir el archivo. 3. Revisar texto, saltos de línea, fórmulas, números y fechas.",
+    "esperado": "Se genera un Excel legible sin error 500; se conservan el texto válido, los tipos de datos y la protección frente a fórmulas.",
+    "pruebas": [
+      "config.test_export_resilience.ExcelResilienceTests.test_copied_control_characters_do_not_break_export",
+      "config.test_export_resilience.ExcelResilienceTests.test_export_keeps_formulas_as_text_and_preserves_native_values"
+    ]
+  },
+  {
+    "id": "EV-107",
+    "requisito": "PDF p. 2 y 3: registro de vecinos, atenciones y control de duplicados",
+    "modulo": "Conflictos de RUT",
+    "tipo": "Funcional",
+    "precondiciones": "Funcionario con sede y permisos; otro registro con el mismo RUT se guarda después de validar el formulario. Base temporal de prueba.",
+    "pasos": "1. Validar un vecino nuevo. 2. Guardar el mismo RUT en una operación intercalada. 3. Completar el envío desde el mantenedor y desde una atención.",
+    "esperado": "Se informa el duplicado sin error 500, sin éxito falso ni atención huérfana; en la atención se conserva lo escrito.",
+    "pruebas": [
+      "vecinos.test_save_conflicts.NeighborSaveConflictTests.test_neighbor_created_after_validation_reports_conflict",
+      "vecinos.test_save_conflicts.NeighborSaveConflictTests.test_new_attention_preserves_input_when_neighbor_was_created_concurrently"
+    ]
   }
 ]

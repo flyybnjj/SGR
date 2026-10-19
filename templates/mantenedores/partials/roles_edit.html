@@ -3,7 +3,7 @@
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content modal-content-stitch">
                             <div class="modal-header-stitch">
-                                <h5 id="editRolModal{{ rol.id }}Title" class="fw-bold mb-0" style="color: var(--text-main); font-size: 1.15rem;">Editar Rol: {{ rol.nombre }}</h5>
+                                <h2 id="editRolModal{{ rol.id }}Title" class="fw-bold mb-0" style="color: var(--text-main); font-size: 1.15rem;">Editar Rol: {{ rol.nombre }}</h2>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                             </div>
                             <form method="POST" data-crud-form novalidate action="{% url 'usuarios:roles_edit' rol.id %}">

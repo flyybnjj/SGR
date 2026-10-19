@@ -15,7 +15,7 @@ Fuente: `Requisitos_Segunda_Evaluacion_SGR.pdf`, 10 páginas, SHA-256 `b6820b731
 | 1, 4, 10 | Estado y perfiles | «Funciones por perfil» muestra capacidades efectivas y rutas reales. Terreno, cierre, comparación dual y proyección están navegables como simulaciones sin persistencia, según permisos. Ver demostracion-perfiles.md. |
 | 2, 4 | Identidad y adaptación | SVG contrastado con el archivo del servidor municipal, sin teñir/deformar; blanco/rojo sin personalización, color delegado heredado, tipografía del sistema. Ver identidad-grafica.md y mediciones sin capturas. |
 | 3–4 | Evidencia y carga | Casos funcionales con requisito/página, pasos, expectativas y vínculo a ejecuciones técnicas. HTTPS, carga progresiva, recuperación y CPU/RAM identifican versión y escenario. Las capturas antiguas son evidencia histórica, no se tomaron nuevas. |
-| 4 | Entrega | README, migraciones, `.env.example` sin secretos, Git privado, URL HTTPS, versión pública y ZIP de fuente en escritorio. Acceso del profesor pendiente por falta de su usuario, según instrucción expresa del titular. |
+| 4 | Entrega | README, migraciones, `.env.example` sin secretos, repositorio público, URL HTTPS, versión pública y copia de fuente en escritorio. El docente puede consultar el repositorio mediante su URL. |
 
 ## Reglas de negocio conservadas
 
@@ -41,9 +41,9 @@ Las comprobaciones de navegador a 390/1440 px no constituyen certificación WCAG
 
 ## Pruebas y versión
 
-Plan de casos: `evidencias/casos-evaluacion.json`. Resultados: `evidencias/pruebas-funcionales.json` y `evidencias/matriz-funcional.csv`. Cada caso contiene requisito/página, módulo, precondiciones, pasos, esperado, obtenido, estado, fuente y línea de sus tests, responsable y fecha. Las ejecuciones de cada motor se conservan en `evidencias/entrega-final/`. Los tests técnicos no se confunden con casos de evaluación ni se cuentan dos veces por repetirse entre motores.
+Plan de casos: `evidencias/casos-evaluacion.json`. Resultados: `evidencias/pruebas-funcionales.json` y `evidencias/matriz-funcional.csv`. Cada caso contiene requisito/página, módulo, precondiciones, pasos, esperado, obtenido, estado, fuente y línea de sus tests, responsable y fecha. Las ejecuciones actuales de cada motor se conservan en `evidencias/revision-total-20261019/`; el cierre anterior permanece en `evidencias/entrega-final/`. Los tests técnicos no se confunden con casos de evaluación ni se cuentan dos veces por repetirse entre motores.
 
-Cierre vigente: 105 casos aprobados (93 funcionales y 12 complementarios), respaldados por 361 tests distintos. SQLite: 358 aprobados y 3 omitidos; MySQL: 326 aprobados y 35 omitidos; ningún fallo en las ejecuciones finales. Cada test tiene una aprobación en un entorno aplicable. La herramienta de trazabilidad tiene otras 8 pruebas independientes. El navegador comprueba 20 combinaciones de vista/tamaño sin capturas; conserva las comprobaciones incompletas de axe. Véase `evidencias/entrega-final/resumen.json`.
+Cierre vigente: 107 casos aprobados (95 funcionales y 12 complementarios), respaldados por 365 tests distintos. SQLite: 362 aprobados y 3 omitidos; MySQL: 330 aprobados y 35 omitidos; ningún fallo en las ejecuciones finales. Cada test tiene una aprobación en un entorno aplicable. La herramienta de trazabilidad tiene otras 8 pruebas independientes. El navegador comprueba 136 estados de páginas y editores en escritorio/móvil sin capturas; conserva las comprobaciones incompletas de axe. Véase `evidencias/revision-total-20261019/resumen.json`.
 
 Las comprobaciones HTTPS/carga de la aplicación en MySQL permanecen en `evidencias/escaneo-codigo/`, con su commit de aplicación. `evidencias/cierre-pdf/`, auditoria-logica.md y ambito-vecinos.md son antecedentes históricos, no el resultado vigente.
 
@@ -51,7 +51,7 @@ La carga de lectura de producción usa niveles 1, 3, 5 y 10, diez segundos por n
 
 Las escrituras se evalúan mediante HTTP en loopback, Gunicorn y una base sintética separada dentro de la misma EC2. Incluye guardado válido, subatención inválida, búsquedas, apertura/cancelación y repetición de UUID; comprueba conteo y sede/autor finales. El correo y la caché son locales de prueba. No inserta atenciones ficticias en producción. La diferencia de escenario queda explícita en los resultados.
 
-El acceso del docente al repositorio permanece pendiente: el usuario no conoce su cuenta y pidió conservarlo privado por ahora. Las credenciales personales de evaluación se entregan por canal privado; no se publican en README, ZIP ni evidencias. No se modifica esa decisión para afirmar cumplimiento absoluto.
+El repositorio es público en https://github.com/flyybnjj/SGR; no hace falta una invitación para consultar el código. Las credenciales personales de evaluación se entregan por canal privado; no se publican en README, ZIP ni evidencias. No se modifica esa decisión para afirmar cumplimiento absoluto.
 
 ## Cierre de trazabilidad
 
@@ -59,4 +59,9 @@ La versión anterior tenía 350 tests, pero asignaba a todos la referencia gené
 
 Durante la regeneración se corrigió además el recolector de evidencias: al encontrar un test decorado, tomaba la línea del envoltorio de Django/unittest y abortaba. Ahora localiza el test original; hay una regresión que comprueba la línea exacta y se repitieron completas ambas suites después de corregirlo. Las ejecuciones abortadas no se usan para aprobar casos.
 
-MySQL 8.4.11 conserva los datos migrados y se verificó restaurando un respaldo. Véanse `mysql-ec2.md` y `evidencias/escaneo-codigo/`. No cambió la lógica productiva durante este cierre: se completaron tests, trazabilidad y documentación. El único pendiente externo de la entrega es acordar el acceso de evaluación con el docente; las limitaciones de validación visual y de simulaciones quedan declaradas, sin presentarlas como una certificación institucional ni como backend terminado.
+MySQL 8.4.11 conserva los datos migrados y se verificó restaurando un respaldo. Véanse `mysql-ec2.md` y `evidencias/escaneo-codigo/`. No cambió la lógica productiva durante este cierre: se completaron tests, trazabilidad y documentación. Las cuentas de evaluación se entregan por separado; las limitaciones de validación visual y de simulaciones quedan declaradas, sin presentarlas como una certificación institucional ni como backend terminado.
+
+
+## Revisión del 19/10/2026
+
+Se corrigieron la exportación de texto con caracteres invisibles, los conflictos de RUT entre guardados simultáneos y la jerarquía de títulos de los siete editores. Las pruebas completas se ejecutaron en SQLite y en una copia aislada sobre MySQL; después se repitieron los casos afectados por la corrección de los títulos. Se comprobaron 66 operaciones HTTP de consulta y permisos en AWS. Dos cuentas activas sin sede quedan pendientes de asignación por el titular; el sistema no les permite operar sin delegación.

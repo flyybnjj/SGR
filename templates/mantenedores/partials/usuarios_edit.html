@@ -3,7 +3,7 @@
                     <div class="modal-dialog modal-dialog-centered modal-lg">
                         <div class="modal-content modal-content-stitch">
                             <div class="modal-header-stitch">
-                                <h5 id="editUsuarioModal{{ u.id }}Title" class="fw-bold mb-0" style="color: var(--text-main); font-size: 1.15rem;">Editar Cuenta: {{ u.username }}</h5>
+                                <h2 id="editUsuarioModal{{ u.id }}Title" class="fw-bold mb-0" style="color: var(--text-main); font-size: 1.15rem;">Editar Cuenta: {{ u.username }}</h2>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                             </div>
                             <form method="POST" data-crud-form novalidate action="{% url 'usuarios:usuarios_edit' u.id %}">

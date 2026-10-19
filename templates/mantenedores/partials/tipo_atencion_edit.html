@@ -3,7 +3,7 @@
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content modal-content-stitch">
                             <div class="modal-header-stitch">
-                                <h5 id="editTipoModal{{ t.id }}Title" class="fw-bold mb-0" style="color: var(--text-main); font-size: 1.15rem;">Editar Tipo: {{ t.nombre }}</h5>
+                                <h2 id="editTipoModal{{ t.id }}Title" class="fw-bold mb-0" style="color: var(--text-main); font-size: 1.15rem;">Editar Tipo: {{ t.nombre }}</h2>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                             </div>
                             <form method="POST" data-crud-form novalidate action="{% url 'atenciones:tipo_atencion_edit' t.id %}">

@@ -1,10 +1,13 @@
 import openpyxl
+import re
 from datetime import date, datetime
 from numbers import Number
 from django.utils import timezone
 from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
 from openpyxl.utils import get_column_letter
 from django.http import HttpResponse
+
+EXCEL_INVALID_CHARACTERS = re.compile(r'[\x00-\x08\x0b\x0c\x0e-\x1f\ufffe\uffff]')
 
 
 def export_queryset_to_excel(filename, sheet_title, headers, rows_data):
@@ -47,6 +50,8 @@ def export_queryset_to_excel(filename, sheet_title, headers, rows_data):
             if isinstance(value, datetime) and timezone.is_aware(value):
                 value = timezone.localtime(value).replace(tzinfo=None)
             native = value if isinstance(value, (Number, date, datetime)) else str(value) if value is not None else ""
+            if isinstance(native, str):
+                native = EXCEL_INVALID_CHARACTERS.sub('', native)
             cell = ws.cell(row=row_idx, column=col_idx, value=native)
             if isinstance(native, str):
 

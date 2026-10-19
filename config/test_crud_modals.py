@@ -60,6 +60,7 @@ class EditModalTests(TestCase):
             response = self.client.get(self.url(name, obj.pk))
             self.assertEqual(response.status_code, 200, name)
             self.assertContains(response, 'csrfmiddlewaretoken')
+            self.assertRegex(response.content.decode(), r'<h2\b[^>]*id="edit')
         self.manager.activo = False
         self.manager.save()
         self.client.force_login(self.manager)
