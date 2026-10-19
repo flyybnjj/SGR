@@ -1,3 +1,4 @@
+from config.write_serialization import serialize_catalog_write
 from django import forms
 from django.db import transaction
 
@@ -26,10 +27,13 @@ class NombreCatalogoUnicoMixin:
                 return
             queryset = queryset.filter(**{scope: data[scope]})
 
-        if any(' '.join(existing.split()).casefold() == name.casefold()
-               for existing in queryset.values_list('nombre', flat=True)):
+        unique_field = self._meta.model._meta.get_field('nombre').unique
+        database_collision = unique_field and queryset.filter(nombre=name).exists()
+        if database_collision or any(' '.join(existing.split()).casefold() == name.casefold()
+                                     for existing in queryset.values_list('nombre', flat=True)):
             raise forms.ValidationError({'nombre': 'Ya existe un registro con este nombre. Puedes reactivar el existente.'})
 
+    @serialize_catalog_write
     @transaction.atomic
     def save(self, commit=True):
         instance = super().save(commit=False)

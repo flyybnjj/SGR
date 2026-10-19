@@ -1,3 +1,4 @@
+from config.write_serialization import serialize_catalog_write
 from config.catalog_validation import NombreCatalogoUnicoMixin
 import re
 from django import forms
@@ -194,6 +195,7 @@ class UsuarioForm(RutFormMixin, forms.ModelForm):
                     self.add_error(field, 'Este correo ya está vinculado a otra cuenta.')
         return data
 
+    @serialize_catalog_write
     @transaction.atomic
     def save(self, commit=True):
         user = super().save(commit=False)

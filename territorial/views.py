@@ -1,3 +1,4 @@
+from config.write_serialization import catalog_write_lock
 from config.access import admin_required
 from config.pagination import paginate
 from django.views.decorators.http import require_POST
@@ -107,18 +108,22 @@ def delegaciones_save_view(request, pk=None):
 @admin_required
 @require_POST
 def delegaciones_toggle_activo(request, pk):
-    with transaction.atomic():
-        allowed = DelegacionMunicipal.objects.select_for_update()
-        if not request.user.is_superuser:
-            allowed = allowed.filter(pk=request.user.delegacion_id)
-        delg = get_object_or_404(allowed, pk=pk)
-        if not delg.activo and delg.delegado_id:
-            delegate = Usuario.objects.select_for_update().get(pk=delg.delegado_id)
-            if delegate.delegacion_id != delg.pk:
-                messages.error(request, 'No se puede restaurar la delegación: su responsable trabaja en otra sede. Corrige el responsable antes de restaurarla.')
-                return redirect('territorial:delegaciones_list')
-        delg.activo = not delg.activo
-        delg.save(update_fields=['activo'])
+    try:
+        with catalog_write_lock(), transaction.atomic():
+            allowed = DelegacionMunicipal.objects.select_for_update()
+            if not request.user.is_superuser:
+                allowed = allowed.filter(pk=request.user.delegacion_id)
+            delg = get_object_or_404(allowed, pk=pk)
+            if not delg.activo and delg.delegado_id:
+                delegate = Usuario.objects.select_for_update().get(pk=delg.delegado_id)
+                if delegate.delegacion_id != delg.pk:
+                    messages.error(request, 'No se puede restaurar la delegación: su responsable trabaja en otra sede. Corrige el responsable antes de restaurarla.')
+                    return redirect('territorial:delegaciones_list')
+            delg.activo = not delg.activo
+            delg.save(update_fields=['activo'])
+    except ValidationError as error:
+        messages.error(request, ' '.join(error.messages))
+        return redirect('territorial:delegaciones_list')
     estado_str = "activada" if delg.activo else "desactivada (borrado lógico)"
     messages.success(request, f"La delegación '{delg.nombre}' fue {estado_str} exitosamente.")
     return redirect('territorial:delegaciones_list')

@@ -1,3 +1,4 @@
+from config.write_serialization import serialize_catalog_write
 import uuid
 from config.catalog_validation import NombreCatalogoUnicoMixin
 from django import forms
@@ -26,6 +27,7 @@ class SubAtencionForm(NombreCatalogoUnicoMixin, forms.ModelForm):
             raise forms.ValidationError('Esta subatención ya tiene atenciones registradas. Conserva su tipo o crea una subatención nueva.')
         return kind
 
+    @serialize_catalog_write
     @transaction.atomic
     def save(self, commit=True):
         subtype = super().save(commit=False)

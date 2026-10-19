@@ -1,3 +1,4 @@
+from unittest import skipUnless
 from datetime import datetime, timezone
 from io import StringIO, BytesIO
 import openpyxl
@@ -14,6 +15,7 @@ from vecinos.models import Vecino
 
 
 @override_settings(STORAGES={'default': {'BACKEND': 'django.core.files.storage.FileSystemStorage'}, 'staticfiles': {'BACKEND': 'django.contrib.staticfiles.storage.StaticFilesStorage'}})
+@skipUnless(connection.vendor == 'sqlite', 'Puente histórico exclusivo de SQLite, verificado con la suite SQLite.')
 class HistoricalMigrationTests(TestCase):
     def setUp(self):
         self.role=Rol.objects.create(nombre='Funcionario histórico',puede_aprobar=True)

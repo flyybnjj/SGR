@@ -1,3 +1,4 @@
+from config.write_serialization import serialize_catalog_write
 from config.catalog_validation import NombreCatalogoUnicoMixin
 from django import forms
 from .models import DelegacionMunicipal, ItemMeta
@@ -35,6 +36,7 @@ class DelegacionMunicipalForm(NombreCatalogoUnicoMixin, forms.ModelForm):
             raise forms.ValidationError('Primero reasigna su responsabilidad en las otras delegaciones, incluidas las inactivas.')
         return user
 
+    @serialize_catalog_write
     @transaction.atomic
     def save(self, commit=True):
         seat = super().save(commit=False)

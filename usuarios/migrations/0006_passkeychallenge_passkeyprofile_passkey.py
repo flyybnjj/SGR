@@ -1,3 +1,4 @@
+import usuarios.fields
 
 
 import django.core.validators
@@ -41,7 +42,7 @@ class Migration(migrations.Migration):
             name='Passkey',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('credential_id', models.CharField(max_length=1400, unique=True)),
+                ('credential_id', usuarios.fields.WebAuthnCredentialIdField(max_length=1400, unique=True)),
                 ('public_key', models.BinaryField()),
                 ('sign_count', models.PositiveBigIntegerField(default=0)),
                 ('name', models.CharField(max_length=80, validators=[django.core.validators.RegexValidator('\\S', 'Ingrese texto; no se permiten campos vacíos.')])),

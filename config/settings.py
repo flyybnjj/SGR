@@ -115,6 +115,11 @@ if DATABASES['default']['ENGINE'] == 'django.db.backends.sqlite3':
 
 
     DATABASES['default'].setdefault('OPTIONS', {}).update(transaction_mode='IMMEDIATE', timeout=20)
+elif DATABASES['default']['ENGINE'] == 'django.db.backends.mysql':
+    DATABASES['default'].setdefault('OPTIONS', {}).update(
+        charset='utf8mb4', isolation_level='read committed',
+        init_command="SET sql_mode='STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION'",
+    )
 
 
 AUTH_PASSWORD_VALIDATORS = [

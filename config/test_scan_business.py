@@ -256,7 +256,7 @@ class BusinessScanTests(TestCase):
         get_record = views.get_object_or_404
         def change_delegate_after_read(*args, **kwargs):
             seat = get_record(*args, **kwargs)
-            seat.delegado                                                            
+            seat.delegado
             Usuario.objects.filter(pk=self.staff.pk).update(delegacion_id=self.other.pk)
             return seat
         with patch.object(views, 'get_object_or_404', change_delegate_after_read):

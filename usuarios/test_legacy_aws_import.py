@@ -1,3 +1,4 @@
+from unittest import skipUnless
 from contextlib import closing
 import hashlib
 from io import StringIO
@@ -18,6 +19,7 @@ from usuarios.models import Rol, Usuario
 from vecinos.models import Vecino
 
 
+@skipUnless(connection.vendor == 'sqlite', 'Puente histórico exclusivo de SQLite, verificado con la suite SQLite.')
 class LegacyAWSImportTests(TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()

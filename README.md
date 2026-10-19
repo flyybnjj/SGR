@@ -6,7 +6,7 @@ Aplicación Django para delegaciones, funcionarios, atención e historial munici
 
 ## Requisitos e instalación local
 
-Python 3.12, SQLite (o PostgreSQL mediante DATABASE_URL), Redis en producción y un proveedor SMTP para recuperación. Dependencias fijadas en requirements.txt. No hay autoregistro.
+Python 3.12, MySQL 8.4+ en AWS (SQLite disponible para desarrollo local), Redis en producción y un proveedor SMTP para recuperación. Dependencias fijadas en requirements.txt. No hay autoregistro.
 
 ```powershell
 python -m venv venv
@@ -30,9 +30,9 @@ Passkeys: WEBAUTHN_RP_ID debe coincidir con el hostname y WEBAUTHN_ORIGIN con el
 
 ## AWS y actualización
 
-EC2 Ubuntu/Python 3.12, Nginx con TLS, Gunicorn y Redis. Dirección actual de evaluación: https://100-49-246-233.sslip.io/ (nombre externo apuntando a la IP de EC2, sin dominio comprado). Si la IP cambia deben actualizarse DNS, certificado y WebAuthn. Revisar renovación automática del certificado. Los puertos internos de Gunicorn/Redis permanecen en loopback.
+EC2 Ubuntu/Python 3.12, MySQL 8.4, Nginx con TLS, Gunicorn y Redis. Dirección actual de evaluación: https://100-49-246-233.sslip.io/ (nombre externo apuntando a la IP de EC2, sin dominio comprado). Si la IP cambia deben actualizarse DNS, certificado y WebAuthn. Revisar renovación automática del certificado. Los puertos internos de Gunicorn/Redis permanecen en loopback.
 
-1. Respaldar SQLite consistentemente, fuente,.env, medios y configuración; verificar el archivo antes de actualizar.
+1. Respaldar MySQL con mysqldump --single-transaction, además de fuente, .env, medios y configuración; verificar el archivo antes de actualizar. SQLite sólo corresponde al entorno local o a respaldos anteriores al traslado.
 2. Subir el archivo producido por git archive del commit aprobado. Conservar.env,db.sqlite3,venv,media yprivate_media del servidor. Nunca subir la base local.
 3. Ejecutar bash deploy_ec2.sh: dependencias,migraciones,collectstatic,nginx-t y reinicio. No vuelve a cargar datos.
 4. Comprobar login HTTPS, versión /static/release.json, tablas, origen de passkeys, SMTP y registros preservados. Registrar commit y resultados en docs/evidencias.
@@ -86,3 +86,7 @@ Revisión de seis módulos, formularios, modelos, rutas, comandos y JS; 13 fallo
 ## Escaneo y limpieza de código
 
 344 pruebas aprobadas, 47 regresiones nuevas. Se corrigieron guardados concurrentes, relaciones y validaciones obsoletas, menús y ficha raíz; se redujeron consultas y retiraron comentarios y fuentes sin uso demostrado. [Detalle y límites](docs/escaneo-y-limpieza.md). No se tomaron capturas en esta revisión.
+
+## Base de datos MySQL
+
+Traslado autorizado a MySQL en la misma EC2: [procedimiento, comprobaciones y reversión](docs/mysql-ec2.md). La URL privada se configura en DATABASE_URL; no se incluyen credenciales en el repositorio. Las evidencias históricas SQLite se conservan identificadas por versión.

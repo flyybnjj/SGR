@@ -1,0 +1,184 @@
+{
+  "base": "https://100-49-246-233.sslip.io",
+  "checks": [
+    {
+      "check": "Login HTTPS",
+      "passed": true
+    },
+    {
+      "check": "CSRF cookie segura",
+      "passed": true
+    },
+    {
+      "check": "HTTP redirige a origen canónico",
+      "passed": true
+    },
+    {
+      "check": "Ruta protegida sin sesión",
+      "passed": true
+    },
+    {
+      "check": "Root /",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Root /administracion/",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Root /mantenedores/delegaciones/",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Root /mantenedores/usuarios/",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Root /mantenedores/roles/",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Root /mantenedores/metas/",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Root /mantenedores/tipos-atencion/",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Root /mantenedores/sub-atenciones/",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Root /atenciones/",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Root /acciones/",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Root /metas/",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Root /mi-perfil/ajustes/",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Root /mi-perfil/passkeys/",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Excel delegaciones",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Filas Excel delegaciones",
+      "passed": true,
+      "rows": 13
+    },
+    {
+      "check": "Excel usuarios",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Filas Excel usuarios",
+      "passed": true,
+      "rows": 9
+    },
+    {
+      "check": "Excel roles",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Filas Excel roles",
+      "passed": true,
+      "rows": 12
+    },
+    {
+      "check": "Excel metas",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Filas Excel metas",
+      "passed": true,
+      "rows": 11
+    },
+    {
+      "check": "Excel tipos-atencion",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Filas Excel tipos-atencion",
+      "passed": true,
+      "rows": 9
+    },
+    {
+      "check": "Excel sub-atenciones",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Filas Excel sub-atenciones",
+      "passed": true,
+      "rows": 35
+    },
+    {
+      "check": "Funcionario sin permiso /mantenedores/usuarios/",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "check": "Funcionario sin permiso /mantenedores/roles/",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "check": "Funcionario sin permiso /administracion/",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "check": "Contexto fijo con código",
+      "passed": true
+    },
+    {
+      "check": "WebAuthn origen AWS y RP",
+      "passed": true,
+      "status": 200,
+      "rp_id": "100-49-246-233.sslip.io"
+    },
+    {
+      "check": "Sesión WebAuthn segura",
+      "passed": true
+    },
+    {
+      "check": "CSRF rechaza origen ajeno",
+      "passed": true,
+      "status": 403
+    }
+  ],
+  "version": {
+    "commit": "b6e237873225b40fe7861c18ef9d900cbe5e1261",
+    "deployed_at": "2026-10-18T21:29:42.789428+00:00"
+  }
+}

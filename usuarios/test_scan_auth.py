@@ -148,5 +148,4 @@ class ConcurrentAuthScanTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(account_sql), 1)
         self.assertIn('LEFT OUTER JOIN', account_sql[0])
-        self.assertIn('FOR UPDATE OF "usuarios_usuario"', account_sql[0])
-
+        self.assertIn('FOR UPDATE OF ' + connection.ops.quote_name('usuarios_usuario'), account_sql[0])

@@ -43,7 +43,7 @@ class CatalogDetailTests(TestCase):
     def test_six_details_show_public_data_and_read_only_fields(self):
         self.client.force_login(self.root)
         expected = {
-            'delegaciones': ['Sede Norte', 'Calle Principal 456', 'La Serena', 'Ana Pérez', '#123456', 'DEL-001'],
+            'delegaciones': ['Sede Norte', 'Calle Principal 456', 'La Serena', 'Ana Pérez', '#123456', f'DEL-{self.seat.pk:03d}'],
             'roles': ['Gestión territorial', 'Permisos de coordinación', 'Registrar atenciones y vecinos', 'Aprobar acciones', 'Gestionar catálogos y metas'],
             'usuarios': ['gestor_norte', 'Ana', 'Pérez', '12.345.678-5', 'ana@example.invalid', 'respaldo@example.invalid', '+56912345678', 'Gestión territorial', 'Sede Norte'],
             'metas': ['Cobertura', 'Visitas a familias'],

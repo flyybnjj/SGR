@@ -1,5 +1,7 @@
+from config.write_serialization import catalog_write_lock
 
 from django import forms
+from django.core.exceptions import ValidationError
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
@@ -60,7 +62,7 @@ def settings_view(request, section='account'):
     form = build_form(request.user)
     if request.method == 'POST':
         try:
-            with transaction.atomic():
+            with catalog_write_lock(), transaction.atomic():
                 user = Usuario.objects.select_for_update().get(pk=request.user.pk)
                 if not active(user) or user.get_session_auth_hash() != request.user.get_session_auth_hash():
                     return redirect('usuarios:login')
@@ -78,6 +80,8 @@ def settings_view(request, section='account'):
                         user.save(update_fields=['username'])
                         messages.success(request, 'Nombre de usuario actualizado. Úsalo en tu próximo ingreso.')
                     return redirect('usuarios:account_password' if section == 'password' else 'usuarios:account_settings')
+        except ValidationError as error:
+            form.add_error(None, error)
         except IntegrityError:
             form.add_error('username', 'Ese nombre de usuario ya está en uso.')
     return render(request, 'usuarios/account_settings.html', {'form': form, 'settings_section': section})

@@ -1,0 +1,137 @@
+{
+  "base": "https://100-49-246-233.sslip.io",
+  "version": {
+    "commit": "b6e237873225b40fe7861c18ef9d900cbe5e1261",
+    "deployed_at": "2026-10-18T21:29:42.789428+00:00"
+  },
+  "checks": [
+    {
+      "check": "Enlace consulta delegaciones",
+      "passed": true
+    },
+    {
+      "check": "Consulta de sólo lectura delegaciones",
+      "passed": true
+    },
+    {
+      "check": "Consulta protegida delegaciones",
+      "passed": true
+    },
+    {
+      "check": "Enlace consulta roles",
+      "passed": true
+    },
+    {
+      "check": "Consulta de sólo lectura roles",
+      "passed": true
+    },
+    {
+      "check": "Consulta protegida roles",
+      "passed": true
+    },
+    {
+      "check": "Enlace consulta usuarios",
+      "passed": true
+    },
+    {
+      "check": "Consulta de sólo lectura usuarios",
+      "passed": true
+    },
+    {
+      "check": "Consulta protegida usuarios",
+      "passed": true
+    },
+    {
+      "check": "Enlace consulta metas",
+      "passed": true
+    },
+    {
+      "check": "Consulta de sólo lectura metas",
+      "passed": true
+    },
+    {
+      "check": "Consulta protegida metas",
+      "passed": true
+    },
+    {
+      "check": "Enlace consulta tipo_atencion",
+      "passed": true
+    },
+    {
+      "check": "Consulta de sólo lectura tipo_atencion",
+      "passed": true
+    },
+    {
+      "check": "Consulta protegida tipo_atencion",
+      "passed": true
+    },
+    {
+      "check": "Enlace consulta sub_atencion",
+      "passed": true
+    },
+    {
+      "check": "Consulta de sólo lectura sub_atencion",
+      "passed": true
+    },
+    {
+      "check": "Consulta protegida sub_atencion",
+      "passed": true
+    },
+    {
+      "check": "Raíz oculta por consulta directa",
+      "passed": true
+    },
+    {
+      "check": "POST incompleto no informa éxito",
+      "passed": true
+    },
+    {
+      "check": "POST incompleto no crea usuario",
+      "passed": true
+    },
+    {
+      "check": "Error del servidor preparado para SweetAlert y foco",
+      "passed": true
+    },
+    {
+      "check": "Raíz navega /demostracion/",
+      "passed": true
+    },
+    {
+      "check": "Demostración protegida /demostracion/",
+      "passed": true
+    },
+    {
+      "check": "Raíz navega /demostracion/terreno/",
+      "passed": true
+    },
+    {
+      "check": "Demostración protegida /demostracion/terreno/",
+      "passed": true
+    },
+    {
+      "check": "Raíz navega /demostracion/cierre/",
+      "passed": true
+    },
+    {
+      "check": "Demostración protegida /demostracion/cierre/",
+      "passed": true
+    },
+    {
+      "check": "Raíz navega /demostracion/revision/",
+      "passed": true
+    },
+    {
+      "check": "Demostración protegida /demostracion/revision/",
+      "passed": true
+    },
+    {
+      "check": "Raíz navega /demostracion/proyeccion/",
+      "passed": true
+    },
+    {
+      "check": "Demostración protegida /demostracion/proyeccion/",
+      "passed": true
+    }
+  ]
+}

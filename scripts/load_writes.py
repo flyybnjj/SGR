@@ -30,14 +30,22 @@ def main():
     parser.add_argument('--workdir', type=Path, required=True)
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--commit', required=True)
+    parser.add_argument('--mysql-config', type=Path)
     args = parser.parse_args()
     work = args.workdir.resolve()
     if os.name == 'nt' or work == ROOT or work.is_relative_to(ROOT):
         parser.error('Usar Linux y un directorio privado fuera del proyecto productivo.')
-    work.mkdir(parents=True, exist_ok=True)
+    work.mkdir(mode=0o700, parents=True, exist_ok=True)
     database = work / 'synthetic.load-test.sqlite3'
     if database.exists():
         parser.error('El directorio debe ser nuevo: no se sobreescribe una base existente.')
+    mysql_config = None
+    if args.mysql_config:
+        mysql_config = json.loads(args.mysql_config.read_text())
+        if (mysql_config.get('ENGINE') != 'django.db.backends.mysql'
+                or not mysql_config.get('NAME', '').startswith('sgr_load_')
+                or mysql_config.get('HOST') != '127.0.0.1'):
+            parser.error('MySQL de carga debe usar loopback y una base nueva con prefijo sgr_load_.')
     settings_file = work / 'sgr_load_settings.py'
     settings_file.write_text(f'''from pathlib import Path
 __file__ = {str(ROOT / 'config/settings.py')!r}
@@ -56,12 +64,22 @@ CSRF_TRUSTED_ORIGINS = []
 STORAGES = {{'default': {{'BACKEND': 'django.core.files.storage.FileSystemStorage'}}, 'staticfiles': {{'BACKEND': 'django.contrib.staticfiles.storage.StaticFilesStorage'}}}}
 MEDIA_ROOT = PRIVATE_MEDIA_ROOT = {str(work / 'media')!r}
 ''', encoding='utf-8')
+    if mysql_config:
+        with settings_file.open('a', encoding='utf-8') as stream:
+            stream.write('\nimport json\nDATABASES = {\"default\": json.loads(Path(' + repr(str(args.mysql_config.resolve())) + ').read_text())}\n')
+    settings_file.chmod(0o600)
     os.environ['DJANGO_SETTINGS_MODULE'] = 'sgr_load_settings'
     sys.path[:0] = [str(work), str(ROOT)]
     import django
     django.setup()
     from django.conf import settings
-    assert Path(settings.DATABASES['default']['NAME']).resolve() == database
+    if mysql_config:
+        from django.db import connection
+        assert connection.vendor == 'mysql' and settings.DATABASES['default']['NAME'].startswith('sgr_load_')
+        if connection.introspection.table_names():
+            parser.error('La base MySQL de carga ya tiene tablas; no se sobreescribe.')
+    else:
+        assert Path(settings.DATABASES['default']['NAME']).resolve() == database
     from django.core.management import call_command
     call_command('migrate', verbosity=0)
     from django.test import Client
@@ -154,7 +172,7 @@ MEDIA_ROOT = PRIVATE_MEDIA_ROOT = {str(work / 'media')!r}
             'descripcion': 'Carga sintética; no es una atención real.', 'request_token': writes[-1]}) if writes else None
         unique = bool(replay and replay.status_code == 302 and Atencion.objects.count() == actual)
         payload = {'date': datetime.now(timezone.utc).isoformat(), 'application_commit': args.commit,
-            'environment': 'AWS EC2; Gunicorn 2 workers/5 threads; HTTP loopback; SQLite sintético separado',
+            'environment': 'AWS EC2; Gunicorn 2 workers/5 threads; HTTP loopback; ' + ('MySQL sintético separado' if mysql_config else 'SQLite sintético separado'),
             'tool': 'Python requests / ThreadPoolExecutor', 'safe_concurrency_ceiling': 10,
             'scenario': 'GET búsqueda/formulario sin guardar, POST atención válida y POST subatención inválida con CSRF real; UUID repetido al finalizar',
             'dataset_initial': {'users': 1, 'roles': 1, 'delegations': 1, 'neighbors': 1, 'types': 1, 'subtypes': 1, 'attentions': 0},

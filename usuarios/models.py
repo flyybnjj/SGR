@@ -1,3 +1,4 @@
+from .fields import WebAuthnCredentialIdField
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
@@ -89,7 +90,7 @@ class PasskeyProfile(models.Model):
 
 class Passkey(models.Model):
     profile = models.ForeignKey(PasskeyProfile, on_delete=models.CASCADE, related_name='keys')
-    credential_id = models.CharField(max_length=1400, unique=True)
+    credential_id = WebAuthnCredentialIdField(max_length=1400, unique=True)
     public_key = models.BinaryField()
     sign_count = models.PositiveBigIntegerField(default=0)
     name = models.CharField(max_length=80, validators=[validar_texto])

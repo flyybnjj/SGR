@@ -126,7 +126,7 @@ class WorkflowTests(TestCase):
             self.assertEqual(response.status_code, 200)
             self.assertEqual(response['Content-Type'], 'image/png')
             self.assertEqual(response['Cache-Control'], 'private, no-store')
-            response.close()
+            self.assertTrue(b''.join(response.streaming_content).startswith(b'\x89PNG'))
             self.user.delegacion = self.d2
             self.user.save()
             self.assertEqual(self.client.get(url).status_code, 404)

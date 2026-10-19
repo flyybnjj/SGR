@@ -1,3 +1,4 @@
+from django.db import connection
 from django.test import TestCase
 
 from usuarios.forms import RolForm, UsuarioForm
@@ -46,8 +47,8 @@ class UserIdentityValidationTests(TestCase):
 
     def test_edit_preserves_unchanged_legacy_ambiguous_identifiers(self):
         Usuario.objects.create_user(username='operador', email='repetido@ejemplo.cl')
-        user = Usuario.objects.create_user(username='OPERADOR', email='repetido@ejemplo.cl')
-        form = UsuarioForm(self.user_data(username='OPERADOR', email='repetido@ejemplo.cl', password='', first_name='Ana'), instance=user)
+        user = Usuario.objects.create_user(username='legado-dos' if connection.vendor == 'mysql' else 'OPERADOR', email='repetido@ejemplo.cl')
+        form = UsuarioForm(self.user_data(username=user.username, email='repetido@ejemplo.cl', password='', first_name='Ana'), instance=user)
         self.assertTrue(form.is_valid(), form.errors)
         self.assertEqual(form.save().first_name, 'Ana')
 
