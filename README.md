@@ -1,13 +1,12 @@
 # SGR · La Serena
-Hola 
+
 
 Sistema de gestión municipal para registrar atenciones a vecinos, organizar el trabajo de las delegaciones y revisar sus metas.
 
-**Integrantes:** Benjamin Avalos y Christofer Valencia. Ambos trabajamos en el desarrollo; Benjamin está a cargo de las pruebas.
+**Integrantes:** Benjamin Avalos y Christofer Valencia
 
 **Demo en AWS:** https://100-49-246-233.sslip.io/
 
-**Base de datos:** [phpMyAdmin](https://100-49-246-233.sslip.io/phpmyadmin/) (accesos en el TXT privado de entrega).
 
 ## Funciones
 
@@ -58,9 +57,8 @@ La recuperación por correo requiere configurar el SMTP en `.env`. Las passkeys 
 python manage.py check
 python manage.py test --noinput
 ```
-
-- [Requisitos y resultados de la evaluación](docs/segunda-evaluacion.md).
-- [Base de datos y configuración de MySQL en AWS](docs/mysql-ec2.md).
-- [Casos de prueba y evidencias](docs/evidencias/).
+``` [Requisitos y resultados de la evaluación](docs/segunda-evaluacion.md).```
+```- [Base de datos y configuración de MySQL en AWS](docs/mysql-ec2.md).```
+```- [Casos de prueba y evidencias](docs/evidencias/).```
 
 Las pantallas de terreno, comparación de fotos y proyección de metas están disponibles como demostraciones y no guardan datos.
