@@ -7,6 +7,8 @@ Sistema de gestión municipal para registrar atenciones a vecinos, organizar el 
 
 **Demo en AWS:** https://100-49-246-233.sslip.io/
 
+**Base de datos:** [phpMyAdmin](https://100-49-246-233.sslip.io/phpmyadmin/) (accesos en el TXT privado de entrega).
+
 ## Funciones
 
 - Inicio de sesión, recuperación por correo y passkeys.

@@ -1,5 +1,15 @@
 # MySQL en la misma EC2
 
+## Ver la base desde el navegador
+
+Acceso: https://100-49-246-233.sslip.io/phpmyadmin/ . Usar la cuenta de MySQL indicada en el TXT privado de entrega; no son los usuarios de la aplicación. Se muestra directamente el formulario, sin una ventana de autenticación HTTP adicional, y se limitan los intentos repetidos de ingreso.
+
+Seleccionar `sgr` para examinar las tablas, ejecutar consultas o exportar SQL. Es la base real: los cambios se reflejan en el sistema. La cuenta web sólo administra `sgr`; el puerto 3306 sigue limitado a loopback y el acceso como `root` está deshabilitado en phpMyAdmin.
+
+Se instaló phpMyAdmin 5.2.3 desde la descarga oficial, verificando SHA-256, con PHP 8.3-FPM y el HTTPS existente de Nginx. Tiene un proceso separado bajo demanda, con un máximo de dos trabajadores. Su almacenamiento de preferencias está en `sgr_phpmyadmin`, separado de los datos del proyecto. Las nuevas versiones de phpMyAdmin requieren una actualización propia; no se actualizan al desplegar Django.
+
+La configuración de Nginx y la base se respaldaron antes de instalar. Para retirar el acceso web basta restaurar esa configuración, verificar `nginx -t` y recargar Nginx; no es necesario borrar ni sustituir la base `sgr`.
+
 El titular pidió sustituir SQLite por MySQL y eligió instalarlo en la misma instancia, sin contratar RDS. Django 6.1 necesita MySQL 8.4 o superior. Se utiliza MySQL Community 8.4 LTS del repositorio firmado oficial, mysqlclient 2.2.7, InnoDB y utf8mb4. Configuración de la aplicación: READ COMMITTED y modo estricto. El archivo .env privado contiene DATABASE_URL; no se publica su contraseña.
 
 ## Compatibilidad y protección de los datos
