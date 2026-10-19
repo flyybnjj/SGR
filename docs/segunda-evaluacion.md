@@ -41,6 +41,8 @@ Las comprobaciones de navegador a 390/1440 px no constituyen certificación WCAG
 
 ## Pruebas y versión
 
+Para repetir las pruebas localmente, usa la configuración de desarrollo del README y ejecuta `python manage.py collectstatic --noinput` y `python manage.py test`. Django crea una base temporal. Node.js permite ejecutar también las comprobaciones de JavaScript; MySQL necesita una cuenta de ensayo con permiso para crear su base temporal, separada de `sgr`.
+
 Plan de casos: `evidencias/casos-evaluacion.json`. Resultados: `evidencias/pruebas-funcionales.json` y `evidencias/matriz-funcional.csv`. Cada caso contiene requisito/página, módulo, precondiciones, pasos, esperado, obtenido, estado, fuente y línea de sus tests, responsable y fecha. Las ejecuciones actuales de cada motor se conservan en `evidencias/revision-definitiva-20261019/`; los cierres anteriores están en `evidencias/recuperacion-20261019/` y la revisión de navegador y el cierre de código anterior permanecen en `evidencias/revision-total-20261019/`; el cierre anterior permanece en `evidencias/entrega-final/`. Los tests técnicos no se confunden con casos de evaluación ni se cuentan dos veces por repetirse entre motores.
 
 Cierre vigente: 110 casos aprobados (98 funcionales y 12 complementarios), respaldados por 393 tests distintos. SQLite: 390 aprobados y 3 omitidos; MySQL: 358 aprobados y 35 omitidos; ningún fallo en las ejecuciones finales. Cada test tiene una aprobación en un entorno aplicable. La herramienta de trazabilidad tiene otras 8 pruebas independientes. El navegador comprueba 136 estados de páginas y editores en escritorio/móvil sin capturas; conserva las comprobaciones incompletas de axe. Véase `evidencias/revision-total-20261019/resumen.json`.
@@ -71,3 +73,5 @@ Se corrigió la recuperación con correos heredados compartidos: no elige la pri
 ## Revisión definitiva
 
 Se añadieron 19 regresiones para ediciones concurrentes, referencias inactivas, mensajes de acceso, recuperación y baja de cuentas. El fondo usa un tinte menor y blur sin cambiar los recorridos de las ondas. La inspección base de 136 estados se complementó con 51 comprobaciones finales de movimiento, formularios y accesibilidad automática. Se conservan los resultados y límites en `evidencias/revision-definitiva-20261019/`. Las mediciones posteriores a despliegue identifican el commit de aplicación y se adjuntan separadamente para no confundir la versión del código con la del informe.
+
+Verificación AWS de `f655a41`: 93 controles HTTP más 20 de phpMyAdmin, autenticación SMTP sin envío y restauración idéntica de 27 tablas. Carga HTTPS: 1171 solicitudes sin errores; con diez concurrentes, p95 172.0 ms. Escritura aislada: 783 solicitudes y 197 atenciones sintéticas, sin errores, p95 834.51 ms a diez concurrentes. Se conservaron los conteos productivos y se retiró la base sintética. Véanse `evidencias/revision-definitiva-20261019/aws.json` y los archivos de carga/recursos del mismo directorio.

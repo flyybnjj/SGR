@@ -1,5 +1,18 @@
 # MySQL en la misma EC2
 
+## Actualizar la aplicación
+
+En `/home/ubuntu/aMunicipalidad`, conservar el `.env` privado y respaldar MySQL antes de reemplazar la fuente. Después, con el entorno virtual activo:
+
+```bash
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py collectstatic --noinput
+sudo systemctl restart sgr_gunicorn
+```
+
+Comprobar la URL HTTPS y `/static/release.json` después de publicar; el identificador de versión se actualiza con el commit de la fuente efectivamente instalada.
+
 ## Ver la base desde el navegador
 
 Acceso: https://100-49-246-233.sslip.io/phpmyadmin/ . Usar la cuenta de MySQL indicada en el TXT privado de entrega; no son los usuarios de la aplicación. Se muestra directamente el formulario, sin una ventana de autenticación HTTP adicional, y se limitan los intentos repetidos de ingreso.

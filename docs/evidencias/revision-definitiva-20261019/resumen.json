@@ -244,5 +244,15 @@
     "Axe conserva comprobaciones incompletas; no constituye certificación WCAG.",
     "La biometría física de teléfonos y el acuerdo de acceso del docente requieren a sus titulares.",
     "Las interfaces marcadas como simulación mantienen ese alcance. Las escrituras de prueba se hacen en bases aisladas."
-  ]
+  ],
+  "application_commit": "f655a41d3c673183d334474add0eab427929ead2",
+  "aws_http_checks": 93,
+  "phpmyadmin_checks": 20,
+  "mysql_restore_tables": 27,
+  "read_requests": 1171,
+  "isolated_write_requests": 783,
+  "isolated_created_rows": 197,
+  "screenshots": false,
+  "delivery_folder": "No se actualizó la carpeta del escritorio: el titular retiró esa tarea.",
+  "load_attempts": "Primer intento de escritura abortado por requests ausente en las herramientas aisladas; no hubo escrituras productivas. Se corrigió PYTHONPATH de ensayo y el nuevo intento completo pasó. La base vacía del intento abortado se retiró después de comprobar su identidad."
 }

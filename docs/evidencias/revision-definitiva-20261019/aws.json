@@ -1,0 +1,458 @@
+{
+  "application_commit": "f655a41d3c673183d334474add0eab427929ead2",
+  "fecha": "2026-10-19T09:53:40.085535+00:00",
+  "http": [
+    {
+      "check": "Ingreso real: evaluacion.cris",
+      "passed": true,
+      "status": 302
+    },
+    {
+      "check": "Ingreso real: maria.lopez",
+      "passed": true,
+      "status": 302
+    },
+    {
+      "check": "Administrador /",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Administrador /administracion/",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Administrador /reportes/",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Administrador /mantenedores/usuarios/",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Editor /mantenedores/usuarios/",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Administrador /mantenedores/roles/",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Editor /mantenedores/roles/",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Administrador /mantenedores/delegaciones/",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Editor /mantenedores/delegaciones/",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Administrador /mantenedores/metas/",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Editor /mantenedores/metas/",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Administrador /mantenedores/tipos-atencion/",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Editor /mantenedores/tipos-atencion/",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Administrador /mantenedores/sub-atenciones/",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Editor /mantenedores/sub-atenciones/",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Administrador /mantenedores/vecinos/",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Editor /mantenedores/vecinos/",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Administrador /atenciones/",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Administrador /atenciones/nueva-persona/",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Administrador /acciones/",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Administrador /acciones/nueva/",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Administrador /metas/",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Administrador /metas/nueva/",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Administrador /ficha-usuario/",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Administrador /mi-perfil/ajustes/",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Administrador /mi-perfil/contrasena/",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Administrador /mi-perfil/passkeys/",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Administrador /demostracion/",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Funcionario /",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Funcionario /reportes/",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Funcionario /atenciones/",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Funcionario /acciones/",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Funcionario /metas/",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Funcionario /mantenedores/vecinos/",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Funcionario /ficha-usuario/",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Funcionario /mi-perfil/ajustes/",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Funcionario /mi-perfil/passkeys/",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Acceso de funcionario bloqueado /administracion/",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "check": "Acceso de funcionario bloqueado /mantenedores/usuarios/",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "check": "Acceso de funcionario bloqueado /mantenedores/roles/",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "check": "Sin sesiÃ³n /",
+      "passed": true
+    },
+    {
+      "check": "Sin sesiÃ³n /acciones/",
+      "passed": true
+    },
+    {
+      "check": "Sin sesiÃ³n /metas/",
+      "passed": true
+    },
+    {
+      "check": "Sin sesiÃ³n /mantenedores/vecinos/",
+      "passed": true
+    },
+    {
+      "check": "Descarga Excel usuarios",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Excel legible usuarios",
+      "passed": true
+    },
+    {
+      "check": "Descarga Excel roles",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Excel legible roles",
+      "passed": true
+    },
+    {
+      "check": "Descarga Excel delegaciones",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Excel legible delegaciones",
+      "passed": true
+    },
+    {
+      "check": "Descarga Excel metas",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Excel legible metas",
+      "passed": true
+    },
+    {
+      "check": "Descarga Excel tipos-atencion",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Excel legible tipos-atencion",
+      "passed": true
+    },
+    {
+      "check": "Descarga Excel sub-atenciones",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Excel legible sub-atenciones",
+      "passed": true
+    },
+    {
+      "check": "Descarga Excel vecinos",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "Excel legible vecinos",
+      "passed": true
+    },
+    {
+      "check": "Excel de funcionario separado por delegaciÃ³n",
+      "passed": true,
+      "own_rows": 2,
+      "all_rows": 12
+    },
+    {
+      "check": "Ficha ajena bloqueada",
+      "passed": true,
+      "status": 404
+    },
+    {
+      "check": "BÃºsqueda ajena no filtra vecinos",
+      "passed": true
+    },
+    {
+      "check": "PÃ¡gina 404 sin trazas internas",
+      "passed": true
+    },
+    {
+      "check": "Escritura sin CSRF rechazada",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "check": "phpMyAdmin muestra su formulario",
+      "passed": true
+    }
+  ],
+  "http_adicional": [
+    {
+      "check": "Archivo privado no publicado: /.env",
+      "passed": true,
+      "status": 404
+    },
+    {
+      "check": "Archivo privado no publicado: /.git/config",
+      "passed": true,
+      "status": 404
+    },
+    {
+      "check": "Archivo privado no publicado: /backups/",
+      "passed": true,
+      "status": 404
+    },
+    {
+      "check": "Archivo privado no publicado: /private_media/",
+      "passed": true,
+      "status": 404
+    },
+    {
+      "check": "Archivo privado no publicado: /db.sqlite3",
+      "passed": true,
+      "status": 404
+    },
+    {
+      "check": "Archivo privado no publicado: /requirements.txt",
+      "passed": true,
+      "status": 404
+    },
+    {
+      "check": "Archivo privado no publicado: /phpmyadmin/config.inc.php",
+      "passed": true,
+      "status": 404
+    },
+    {
+      "check": "Archivo privado no publicado: /phpmyadmin/setup/",
+      "passed": true,
+      "status": 404
+    },
+    {
+      "check": "Archivo privado no publicado: /phpmyadmin/vendor/autoload.php",
+      "passed": true,
+      "status": 404
+    },
+    {
+      "check": "HTTP lleva a HTTPS",
+      "passed": true
+    },
+    {
+      "check": "Cookies de acceso seguras",
+      "passed": true
+    },
+    {
+      "check": "Cuenta privada de entrega 1: ingreso",
+      "passed": true
+    },
+    {
+      "check": "Cuenta privada de entrega 1: inicio",
+      "passed": true
+    },
+    {
+      "check": "Cuenta privada de entrega 1: permiso usuarios",
+      "passed": true
+    },
+    {
+      "check": "Cuenta privada de entrega 2: ingreso",
+      "passed": true
+    },
+    {
+      "check": "Cuenta privada de entrega 2: inicio",
+      "passed": true
+    },
+    {
+      "check": "Cuenta privada de entrega 2: permiso usuarios",
+      "passed": true
+    },
+    {
+      "check": "Cuenta privada de entrega 3: ingreso",
+      "passed": true
+    },
+    {
+      "check": "Cuenta privada de entrega 3: inicio",
+      "passed": true
+    },
+    {
+      "check": "Cuenta privada de entrega 3: permiso usuarios",
+      "passed": true
+    },
+    {
+      "check": "Cuenta privada de entrega 4: ingreso",
+      "passed": true
+    },
+    {
+      "check": "Cuenta privada de entrega 4: inicio",
+      "passed": true
+    },
+    {
+      "check": "Cuenta privada de entrega 4: permiso usuarios",
+      "passed": true
+    },
+    {
+      "check": "Cuenta privada de entrega 5: ingreso",
+      "passed": true
+    },
+    {
+      "check": "Cuenta privada de entrega 5: inicio",
+      "passed": true
+    },
+    {
+      "check": "Cuenta privada de entrega 5: permiso usuarios",
+      "passed": true
+    },
+    {
+      "check": "Cuentas raÃ­z ausentes del mantenedor",
+      "passed": true
+    }
+  ],
+  "phpmyadmin_comprobaciones": 20,
+  "smtp": "Autenticación SMTP verificada sin enviar correo.",
+  "inactive_flags": "Se sincronizaron los dos indicadores de autenticación heredados; claves y passkeys conservadas.",
+  "database_restore": {
+    "tables": 27,
+    "identical": true,
+    "temporary_database_removed": true
+  },
+  "synthetic_load_production_counts_unchanged": true,
+  "synthetic_load_database_removed": true,
+  "dependency_review": "No se confirmaron secretos versionados. SweetAlert2 11.10.6 tiene un aviso de gravedad baja para dominios rusos; condición de dominio no aplicable a sslip.io. No se hicieron cambios de dependencias durante esta revisión.",
+  "limits": [
+    "Pruebas de carga limitadas a diez concurrentes; no acreditan la capacidad máxima.",
+    "Las cifras CPU/RAM incluyen todo el sistema y Gunicorn de prueba adicional.",
+    "No se repitió una autenticación biométrica con teléfono físico ni una entrega de correo a una bandeja real. El usuario había confirmado ambas funciones anteriormente."
+  ]
+}

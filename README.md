@@ -53,3 +53,5 @@ La recuperación por correo requiere configurar el SMTP en `.env`. Las passkeys 
 
 
 Las pantallas de terreno, comparación de fotos y proyección de metas están disponibles como demostraciones y no guardan datos.
+
+[Pruebas y estado de los módulos](docs/segunda-evaluacion.md) · [Despliegue y base de datos en AWS](docs/mysql-ec2.md)
