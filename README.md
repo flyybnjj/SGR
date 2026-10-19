@@ -52,7 +52,4 @@ python manage.py runserver localhost:8000
 La recuperación por correo requiere configurar el SMTP en `.env`. Las passkeys se registran por separado en localhost y AWS. Las claves de evaluación se entregan aparte; no se publican en el repositorio.
 
 
-```- [Base de datos y configuración de MySQL en AWS](docs/mysql-ec2.md).```
-```- [Casos de prueba y evidencias](docs/evidencias/).```
-
 Las pantallas de terreno, comparación de fotos y proyección de metas están disponibles como demostraciones y no guardan datos.
