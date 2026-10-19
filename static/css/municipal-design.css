@@ -194,6 +194,15 @@ input.input-stitch, textarea.input-stitch { cursor: text !important; }
 .record-actions form { display: flex; margin: 0; }
 .table-stitch .record-actions-column { position: sticky; right: 0; z-index: 1; width: 172px; min-width: 172px; background: #fff; border-left: 1px solid var(--border-stitch); }
 .table-stitch thead .record-actions-column { z-index: 2; background: #f7f8fa; }
+.table-stitch .record-user-actions-column { width: 220px; min-width: 220px; }
+.btn-stitch-icon.btn-record-deactivate { background: #fff3dc !important; color: #835000 !important; border: 1px solid #835000 !important; }
+body[data-delegation-theme] .btn-stitch-icon.btn-record-deactivate:hover,
+.btn-stitch-icon.btn-record-deactivate:hover { background: #ffe7bc !important; color: #835000 !important; border-color: #835000 !important; box-shadow: none !important; }
+.btn-stitch-icon.btn-record-deactivate:focus-visible { outline: 3px solid #17212f; outline-offset: 3px; }
+@media(max-width:767.98px) {
+  .table-stitch .record-user-actions-column { width: 124px; min-width: 124px; }
+  .record-user-actions { display: grid; grid-template-columns: repeat(2, 44px); }
+}
 .btn-stitch-icon.btn-record-delete svg, .btn-stitch-icon.btn-record-restore svg { flex: none; pointer-events: none; }
 .btn-stitch-icon.btn-record-delete, .swal2-confirm.confirm-record-delete { color: #fff !important; background: #b42318 !important; border: 1px solid #b42318 !important; }
 .btn-stitch-icon.btn-record-delete:hover, .swal2-confirm.confirm-record-delete:hover { background: #912018 !important; border-color: #912018 !important; box-shadow: none !important; }

@@ -2,17 +2,7 @@
 (() => {
   'use strict';
   function validRut(value) {
-    const formatted = value.replace(/[. ]/g, '').toUpperCase();
-    if (!/^\d{1,8}-?[0-9K]$/.test(formatted)) return false;
-    const cleaned = formatted.replace('-', '');
-    const digits = cleaned.slice(0, -1);
-    let sum = 0, factor = 2;
-    for (let index = digits.length - 1; index >= 0; index--) {
-      sum += Number(digits[index]) * factor;
-      factor = factor === 7 ? 2 : factor + 1;
-    }
-    const remainder = 11 - sum % 11;
-    return cleaned.slice(-1) === (remainder === 11 ? '0' : remainder === 10 ? 'K' : String(remainder));
+    return Boolean(window.MunicipalRut?.normalize(value));
   }
   function validateField(field) {
     if (!field.willValidate) return;
@@ -32,6 +22,7 @@
     field.setAttribute('aria-invalid', String(!field.validity.valid));
   }
   window.initializeCrudForms = (root = document) => {
+  window.MunicipalRut?.bind(root);
   root.querySelectorAll('form[data-crud-form], form[method="post"]:not([data-confirm]), form[method="POST"]:not([data-confirm])').forEach(form => {
     if (form.dataset.validationReady) return;
     form.dataset.validationReady = "true";
@@ -64,12 +55,13 @@
       form.dataset.confirmPending = 'true';
       const question = [form.dataset.confirmRecord, form.dataset.confirm].filter(Boolean).join('\n\n');
       const deleting = form.dataset.confirmAction === 'delete';
+      const removing = form.dataset.confirmAction === 'remove';
       const deactivating = deleting || form.dataset.confirmAction === 'deactivate';
       const restoring = form.dataset.confirmAction === 'restore';
-      const stateAction = deactivating || restoring;
+      const stateAction = deactivating || restoring || removing;
       const icon = restoring
         ? '<path d="M3 11a9 9 0 1 1 2.6 7M3 4v7h7"/>'
-        : deleting
+        : deleting || removing
           ? '<path d="M3 6h18M9 6V3h6v3M5 6l1 15h12l1-15M10 10v7M14 10v7"/>'
           : '<path d="M12 2v10M5.6 5.6a9 9 0 1 0 12.8 0"/>';
       try {
@@ -77,14 +69,14 @@
         ? (await Swal.fire({
           icon: stateAction ? 'warning' : 'question',
           iconHtml: stateAction ? `<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">${icon}</svg>` : undefined,
-          titleText: form.dataset.confirmTitle || (deactivating ? 'Desactivar registro' : restoring ? 'Restaurar registro' : 'Cambiar estado'),
+          titleText: form.dataset.confirmTitle || (removing ? 'Eliminar usuario' : deactivating ? 'Desactivar registro' : restoring ? 'Restaurar registro' : 'Cambiar estado'),
           text: question, showCancelButton: true,
-          confirmButtonText: deactivating ? 'Desactivar' : restoring ? 'Restaurar' : 'Confirmar',
+          confirmButtonText: removing ? 'Eliminar' : deactivating ? 'Desactivar' : restoring ? 'Restaurar' : 'Confirmar',
           cancelButtonText: 'Cancelar', focusCancel: true, reverseButtons: true,
           customClass: {
             popup: stateAction ? 'record-confirmation' : '',
             icon: stateAction ? `record-confirm-icon ${restoring ? 'record-confirm-icon-restore' : ''}` : '',
-            confirmButton: deactivating ? 'confirm-record-delete' : restoring ? 'confirm-record-restore' : '',
+            confirmButton: deactivating || removing ? 'confirm-record-delete' : restoring ? 'confirm-record-restore' : '',
             cancelButton: stateAction ? 'cancel-record-change' : '',
           },
         })).isConfirmed

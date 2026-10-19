@@ -37,5 +37,6 @@ urlpatterns = [
     path('mantenedores/usuarios/crear/', views.usuarios_save_view, name='usuarios_create'),
     path('mantenedores/usuarios/<int:pk>/editar/', views.usuarios_save_view, name='usuarios_edit'),
     path('mantenedores/usuarios/<int:pk>/toggle/', views.usuarios_toggle_activo, name='usuarios_toggle'),
+    path('mantenedores/usuarios/<int:pk>/eliminar/', views.usuarios_delete, name='usuarios_delete'),
     path('mantenedores/usuarios/exportar-excel/', views.usuarios_export_excel, name='usuarios_excel'),
 ]

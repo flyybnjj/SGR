@@ -22,6 +22,7 @@
                                         <div class="col-md-5">
                                             <label for="editVecinoModal{{ v.id }}-rut" class="form-label small fw-semibold" style="color: var(--text-main);">RUT (opcional)</label>
                                             <input type="text" id="editVecinoModal{{ v.id }}-rut" name="rut" value="{{ v.rut|default:'' }}" class="input-stitch" maxlength="12" data-validate="rut" pattern="[0-9.]+[\-]?[0-9kK]">
+                            <div class="form-text">Escribe el RUT completo. Los puntos y el guion se agregan solos.</div>
                                         </div>
                                         <div class="col-md-8">
                                             <label for="editVecinoModal{{ v.id }}-direccion" class="form-label small fw-semibold" style="color: var(--text-main);">Dirección de Residencia (opcional)</label>

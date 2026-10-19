@@ -59,7 +59,7 @@
                     <th scope="col">Rol Asignado</th>
                     <th scope="col">Delegación</th>
 <th scope="col" class="text-center" style="width: 120px;">Estado</th>
-                    <th scope="col" class="text-center record-actions-column">Acciones</th>
+                    <th scope="col" class="text-center record-actions-column record-user-actions-column">Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -84,14 +84,18 @@
                         <span class="badge-stitch-inactivo">Inactivo</span>
                         {% endif %}
                     </td>
-                    <td class="text-center record-actions-column">
+                    <td class="text-center record-actions-column record-user-actions-column">
                         {% if can_manage %}
-                        <div class="record-actions"><a href="{% url 'crud_detail' 'usuarios' u.pk %}" class="btn-stitch-icon" title="Ver detalle" aria-label="Ver detalle de {{ u.nombre_completo }}"><i class="bi bi-eye" aria-hidden="true"></i><span class="visually-hidden">Ver detalle</span></a>
+                        <div class="record-actions record-user-actions"><a href="{% url 'crud_detail' 'usuarios' u.pk %}" class="btn-stitch-icon" title="Ver detalle" aria-label="Ver detalle de {{ u.nombre_completo }}"><i class="bi bi-eye" aria-hidden="true"></i><span class="visually-hidden">Ver detalle</span></a>
                         <button type="button" class="btn-stitch-icon" title="Editar usuario" aria-label="Editar {{ u.nombre_completo }}" data-edit-form="{% url 'crud_edit_form' 'usuarios' u.pk %}"><i class="bi bi-pencil" aria-hidden="true"></i></button>
                         {% if u != request.user and not u.is_superuser %}
-                        <form method="post" action="{% url 'usuarios:usuarios_toggle' u.id %}" data-confirm-action="{% if u.activo %}delete{% else %}restore{% endif %}" data-confirm-title="{% if u.activo %}Desactivar{% else %}Restaurar{% endif %} usuario" data-confirm-record="{{ u.nombre_completo }} · @{{ u.username }}" data-confirm="{% if u.activo %}No podrá iniciar sesión. Su historial se conservará y podrás restaurar la cuenta desde este listado.{% else %}La cuenta volverá a estar activa y podrá iniciar sesión.{% endif %}">
+                        <form method="post" action="{% url 'usuarios:usuarios_toggle' u.id %}" data-confirm-action="{% if u.activo %}deactivate{% else %}restore{% endif %}" data-confirm-title="{% if u.activo %}Desactivar{% else %}Reactivar{% endif %} usuario" data-confirm-record="{{ u.nombre_completo }} · @{{ u.username }}" data-confirm="{% if u.activo %}No podrá iniciar sesión. Su cuenta e historial se conservarán y podrás reactivarla desde este listado.{% else %}La cuenta volverá a estar activa y podrá iniciar sesión.{% endif %}">
                             {% csrf_token %}
-                            <button type="submit" class="btn-stitch-icon {% if u.activo %}btn-stitch-icon-delete btn-record-delete{% else %}btn-record-restore{% endif %}" title="{% if u.activo %}Desactivar usuario (papelera){% else %}Restaurar usuario{% endif %}" aria-label="{% if u.activo %}Desactivar{% else %}Restaurar{% endif %} {{ u.username }}">{% include 'includes/record_state_icon.html' with active=u.activo %}</button>
+                            <button type="submit" class="btn-stitch-icon {% if u.activo %}btn-record-deactivate{% else %}btn-record-restore{% endif %}" title="{% if u.activo %}Desactivar usuario{% else %}Reactivar usuario{% endif %}" aria-label="{% if u.activo %}Desactivar{% else %}Reactivar{% endif %} {{ u.username }}">{% include 'includes/record_state_icon.html' with active=u.activo power=True %}</button>
+                        </form>
+                        <form method="post" action="{% url 'usuarios:usuarios_delete' u.id %}" data-confirm-action="remove" data-confirm-title="Eliminar usuario" data-confirm-record="{{ u.nombre_completo }} · @{{ u.username }}" data-confirm="Se eliminarán definitivamente la cuenta y sus passkeys. Esta acción no se puede deshacer. Si tiene historial o delegaciones a cargo, la eliminación se bloqueará.">
+                            {% csrf_token %}
+                            <button type="submit" class="btn-stitch-icon btn-stitch-icon-delete btn-record-delete" title="Eliminar usuario" aria-label="Eliminar {{ u.username }}">{% include 'includes/record_state_icon.html' with active=True %}</button>
                         </form>
                         {% endif %}
                         </div>
@@ -134,7 +138,8 @@
                         </div>
                         <div class="col-md-6">
                             <label for="nuevoUsuarioModal-rut" class="form-label small fw-semibold" style="color: var(--text-main);">RUT *</label>
-                            <input type="text" id="nuevoUsuarioModal-rut" name="rut" class="input-stitch" placeholder="12.345.678-5" required maxlength="12" data-validate="rut" pattern="[0-9.]+[\-]?[0-9kK]">
+                            <input type="text" id="nuevoUsuarioModal-rut" name="rut" class="input-stitch" placeholder="Ej.: 123456785" required maxlength="12" data-validate="rut" pattern="[0-9.]+[\-]?[0-9kK]">
+                            <div class="form-text">Escribe el RUT completo. Los puntos y el guion se agregan solos.</div>
                         </div>
                         <div class="col-md-6">
                             <label for="nuevoUsuarioModal-first_name" class="form-label small fw-semibold" style="color: var(--text-main);">Nombres *</label>

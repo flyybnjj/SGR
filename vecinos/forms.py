@@ -1,11 +1,14 @@
 from django import forms
 from .models import Vecino
-from config.validators import RutFormMixin
+from config.validators import RutField, RutFormMixin
 from territorial.models import DelegacionMunicipal
 from django.db.models import Q
 
 
 class VecinoForm(RutFormMixin, forms.ModelForm):
+    rut = RutField(required=False, max_length=12, label='RUT',
+                   help_text='Escribe el RUT completo. Los puntos y el guion se agregan solos.',
+                   widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ej.: 123456785', 'data-validate': 'rut'}))
     def __init__(self, *args, **kwargs):
         user = kwargs.pop("user", None)
         super().__init__(*args, **kwargs)
@@ -22,7 +25,6 @@ class VecinoForm(RutFormMixin, forms.ModelForm):
         fields = ['nombre', 'rut', 'direccion', 'telefono', 'territorio', 'tipo_gestion', 'activo']
         widgets = {
             'nombre': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ej. Ana González'}),
-            'rut': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '12.345.678-5'}),
             'direccion': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ej. Av. Balmaceda 120'}),
             'telefono': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '+56 9 8765 4321'}),
             'territorio': forms.Select(attrs={'class': 'form-select'}),

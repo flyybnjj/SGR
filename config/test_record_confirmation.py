@@ -61,3 +61,8 @@ vm.runInNewContext(fs.readFileSync(process.argv[1], 'utf8'), context);
     def test_native_fallback_respects_cancel_and_confirm(self):
         self.assertEqual(self.run_confirmation('delete', fallback=True)['submits'], 0)
         self.assertEqual(self.run_confirmation('restore', confirmed=True, fallback=True)['submits'], 1)
+
+    def test_permanent_removal_does_not_use_deactivation_copy(self):
+        options = self.run_confirmation('remove')['options']
+        self.assertEqual(options['confirmButtonText'], 'Eliminar')
+        self.assertIn('confirm-record-delete', options['customClass']['confirmButton'])

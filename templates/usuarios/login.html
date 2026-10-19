@@ -50,7 +50,7 @@
                         <label class="form-label" for="login-username">Usuario, correo o RUT</label>
                         <div class="login-input-group">
                             <i class="bi bi-person" aria-hidden="true"></i>
-                            <input id="login-username" type="text" name="username" placeholder="Nombre de usuario, correo o RUT" required autofocus autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false">
+                            <input id="login-username" type="text" name="username" data-rut-identifier placeholder="Nombre de usuario, correo o RUT" required autofocus autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false">
                         </div>
 
                         <div class="login-password-label">
@@ -121,6 +121,7 @@
             {% endfor %}
         {% endif %}
     </script>
+<script src="{% static 'js/rut.js' %}?v=20261019-autoformat"></script>
 <script src="{% static 'js/passkeys.js' %}"></script>
 </body>
 </html>

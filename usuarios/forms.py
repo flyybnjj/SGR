@@ -6,7 +6,7 @@ from django.core.exceptions import ValidationError
 from django.db.models import Q
 from django.db import transaction
 from .models import Usuario, Rol
-from config.validators import RutFormMixin, normalizar_rut
+from config.validators import RutField, RutFormMixin, normalizar_rut
 from territorial.models import DelegacionMunicipal
 
 
@@ -124,6 +124,8 @@ class RolForm(NombreCatalogoUnicoMixin, forms.ModelForm):
 
 
 class UsuarioForm(RutFormMixin, forms.ModelForm):
+    rut = RutField(required=False, max_length=12, label='RUT',
+                   widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ej.: 123456785', 'data-validate': 'rut'}))
     password = forms.CharField(
         required=False,
         label="Contraseña",
@@ -141,7 +143,6 @@ class UsuarioForm(RutFormMixin, forms.ModelForm):
             'last_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Apellidos'}),
             'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'nombre@municipalidad.cl'}),
             'email_secundario': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'recuperador@gmail.com (Opcional)'}),
-            'rut': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '12.345.678-9'}),
             'telefono': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '+56 9 8765 4321'}),
             'rol': forms.Select(attrs={'class': 'form-select'}),
             'activo': forms.CheckboxInput(attrs={'class': 'form-check-input'}),

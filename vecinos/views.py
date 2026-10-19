@@ -11,6 +11,7 @@ from config.excel_utils import export_queryset_to_excel
 from .models import Vecino
 from .forms import VecinoForm
 from .access import visible_neighbors
+from config.rut_search import filter_with_rut
 
 
 @login_required
@@ -19,7 +20,7 @@ def vecinos_list_view(request):
     queryset = visible_neighbors(Vecino.objects.select_related('territorio'), request.user)
 
     if search:
-        queryset = queryset.filter(
+        queryset = filter_with_rut(queryset, search,
             Q(nombre__icontains=search) |
             Q(rut__icontains=search) |
             Q(direccion__icontains=search) |
@@ -91,7 +92,7 @@ def vecinos_export_excel(request):
     queryset = visible_neighbors(Vecino.objects.select_related('territorio'), request.user)
 
     if search:
-        queryset = queryset.filter(
+        queryset = filter_with_rut(queryset, search,
             Q(nombre__icontains=search) |
             Q(rut__icontains=search) |
             Q(direccion__icontains=search) |

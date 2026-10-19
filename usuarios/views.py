@@ -14,6 +14,10 @@ from django.utils.crypto import salted_hmac
 from datetime import timedelta
 from django.db.models import Q
 from django.db import transaction
+from django.db.models.deletion import ProtectedError
+from django.contrib.admin.models import LogEntry
+from config.write_serialization import catalog_write_lock
+from config.rut_search import filter_with_rut
 from django.http import JsonResponse
 from config.excel_utils import export_queryset_to_excel
 from .models import Usuario, Rol
@@ -342,7 +346,7 @@ def usuarios_list_view(request):
     queryset = Usuario.objects.filter(is_superuser=False).select_related('rol', 'delegacion')
 
     if search:
-        queryset = queryset.filter(
+        queryset = filter_with_rut(queryset, search,
             Q(username__icontains=search) |
             Q(first_name__icontains=search) |
             Q(last_name__icontains=search) |
@@ -401,12 +405,37 @@ def usuarios_toggle_activo(request, pk):
 
 
 @superuser_required
+@require_POST
+def usuarios_delete(request, pk):
+    try:
+        with catalog_write_lock(), transaction.atomic():
+            user = get_object_or_404(Usuario.objects.select_for_update(), pk=pk)
+            if user.is_superuser or user.pk == request.user.pk:
+                raise PermissionDenied('No puedes eliminar una cuenta de superadministrador ni tu propia cuenta.')
+            if user.delegaciones_a_cargo.exists():
+                messages.error(request, 'Primero reasigna las delegaciones a cargo de este usuario, incluidas las inactivas.')
+                return redirect('usuarios:usuarios_list')
+            if LogEntry.objects.filter(user_id=user.pk).exists():
+                messages.error(request, 'Este usuario tiene historial de administración. Puedes desactivarlo para bloquear su acceso.')
+                return redirect('usuarios:usuarios_list')
+            username = user.username
+            user.delete()
+    except ProtectedError:
+        messages.error(request, 'Este usuario tiene atenciones, acciones o revisiones registradas. Puedes desactivarlo para conservar su historial.')
+    except ValidationError as error:
+        messages.error(request, ' '.join(error.messages))
+    else:
+        messages.success(request, f"El usuario '{username}' fue eliminado definitivamente.")
+    return redirect('usuarios:usuarios_list')
+
+
+@superuser_required
 def usuarios_export_excel(request):
     search = request.GET.get('q', '').strip()
     queryset = Usuario.objects.filter(is_superuser=False).select_related('rol', 'delegacion')
 
     if search:
-        queryset = queryset.filter(
+        queryset = filter_with_rut(queryset, search,
             Q(username__icontains=search) |
             Q(first_name__icontains=search) |
             Q(last_name__icontains=search) |

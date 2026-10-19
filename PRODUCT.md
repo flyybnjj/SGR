@@ -19,6 +19,10 @@ Funcionarios y responsables municipales registran atenciones, consultan el histo
 - Mantener el menú de perfil, los ajustes de cuenta, las passkeys y el tutorial guiado.
 - Las páginas de cuenta no muestran el menú de trabajo.
 
+En Usuarios, desactivar/reactivar y eliminar son acciones separadas, también para cuentas inactivas. La papelera elimina definitivamente una cuenta sin historial y sus passkeys, con confirmación propia. Se bloquea la eliminación de superadministradores, responsables con delegaciones a cargo y cuentas con atenciones, acciones o auditoría registrada; la desactivación conserva sus datos.
+
+Los campos de RUT agregan puntos y guion automáticamente; aceptan el RUT completo con su dígito verificador, incluida K. El servidor valida y guarda una representación única sin puntos para impedir duplicados. En ingreso y recuperación se formatea al salir del campo y se conserva el identificador original enviado, para no modificar nombres de usuario numéricos. Usuario y correo siguen disponibles.
+
 ## Referencia visual aprobada
 
 El usuario eligió «Vidrio suave» (propuesta 15) y después aprobó la distribución «Menú por tareas» (propuesta 22), conservando el mismo color y material. La referencia de distribución está en `backups/tasks-20261018/approved-tasks.jpg`; la referencia de material anterior, en `backups/glass-20261018/approved-reference.png`. Aprobación del 18 de octubre de 2026. Sus cifras y nombres son ilustrativos; la aplicación siempre muestra datos consultados desde Django.
