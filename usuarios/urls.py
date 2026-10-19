@@ -24,6 +24,7 @@ urlpatterns = [
     path('validar-codigo/', views.validar_codigo_view, name='validar_codigo'),
     path('reenviar-codigo/', views.reenviar_codigo_view, name='reenviar_codigo'),
     path('cambiar-password/', views.cambiar_password_view, name='cambiar_password'),
+    path('primer-ingreso/', views.primer_ingreso_view, name='primer_ingreso'),
 
 
     path('mantenedores/roles/', views.roles_list_view, name='roles_list'),

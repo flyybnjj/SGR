@@ -31,6 +31,7 @@ class Usuario(AbstractUser):
     rol = models.ForeignKey(Rol, on_delete=models.PROTECT, null=True, blank=True, related_name='usuarios', verbose_name="Rol")
     delegacion = models.ForeignKey("territorial.DelegacionMunicipal", on_delete=models.PROTECT, null=True, blank=True, related_name="funcionarios")
     activo = models.BooleanField(default=True, verbose_name="Estado Activo")
+    debe_cambiar_password = models.BooleanField(default=False, verbose_name="Debe cambiar contraseña al primer ingreso")
 
 
     reset_code = models.CharField(max_length=6, blank=True, null=True, verbose_name="Código de Recuperación (Reset Code)")

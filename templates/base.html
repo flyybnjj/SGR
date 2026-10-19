@@ -53,7 +53,7 @@
 <div class="layout-stitch">
     {% if not account_area %}<aside class="sidebar-stitch" id="tour-sidebar-nav" aria-label="Menú principal">
         <div class="d-lg-none d-flex justify-content-between align-items-center mb-3"><strong>Gestión municipal</strong><button class="btn-stitch-icon" type="button" onclick="closeSidebarMobile()" aria-label="Cerrar menú"><i class="bi bi-x-lg"></i></button></div>
-        {% if delegacion_actual %}<div class="sidebar-territory"><span class="delegation-swatch" aria-hidden="true"></span><span><strong>{{ delegacion_actual.nombre }}</strong><small>{{ delegacion_actual.comuna }}</small></span></div>{% endif %}
+        {% if delegacion_actual %}<div class="sidebar-territory"><span class="delegation-swatch" aria-hidden="true"><i class="bi bi-buildings"></i></span><span><strong>{{ delegacion_actual.nombre }}</strong><small>{{ delegacion_actual.comuna }}</small></span></div>{% endif %}
         <div class="sidebar-scroll" tabindex="0" role="region" aria-label="Secciones del menú">
         {% if user.is_superuser %}<p class="sidebar-category">General</p>{% endif %}
         <nav class="d-flex flex-column gap-1" aria-label="General">

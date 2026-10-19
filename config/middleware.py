@@ -1,9 +1,10 @@
 from urllib.parse import urlsplit
 
 from django.conf import settings
-from django.http import HttpResponseBadRequest, HttpResponseRedirect
+from django.http import HttpResponseBadRequest, HttpResponseRedirect, JsonResponse
 from django.shortcuts import redirect, render
 from django.contrib.auth import logout
+from django.urls import reverse
 
 
 class LocalPasskeyOriginMiddleware:
@@ -39,4 +40,10 @@ class ActiveProfileMiddleware:
         if user.is_authenticated and not user.is_superuser and (not user.rol_id or not user.rol.activo):
             if request.path != '/logout/':
                 return render(request, '403.html', status=403)
+        if user.is_authenticated and user.debe_cambiar_password:
+            first_login = reverse('usuarios:primer_ingreso')
+            if request.path not in (first_login, reverse('usuarios:logout')):
+                if request.content_type == 'application/json' or 'application/json' in request.headers.get('Accept', ''):
+                    return JsonResponse({'error': 'Cambia tu contraseña temporal antes de continuar.', 'redirect': first_login}, status=403)
+                return redirect(first_login)
         return self.get_response(request)

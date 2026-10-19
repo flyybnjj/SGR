@@ -1,6 +1,8 @@
 from config.write_serialization import serialize_catalog_write
 from config.catalog_validation import NombreCatalogoUnicoMixin
 import re
+import secrets
+import string
 from django import forms
 from django.core.exceptions import ValidationError
 from django.db.models import Q
@@ -8,6 +10,22 @@ from django.db import transaction
 from .models import Usuario, Rol
 from config.validators import RutField, RutFormMixin, normalizar_rut
 from territorial.models import DelegacionMunicipal
+
+
+def generar_password_temporal(longitud=12):
+    specials = '!@#$%^&*(),.?":{}|<>'
+    chars = [
+        secrets.choice(string.ascii_uppercase),
+        secrets.choice(string.ascii_lowercase),
+        secrets.choice(string.digits),
+        secrets.choice(specials),
+    ]
+    pool = string.ascii_letters + string.digits + specials
+    chars += [secrets.choice(pool) for _ in range(max(longitud, 8) - len(chars))]
+    secrets.SystemRandom().shuffle(chars)
+    password = ''.join(chars)
+    validar_password_fuerte(password)
+    return password
 
 
 def rut_en_otra_cuenta(value, campo, excluir_pk=None):
@@ -158,7 +176,8 @@ class UsuarioForm(RutFormMixin, forms.ModelForm):
         self.fields["rol"].queryset = Rol.objects.filter(Q(activo=True) | Q(pk=current_role))
         self.fields["delegacion"].queryset = DelegacionMunicipal.objects.filter(Q(activo=True) | Q(pk=current_delegation))
         self.fields["delegacion"].widget.attrs["class"] = "form-select"
-        self.fields["password"].required = not bool(self.instance.pk)
+        if not self.instance.pk:
+            self.fields.pop('password')
         if self.instance.is_superuser:
             self.fields["activo"].disabled = True
 
@@ -206,6 +225,7 @@ class UsuarioForm(RutFormMixin, forms.ModelForm):
         if user.pk:
             stored_users = Usuario.objects.select_for_update() if commit else Usuario.objects.all()
             stored_user = stored_users.get(pk=user.pk)
+            user.debe_cambiar_password = stored_user.debe_cambiar_password
         for field in ('username', 'rut'):
             try:
                 getattr(self, f'clean_{field}')()
@@ -219,15 +239,22 @@ class UsuarioForm(RutFormMixin, forms.ModelForm):
             if DelegacionMunicipal.objects.filter(delegado_id=user.pk).exclude(pk=user.delegacion_id).exists():
                 raise ValidationError({'delegacion': 'Se le asignó una responsabilidad mientras editaba. Reasigne esa responsabilidad antes de cambiar su sede.'})
         pwd = self.cleaned_data.get('password')
-        if pwd:
+        raw_initial_password = None
+        if not user.pk:
+            raw_initial_password = generar_password_temporal()
+            user.set_password(raw_initial_password)
+            user.reset_code = user.codigo_recuperacion = None
+            user.reset_expires_at = user.codigo_expiracion = None
+            user.debe_cambiar_password = True
+        elif pwd:
             user.set_password(pwd)
             user.reset_code = user.codigo_recuperacion = None
             user.reset_expires_at = user.codigo_expiracion = None
         elif stored_user:
-
             user.password = stored_user.password
             for field in ('reset_code', 'codigo_recuperacion', 'reset_expires_at', 'codigo_expiracion'):
                 setattr(user, field, getattr(stored_user, field))
+        user._raw_initial_password = raw_initial_password
         if commit:
             user.save()
         return user

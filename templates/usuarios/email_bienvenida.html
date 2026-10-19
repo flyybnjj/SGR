@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Tu cuenta SGR</title></head>
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; background: #F5F5F7; color: #182230; margin: 0; padding: 24px;">
+    <main style="max-width: 560px; margin: auto; background: #FFFFFF; border-radius: 16px; padding: 28px; border-top: 4px solid #B80003; line-height: 1.6;">
+        <h1 style="font-size: 24px; margin: 0 0 16px;">Tu cuenta SGR está creada</h1>
+        <p>Hola, {{ user.first_name }}. Estos son tus datos para el primer ingreso:</p>
+        <dl style="padding: 16px; background: #F5F5F7; border-radius: 12px; overflow-wrap: anywhere;">
+            <dt>Usuario</dt><dd style="margin: 0 0 12px;"><strong>{{ user.username }}</strong></dd>
+            <dt>Contraseña temporal</dt><dd style="margin: 0; font-family: monospace; font-size: 18px;"><strong>{{ password }}</strong></dd>
+        </dl>
+        <p>Al entrar, deberás cambiar esta contraseña. Después podrás agregar una passkey si quieres.</p>
+        <p><a href="{{ login_url }}" style="display: inline-block; padding: 12px 20px; background: #B80003; border-radius: 8px; color: #FFFFFF; text-decoration: none;">Ingresar a SGR</a></p>
+        <p style="font-size: 14px;">Si el botón no abre la página: <a href="{{ login_url }}" style="color: #B80003; overflow-wrap: anywhere;">{{ login_url }}</a></p>
+        <p style="font-size: 14px;">No compartas tu contraseña.</p>
+        <footer style="font-size: 14px; color: #475569;">Ilustre Municipalidad de La Serena · SGR</footer>
+    </main>
+</body>
+</html>

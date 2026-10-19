@@ -167,8 +167,14 @@
                             </select>
                         </div>
                         <div class="col-md-6">
-                            <label for="nuevoUsuarioModal-password" class="form-label small fw-semibold" style="color: var(--text-main);">Contraseña Inicial *</label>
-                            <input type="password" id="nuevoUsuarioModal-password" name="password" class="input-stitch" placeholder="Mínimo 8 car., Mayús, Núm, Símbolo" required minlength="8" autocomplete="new-password">
+                            <label class="form-label small fw-semibold" style="color: var(--text-main);">Contraseña de Acceso</label>
+                            <div class="rounded-3 d-flex align-items-center gap-2" style="background: rgba(124, 58, 237, 0.06); border: 1px dashed rgba(124, 58, 237, 0.35); min-height: 42px; padding: 8px 12px;">
+                                <i class="bi bi-shield-lock-fill" style="color: var(--muni-purple); font-size: 1.2rem;"></i>
+                                <div class="small" style="color: var(--text-muted); line-height: 1.25;">
+                                    <strong style="color: var(--text-main); font-size: 0.8rem; display: block;">Generación automática</strong>
+                                    El sistema generará una clave segura y se la enviará al correo del funcionario.
+                                </div>
+                            </div>
                         </div>
                         <div class="col-md-6"><label for="usuario-delegacion-new" class="form-label small fw-semibold">Delegación</label><select id="usuario-delegacion-new" name="delegacion" class="input-stitch"><option value="">Sin delegación asignada</option>{% for delegacion in delegaciones %}<option value="{{ delegacion.id }}" >{{ delegacion.nombre }}</option>{% endfor %}</select></div>
 <div class="col-12 mt-3 pt-2 border-top" style="border-color: var(--border-stitch) !important;">

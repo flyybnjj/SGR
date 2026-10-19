@@ -48,7 +48,8 @@ class UserRequiredFieldsTests(TestCase):
         user = form.save()
         self.assertIsNone(user.delegacion_id)
         self.assertEqual(user.rol_id, self.role.pk)
-        self.assertTrue(user.check_password('Segura$2026'))
+        self.assertTrue(user.check_password(user._raw_initial_password))
+        self.assertTrue(user.debe_cambiar_password)
 
     def test_edit_requires_personal_fields_but_allows_legacy_account_without_rut(self):
         user = Usuario.objects.create_user(username='historico', password='Anterior$2026')

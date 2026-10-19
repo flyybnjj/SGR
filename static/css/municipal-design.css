@@ -45,15 +45,15 @@ body[data-ambient-motion="running"] .ambient-wave { animation-play-state: runnin
 .user-badge-stitch .small { font-size: .875rem; }
 .navbar-stitch .territory-banner { display: flex; align-items: center; gap: 12px; width: min(100%, 480px); min-width: 0; min-height: 60px; margin: 0 auto; padding: 8px 16px; border-radius: 12px; background: color-mix(in srgb, var(--banner-color) 8%, white) !important; border: 1px solid var(--territory-edge); }
 .navbar-stitch .territory-banner::before, .navbar-stitch .territory-banner::after { display: none; }
-.territory-marker { display: grid; place-items: center; flex: 0 0 36px; width: 36px; height: 40px; border-radius: 8px; background: var(--banner-color); border: 1px solid var(--muni-red); }
-.territory-marker i { display: none; }
+.territory-marker { display: grid; place-items: center; flex: 0 0 36px; width: 36px; height: 40px; border-radius: 8px; background: #fff; border: 1px solid var(--border-control); color: var(--text-secondary); }
+.territory-marker i { display: inline-flex; align-items: center; justify-content: center; font-size: 1.25rem; color: var(--text-secondary); }
 .navbar-stitch .territory-content { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; min-width: 0; }
 .navbar-stitch .territory-banner .territory-name { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size: 1.125rem; line-height: 1.3; letter-spacing: -.02em; }
 .navbar-stitch .territory-place { font-size: .8125rem; line-height: 1.4; color: #344054; }
 .navbar-stitch .territory-banner-neutral { border-color: var(--border-stitch); background: var(--surface-muted); }
 .navbar-stitch .territory-banner-neutral::before, .navbar-stitch .territory-banner-neutral::after { display: none; }
 .territory-banner-neutral .territory-marker { background: #fff; border-color: var(--border-control); color: var(--text-secondary); }
-.territory-banner-neutral .territory-marker i { display: inline; font-size: 1.25rem; }
+.territory-banner-neutral .territory-marker i { display: inline-flex; font-size: 1.25rem; color: var(--text-secondary); }
 .layout-stitch { padding: 24px 24px 32px; gap: 16px; align-items: flex-start; min-height: calc(100dvh - 112px); }
 .sidebar-stitch { width: 240px; min-width: 240px; height: auto; align-self: flex-start; padding: 16px 12px; top: 24px; border: 1px solid var(--territory-edge) !important; border-radius: 16px; max-height: var(--sidebar-available-height, calc(100dvh - 176px)); overflow: hidden !important; background: var(--glass-chrome) !important; box-shadow: var(--glass-shadow) !important; }
 .sidebar-stitch > :not(.sidebar-scroll) { flex-shrink: 0; }
@@ -66,7 +66,8 @@ body[data-ambient-motion="running"] .ambient-wave { animation-play-state: runnin
 .sidebar-territory strong { display: block; font-size: 1rem; line-height: 1.3; overflow-wrap: anywhere; }
 .sidebar-territory small { display: block; margin-top: 2px; color: var(--text-muted); font-size: .8125rem; }
 .sidebar-stitch .text-secondary { color: var(--text-muted) !important; }
-.delegation-swatch { width: 36px; height: 40px; flex: 0 0 36px; border-radius: 8px; background: var(--delegation-color); border: 1px solid var(--muni-red); }
+.delegation-swatch { display: grid; place-items: center; width: 36px; height: 40px; flex: 0 0 36px; border-radius: 8px; background: #fff; border: 1px solid var(--border-control); color: var(--text-secondary); }
+.delegation-swatch i { display: inline-flex; align-items: center; justify-content: center; font-size: 1.15rem; color: var(--text-secondary); }
 .layout-stitch.sidebar-collapsed .sidebar-stitch { margin-left: -256px; }
 .sidebar-category { display: flex; align-items: center; gap: 12px; font-size: .875rem; font-weight: 500; padding: 18px 12px 10px; margin: 0; }
 .sidebar-category::after { content: ''; flex: 1; height: 1px; background: var(--territory-edge); }

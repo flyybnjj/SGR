@@ -221,7 +221,8 @@ def authentication_verify(request, data):
         return denied()
     if challenge.purpose == 'login':
         login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-        return preferred_cookie(JsonResponse({'redirect': reverse('dashboard:inicio')}), key.profile.preferred)
+        destination = 'usuarios:primer_ingreso' if user.debe_cambiar_password else 'dashboard:inicio'
+        return preferred_cookie(JsonResponse({'redirect': reverse(destination)}), key.profile.preferred)
     request.session.cycle_key()
     request.session['passkey_reset'] = {
         'user': user.pk, 'key': key.pk, 'stamp': user.get_session_auth_hash(),
@@ -249,6 +250,7 @@ def password_reset(request):
                 request.session.pop('passkey_reset', None)
                 return redirect('usuarios:recuperar_password')
             user.set_password(form.cleaned_data['new_password'])
+            user.debe_cambiar_password = False
             user.reset_code = user.codigo_recuperacion = None
             user.reset_expires_at = user.codigo_expiracion = None
             user.save()

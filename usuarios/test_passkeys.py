@@ -81,6 +81,30 @@ class PasskeyTests(TestCase):
         self.assertEqual(int(self.client.session['_auth_user_id']), self.user.pk)
         self.assertEqual(self.post('ingreso/verificar', credential).status_code, 400)
 
+    def test_passkey_login_respects_pending_first_password_change(self):
+        self.register()
+        Usuario.objects.filter(pk=self.user.pk).update(debe_cambiar_password=True)
+        self.client.logout()
+        options = self.post('ingreso/opciones', {'purpose': 'login'}).json()
+        response = self.post('ingreso/verificar', self.assertion(options))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()['redirect'], '/primer-ingreso/')
+
+    def test_verified_passkey_reset_clears_pending_first_change(self):
+        self.register()
+        Usuario.objects.filter(pk=self.user.pk).update(debe_cambiar_password=True)
+        self.client.logout()
+        options = self.post('ingreso/opciones', {'purpose': 'reset'}).json()
+        response = self.post('ingreso/verificar', self.assertion(options))
+        self.assertEqual(response.status_code, 200)
+        response = self.client.post(response.json()['redirect'], {
+            'new_password': 'Recovered$2026', 'confirm_password': 'Recovered$2026',
+        })
+        self.assertEqual(response.status_code, 302)
+        self.user.refresh_from_db()
+        self.assertFalse(self.user.debe_cambiar_password)
+        self.assertTrue(self.user.check_password('Recovered$2026'))
+
     def test_invalid_origin_missing_verification_wrong_handle_and_signature_rejected(self):
         self.register()
         self.client.logout()

@@ -1,6 +1,7 @@
 from config.access import superuser_required
 from config.pagination import paginate
-from django.views.decorators.http import require_POST
+from django.views.decorators.http import require_POST, require_http_methods
+from django.views.decorators.cache import never_cache
 from django.core.exceptions import PermissionDenied, ValidationError
 import re
 import secrets
@@ -86,10 +87,15 @@ def login_view(request):
                 messages.error(request, "Tu cuenta se encuentra inactiva. Contacta al Súper Administrador.")
             else:
                 login(request, user)
-                messages.success(request, f"¡Bienvenido(a) {user.nombre_completo}!")
                 from .models import PasskeyProfile
                 from .passkeys import preferred_cookie
                 preferred = PasskeyProfile.objects.filter(user=user, preferred=True).exists()
+
+                if getattr(user, 'debe_cambiar_password', False):
+                    messages.info(request, "Crea tu contraseña personal para continuar.")
+                    return preferred_cookie(redirect('usuarios:primer_ingreso'), preferred)
+
+                messages.success(request, f"¡Bienvenido(a) {user.nombre_completo}!")
                 return preferred_cookie(redirect('dashboard:inicio'), preferred)
         else:
             messages.error(request, "Usuario o contraseña incorrectos. Revisa tus datos.")
@@ -260,6 +266,7 @@ def cambiar_password_view(request):
                     request.session.pop('recovery_verified', None)
                     return redirect('usuarios:recuperar_password')
                 user.set_password(new_pwd)
+                user.debe_cambiar_password = False
                 user.reset_code = None
                 user.reset_expires_at = None
                 user.codigo_recuperacion = None
@@ -272,6 +279,49 @@ def cambiar_password_view(request):
             return redirect('usuarios:login')
 
     return render(request, 'usuarios/cambiar_password.html', {'form': form, 'user_target': user})
+
+
+@login_required
+@never_cache
+@require_http_methods(['GET', 'POST'])
+def primer_ingreso_view(request):
+    user = request.user
+    if not getattr(user, 'debe_cambiar_password', False):
+        return redirect('dashboard:inicio')
+
+    if request.method == 'POST':
+        form = CambiarPasswordForm(request.POST)
+        if form.is_valid():
+            new_pwd = form.cleaned_data['new_password']
+            with transaction.atomic():
+                user_db = Usuario.objects.select_for_update().get(pk=user.pk)
+                from config.access import active
+                if not active(user_db) or user_db.get_session_auth_hash() != user.get_session_auth_hash() or not user_db.debe_cambiar_password:
+                    logout(request)
+                    return redirect('usuarios:login')
+                if user_db.check_password(new_pwd):
+                    form.add_error('new_password', 'Elige una contraseña distinta de la temporal.')
+                else:
+                    user_db.set_password(new_pwd)
+                    user_db.debe_cambiar_password = False
+                    user_db.reset_code = user_db.codigo_recuperacion = None
+                    user_db.reset_expires_at = user_db.codigo_expiracion = None
+                    user_db.save()
+
+            if not form.errors:
+                from django.contrib.auth import update_session_auth_hash
+                update_session_auth_hash(request, user_db)
+                messages.success(request, 'Contraseña actualizada.')
+                if request.POST.get('agregar_passkey') in ('1', 'on', 'true'):
+                    return redirect('usuarios:passkeys')
+                return redirect('dashboard:inicio')
+    else:
+        form = CambiarPasswordForm()
+
+    return render(request, 'usuarios/primer_ingreso.html', {
+        'form': form,
+        'user_target': user,
+    })
 
 
 @superuser_required
@@ -370,6 +420,51 @@ def usuarios_list_view(request):
     })
 
 
+def enviar_correo_bienvenida(request, user, password_plana):
+    if not user or not user.email or not password_plana:
+        return False
+    import logging
+    from django.core.mail import get_connection, send_mail
+    from django.urls import reverse
+    if settings.EMAIL_BACKEND.endswith(('console.EmailBackend', 'dummy.EmailBackend', 'filebased.EmailBackend')):
+        return False
+    recipient = user.email.strip().lower()
+    if recipient not in recovery_recipients(user):
+        return False
+    login_url = settings.WEBAUTHN_ORIGIN.rstrip('/') + reverse('usuarios:login')
+    context = {
+        'user': user,
+        'password': password_plana,
+        'login_url': login_url,
+    }
+    try:
+        html = render_to_string('usuarios/email_bienvenida.html', context)
+        texto_plano = (
+            f"Estimado(a) {user.nombre_completo},\n\n"
+            f"Se ha creado tu cuenta institucional en la Plataforma Territorial SGR - Ilustre Municipalidad de La Serena.\n\n"
+            f"Tus credenciales de acceso inicial son:\n"
+            f"- Usuario / Login: {user.username}\n"
+            f"- Contraseña provisoria: {password_plana}\n\n"
+            f"Puedes ingresar al sistema en: {login_url}\n\n"
+            f"Al ingresar por primera vez deberás cambiar esta contraseña. Después podrás agregar una passkey si quieres.\n\n"
+            f"Saludos cordiales,\n"
+            f"Ilustre Municipalidad de La Serena"
+        )
+        sent = send_mail(
+            'Bienvenido a la Plataforma SGR La Serena - Credenciales de Acceso',
+            texto_plano,
+            settings.DEFAULT_FROM_EMAIL,
+            [recipient],
+            html_message=html,
+            fail_silently=False,
+            connection=get_connection(timeout=15),
+        )
+        return sent > 0
+    except Exception as exc:
+        logging.getLogger(__name__).warning('No se pudo entregar el correo inicial de la cuenta %s (%s).', user.pk, type(exc).__name__)
+        return False
+
+
 @superuser_required
 @require_POST
 def usuarios_save_view(request, pk=None):
@@ -382,7 +477,21 @@ def usuarios_save_view(request, pk=None):
             except ValidationError as error:
                 form.add_error(None, ' '.join(error.messages))
             else:
-                messages.success(request, f"Usuario '{user.username}' {'modificado' if pk else 'creado'} correctamente.")
+                if pk is None:
+                    raw_pwd = user.__dict__.pop('_raw_initial_password', None)
+
+                    def deliver_welcome():
+                        current = Usuario.objects.filter(pk=user.pk, password=user.password, email=user.email,
+                                                         debe_cambiar_password=True).first()
+                        enviado = bool(current and enviar_correo_bienvenida(request, current, raw_pwd))
+                        if enviado:
+                            messages.success(request, f"Usuario '{user.username}' creado. La contraseña temporal se envió a {user.email}. Revisa también spam.")
+                        else:
+                            messages.warning(request, f"Usuario '{user.username}' creado, pero no se pudo enviar su contraseña temporal. Puede solicitar una nueva desde «¿Olvidaste tu contraseña?» usando su correo registrado.")
+
+                    transaction.on_commit(deliver_welcome)
+                else:
+                    messages.success(request, f"Usuario '{user.username}' modificado correctamente.")
         if form.errors:
             errors_str = " ".join([f"{k}: {v[0]}" for k, v in form.errors.items()])
             messages.error(request, f"Error al guardar usuario: {errors_str}")
