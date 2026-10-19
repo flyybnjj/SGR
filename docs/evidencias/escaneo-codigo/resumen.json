@@ -2,7 +2,6 @@
   "date": "2026-10-18T21:29:08.312676+00:00",
   "baseline": "a3384e045323ff8b5d1659fa2f687ef75c8077bb",
   "owned_source_files_in_inventory": 197,
-  "functional_tests": 344,
   "new_regression_tests": 47,
   "python_config_comments_removed": 202,
   "non_runtime_docstrings_removed": 39,
@@ -23,5 +22,12 @@
   "no_new_schema_migration": true,
   "screenshots_taken": false,
   "postgresql_live_tested": false,
-  "pdf_sha256": "b6820b7314549d0a2d17bdb03a0acf8680f0a40939c89fd6b0708f5481e9fb9f"
+  "pdf_sha256": "b6820b7314549d0a2d17bdb03a0acf8680f0a40939c89fd6b0708f5481e9fb9f",
+  "final_unique_tests": 350,
+  "final_backend": "mysql",
+  "mysql_version": "8.4.11",
+  "additional_regressions_since_baseline": 53,
+  "legacy_sources_archived_on_server": 6,
+  "all_cases_verified_in_applicable_environment": true,
+  "initial_cleanup_tests": 344
 }

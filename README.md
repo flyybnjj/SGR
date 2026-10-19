@@ -79,14 +79,16 @@ El padrón, la búsqueda, los Excel y las fichas de atención se limitan a la de
 
 Revisión de seis módulos, formularios, modelos, rutas, comandos y JS; 13 fallos reproducidos y corregidos. Suite ampliada a 261 pruebas, con casos concurrentes SQLite. Ver docs/auditoria-logica.md y docs/evidencias/auditoria-logica. Para importar un esquema antiguo con aprobación autorizada, indicar --approval-role-id ID por cada rol; el nombre del rol no otorga ese permiso. Los comandos de ejemplo no deben ejecutarse sobre producción.
 
-## Cierre actual contra el PDF
+## Cierre anterior contra el PDF
 
 297 pruebas aprobadas y 95 comprobaciones HTTP en AWS. Se añadieron las seis consultas separadas, requeridos de usuario en servidor, SweetAlert para errores del servidor y navegación por capacidades efectivas. Lectura: 1218 solicitudes sin errores. Escritura sobre base aislada: 2118 solicitudes sin errores, con conteo/contexto/UUID comprobados. Detalles, diferencias de escenarios y pendientes externos: [cierre de evaluación](docs/cierre-segunda-evaluacion.md). El repositorio permanece privado hasta conocer la cuenta del profesor, según instrucción del titular.
 
 ## Escaneo y limpieza de código
 
-344 pruebas aprobadas, 47 regresiones nuevas. Se corrigieron guardados concurrentes, relaciones y validaciones obsoletas, menús y ficha raíz; se redujeron consultas y retiraron comentarios y fuentes sin uso demostrado. [Detalle y límites](docs/escaneo-y-limpieza.md). No se tomaron capturas en esta revisión.
+El escaneo inicial aprobó 344 pruebas; el cierre con MySQL contiene 350 casos distintos, comprobados en el entorno aplicable. Se corrigieron guardados concurrentes, relaciones y validaciones obsoletas, menús y ficha raíz; se redujeron consultas y retiraron comentarios y fuentes sin uso demostrado. [Detalle y límites](docs/escaneo-y-limpieza.md). No se tomaron capturas en esta revisión.
 
 ## Base de datos MySQL
 
 Traslado autorizado a MySQL en la misma EC2: [procedimiento, comprobaciones y reversión](docs/mysql-ec2.md). La URL privada se configura en DATABASE_URL; no se incluyen credenciales en el repositorio. Las evidencias históricas SQLite se conservan identificadas por versión.
+
+AWS utiliza MySQL 8.4.11 desde el traslado autorizado: 26 tablas de datos comparadas y respaldo restaurado/verificado. 95 controles HTTPS aprobados después del cambio. [Evidencia de ambos motores](docs/evidencias/escaneo-codigo/pruebas-dos-motores.json).

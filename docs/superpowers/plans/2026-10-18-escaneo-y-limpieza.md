@@ -23,8 +23,10 @@
 - [x] Eliminar huérfanos demostrados e imports/definiciones innecesarios.
 - [x] Quitar comentarios mediante analizadores, conservando equivalencia sintáctica/AST y directivas necesarias.
 - [x] Ejecutar suite completa, validación estática y recorridos de interacción sin capturas.
-- [ ] Actualizar evidencia y sincronizar entrega con respaldo y datos preservados.
+- [x] Actualizar evidencia y sincronizar entrega con respaldo y datos preservados.
 
 ## Review Focus
 
 Solicitudes paralelas no deben reponer hashes o datos antiguos; búsquedas/Excel conservan ámbito; límites y errores no conceden privilegios; relaciones siguen válidas al guardar después de validar; eliminar comentarios no altera strings, expresiones regulares, HTML ni plantillas.
+
+Ampliación autorizada: migrar a MySQL en la misma EC2, con ensayo, respaldo, igualdad de datos, pruebas de ambos motores y carga aislada; ver mysql-ec2.md.

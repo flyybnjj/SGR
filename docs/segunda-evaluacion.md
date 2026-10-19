@@ -48,3 +48,7 @@ La carga de lectura de producción usa niveles 1, 3, 5 y 10, diez segundos por n
 Las escrituras se evalúan mediante HTTP en loopback, Gunicorn y una base sintética separada dentro de la misma EC2. Incluye guardado válido, subatención inválida, búsquedas, apertura/cancelación y repetición de UUID; comprueba conteo y sede/autor finales. El correo y la caché son locales de prueba. No inserta atenciones ficticias en producción. La diferencia de escenario queda explícita en los resultados.
 
 El acceso del docente al repositorio permanece pendiente: el usuario no conoce su cuenta y pidió conservarlo privado por ahora. Las credenciales personales de evaluación se entregan por canal privado; no se publican en README, ZIP ni evidencias. No se modifica esa decisión para afirmar cumplimiento absoluto.
+
+## Actualización posterior: escaneo y MySQL
+
+La entrega se amplió a 350 casos comprobados en el entorno aplicable y se migró AWS a MySQL 8.4.11, conservando todos los datos y verificando una restauración del respaldo. Véanse `escaneo-y-limpieza.md`, `mysql-ec2.md` y `evidencias/escaneo-codigo/`. Las mediciones SQLite anteriores permanecen como evidencia histórica de sus commits, sin atribuirlas a MySQL.

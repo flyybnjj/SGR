@@ -1,0 +1,19 @@
+{
+  "motor": "mysql",
+  "cuentas_raiz": 2,
+  "usuarios_total": 11,
+  "usuarios_activos_sin_sede": 2,
+  "cuentas_identificadores_ambiguos": 0,
+  "responsables_fuera_sede": 0,
+  "vecinos_sin_territorio": 0,
+  "atenciones_subtipo_incompatible": 0,
+  "acciones_meta_otra_sede": 0,
+  "metas_periodo_invalido": 0,
+  "resoluciones_extra": 0,
+  "vecinos": 12,
+  "atenciones": 5,
+  "acciones": 5,
+  "mysql_version": "8.4.11",
+  "bind_address": "127.0.0.1",
+  "isolation": "READ-COMMITTED"
+}

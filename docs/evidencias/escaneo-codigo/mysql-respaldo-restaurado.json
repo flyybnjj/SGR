@@ -1,0 +1,144 @@
+{
+  "backup_file": "/home/ubuntu/sgr-backups/mysql-migration-20261018/sgr-20261019_003617.sql",
+  "bytes": 89984,
+  "restored_to_separate_database": true,
+  "all_rows_identical": true,
+  "temporary_restore_database_removed": true,
+  "tables": [
+    {
+      "table": "atenciones_accion",
+      "rows": 5,
+      "identical": true
+    },
+    {
+      "table": "atenciones_atencion",
+      "rows": 5,
+      "identical": true
+    },
+    {
+      "table": "atenciones_evidenciafotografica",
+      "rows": 0,
+      "identical": true
+    },
+    {
+      "table": "atenciones_metaperiodo",
+      "rows": 0,
+      "identical": true
+    },
+    {
+      "table": "atenciones_requerimiento",
+      "rows": 5,
+      "identical": true
+    },
+    {
+      "table": "atenciones_requerimientohistorico",
+      "rows": 5,
+      "identical": true
+    },
+    {
+      "table": "atenciones_resolucionaccion",
+      "rows": 1,
+      "identical": true
+    },
+    {
+      "table": "atenciones_resolucionauditoria",
+      "rows": 1,
+      "identical": true
+    },
+    {
+      "table": "atenciones_subatencion",
+      "rows": 35,
+      "identical": true
+    },
+    {
+      "table": "atenciones_tipoatencion",
+      "rows": 9,
+      "identical": true
+    },
+    {
+      "table": "auth_group",
+      "rows": 0,
+      "identical": true
+    },
+    {
+      "table": "auth_group_permissions",
+      "rows": 0,
+      "identical": true
+    },
+    {
+      "table": "auth_permission",
+      "rows": 92,
+      "identical": true
+    },
+    {
+      "table": "django_admin_log",
+      "rows": 0,
+      "identical": true
+    },
+    {
+      "table": "django_content_type",
+      "rows": 23,
+      "identical": true
+    },
+    {
+      "table": "django_migrations",
+      "rows": 36,
+      "identical": true
+    },
+    {
+      "table": "django_session",
+      "rows": 94,
+      "identical": true
+    },
+    {
+      "table": "territorial_delegacionmunicipal",
+      "rows": 13,
+      "identical": true
+    },
+    {
+      "table": "territorial_itemmeta",
+      "rows": 11,
+      "identical": true
+    },
+    {
+      "table": "usuarios_passkey",
+      "rows": 2,
+      "identical": true
+    },
+    {
+      "table": "usuarios_passkeychallenge",
+      "rows": 1,
+      "identical": true
+    },
+    {
+      "table": "usuarios_passkeyprofile",
+      "rows": 2,
+      "identical": true
+    },
+    {
+      "table": "usuarios_rol",
+      "rows": 12,
+      "identical": true
+    },
+    {
+      "table": "usuarios_usuario",
+      "rows": 11,
+      "identical": true
+    },
+    {
+      "table": "usuarios_usuario_groups",
+      "rows": 0,
+      "identical": true
+    },
+    {
+      "table": "usuarios_usuario_user_permissions",
+      "rows": 0,
+      "identical": true
+    },
+    {
+      "table": "vecinos_vecino",
+      "rows": 12,
+      "identical": true
+    }
+  ]
+}

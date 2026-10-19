@@ -1,0 +1,104 @@
+{
+  "date": "2026-10-19T00:40:29.388865+00:00",
+  "application_commit": "d02bd183680bea54d626303913258c42a09f5484",
+  "environment": "AWS EC2; Gunicorn 2 workers/5 threads; HTTP loopback; MySQL sintético separado",
+  "tool": "Python requests / ThreadPoolExecutor",
+  "safe_concurrency_ceiling": 10,
+  "scenario": "GET búsqueda/formulario sin guardar, POST atención válida y POST subatención inválida con CSRF real; UUID repetido al finalizar",
+  "dataset_initial": {
+    "users": 1,
+    "roles": 1,
+    "delegations": 1,
+    "neighbors": 1,
+    "types": 1,
+    "subtypes": 1,
+    "attentions": 0
+  },
+  "thresholds": {
+    "p95_ms": 1500,
+    "error_percent_below": 1,
+    "stop_error_percent": 5,
+    "stop_p95_ms": 2000
+  },
+  "levels": [
+    {
+      "concurrency": 1,
+      "duration_s": 10.018,
+      "requests": 119,
+      "rps": 11.88,
+      "mean_ms": 54.62,
+      "p95_ms": 68.42,
+      "errors": 0,
+      "error_percent": 0.0,
+      "successful_creations": 30,
+      "status_codes": [
+        200,
+        302
+      ]
+    },
+    {
+      "concurrency": 3,
+      "duration_s": 10.082,
+      "requests": 186,
+      "rps": 18.45,
+      "mean_ms": 133.66,
+      "p95_ms": 275.22,
+      "errors": 0,
+      "error_percent": 0.0,
+      "successful_creations": 47,
+      "status_codes": [
+        200,
+        302
+      ]
+    },
+    {
+      "concurrency": 5,
+      "duration_s": 10.106,
+      "requests": 219,
+      "rps": 21.67,
+      "mean_ms": 198.13,
+      "p95_ms": 270.49,
+      "errors": 0,
+      "error_percent": 0.0,
+      "successful_creations": 56,
+      "status_codes": [
+        200,
+        302
+      ]
+    },
+    {
+      "concurrency": 10,
+      "duration_s": 10.219,
+      "requests": 211,
+      "rps": 20.65,
+      "mean_ms": 426.09,
+      "p95_ms": 636.5,
+      "errors": 0,
+      "error_percent": 0.0,
+      "successful_creations": 54,
+      "status_codes": [
+        200,
+        302
+      ]
+    }
+  ],
+  "recovery": {
+    "concurrency": 1,
+    "duration_s": 2.028,
+    "requests": 25,
+    "rps": 12.33,
+    "mean_ms": 53.37,
+    "p95_ms": 64.73,
+    "errors": 0,
+    "error_percent": 0.0,
+    "successful_creations": 6,
+    "status_codes": [
+      200,
+      302
+    ]
+  },
+  "created_rows": 193,
+  "row_context_verified": true,
+  "replay_did_not_duplicate": true,
+  "accepted": true
+}

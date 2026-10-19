@@ -16,7 +16,7 @@ Se inventariaron 197 fuentes propias y se revisaron por dominios autenticación/
 | Inicio local | Se comprobaba 8080 y se abría 8000; se imprimía una contraseña vieja. Se usa localhost:8000 de forma consistente y se busca el runtime disponible. | config.test_launcher |
 | PostgreSQL opcional | FOR UPDATE sobre JOIN nullable del rol y orden de bloqueo de sede/responsable. Se limita el bloqueo a Usuario y se ordena sede → responsable. | SQL compilado y orden de consultas; sin servidor PostgreSQL |
 
-La primera suite completa detectó dos fallos en pruebas de recuperación: al retirar un import duplicado, el import restante quedó fuera de la función y anulaba el punto de sustitución de SMTP. Se corrigió y se repitió la suite completa. Resultado final: **344/344 aprobadas**, 47 casos adicionales respecto de la entrega anterior. No se suman ejecuciones repetidas como casos nuevos.
+La primera suite completa detectó dos fallos en pruebas de recuperación: al retirar un import duplicado, el import restante quedó fuera de la función y anulaba el punto de sustitución de SMTP. Se corrigió y se repitió la suite completa. Resultado inicial de la limpieza: **344/344 aprobadas**, antes de ampliar la suite a MySQL, 47 casos adicionales respecto de la entrega anterior. No se suman ejecuciones repetidas como casos nuevos.
 
 ## Optimización medida
 
@@ -31,7 +31,7 @@ Se eliminaron comentarios explicativos propios con tokenize/AST, Acorn y PostCSS
 - 344 pruebas funcionales; Django check, migraciones sin cambios, compilación Python y Ruff F/E9 sin incidencias.
 - Chromium: 14 vistas a 390/1440 px, abrir/cancelar editor y devolución de foco, tutorial y menú 600→1200→600. Sin capturas, desbordamientos ni errores JavaScript.
 - Axe: cero infracciones detectadas en esas vistas; se conservan comprobaciones incompletas. Se corrigieron dos contrastes de etiquetas en la ficha raíz. No constituye certificación WCAG.
-- SQLite es el backend desplegado. No se ejecutó PostgreSQL real; no se garantiza su concurrencia de duplicados normalizados ni los bloqueos implícitos de todas las claves foráneas. La prueba de SQL sólo comprueba el bloqueo explícito generado.
+- SQLite era el backend al iniciar este escaneo; después se migró a MySQL como se detalla más abajo. No se ejecutó PostgreSQL real; no se garantiza su concurrencia de duplicados normalizados ni los bloqueos implícitos de todas las claves foráneas. La prueba de SQL sólo comprueba el bloqueo explícito generado.
 
 ## Relectura del PDF
 
@@ -40,3 +40,17 @@ Se releyeron las diez páginas de Requisitos_Segunda_Evaluacion_SGR.pdf; misma h
 Permanece pendiente el acceso del docente al repositorio privado, por decisión del titular hasta conocer su usuario GitHub. La aceptación humana e institucional no se sustituye por estas pruebas. No se declara cumplimiento absoluto ni ausencia garantizada de bugs.
 
 Las evidencias nuevas están en `evidencias/escaneo-codigo/`; las de `cierre-pdf/` conservan el resultado histórico de la versión anterior.
+
+## Traslado posterior a MySQL
+
+Durante el cierre el titular solicitó MySQL en la misma EC2. Se completó el ensayo y el corte a MySQL 8.4.11, con comparación de las 26 tablas de datos, incluidas credenciales, passkeys, sesiones y archivos históricos. Se probó además la restauración del dump MySQL en otra base y la igualdad de las 27 tablas, incluida la de migraciones.
+
+La suite final contiene 350 casos distintos: SQLite ejecutó 347 y omitió los tres específicos de concurrencia MySQL; MySQL ejecutó 315 y omitió 35 específicos de importación SQLite/Windows/Node local. No hubo fallos; cada caso se comprobó en su entorno correspondiente, sin sumar ejecuciones repetidas como nuevos casos. Los saltos y duraciones están en `pruebas-dos-motores.json`.
+
+La migración exigió adaptar el índice y la colación de las credenciales WebAuthn, serializar guardados MySQL y respetar su equivalencia de nombres únicos en la validación tardía. Se reprodujeron y corrigieron estos casos con MySQL real. Se ajustaron fixtures de pruebas que asumían IDs consecutivos o unicidad por mayúsculas propia de SQLite, y se cerró un FileResponse mediante el iterador del cliente de pruebas para no cerrar su transacción MySQL.
+
+Se encontraron seis fuentes heredadas fuera del inventario Git en AWS: permisos/validadores del esquema anterior, dos suites incompatibles y dos scripts de población/corrección antiguos. No tenían referencias en el proyecto actual. Se archivaron fuera del checkout, sin ejecutarlos y sin perder su copia; ya no contaminan el descubrimiento de pruebas ni el despliegue.
+
+La documentación de SQLite y sus mediciones anteriores siguen como historial de versión. El backend activo es MySQL; la advertencia genérica mysql.W003 del identificador ASCII largo está documentada y se verificó el DDL real sin truncamiento. Detalles operativos y reversión en `mysql-ec2.md`.
+
+La matriz funcional consolidada usa el resultado local para 347 casos y el resultado MySQL para los tres casos omitidos en SQLite; las precondiciones lo indican. El resumen de cada ejecución mantiene sus omisiones originales.

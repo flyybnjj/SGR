@@ -39,3 +39,13 @@ Los importadores históricos específicos de SQLite conservan sus pruebas en ese
 Referencias: [Django 6.1 y MySQL](https://docs.djangoproject.com/en/6.1/ref/databases/), [repositorio APT oficial](https://dev.mysql.com/doc/mysql-apt-repo-quick-guide/en/), [copias con mysqldump](https://dev.mysql.com/doc/refman/8.4/en/mysqldump.html).
 
 El cliente de carga admite --mysql-config ARCHIVO_PRIVADO: exige ENGINE MySQL, HOST 127.0.0.1, nombre con prefijo sgr_load_ y ausencia de tablas antes de migrar. Se conserva la variante SQLite para comparar motores sin mezclar escenarios. No pasar la configuración de sgr a ese comando.
+
+## Resultado del corte y carga
+
+Backend activo: MySQL 8.4.11. Se compararon los 339 registros de las 26 tablas de datos; los campos son iguales, incluidos contraseñas, dos passkeys e historial. El dump inicial de 89 984 bytes se restauró y se compararon 27 tablas, incluida django_migrations. Después de las pruebas HTTP y carga, otras 24 tablas de datos permanecen iguales; se excluyen sesiones/desafíos temporales y último ingreso.
+
+95 controles HTTPS aprobados. Lectura: 1167 solicitudes, cero errores; a diez concurrentes, p95 219 ms y 57,43 solicitudes/s. Escritura HTTP sobre MySQL sintético separado: 760 solicitudes, cero errores; 193 atenciones ficticias, sede/autor/conteo/UUID comprobados; a diez concurrentes, p95 636,5 ms y 20,65 solicitudes/s. Ambos escenarios incluyen recuperación posterior.
+
+Se respetó el límite seguro previo de diez concurrentes, p95 ≤1500 ms y errores <1 %. CPU máxima del sistema completo: 71,08 % en lectura y 100 % en escritura aislada; RAM máxima 648,85 y 813,29 MB, respectivamente, de unos 909 MB. La escritura añade otros procesos de Gunicorn a la misma instancia y usa loopback: no se compara su latencia directamente con HTTPS ni se afirma capacidad máxima. Antes de ese escenario se conservó una medición SQLite de referencia; sólo la ejecución MySQL final se presenta en los JSON de escritura del cierre.
+
+Las bases de ensayo/carga se vacían o retiran después de comprobar la conservación; los respaldos privados y los resultados permanecen. El repositorio y el ZIP contienen únicamente fuente y evidencias sanitizadas. Las credenciales privadas y el dump no se suben.

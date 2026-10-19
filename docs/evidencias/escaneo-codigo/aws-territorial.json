@@ -1,8 +1,11 @@
 {
   "base": "https://100-49-246-233.sslip.io",
   "version": {
-    "commit": "b6e237873225b40fe7861c18ef9d900cbe5e1261",
-    "deployed_at": "2026-10-18T21:29:42.789428+00:00"
+    "commit": "d02bd183680bea54d626303913258c42a09f5484",
+    "application_commit": "d02bd183680bea54d626303913258c42a09f5484",
+    "database_vendor": "mysql",
+    "mysql_version": "8.4.11",
+    "deployed_at": "2026-10-19T00:36:52.117876+00:00"
   },
   "checks": [
     {
