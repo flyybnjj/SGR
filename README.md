@@ -1,4 +1,5 @@
 # SGR · La Serena
+Hola 
 
 Sistema de gestión municipal para registrar atenciones a vecinos, organizar el trabajo de las delegaciones y revisar sus metas.
 
