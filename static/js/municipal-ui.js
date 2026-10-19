@@ -102,6 +102,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
   const sidebar = document.getElementById('tour-sidebar-nav');
+  const header = sidebar ? document.querySelector('.navbar-stitch') : null;
+  const fitSidebar = () => {
+    if (!header || window.innerWidth < 992) return;
+    const available = window.innerHeight - header.offsetTop - header.offsetHeight - 48;
+    sidebar.style.setProperty('--sidebar-available-height', `${Math.max(240, available)}px`);
+  };
   const resetNavigation = () => {
     if (!sidebar) return;
     const mobile = window.innerWidth < 992;
@@ -115,7 +121,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('btnToggleSidebar').setAttribute('aria-expanded', String(!sidebar.inert));
   };
   resetNavigation();
-  window.addEventListener('resize', resetNavigation);
+  fitSidebar();
+  window.addEventListener('resize', () => { resetNavigation(); fitSidebar(); });
+  if (header && window.ResizeObserver) new ResizeObserver(fitSidebar).observe(header);
   document.addEventListener('keydown', event => {
     if (!sidebar || !sidebar.classList.contains('mobile-open') || window.innerWidth >= 992) return;
     if (event.key === 'Escape') closeSidebarMobile();

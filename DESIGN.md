@@ -266,6 +266,10 @@ Campos blancos con borde de control visible y tipografía de cuerpo. El foco com
 
 ### Navigation
 
+La barra lateral acompaña el desplazamiento de escritorio mediante `position: sticky`, con margen superior de 24px. Su altura disponible se ajusta al encabezado y al tamaño de la ventana; las secciones tienen scroll nativo independiente, barra del color territorial y espacio reservado para evitar saltos. El cierre móvil y la identidad de la delegación permanecen fuera del área desplazable. El contenedor de página usa recorte horizontal sin crear un contenedor de scroll adicional donde el navegador soporta `overflow: clip`.
+
+Los iconos de navegación responden al hover y al foco de teclado con un único gesto de 360ms mediante transformaciones; no se animan continuamente. La flecha de Administración gira al contraer el grupo. Reducir movimiento conserva los estados y elimina el gesto y el scroll suave.
+
 Marco territorial translúcido, filas laterales de al menos (48px), iconos con tinta territorial, bordes teñidos y selección blanca con marca lateral. Las líneas de categoría, grupos desplegables, pestañas de cuenta y acciones reutilizan el mismo tema. La identidad local usa el color original en una muestra y texto legible al lado. En móvil se combinan cajón y accesos inferiores; las páginas de cuenta muestran su navegación propia. El menú agrupa Atención (atención al vecino y vecinos) y Gestión (acciones, metas y reportes); el administrador conserva General y los accesos de Administración según permisos. El inicio evita duplicar estos accesos como atajos. Conservar el menú de perfil, su preferencia de ondas y el tutorial guiado adaptado a estas tareas.
 
 El hover de navegación y campos de acceso cambia color durante (160ms, ease). El menú de perfil aparece exclusivamente con opacidad mediante `profile-reveal` (180ms, ease-out), con prioridad explícita para conservar la posición calculada por Popper; no existe una duración universal de (160ms) para todos los componentes. La preferencia de movimiento reducido elimina transiciones y animaciones del espacio de trabajo, incluido el cajón, y deja el acceso prácticamente instantáneo.

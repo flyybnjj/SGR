@@ -14,7 +14,7 @@
     <link href="{% static 'css/muni-laserena.css' %}?v=20261017-grid-heading" rel="stylesheet">
     {% block extra_head %}{% endblock %}
     <link href="{% static 'css/municipal-ui.css' %}?v=20261004-delegation-theme" rel="stylesheet">
-    <link href="{% static 'css/municipal-design.css' %}?v=20261019-record-actions" rel="stylesheet">
+    <link href="{% static 'css/municipal-design.css' %}?v=20261019-navigation-motion" rel="stylesheet">
 </head>
 <body data-user-id="{{ user.pk }}"{% if account_area %} class="account-page"{% endif %}{% if delegacion_actual %} data-delegation-theme{% if delegacion_actual.color_configurado %} data-delegation-custom{% endif %} style="{{ delegation_theme_style }}"{% endif %}>
 <a class="skip-link" href="#main-content">Saltar al contenido</a>
@@ -54,6 +54,7 @@
     {% if not account_area %}<aside class="sidebar-stitch" id="tour-sidebar-nav" aria-label="Menú principal">
         <div class="d-lg-none d-flex justify-content-between align-items-center mb-3"><strong>Gestión municipal</strong><button class="btn-stitch-icon" type="button" onclick="closeSidebarMobile()" aria-label="Cerrar menú"><i class="bi bi-x-lg"></i></button></div>
         {% if delegacion_actual %}<div class="sidebar-territory"><span class="delegation-swatch" aria-hidden="true"></span><span><strong>{{ delegacion_actual.nombre }}</strong><small>{{ delegacion_actual.comuna }}</small></span></div>{% endif %}
+        <div class="sidebar-scroll" tabindex="0" role="region" aria-label="Secciones del menú">
         {% if user.is_superuser %}<p class="sidebar-category">General</p>{% endif %}
         <nav class="d-flex flex-column gap-1" aria-label="General">
             <a class="nav-link-stitch {% if request.resolver_match.namespace == 'dashboard' %}{% if request.resolver_match.url_name == 'inicio' or request.resolver_match.url_name == 'inicio_alias' or request.resolver_match.url_name == 'inicio_dashboard' %}active{% endif %}{% endif %}" href="{% url 'dashboard:inicio' %}"><i class="bi bi-house-door"></i>{% if user.is_superuser %}Resumen municipal{% else %}Inicio{% endif %}</a>
@@ -87,6 +88,7 @@
         </div>
         {% endif %}
         <div class="mt-auto pt-4 small text-secondary">Ilustre Municipalidad de La Serena<br>Plataforma territorial</div>
+        </div>
     </aside>{% endif %}
     <main class="main-stitch" id="main-content" tabindex="-1">
         {% if account_area %}{% include "usuarios/account_nav.html" %}{% endif %}
@@ -107,7 +109,7 @@
 <script src="{% static 'vendor/driverjs/driver.js.iife.js' %}"></script>
 {% server_form_feedback %}
 <script src="{% static 'js/tutorial-guiado.js' %}?v=20261018-authorized-tour"></script>
-<script src="{% static 'js/municipal-ui.js' %}?v=20261018-server-feedback"></script>
+<script src="{% static 'js/municipal-ui.js' %}?v=20261019-sidebar-scroll"></script>
 <script src="{% static 'js/crud-validation.js' %}?v=20261019-record-actions"></script>
 <script src="{% static 'js/crud-editor.js' %}?v=20261018-load-feedback"></script>
 {% block extra_scripts %}{% endblock %}
