@@ -1,0 +1,1518 @@
+[
+  {
+    "id": "EV-001",
+    "requisito": "PDF p. 2–3 y 10, A2/A3/C6: dependencia, guardado, cancelación e idempotencia",
+    "modulo": "Ingreso de atención",
+    "tipo": "Funcional",
+    "precondiciones": "Funcionario activo, dos vecinos y tipos/subtipos de prueba en una sede asignada. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos indicados. 2. Insertar dos atenciones directamente con el mismo UUID. 3. Comparar respuesta, sesión y registros con el resultado esperado.",
+    "esperado": "La restricción de la base rechaza la segunda inserción.",
+    "pruebas": [
+      "atenciones.test_attention_submission.AttentionSubmissionTests.test_database_rejects_duplicate_token_even_outside_http_worker"
+    ]
+  },
+  {
+    "id": "EV-002",
+    "requisito": "PDF p. 2–3 y 10, A2/A3/C6: dependencia, guardado, cancelación e idempotencia",
+    "modulo": "Ingreso de atención",
+    "tipo": "Funcional",
+    "precondiciones": "Funcionario activo, dos vecinos y tipos/subtipos de prueba en una sede asignada. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos indicados. 2. Enviar el formulario inválido, corregir sus datos y reenviar con su token. 3. Comparar respuesta, sesión y registros con el resultado esperado.",
+    "esperado": "El error conserva el token y la corrección guarda una sola atención.",
+    "pruebas": [
+      "atenciones.test_attention_submission.AttentionSubmissionTests.test_error_preserves_token_for_corrected_resubmission"
+    ]
+  },
+  {
+    "id": "EV-003",
+    "requisito": "PDF p. 2–3 y 10, A2/A3/C6: dependencia, guardado, cancelación e idempotencia",
+    "modulo": "Ingreso de atención",
+    "tipo": "Funcional",
+    "precondiciones": "Funcionario activo, dos vecinos y tipos/subtipos de prueba en una sede asignada. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos indicados. 2. Enviar un subtipo ajeno al tipo seleccionado o inactivo. 3. Comparar respuesta, sesión y registros con el resultado esperado.",
+    "esperado": "El servidor rechaza ambos subtipos sin crear atención.",
+    "pruebas": [
+      "atenciones.test_attention_submission.AttentionSubmissionTests.test_foreign_or_inactive_subtype_cannot_be_saved"
+    ]
+  },
+  {
+    "id": "EV-004",
+    "requisito": "PDF p. 2–3 y 10, A2/A3/C6: dependencia, guardado, cancelación e idempotencia",
+    "modulo": "Ingreso de atención",
+    "tipo": "Funcional",
+    "precondiciones": "Funcionario activo, dos vecinos y tipos/subtipos de prueba en una sede asignada. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos indicados. 2. Abrir el formulario dos veces y comparar tokens ocultos. 3. Comparar respuesta, sesión y registros con el resultado esperado.",
+    "esperado": "Cada apertura recibe un UUID nuevo.",
+    "pruebas": [
+      "atenciones.test_attention_submission.AttentionSubmissionTests.test_form_gets_fresh_hidden_token_on_each_open"
+    ]
+  },
+  {
+    "id": "EV-005",
+    "requisito": "PDF p. 2–3 y 10, A2/A3/C6: dependencia, guardado, cancelación e idempotencia",
+    "modulo": "Ingreso de atención",
+    "tipo": "Funcional",
+    "precondiciones": "Funcionario activo, dos vecinos y tipos/subtipos de prueba en una sede asignada. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos indicados. 2. Abrir el formulario y volver por la ruta de cancelación sin enviar. 3. Comparar respuesta, sesión y registros con el resultado esperado.",
+    "esperado": "Abrir o cancelar no crea atenciones ni vecinos.",
+    "pruebas": [
+      "atenciones.test_attention_submission.AttentionSubmissionTests.test_get_and_cancel_navigation_do_not_create_records"
+    ]
+  },
+  {
+    "id": "EV-006",
+    "requisito": "PDF p. 2–3 y 10, A2/A3/C6: dependencia, guardado, cancelación e idempotencia",
+    "modulo": "Ingreso de atención",
+    "tipo": "Funcional",
+    "precondiciones": "Funcionario activo, dos vecinos y tipos/subtipos de prueba en una sede asignada. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos indicados. 2. Guardar una atención y consultar el historial y su Excel. 3. Comparar respuesta, sesión y registros con el resultado esperado.",
+    "esperado": "Ambas consultas incluyen su identificador de atención.",
+    "pruebas": [
+      "atenciones.test_attention_submission.AttentionSubmissionTests.test_history_and_excel_include_attention_id"
+    ]
+  },
+  {
+    "id": "EV-007",
+    "requisito": "PDF p. 2–3 y 10, A2/A3/C6: dependencia, guardado, cancelación e idempotencia",
+    "modulo": "Ingreso de atención",
+    "tipo": "Funcional",
+    "precondiciones": "Funcionario activo, dos vecinos y tipos/subtipos de prueba en una sede asignada. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos indicados. 2. Enviar datos iguales intencionalmente usando dos tokens nuevos. 3. Comparar respuesta, sesión y registros con el resultado esperado.",
+    "esperado": "Se permiten dos atenciones independientes y válidas.",
+    "pruebas": [
+      "atenciones.test_attention_submission.AttentionSubmissionTests.test_independent_tokens_allow_intentional_identical_requests"
+    ]
+  },
+  {
+    "id": "EV-008",
+    "requisito": "PDF p. 2–3 y 10, A2/A3/C6: dependencia, guardado, cancelación e idempotencia",
+    "modulo": "Ingreso de atención",
+    "tipo": "Funcional",
+    "precondiciones": "Funcionario activo, dos vecinos y tipos/subtipos de prueba en una sede asignada. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos indicados. 2. Abrir una atención nueva sin elegir tipo. 3. Comparar respuesta, sesión y registros con el resultado esperado.",
+    "esperado": "No se ofrecen subtipos hasta seleccionar un tipo.",
+    "pruebas": [
+      "atenciones.test_attention_submission.AttentionSubmissionTests.test_initial_subtype_options_are_empty_until_type_selected"
+    ]
+  },
+  {
+    "id": "EV-009",
+    "requisito": "PDF p. 2–3 y 10, A2/A3/C6: dependencia, guardado, cancelación e idempotencia",
+    "modulo": "Ingreso de atención",
+    "tipo": "Funcional",
+    "precondiciones": "Funcionario activo, dos vecinos y tipos/subtipos de prueba en una sede asignada. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos indicados. 2. Enviar una atención y vecino nuevos con un token inválido. 3. Comparar respuesta, sesión y registros con el resultado esperado.",
+    "esperado": "No se crea ninguno de los dos registros.",
+    "pruebas": [
+      "atenciones.test_attention_submission.AttentionSubmissionTests.test_invalid_token_does_not_create_person_or_attention"
+    ]
+  },
+  {
+    "id": "EV-010",
+    "requisito": "PDF p. 2–3 y 10, A2/A3/C6: dependencia, guardado, cancelación e idempotencia",
+    "modulo": "Ingreso de atención",
+    "tipo": "Funcional",
+    "precondiciones": "Funcionario activo, dos vecinos y tipos/subtipos de prueba en una sede asignada. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos indicados. 2. Repetir el POST heredado de una atención. 3. Comparar respuesta, sesión y registros con el resultado esperado.",
+    "esperado": "El reenvío no duplica la atención.",
+    "pruebas": [
+      "atenciones.test_attention_submission.AttentionSubmissionTests.test_legacy_repeated_post_is_deduplicated"
+    ]
+  },
+  {
+    "id": "EV-011",
+    "requisito": "PDF p. 2–3 y 10, A2/A3/C6: dependencia, guardado, cancelación e idempotencia",
+    "modulo": "Ingreso de atención",
+    "tipo": "Funcional",
+    "precondiciones": "Funcionario activo, dos vecinos y tipos/subtipos de prueba en una sede asignada. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos indicados. 2. Enviar dos veces la misma alta de vecino y atención. 3. Comparar respuesta, sesión y registros con el resultado esperado.",
+    "esperado": "Se persiste un único vecino y una única atención.",
+    "pruebas": [
+      "atenciones.test_attention_submission.AttentionSubmissionTests.test_new_person_repeated_post_creates_one_person_and_attention"
+    ]
+  },
+  {
+    "id": "EV-012",
+    "requisito": "PDF p. 2–3 y 10, A2/A3/C6: dependencia, guardado, cancelación e idempotencia",
+    "modulo": "Ingreso de atención",
+    "tipo": "Funcional",
+    "precondiciones": "Funcionario activo, dos vecinos y tipos/subtipos de prueba en una sede asignada. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos indicados. 2. Enviar dos veces con el mismo UUID y leer la confirmación. 3. Comparar respuesta, sesión y registros con el resultado esperado.",
+    "esperado": "Sólo se guarda una atención y la respuesta informa su ID.",
+    "pruebas": [
+      "atenciones.test_attention_submission.AttentionSubmissionTests.test_same_token_post_creates_one_attention_and_reports_its_id"
+    ]
+  },
+  {
+    "id": "EV-013",
+    "requisito": "PDF p. 2–3 y 10, A2/A3/C6: dependencia, guardado, cancelación e idempotencia",
+    "modulo": "Ingreso de atención",
+    "tipo": "Funcional",
+    "precondiciones": "Funcionario activo, dos vecinos y tipos/subtipos de prueba en una sede asignada. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos indicados. 2. Seleccionar cada tipo activo y solicitar sus subtipos. 3. Comparar respuesta, sesión y registros con el resultado esperado.",
+    "esperado": "Sólo se listan subtipos activos del tipo elegido.",
+    "pruebas": [
+      "atenciones.test_attention_submission.AttentionSubmissionTests.test_subtype_options_only_belong_to_selected_active_type"
+    ]
+  },
+  {
+    "id": "EV-014",
+    "requisito": "PDF p. 2–3 y 10, A2/A3/C6: dependencia, guardado, cancelación e idempotencia",
+    "modulo": "Ingreso de atención",
+    "tipo": "Funcional",
+    "precondiciones": "Funcionario activo, dos vecinos y tipos/subtipos de prueba en una sede asignada. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos indicados. 2. Guardar una atención y reutilizar su UUID con otro vecino. 3. Comparar respuesta, sesión y registros con el resultado esperado.",
+    "esperado": "No se acepta el UUID para el segundo vecino.",
+    "pruebas": [
+      "atenciones.test_attention_submission.AttentionSubmissionTests.test_token_cannot_be_reused_on_another_person"
+    ]
+  },
+  {
+    "id": "EV-015",
+    "requisito": "Complementario; PDF p. 4, A4: datos persistentes y actualización segura",
+    "modulo": "Migración histórica",
+    "tipo": "Complementario",
+    "precondiciones": "Tablas heredadas sintéticas, vínculos y fechas originales; importador sobre SQLite temporal. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos de prueba indicados. 2. Previsualizar e importar el lote; repetir; alterar referencias, fechas y estados; intentar modificar auditorías importadas. 3. Comparar respuesta y persistencia con el resultado esperado.",
+    "esperado": "La previsualización revierte escrituras; la importación conserva identificadores, auditoría, folios y fechas; los lotes inválidos se rechazan completos y repetir no duplica.",
+    "pruebas": [
+      "atenciones.test_historical_migration.HistoricalMigrationTests.test_approval_without_original_audit_is_rejected",
+      "atenciones.test_historical_migration.HistoricalMigrationTests.test_catalog_subtype_drift_and_invalid_dates_abort",
+      "atenciones.test_historical_migration.HistoricalMigrationTests.test_default_preview_rolls_back_every_write",
+      "atenciones.test_historical_migration.HistoricalMigrationTests.test_history_actions_review_and_excel_expose_folio_without_cross_scope",
+      "atenciones.test_historical_migration.HistoricalMigrationTests.test_history_links_cannot_be_mutated_or_deleted",
+      "atenciones.test_historical_migration.HistoricalMigrationTests.test_import_preserves_links_dates_original_states_and_real_approval",
+      "atenciones.test_historical_migration.HistoricalMigrationTests.test_invalid_reference_aborts_complete_batch",
+      "atenciones.test_historical_migration.HistoricalMigrationTests.test_legacy_tables_and_credentials_are_unchanged",
+      "atenciones.test_historical_migration.HistoricalMigrationTests.test_modern_records_and_primary_keys_are_preserved",
+      "atenciones.test_historical_migration.HistoricalMigrationTests.test_new_legacy_rows_can_be_added_without_reimporting_old_rows",
+      "atenciones.test_historical_migration.HistoricalMigrationTests.test_reassigned_neighbor_identity_is_not_exposed_in_historical_review",
+      "atenciones.test_historical_migration.HistoricalMigrationTests.test_repetition_does_not_duplicate_or_overwrite_new_resolutions",
+      "atenciones.test_historical_migration.HistoricalMigrationTests.test_snapshot_keeps_codes_addresses_sla_and_original_audit_hash",
+      "atenciones.test_historical_migration.HistoricalMigrationTests.test_source_drift_aborts_without_overwriting_imported_records",
+      "atenciones.test_historical_migration.HistoricalMigrationTests.test_unknown_state_and_unmoved_evidence_are_rejected"
+    ]
+  },
+  {
+    "id": "EV-016",
+    "requisito": "PDF p. 2–3, A2/A3: autorización y relación tipo/subtipo; aprobación complementaria",
+    "modulo": "Atenciones y relaciones",
+    "tipo": "Funcional",
+    "precondiciones": "Dos sedes, perfiles de registro/revisión y relaciones existentes en base temporal. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos de prueba indicados. 2. Desactivar la sede; intentar leer/escribir; cambiar relaciones después de validar; resolver una acción dos veces y consultar evidencia ausente. 3. Comparar respuesta y persistencia con el resultado esperado.",
+    "esperado": "Se rechaza el acceso sin sede activa; un subtipo usado no cambia de tipo; la validación se repite al guardar; no se duplica la resolución y un archivo ausente responde 404.",
+    "pruebas": [
+      "atenciones.test_logic_audit.WorkflowLogicAuditTests.test_attention_rechecks_subtype_changed_after_validation",
+      "atenciones.test_logic_audit.WorkflowLogicAuditTests.test_inactive_or_missing_seat_cannot_manage_or_approve",
+      "atenciones.test_logic_audit.WorkflowLogicAuditTests.test_inactive_seat_cannot_read_actions_metas_or_exports",
+      "atenciones.test_logic_audit.WorkflowLogicAuditTests.test_missing_evidence_file_returns_404_without_internal_error",
+      "atenciones.test_logic_audit.WorkflowLogicAuditTests.test_previous_attention_token_is_not_replayed_after_user_changes_seat",
+      "atenciones.test_logic_audit.WorkflowLogicAuditTests.test_second_resolution_cannot_enter_while_first_audit_is_saved",
+      "atenciones.test_logic_audit.WorkflowLogicAuditTests.test_subtype_move_rechecks_attentions_created_after_validation",
+      "atenciones.test_logic_audit.WorkflowLogicAuditTests.test_unused_subtype_can_move_to_another_type",
+      "atenciones.test_logic_audit.WorkflowLogicAuditTests.test_used_subtype_cannot_be_moved_to_another_type"
+    ]
+  },
+  {
+    "id": "EV-017",
+    "requisito": "PDF p. 2–3 y 10, A2/A3/C6: solicitud, validación y ámbito; evidencia/aprobación complementarias",
+    "modulo": "Atención y acciones",
+    "tipo": "Funcional",
+    "precondiciones": "Operador y revisor de sedes distintas; vecino, tipo, subtipo y acciones sintéticas. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos de prueba indicados. 2. Abrir pantallas; registrar con contexto manipulado o datos inválidos; buscar RUT; abrir/exportar historia; adjuntar archivos y aprobar con distintos perfiles. 3. Comparar respuesta y persistencia con el resultado esperado.",
+    "esperado": "No se filtran otras sedes; sede y autor proceden del servidor; los errores no dejan registros parciales; sólo se aceptan imágenes permitidas y una aprobación autorizada e inmutable.",
+    "pruebas": [
+      "atenciones.tests.WorkflowTests.test_actions_and_exports_exclude_other_delegations",
+      "atenciones.tests.WorkflowTests.test_all_transaction_screens_render",
+      "atenciones.tests.WorkflowTests.test_attention_ignores_forged_delegation_and_author",
+      "atenciones.tests.WorkflowTests.test_audit_cannot_be_modified_or_deleted",
+      "atenciones.tests.WorkflowTests.test_duplicate_rut_does_not_create_person_or_attention",
+      "atenciones.tests.WorkflowTests.test_evidence_preview_is_private_and_scope_checked",
+      "atenciones.tests.WorkflowTests.test_history_excludes_other_delegations",
+      "atenciones.tests.WorkflowTests.test_inactive_role_cannot_read_or_write",
+      "atenciones.tests.WorkflowTests.test_invalid_attention_does_not_create_person",
+      "atenciones.tests.WorkflowTests.test_mismatched_subtype_rejected",
+      "atenciones.tests.WorkflowTests.test_new_person_without_rut_and_attention_saved_together",
+      "atenciones.tests.WorkflowTests.test_non_image_evidence_rejected",
+      "atenciones.tests.WorkflowTests.test_operator_cannot_review_or_resolve",
+      "atenciones.tests.WorkflowTests.test_oversized_evidence_rejected",
+      "atenciones.tests.WorkflowTests.test_resolution_logged_once_and_counts_only_approved_actions",
+      "atenciones.tests.WorkflowTests.test_reviewer_cannot_read_or_resolve_other_delegation",
+      "atenciones.tests.WorkflowTests.test_search_formatted_and_compact_rut"
+    ]
+  },
+  {
+    "id": "EV-018",
+    "requisito": "PDF p. 3, A3: operaciones y validación en servidor",
+    "modulo": "Mantenedores",
+    "tipo": "Funcional",
+    "precondiciones": "Catálogo activo y cuenta autenticada en base temporal. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos de prueba indicados. 2. Solicitar desactivación por GET y después por POST autorizado. 3. Comparar respuesta y persistencia con el resultado esperado.",
+    "esperado": "GET no modifica el catálogo; la operación de cambio sólo se admite mediante POST.",
+    "pruebas": [
+      "atenciones.tests.WriteProtectionTests.test_catalog_toggle_requires_post"
+    ]
+  },
+  {
+    "id": "EV-019",
+    "requisito": "PDF p. 2–3, A2/A3: selector autorizado y rechazo de otras sedes",
+    "modulo": "Contexto de delegación",
+    "tipo": "Funcional",
+    "precondiciones": "Gestor local, raíz y usuarios de otra sede en base temporal. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos de prueba indicados. 2. Abrir el fragmento de responsables con el gestor local; repetir con raíz. 3. Comparar respuesta y persistencia con el resultado esperado.",
+    "esperado": "El gestor no obtiene nombres del otro equipo; raíz conserva la selección global autorizada.",
+    "pruebas": [
+      "config.test_audit_boundaries.DelegationFragmentPrivacyTests.test_local_manager_cannot_read_other_teams_through_disabled_selector",
+      "config.test_audit_boundaries.DelegationFragmentPrivacyTests.test_root_can_still_choose_responsible_users_globally"
+    ]
+  },
+  {
+    "id": "EV-020",
+    "requisito": "PDF p. 2–4, A2/A3: edición, requeridos, permisos y formulario coherente",
+    "modulo": "Edición de mantenedores",
+    "tipo": "Funcional",
+    "precondiciones": "Raíz, gestor local, sede ajena, vecino y catálogos sintéticos. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos de prueba indicados. 2. Abrir editores de cada recurso; intentar POST al fragmento; entrar sin permiso; listar cien usuarios y guardar correo secundario. 3. Comparar respuesta y persistencia con el resultado esperado.",
+    "esperado": "Los fragmentos son de lectura, tienen CSRF y no incluyen claves; el listado usa un único editor; los permisos y el ámbito se respetan y el correo se conserva.",
+    "pruebas": [
+      "config.test_crud_modals.EditModalTests.test_catalog_grids_and_recovery_email_round_trip",
+      "config.test_crud_modals.EditModalTests.test_every_resource_renders_and_disabled_user_is_denied",
+      "config.test_crud_modals.EditModalTests.test_list_has_one_shared_editor",
+      "config.test_crud_modals.EditModalTests.test_read_only_and_partial",
+      "config.test_crud_modals.EditModalTests.test_scope_and_root_only_resources"
+    ]
+  },
+  {
+    "id": "EV-021",
+    "requisito": "PDF p. 1–4 y 7–9, A1/A2/A3/C3–C5: CRUD, búsqueda, paginación y Excel: subtipos de atención",
+    "modulo": "Seis mantenedores",
+    "tipo": "Funcional",
+    "precondiciones": "Raíz autenticada y tipo padre activo; catálogos en base temporal. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos de prueba indicados. 2. Crear, consultar editor, enviar campo vacío y duplicado, editar y desactivar; buscar FILTRO con doce coincidencias, abrir página dos y exportar. 3. Comparar respuesta y persistencia con el resultado esperado.",
+    "esperado": "Crear y editar persisten; vacío/duplicado no agregan filas; GET no desactiva; página dos contiene dos de doce resultados y Excel incluye las doce coincidencias sin secretos.",
+    "pruebas": [
+      "config.test_delivery_cruds.SixCRUDDeliveryTests.test_attention_subtypes"
+    ]
+  },
+  {
+    "id": "EV-022",
+    "requisito": "PDF p. 1–4 y 7–9, A1/A2/A3/C3–C5: CRUD, búsqueda, paginación y Excel: tipos de atención",
+    "modulo": "Seis mantenedores",
+    "tipo": "Funcional",
+    "precondiciones": "Raíz autenticada y tipo padre activo; catálogos en base temporal. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos de prueba indicados. 2. Crear, consultar editor, enviar campo vacío y duplicado, editar y desactivar; buscar FILTRO con doce coincidencias, abrir página dos y exportar. 3. Comparar respuesta y persistencia con el resultado esperado.",
+    "esperado": "Crear y editar persisten; vacío/duplicado no agregan filas; GET no desactiva; página dos contiene dos de doce resultados y Excel incluye las doce coincidencias sin secretos.",
+    "pruebas": [
+      "config.test_delivery_cruds.SixCRUDDeliveryTests.test_attention_types"
+    ]
+  },
+  {
+    "id": "EV-023",
+    "requisito": "PDF p. 1–4 y 7–9, A1/A2/A3/C3–C5: CRUD, búsqueda, paginación y Excel: delegaciones",
+    "modulo": "Seis mantenedores",
+    "tipo": "Funcional",
+    "precondiciones": "Raíz autenticada y tipo padre activo; catálogos en base temporal. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos de prueba indicados. 2. Crear, consultar editor, enviar campo vacío y duplicado, editar y desactivar; buscar FILTRO con doce coincidencias, abrir página dos y exportar. 3. Comparar respuesta y persistencia con el resultado esperado.",
+    "esperado": "Crear y editar persisten; vacío/duplicado no agregan filas; GET no desactiva; página dos contiene dos de doce resultados y Excel incluye las doce coincidencias sin secretos.",
+    "pruebas": [
+      "config.test_delivery_cruds.SixCRUDDeliveryTests.test_delegations"
+    ]
+  },
+  {
+    "id": "EV-024",
+    "requisito": "PDF p. 1–4 y 7–9, A1/A2/A3/C3–C5: CRUD, búsqueda, paginación y Excel: ítems/metas",
+    "modulo": "Seis mantenedores",
+    "tipo": "Funcional",
+    "precondiciones": "Raíz autenticada y tipo padre activo; catálogos en base temporal. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos de prueba indicados. 2. Crear, consultar editor, enviar campo vacío y duplicado, editar y desactivar; buscar FILTRO con doce coincidencias, abrir página dos y exportar. 3. Comparar respuesta y persistencia con el resultado esperado.",
+    "esperado": "Crear y editar persisten; vacío/duplicado no agregan filas; GET no desactiva; página dos contiene dos de doce resultados y Excel incluye las doce coincidencias sin secretos.",
+    "pruebas": [
+      "config.test_delivery_cruds.SixCRUDDeliveryTests.test_meta_catalog"
+    ]
+  },
+  {
+    "id": "EV-025",
+    "requisito": "PDF p. 1–4 y 7–9, A1/A2/A3/C3–C5: CRUD, búsqueda, paginación y Excel: roles",
+    "modulo": "Seis mantenedores",
+    "tipo": "Funcional",
+    "precondiciones": "Raíz autenticada y tipo padre activo; catálogos en base temporal. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos de prueba indicados. 2. Crear, consultar editor, enviar campo vacío y duplicado, editar y desactivar; buscar FILTRO con doce coincidencias, abrir página dos y exportar. 3. Comparar respuesta y persistencia con el resultado esperado.",
+    "esperado": "Crear y editar persisten; vacío/duplicado no agregan filas; GET no desactiva; página dos contiene dos de doce resultados y Excel incluye las doce coincidencias sin secretos.",
+    "pruebas": [
+      "config.test_delivery_cruds.SixCRUDDeliveryTests.test_roles"
+    ]
+  },
+  {
+    "id": "EV-026",
+    "requisito": "PDF p. 1–4 y 7–9, A1/A2/A3/C3–C5: CRUD, búsqueda, paginación y Excel",
+    "modulo": "Seis mantenedores",
+    "tipo": "Funcional",
+    "precondiciones": "Raíz autenticada y tipo padre activo; catálogos en base temporal. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos indicados. 2. Crear un tipo equivalente por espacios/mayúsculas y el mismo subtipo en tipo igual y distinto. 3. Comparar respuesta, sesión y registros con el resultado esperado.",
+    "esperado": "Se rechazan duplicados de tipo y del mismo padre; otro tipo puede reutilizar el nombre de subtipo.",
+    "pruebas": [
+      "config.test_delivery_cruds.SixCRUDDeliveryTests.test_type_and_scoped_subtype_duplicate_rules"
+    ]
+  },
+  {
+    "id": "EV-027",
+    "requisito": "PDF p. 1–4 y 7–9, A1/A2/A3/C3–C5: CRUD, búsqueda, paginación y Excel: usuarios",
+    "modulo": "Seis mantenedores",
+    "tipo": "Funcional",
+    "precondiciones": "Raíz autenticada y tipo padre activo; catálogos en base temporal. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos de prueba indicados. 2. Crear, consultar editor, enviar campo vacío y duplicado, editar y desactivar; buscar FILTRO con doce coincidencias, abrir página dos y exportar. 3. Comparar respuesta y persistencia con el resultado esperado.",
+    "esperado": "Crear y editar persisten; vacío/duplicado no agregan filas; GET no desactiva; página dos contiene dos de doce resultados y Excel incluye las doce coincidencias sin secretos.",
+    "pruebas": [
+      "config.test_delivery_cruds.SixCRUDDeliveryTests.test_users"
+    ]
+  },
+  {
+    "id": "EV-028",
+    "requisito": "PDF p. 3, A3: errores del servidor y conservación del formulario",
+    "modulo": "Validaciones de metas",
+    "tipo": "Funcional",
+    "precondiciones": "Gestor autorizado y meta de prueba con período inválido. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos de prueba indicados. 2. Enviar fechas inválidas al servidor y revisar respuesta, campos y conteo. 3. Comparar respuesta y persistencia con el resultado esperado.",
+    "esperado": "Se informa el error mediante feedback para SweetAlert, se conservan los datos y no se crea la meta.",
+    "pruebas": [
+      "config.test_form_feedback.ServerValidationFeedbackTests.test_invalid_goal_period_reports_error_and_preserves_fields_without_saving"
+    ]
+  },
+  {
+    "id": "EV-029",
+    "requisito": "PDF p. 2–4, A2/A3: contexto permanente y SweetAlert2",
+    "modulo": "Encabezado y avisos",
+    "tipo": "Funcional",
+    "precondiciones": "Funcionario con nombre, rol y código de sede en base temporal; JavaScript vigente. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos de prueba indicados. 2. Renderizar el inicio y revisar el encabezado; comprobar que los mensajes operativos no se descartan en el controlador de avisos. 3. Comparar respuesta y persistencia con el resultado esperado.",
+    "esperado": "El HTML conserva código, usuario y rol sin ocultar sus datos por breakpoint; el controlador procesa errores y advertencias operativas.",
+    "pruebas": [
+      "config.test_pdf_context.PDFContextTests.test_header_keeps_code_user_and_role_in_all_viewports",
+      "config.test_pdf_context.PDFContextTests.test_operational_errors_are_not_skipped_by_sweetalert"
+    ]
+  },
+  {
+    "id": "EV-030",
+    "requisito": "PDF p. 1 y 10, A1/C6: interfaces pendientes navegables y permisos reales",
+    "modulo": "Funciones por perfil",
+    "tipo": "Funcional",
+    "precondiciones": "Raíz, registrador, gestor, aprobador, lector y cuentas/sedes inactivas de prueba. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos de prueba indicados. 2. Abrir índice y escenarios por cada perfil, también por URL directa; manipular nombre de rol/parámetros; intentar POST. 3. Comparar respuesta y persistencia con el resultado esperado.",
+    "esperado": "Sólo se enlazan y abren escenarios autorizados; se distingue simulación sin persistencia; no hay escrituras de negocio ni privilegios por nombre de rol o parámetros.",
+    "pruebas": [
+      "config.test_role_demo.RoleDemoTests.test_anonymous_cannot_open_any_screen",
+      "config.test_role_demo.RoleDemoTests.test_get_and_rejected_post_do_not_create_business_records",
+      "config.test_role_demo.RoleDemoTests.test_inactive_role_or_delegation_has_no_access",
+      "config.test_role_demo.RoleDemoTests.test_index_marks_denied_permissions_and_fixed_scope",
+      "config.test_role_demo.RoleDemoTests.test_index_only_links_authorized_scenarios",
+      "config.test_role_demo.RoleDemoTests.test_only_demo_link_is_marked_active_on_demonstration_index",
+      "config.test_role_demo.RoleDemoTests.test_permission_matrix_is_enforced_on_direct_urls",
+      "config.test_role_demo.RoleDemoTests.test_real_navigation_reverses_and_is_reachable",
+      "config.test_role_demo.RoleDemoTests.test_role_name_and_query_parameters_do_not_grant_privileges",
+      "config.test_role_demo.RoleDemoTests.test_root_can_open_demonstration",
+      "config.test_role_demo.RoleDemoTests.test_root_does_not_need_a_delegation_or_role",
+      "config.test_role_demo.RoleDemoTests.test_scenarios_disclose_simulation_and_pending_backend",
+      "config.test_role_demo.RoleDemoTests.test_unknown_scenario_returns_404",
+      "config.test_role_demo.RoleDemoTests.test_user_without_active_account_cannot_open_demo",
+      "config.test_role_demo.RoleDemoTests.test_user_without_delegation_has_no_access",
+      "config.test_role_demo.RoleDemoTests.test_user_without_role_cannot_open_demo"
+    ]
+  },
+  {
+    "id": "EV-031",
+    "requisito": "PDF p. 2–3, A2/A3: relaciones, contexto y datos coherentes; optimización complementaria",
+    "modulo": "Integridad y rendimiento",
+    "tipo": "Funcional",
+    "precondiciones": "Catálogos, vecinos, metas y acciones de prueba con modificaciones concurrentes simuladas. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos de prueba indicados. 2. Validar, cambiar la relación o un dato antes de guardar/desactivar y repetir; medir consultas con más filas; exportar y calcular avance. 3. Comparar respuesta y persistencia con el resultado esperado.",
+    "esperado": "Se revalida la relación vigente, se conservan cambios ajenos y se informa el conflicto; raíz no se expone como responsable; las consultas no crecen por cada fila y el avance usa acciones aprobadas del período.",
+    "pruebas": [
+      "config.test_scan_business.BusinessScanTests.test_action_export_uses_constant_number_of_meta_label_queries",
+      "config.test_scan_business.BusinessScanTests.test_action_http_race_preserves_form_and_does_not_write",
+      "config.test_scan_business.BusinessScanTests.test_action_meta_choices_use_constant_number_of_queries",
+      "config.test_scan_business.BusinessScanTests.test_action_rechecks_meta_moved_after_validation",
+      "config.test_scan_business.BusinessScanTests.test_attention_subtype_choices_use_constant_number_of_queries",
+      "config.test_scan_business.BusinessScanTests.test_attention_subtype_toggle_preserves_concurrent_parent",
+      "config.test_scan_business.BusinessScanTests.test_attention_type_toggle_preserves_concurrent_description",
+      "config.test_scan_business.BusinessScanTests.test_delegation_edit_locks_seat_before_responsible",
+      "config.test_scan_business.BusinessScanTests.test_delegation_grid_does_not_expose_root_email",
+      "config.test_scan_business.BusinessScanTests.test_delegation_responsible_choices_exclude_root_accounts",
+      "config.test_scan_business.BusinessScanTests.test_delegation_restore_rechecks_fresh_delegate_workplace",
+      "config.test_scan_business.BusinessScanTests.test_delegation_toggle_preserves_concurrent_appearance_and_delegate",
+      "config.test_scan_business.BusinessScanTests.test_meta_export_uses_constant_number_of_progress_queries",
+      "config.test_scan_business.BusinessScanTests.test_meta_grid_uses_constant_number_of_progress_queries",
+      "config.test_scan_business.BusinessScanTests.test_meta_http_race_preserves_form_and_original_scope",
+      "config.test_scan_business.BusinessScanTests.test_meta_item_toggle_preserves_concurrent_description",
+      "config.test_scan_business.BusinessScanTests.test_meta_relocation_rechecks_actions_registered_after_validation",
+      "config.test_scan_business.BusinessScanTests.test_neighbor_toggle_preserves_concurrent_territory",
+      "config.test_scan_business.BusinessScanTests.test_progress_annotation_matches_approved_actions_in_period"
+    ]
+  },
+  {
+    "id": "EV-032",
+    "requisito": "PDF p. 3, A3: duplicados y validación del servidor",
+    "modulo": "Duplicados concurrentes",
+    "tipo": "Funcional",
+    "precondiciones": "Formularios válidos de seis catálogos y una segunda escritura competidora. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos de prueba indicados. 2. Validar dos altas con la misma identidad/nombre normalizado; guardar la primera y después la segunda, también por HTTP. 3. Comparar respuesta y persistencia con el resultado esperado.",
+    "esperado": "La segunda escritura se rechaza al guardar; el formulario informa conflicto y nunca anuncia éxito ni inserta el duplicado.",
+    "pruebas": [
+      "config.test_scan_catalogs.CatalogSaveRaceScanTests.test_attention_subtype_save_rechecks_name_validated_before_another_save",
+      "config.test_scan_catalogs.CatalogSaveRaceScanTests.test_attention_type_save_rechecks_name_validated_before_another_save",
+      "config.test_scan_catalogs.CatalogSaveRaceScanTests.test_crud_reports_conflicts_found_after_initial_validation_without_success",
+      "config.test_scan_catalogs.CatalogSaveRaceScanTests.test_delegation_save_rechecks_name_validated_before_another_save",
+      "config.test_scan_catalogs.CatalogSaveRaceScanTests.test_meta_item_save_rechecks_name_validated_before_another_save",
+      "config.test_scan_catalogs.CatalogSaveRaceScanTests.test_role_save_rechecks_name_validated_before_another_save",
+      "config.test_scan_catalogs.CatalogSaveRaceScanTests.test_user_save_rechecks_login_identity_validated_before_another_save"
+    ]
+  },
+  {
+    "id": "EV-033",
+    "requisito": "PDF p. 2–3, A2/A3: relaciones y restricciones de catálogos",
+    "modulo": "Edición histórica",
+    "tipo": "Funcional",
+    "precondiciones": "Registros existentes vinculados a rol, sede, responsable, territorio o tipo inactivo. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos de prueba indicados. 2. Abrir su edición; revisar la selección actual y las opciones de responsables. 3. Comparar respuesta y persistencia con el resultado esperado.",
+    "esperado": "Se conserva la relación histórica al editar sin forzar una sustitución; no se ofrecen cuentas raíz y una asignación raíz antigua usa un marcador sin datos personales.",
+    "pruebas": [
+      "config.test_scan_front.ExistingInactiveRelationTests.test_edit_delegation_excludes_root_from_delegate_choices",
+      "config.test_scan_front.ExistingInactiveRelationTests.test_edit_delegation_preserves_existing_inactive_delegate",
+      "config.test_scan_front.ExistingInactiveRelationTests.test_edit_employee_preserves_existing_inactive_delegation",
+      "config.test_scan_front.ExistingInactiveRelationTests.test_edit_employee_preserves_existing_inactive_role",
+      "config.test_scan_front.ExistingInactiveRelationTests.test_edit_neighbor_preserves_existing_inactive_territory",
+      "config.test_scan_front.ExistingInactiveRelationTests.test_edit_subtype_preserves_existing_inactive_parent",
+      "config.test_scan_front.ExistingInactiveRelationTests.test_legacy_root_assignment_uses_selected_anonymous_placeholder"
+    ]
+  },
+  {
+    "id": "EV-034",
+    "requisito": "PDF p. 2 y 4, A2/A4: identidad municipal y distintivo de delegación",
+    "modulo": "Color e identidad",
+    "tipo": "Funcional",
+    "precondiciones": "Delegación sin color confirmado y otra con color; responsable y personal de la misma sede. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos de prueba indicados. 2. Visitar inicio, atención, acciones, metas, reportes y cuenta; cambiar color como responsable y recargar ambas cuentas; abrir login. 3. Comparar respuesta y persistencia con el resultado esperado.",
+    "esperado": "Sin confirmar predomina blanco/rojo; el color confirmado se hereda en todas las rutas; las lecturas no alteran datos y el login mantiene identidad municipal y cinco fotos.",
+    "pruebas": [
+      "config.test_ui_theme.InheritedThemeTests.test_confirmed_color_follows_the_team_and_refreshes_after_delegate_changes_it",
+      "config.test_ui_theme.InheritedThemeTests.test_delegate_and_staff_receive_the_same_theme_without_changing_data",
+      "config.test_ui_theme.InheritedThemeTests.test_login_keeps_municipal_identity_and_five_photo_carousel",
+      "config.test_ui_theme.InheritedThemeTests.test_unconfigured_delegation_uses_municipal_red_on_every_account_page"
+    ]
+  },
+  {
+    "id": "EV-035",
+    "requisito": "PDF p. 2 y 4, A2/A4: consultar cada CRUD, permisos y datos públicos",
+    "modulo": "Consulta de mantenedores",
+    "tipo": "Funcional",
+    "precondiciones": "Seis catálogos con registros activos/inactivos; raíz, gestor local, lector y usuario anónimo. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos indicados. 2. Abrir las seis consultas sin sesión. 3. Comparar respuesta, sesión y registros con el resultado esperado.",
+    "esperado": "Todas redirigen a iniciar sesión.",
+    "pruebas": [
+      "config.tests_crud_details.CatalogDetailTests.test_anonymous_users_are_redirected_from_every_detail"
+    ]
+  },
+  {
+    "id": "EV-036",
+    "requisito": "PDF p. 2 y 4, A2/A4: consultar cada CRUD, permisos y datos públicos",
+    "modulo": "Consulta de mantenedores",
+    "tipo": "Funcional",
+    "precondiciones": "Seis catálogos con registros activos/inactivos; raíz, gestor local, lector y usuario anónimo. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos indicados. 2. Abrir los seis listados y revisar enlaces de consulta. 3. Comparar respuesta, sesión y registros con el resultado esperado.",
+    "esperado": "Cada registro dispone de enlace accesible a la consulta correspondiente.",
+    "pruebas": [
+      "config.tests_crud_details.CatalogDetailTests.test_every_catalog_list_has_accessible_consultation_link"
+    ]
+  },
+  {
+    "id": "EV-037",
+    "requisito": "PDF p. 2 y 4, A2/A4: consultar cada CRUD, permisos y datos públicos",
+    "modulo": "Consulta de mantenedores",
+    "tipo": "Funcional",
+    "precondiciones": "Seis catálogos con registros activos/inactivos; raíz, gestor local, lector y usuario anónimo. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos indicados. 2. Consultar registros inactivos con contenido HTML en sus campos. 3. Comparar respuesta, sesión y registros con el resultado esperado.",
+    "esperado": "Se puede consultar el estado inactivo y el HTML se muestra escapado.",
+    "pruebas": [
+      "config.tests_crud_details.CatalogDetailTests.test_inactive_records_are_still_consultable_and_html_is_escaped"
+    ]
+  },
+  {
+    "id": "EV-038",
+    "requisito": "PDF p. 2 y 4, A2/A4: consultar cada CRUD, permisos y datos públicos",
+    "modulo": "Consulta de mantenedores",
+    "tipo": "Funcional",
+    "precondiciones": "Seis catálogos con registros activos/inactivos; raíz, gestor local, lector y usuario anónimo. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos indicados. 2. Consultar sede propia, ajena y catálogos generales como gestor. 3. Comparar respuesta, sesión y registros con el resultado esperado.",
+    "esperado": "Sólo se admiten la sede propia y catálogos generales autorizados.",
+    "pruebas": [
+      "config.tests_crud_details.CatalogDetailTests.test_manager_can_consult_own_seat_and_global_catalogs_only"
+    ]
+  },
+  {
+    "id": "EV-039",
+    "requisito": "PDF p. 2 y 4, A2/A4: consultar cada CRUD, permisos y datos públicos",
+    "modulo": "Consulta de mantenedores",
+    "tipo": "Funcional",
+    "precondiciones": "Seis catálogos con registros activos/inactivos; raíz, gestor local, lector y usuario anónimo. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos indicados. 2. Abrir consultas de administración con rol lector. 3. Comparar respuesta, sesión y registros con el resultado esperado.",
+    "esperado": "Se deniega el acceso de administración.",
+    "pruebas": [
+      "config.tests_crud_details.CatalogDetailTests.test_readers_cannot_consult_management_details"
+    ]
+  },
+  {
+    "id": "EV-040",
+    "requisito": "PDF p. 2 y 4, A2/A4: consultar cada CRUD, permisos y datos públicos",
+    "modulo": "Consulta de mantenedores",
+    "tipo": "Funcional",
+    "precondiciones": "Seis catálogos con registros activos/inactivos; raíz, gestor local, lector y usuario anónimo. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos indicados. 2. Solicitar la consulta de otra cuenta raíz por su ID. 3. Comparar respuesta, sesión y registros con el resultado esperado.",
+    "esperado": "La cuenta raíz no se expone por URL directa.",
+    "pruebas": [
+      "config.tests_crud_details.CatalogDetailTests.test_root_accounts_are_hidden_even_from_root_via_direct_url"
+    ]
+  },
+  {
+    "id": "EV-041",
+    "requisito": "PDF p. 2 y 4, A2/A4: consultar cada CRUD, permisos y datos públicos",
+    "modulo": "Consulta de mantenedores",
+    "tipo": "Funcional",
+    "precondiciones": "Seis catálogos con registros activos/inactivos; raíz, gestor local, lector y usuario anónimo. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos indicados. 2. Abrir las consultas de los seis recursos como raíz. 3. Comparar respuesta, sesión y registros con el resultado esperado.",
+    "esperado": "Se muestran sus datos públicos y relaciones sin campos de escritura.",
+    "pruebas": [
+      "config.tests_crud_details.CatalogDetailTests.test_six_details_show_public_data_and_read_only_fields"
+    ]
+  },
+  {
+    "id": "EV-042",
+    "requisito": "PDF p. 2 y 4, A2/A4: consultar cada CRUD, permisos y datos públicos",
+    "modulo": "Consulta de mantenedores",
+    "tipo": "Funcional",
+    "precondiciones": "Seis catálogos con registros activos/inactivos; raíz, gestor local, lector y usuario anónimo. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos indicados. 2. Solicitar recurso inexistente y enviar POST a una consulta. 3. Comparar respuesta, sesión y registros con el resultado esperado.",
+    "esperado": "Se rechazan el recurso inexistente y la escritura en consulta.",
+    "pruebas": [
+      "config.tests_crud_details.CatalogDetailTests.test_unknown_resources_and_write_requests_are_rejected"
+    ]
+  },
+  {
+    "id": "EV-043",
+    "requisito": "PDF p. 2 y 4, A2/A4: consultar cada CRUD, permisos y datos públicos",
+    "modulo": "Consulta de mantenedores",
+    "tipo": "Funcional",
+    "precondiciones": "Seis catálogos con registros activos/inactivos; raíz, gestor local, lector y usuario anónimo. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos indicados. 2. Consultar una cuenta con credenciales y código de recuperación de prueba. 3. Comparar respuesta, sesión y registros con el resultado esperado.",
+    "esperado": "La respuesta no incluye hash, contraseña, códigos ni tokens de recuperación.",
+    "pruebas": [
+      "config.tests_crud_details.CatalogDetailTests.test_user_consultation_never_includes_credentials_or_recovery_codes"
+    ]
+  },
+  {
+    "id": "EV-044",
+    "requisito": "PDF p. 2–3, A2/A3: sede fija, filtros y rechazo de solicitudes alteradas",
+    "modulo": "Operación territorial",
+    "tipo": "Funcional",
+    "precondiciones": "Gestor de una sede y registros de otra, incluidos vecino y meta vinculada. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos de prueba indicados. 2. Paginar acciones filtradas; editar sede/vecino/meta; intentar altas o cambios de otra sede y acceder sin rol. 3. Comparar respuesta y persistencia con el resultado esperado.",
+    "esperado": "El filtro se conserva; el gestor sólo modifica su sede y sus vecinos; no cambia la sede de una meta vinculada; sin rol no se accede a datos municipales.",
+    "pruebas": [
+      "dashboard.test_integration.IntegrationBoundaries.test_filtered_actions_preserve_state_in_pagination",
+      "dashboard.test_integration.IntegrationBoundaries.test_manager_can_edit_own_delegation_and_root_can_edit_any",
+      "dashboard.test_integration.IntegrationBoundaries.test_manager_cannot_create_person_under_other_delegation",
+      "dashboard.test_integration.IntegrationBoundaries.test_manager_cannot_edit_person_from_another_delegation",
+      "dashboard.test_integration.IntegrationBoundaries.test_manager_cannot_modify_other_delegation_or_create_one",
+      "dashboard.test_integration.IntegrationBoundaries.test_meta_edit_renders_iso_date_and_cannot_change_linked_delegation",
+      "dashboard.test_integration.IntegrationBoundaries.test_no_role_cannot_read_municipal_person_data"
+    ]
+  },
+  {
+    "id": "EV-045",
+    "requisito": "PDF p. 2 y 10, A2/C6: contexto autorizado y presentación por perfil",
+    "modulo": "Resumen de gestión",
+    "tipo": "Funcional",
+    "precondiciones": "Atenciones y acciones de dos sedes; funcionario, raíz y cuentas sin sede o rol activo. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos de prueba indicados. 2. Solicitar el inicio con cada perfil y comparar indicadores con los registros del ámbito. 3. Comparar respuesta y persistencia con el resultado esperado.",
+    "esperado": "El funcionario cuenta sólo su sede; raíz cuenta todas; sin sede activa no se entregan indicadores operativos y un rol inactivo no accede.",
+    "pruebas": [
+      "dashboard.test_management.ManagementDashboardTests.test_dashboard_counts_only_assigned_delegation",
+      "dashboard.test_management.ManagementDashboardTests.test_inactive_role_cannot_access_dashboard",
+      "dashboard.test_management.ManagementDashboardTests.test_missing_delegation_has_no_operational_counts",
+      "dashboard.test_management.ManagementDashboardTests.test_superuser_counts_all_delegations"
+    ]
+  },
+  {
+    "id": "EV-046",
+    "requisito": "PDF p. 2 y 10, A2/C6: módulos autorizados y contexto de consulta",
+    "modulo": "Navegación y filtros",
+    "tipo": "Funcional",
+    "precondiciones": "Raíz y personal local, actividad de varias sedes y responsables. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos de prueba indicados. 2. Abrir resumen general y administración; filtrar territorio/responsable e intentar ampliar ámbito como funcionario. 3. Comparar respuesta y persistencia con el resultado esperado.",
+    "esperado": "General y Administración están separados; filtros del resumen raíz funcionan; el funcionario no amplía su ámbito ni abre administración.",
+    "pruebas": [
+      "dashboard.test_navigation.DashboardNavigationTests.test_general_and_administration_are_separate",
+      "dashboard.test_navigation.DashboardNavigationTests.test_general_filters_by_territory_or_responsible",
+      "dashboard.test_navigation.DashboardNavigationTests.test_staff_cannot_expand_scope_or_open_administration"
+    ]
+  },
+  {
+    "id": "EV-047",
+    "requisito": "Complementario; PDF p. 2 y 10, A2/C6: coherencia del contexto",
+    "modulo": "Acciones del inicio",
+    "tipo": "Complementario",
+    "precondiciones": "Acciones pendientes y resueltas de dos sedes y cuenta sin asignación. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos de prueba indicados. 2. Abrir inicio con filtros, resolver una acción y recargar; entrar con personal sin sede. 3. Comparar respuesta y persistencia con el resultado esperado.",
+    "esperado": "Se muestran hasta tres pendientes reales del ámbito y filtros de los indicadores; la resuelta desaparece y no se muestran pendientes a personal sin sede.",
+    "pruebas": [
+      "dashboard.test_pending_summary.PendingSummaryTests.test_admin_summary_uses_the_same_filters_as_the_metrics",
+      "dashboard.test_pending_summary.PendingSummaryTests.test_resolved_action_disappears_and_unassigned_staff_sees_no_pending",
+      "dashboard.test_pending_summary.PendingSummaryTests.test_staff_sees_three_latest_pending_from_their_scope"
+    ]
+  },
+  {
+    "id": "EV-048",
+    "requisito": "PDF p. 2–3, A2/A3: navegación, Excel, validación y desactivación",
+    "modulo": "Integración de plataforma",
+    "tipo": "Funcional",
+    "precondiciones": "Datos sintéticos de plataforma y usuario autorizado. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos de prueba indicados. 2. Acceder autenticado y anónimo; validar RUT; exportar Excel y desactivar un registro. 3. Comparar respuesta y persistencia con el resultado esperado.",
+    "esperado": "Las rutas protegidas redirigen sin sesión; las autorizadas renderizan; Excel es una hoja binaria válida; RUT usa módulo 11 y desactivar conserva el registro.",
+    "pruebas": [
+      "dashboard.tests.SGRPlataformaTerritorialTests.test_authenticated_access_all_endpoints",
+      "dashboard.tests.SGRPlataformaTerritorialTests.test_excel_exports_binary_spreadsheet",
+      "dashboard.tests.SGRPlataformaTerritorialTests.test_logical_deletion_preserves_records",
+      "dashboard.tests.SGRPlataformaTerritorialTests.test_rut_modulo_11_chilean_validation",
+      "dashboard.tests.SGRPlataformaTerritorialTests.test_unauthenticated_access_redirects_to_login"
+    ]
+  },
+  {
+    "id": "EV-049",
+    "requisito": "PDF p. 2 y 4, A2/A4: identificación compartida y permisos",
+    "modulo": "Personalización territorial",
+    "tipo": "Funcional",
+    "precondiciones": "Responsable, personal, raíz y otra delegación; estado de configuración inicial. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos de prueba indicados. 2. Configurar color, volver a abrir el asistente, editar desde perfil y tratar de cambiarlo por GET, anónimo o personal no autorizado. 3. Comparar respuesta y persistencia con el resultado esperado.",
+    "esperado": "Sólo responsable autorizado o raíz configura; el equipo hereda el color, entradas inválidas no se guardan y una configuración obsoleta no sobrescribe la nueva.",
+    "pruebas": [
+      "territorial.test_appearance.DelegationAppearanceTests.test_catalog_cannot_bypass_lock_or_claim_delegate_ownership",
+      "territorial.test_appearance.DelegationAppearanceTests.test_delegate_gets_setup_once_and_staff_inherits_saved_color",
+      "territorial.test_appearance.DelegationAppearanceTests.test_get_and_anonymous_requests_do_not_configure",
+      "territorial.test_appearance.DelegationAppearanceTests.test_invalid_color_never_saved_and_stale_setup_cannot_overwrite",
+      "territorial.test_appearance.DelegationAppearanceTests.test_profile_edit_updates_every_staff_header",
+      "territorial.test_appearance.DelegationAppearanceTests.test_root_can_configure_and_inactive_delegation_is_protected",
+      "territorial.test_appearance.DelegationAppearanceTests.test_staff_and_other_delegate_cannot_change_design"
+    ]
+  },
+  {
+    "id": "EV-050",
+    "requisito": "PDF p. 2–3, A2/A3: contexto real y relaciones consistentes",
+    "modulo": "Asignación y apariencia",
+    "tipo": "Funcional",
+    "precondiciones": "Responsabilidades heredadas, sede sin configurar y asignaciones concurrentes sintéticas. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos de prueba indicados. 2. Exportar color efectivo; desactivar la sede; intercalar cambios de responsables e intentar una segunda sede. 3. Comparar respuesta y persistencia con el resultado esperado.",
+    "esperado": "La exportación usa rojo mientras no se confirma; la sede inactiva no entrega datos operativos y no quedan responsabilidades incompatibles o duplicadas.",
+    "pruebas": [
+      "territorial.test_audit_logic.TerritorialLogicAuditTests.test_delegation_excel_uses_effective_unconfirmed_color",
+      "territorial.test_audit_logic.TerritorialLogicAuditTests.test_inactivated_workplace_does_not_keep_operational_dashboard_data",
+      "territorial.test_audit_logic.TerritorialLogicAuditTests.test_interleaved_assignments_cannot_leave_incoherent_responsibility",
+      "territorial.test_audit_logic.TerritorialLogicAuditTests.test_legacy_unassigned_delegate_cannot_take_a_second_seat"
+    ]
+  },
+  {
+    "id": "EV-051",
+    "requisito": "PDF p. 2–3, A2/A3: ámbito autorizado e identificación",
+    "modulo": "Sede del responsable",
+    "tipo": "Funcional",
+    "precondiciones": "Responsable con sede de trabajo, otra sede y asignaciones históricas incoherentes de prueba. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos de prueba indicados. 2. Asignar/mover responsables; abrir perfil/asistente; intentar configurar otra sede y restaurar una asignación inválida. 3. Comparar respuesta y persistencia con el resultado esperado.",
+    "esperado": "Responsabilidad y trabajo coinciden; mover exige liberar el cargo anterior; perfil y vista previa identifican la sede correcta y sólo el equipo correspondiente hereda el color.",
+    "pruebas": [
+      "territorial.test_color_consistency.WorkDelegationColorTests.test_assigning_an_unassigned_responsible_also_assigns_their_work_delegation",
+      "territorial.test_color_consistency.WorkDelegationColorTests.test_catalog_rejects_responsible_working_in_another_delegation",
+      "territorial.test_color_consistency.WorkDelegationColorTests.test_correct_work_responsibility_applies_saved_color_on_every_page_to_the_team",
+      "territorial.test_color_consistency.WorkDelegationColorTests.test_inactive_responsibility_cannot_be_left_behind_when_user_moves",
+      "territorial.test_color_consistency.WorkDelegationColorTests.test_preview_names_the_actual_seat_and_has_a_working_theme_preview",
+      "territorial.test_color_consistency.WorkDelegationColorTests.test_profile_and_onboarding_never_offer_the_wrong_delegation",
+      "territorial.test_color_consistency.WorkDelegationColorTests.test_reactivating_legacy_bad_assignment_requires_fixing_responsible",
+      "territorial.test_color_consistency.WorkDelegationColorTests.test_root_can_still_configure_any_delegation_without_changing_work_scope",
+      "territorial.test_color_consistency.WorkDelegationColorTests.test_stale_responsibility_does_not_allow_editing_a_different_work_delegation",
+      "territorial.test_color_consistency.WorkDelegationColorTests.test_user_reassignment_requires_releasing_current_responsibility_first"
+    ]
+  },
+  {
+    "id": "EV-052",
+    "requisito": "PDF p. 2–3, A2/A3: consulta, búsqueda y Excel autorizados",
+    "modulo": "Listado territorial",
+    "tipo": "Funcional",
+    "precondiciones": "Gestor local y raíz; al menos dos delegaciones en base temporal. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos de prueba indicados. 2. Listar, buscar y exportar como gestor y como raíz. 3. Comparar respuesta y persistencia con el resultado esperado.",
+    "esperado": "El gestor sólo obtiene su sede en tabla, búsqueda y Excel; raíz puede consultar y exportar todas.",
+    "pruebas": [
+      "territorial.test_delegation_list_scope.DelegationListScopeTests.test_manager_list_search_and_excel_only_include_assigned_seat",
+      "territorial.test_delegation_list_scope.DelegationListScopeTests.test_root_can_list_and_export_all_seats"
+    ]
+  },
+  {
+    "id": "EV-053",
+    "requisito": "Complementario; PDF p. 4, A4: datos de prueba sin secretos ni pérdida de datos",
+    "modulo": "Datos de demostración",
+    "tipo": "Complementario",
+    "precondiciones": "Base temporal con sedes, RUT y registros existentes. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos de prueba indicados. 2. Ejecutar el poblador con base existente e inactivos; repetir y revisar ejemplos nuevos. 3. Comparar respuesta y persistencia con el resultado esperado.",
+    "esperado": "No se sobrescriben ni duplican registros; ejemplos nuevos no tienen claves utilizables ni privilegios; Faro corresponde a Avenida del Mar y sus RUT son válidos.",
+    "pruebas": [
+      "territorial.test_seed_consistency.SeedConsistencyTests.test_existing_records_are_preserved_and_not_duplicated",
+      "territorial.test_seed_consistency.SeedConsistencyTests.test_existing_rut_holder_is_not_duplicated_or_overwritten",
+      "territorial.test_seed_consistency.SeedConsistencyTests.test_inactive_existing_seat_is_preserved_without_new_active_users",
+      "territorial.test_seed_consistency.SeedConsistencyTests.test_new_examples_have_no_usable_passwords_or_privileges",
+      "territorial.test_seed_consistency.SeedConsistencyTests.test_new_examples_have_valid_normalized_ruts_and_existing_seats",
+      "territorial.test_seed_consistency.SeedConsistencyTests.test_new_faro_example_belongs_to_avenida_del_mar"
+    ]
+  },
+  {
+    "id": "EV-054",
+    "requisito": "PDF p. 3, A3: duplicados, formatos y normalización",
+    "modulo": "Nombres de catálogos",
+    "tipo": "Funcional",
+    "precondiciones": "Delegaciones e ítems activos/inactivos con nombres de prueba. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos de prueba indicados. 2. Crear/editar con diferencias de mayúsculas o espacios; conservar nombre propio; introducir un nombre distinto. 3. Comparar respuesta y persistencia con el resultado esperado.",
+    "esperado": "Los duplicados normalizados se rechazan incluso contra inactivos; editarse a sí mismo es válido y nombres distintos se guardan con espacios normalizados.",
+    "pruebas": [
+      "territorial.tests_pdf_catalogs.CatalogNameValidationTests.test_delegation_rejects_case_and_spacing_duplicate",
+      "territorial.tests_pdf_catalogs.CatalogNameValidationTests.test_distinct_name_is_saved_with_single_spaces",
+      "territorial.tests_pdf_catalogs.CatalogNameValidationTests.test_edit_cannot_take_another_catalog_name",
+      "territorial.tests_pdf_catalogs.CatalogNameValidationTests.test_edit_excludes_own_record",
+      "territorial.tests_pdf_catalogs.CatalogNameValidationTests.test_meta_rejects_duplicate_even_when_existing_record_is_inactive"
+    ]
+  },
+  {
+    "id": "EV-055",
+    "requisito": "Complementario; PDF p. 3, A3: autenticación y protección de cuenta",
+    "modulo": "Ajustes personales",
+    "tipo": "Complementario",
+    "precondiciones": "Usuario con clave conocida y dos sesiones en base temporal. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos de prueba indicados. 2. Abrir ajustes sin sesión/CSRF; cambiar usuario y clave con datos válidos e inválidos; revisar menús de cuenta. 3. Comparar respuesta y persistencia con el resultado esperado.",
+    "esperado": "Los cambios requieren contraseña y no elevan permisos; los duplicados se rechazan; cambiar clave conserva la sesión actual e invalida las otras; cuenta usa navegación personal.",
+    "pruebas": [
+      "usuarios.test_account.AccountSettingsTests.test_account_pages_have_personal_navigation_without_work_sidebar",
+      "usuarios.test_account.AccountSettingsTests.test_administration_actions_are_only_shown_to_superuser",
+      "usuarios.test_account.AccountSettingsTests.test_duplicate_and_invalid_username_rejected",
+      "usuarios.test_account.AccountSettingsTests.test_invalid_passwords_do_not_change_account",
+      "usuarios.test_account.AccountSettingsTests.test_password_change_keeps_current_session_and_invalidates_other_sessions",
+      "usuarios.test_account.AccountSettingsTests.test_settings_require_login_and_csrf",
+      "usuarios.test_account.AccountSettingsTests.test_username_change_requires_password_and_does_not_change_privileges"
+    ]
+  },
+  {
+    "id": "EV-056",
+    "requisito": "PDF p. 1–3, A1/A3: acceso inequívoco y código consumido; concurrencia complementaria",
+    "modulo": "Identificadores y recuperación",
+    "tipo": "Funcional",
+    "precondiciones": "Dos cuentas con usuario/RUT y recuperación pendiente; responsabilidad que cambia al guardar. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos de prueba indicados. 2. Crear/editar identificadores que colisionan con RUT ajeno; cambiar sede después de validar; cambiar clave o consumir código durante otra edición. 3. Comparar respuesta y persistencia con el resultado esperado.",
+    "esperado": "No se introducen identidades ambiguas ni responsabilidades incompatibles; cambiar clave invalida códigos y una edición ajena no restaura códigos consumidos.",
+    "pruebas": [
+      "usuarios.test_audit_accounts.AccountLogicAuditTests.test_admin_cannot_create_username_that_shadows_another_users_rut",
+      "usuarios.test_audit_accounts.AccountLogicAuditTests.test_admin_edit_cannot_change_rut_to_another_accounts_username",
+      "usuarios.test_audit_accounts.AccountLogicAuditTests.test_admin_edit_cannot_change_username_to_another_users_rut",
+      "usuarios.test_audit_accounts.AccountLogicAuditTests.test_administrator_password_reset_invalidates_existing_email_code",
+      "usuarios.test_audit_accounts.AccountLogicAuditTests.test_editor_reports_a_responsibility_assigned_after_validation",
+      "usuarios.test_audit_accounts.AccountLogicAuditTests.test_moving_user_rechecks_new_responsibility_before_saving",
+      "usuarios.test_audit_accounts.AccountLogicAuditTests.test_own_rut_can_remain_the_username",
+      "usuarios.test_audit_accounts.AccountLogicAuditTests.test_password_unchanged_preserves_pending_recovery",
+      "usuarios.test_audit_accounts.AccountLogicAuditTests.test_rut_cannot_shadow_an_existing_rut_shaped_username",
+      "usuarios.test_audit_accounts.AccountLogicAuditTests.test_self_service_username_cannot_shadow_another_users_rut",
+      "usuarios.test_audit_accounts.AccountLogicAuditTests.test_unchanged_legacy_ambiguous_username_can_update_other_fields",
+      "usuarios.test_audit_accounts.AccountLogicAuditTests.test_unrelated_edit_cannot_restore_a_code_consumed_after_validation"
+    ]
+  },
+  {
+    "id": "EV-057",
+    "requisito": "PDF p. 1–3 y 7, A1/A3/C3: catálogo de roles sin duplicados",
+    "modulo": "Roles",
+    "tipo": "Funcional",
+    "precondiciones": "Rol existente y formulario autorizado en base temporal. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos de prueba indicados. 2. Editar conservando su nombre; intentar crear nombre equivalente con mayúsculas y espacios. 3. Comparar respuesta y persistencia con el resultado esperado.",
+    "esperado": "El rol puede editarse a sí mismo; un segundo nombre normalizado equivalente se rechaza.",
+    "pruebas": [
+      "usuarios.test_catalog_validation.RoleCatalogValidationTests.test_role_can_edit_itself",
+      "usuarios.test_catalog_validation.RoleCatalogValidationTests.test_role_rejects_case_and_spacing_duplicate"
+    ]
+  },
+  {
+    "id": "EV-058",
+    "requisito": "PDF p. 1–3 y 8, A1/A3/C4: identidad única y correos válidos",
+    "modulo": "Usuarios",
+    "tipo": "Funcional",
+    "precondiciones": "Dos cuentas, correos primario/secundario y una identidad histórica ambigua de prueba. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos de prueba indicados. 2. Crear/editar usuario y correo con diferencias de mayúsculas; cruzar correo con username; mover correo propio y dejar secundarios vacíos. 3. Comparar respuesta y persistencia con el resultado esperado.",
+    "esperado": "No se admiten colisiones nuevas entre usuarios/correos; vacíos opcionales no colisionan; se puede mover correo propio y conservar una identidad histórica sin ampliarla.",
+    "pruebas": [
+      "usuarios.test_catalog_validation.UserIdentityValidationTests.test_account_settings_cannot_take_another_accounts_email",
+      "usuarios.test_catalog_validation.UserIdentityValidationTests.test_blank_optional_secondary_emails_do_not_collide",
+      "usuarios.test_catalog_validation.UserIdentityValidationTests.test_edit_preserves_unchanged_legacy_ambiguous_identifiers",
+      "usuarios.test_catalog_validation.UserIdentityValidationTests.test_edit_rejects_new_ambiguous_email",
+      "usuarios.test_catalog_validation.UserIdentityValidationTests.test_email_cannot_take_another_accounts_username",
+      "usuarios.test_catalog_validation.UserIdentityValidationTests.test_own_email_can_be_moved_between_fields",
+      "usuarios.test_catalog_validation.UserIdentityValidationTests.test_rejects_email_in_either_email_field_of_another_user",
+      "usuarios.test_catalog_validation.UserIdentityValidationTests.test_rejects_username_with_only_case_difference",
+      "usuarios.test_catalog_validation.UserIdentityValidationTests.test_username_cannot_take_another_accounts_email"
+    ]
+  },
+  {
+    "id": "EV-059",
+    "requisito": "Complementario; PDF p. 4, A4: persistencia de acceso durante migración",
+    "modulo": "Credenciales",
+    "tipo": "Complementario",
+    "precondiciones": "Credenciales largas y sensibles a mayúsculas en base temporal. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos de prueba indicados. 2. Guardar y volver a leer la credencial completa. 3. Comparar respuesta y persistencia con el resultado esperado.",
+    "esperado": "El valor se conserva íntegro, sin truncar ni cambiar mayúsculas.",
+    "pruebas": [
+      "usuarios.test_credential_storage.CredentialStorageTests.test_long_case_sensitive_credentials_round_trip_without_truncation"
+    ]
+  },
+  {
+    "id": "EV-060",
+    "requisito": "Complementario; PDF p. 4, A4: actualización y preservación de datos",
+    "modulo": "Importación AWS",
+    "tipo": "Complementario",
+    "precondiciones": "Esquema AWS antiguo sintético en SQLite; datos, roles, fechas y archivos de prueba. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos de prueba indicados. 2. Importar esquema válido; repetir; alterar estados, autores, períodos y aprobaciones; provocar un error de ejecución. 3. Comparar respuesta y persistencia con el resultado esperado.",
+    "esperado": "Se conservan credenciales, IDs, fechas e historia; los nombres de roles no elevan permisos; lotes inválidos o repetidos se rechazan sin pérdida ni escrituras parciales.",
+    "pruebas": [
+      "usuarios.test_legacy_aws_import.LegacyAWSImportTests.test_approval_without_original_audit_is_rejected",
+      "usuarios.test_legacy_aws_import.LegacyAWSImportTests.test_delegate_role_name_does_not_grant_approval_by_default",
+      "usuarios.test_legacy_aws_import.LegacyAWSImportTests.test_existing_business_data_refuses_without_modifying_it",
+      "usuarios.test_legacy_aws_import.LegacyAWSImportTests.test_explicit_approval_role_ids_are_repeatable_and_do_not_use_names",
+      "usuarios.test_legacy_aws_import.LegacyAWSImportTests.test_invalid_goal_period_is_rejected",
+      "usuarios.test_legacy_aws_import.LegacyAWSImportTests.test_invalid_legacy_rut_remains_unchanged",
+      "usuarios.test_legacy_aws_import.LegacyAWSImportTests.test_mismatched_responsible_is_preserved_and_reported",
+      "usuarios.test_legacy_aws_import.LegacyAWSImportTests.test_missing_creator_aborts_every_record",
+      "usuarios.test_legacy_aws_import.LegacyAWSImportTests.test_preserves_credentials_ids_assignments_history_dates_and_archives",
+      "usuarios.test_legacy_aws_import.LegacyAWSImportTests.test_role_name_does_not_create_administrator_privileges",
+      "usuarios.test_legacy_aws_import.LegacyAWSImportTests.test_runtime_failure_rolls_back_records_and_legacy_tables",
+      "usuarios.test_legacy_aws_import.LegacyAWSImportTests.test_second_import_refuses_without_duplicates",
+      "usuarios.test_legacy_aws_import.LegacyAWSImportTests.test_subtype_mismatch_is_rejected",
+      "usuarios.test_legacy_aws_import.LegacyAWSImportTests.test_unknown_approval_role_id_aborts_before_writing_records_or_archives",
+      "usuarios.test_legacy_aws_import.LegacyAWSImportTests.test_unknown_business_table_is_rejected",
+      "usuarios.test_legacy_aws_import.LegacyAWSImportTests.test_unknown_state_aborts_every_record"
+    ]
+  },
+  {
+    "id": "EV-061",
+    "requisito": "Complementario; WebAuthn no es requisito obligatorio del PDF",
+    "modulo": "Passkeys",
+    "tipo": "Complementario",
+    "precondiciones": "Cuenta activa, contraseña y autenticador criptográfico simulado; desafíos de sesión. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos de prueba indicados. 2. Registrar, autenticar, recuperar y revocar; repetir desafíos y contadores; modificar origen, firma, cuenta y expiración. 3. Comparar respuesta y persistencia con el resultado esperado.",
+    "esperado": "Se exige identidad, origen y firma válidos; retos y permisos de restablecimiento son de un uso; una llave revocada, cuenta inactiva o contraseña cambiada no obtiene acceso indebido.",
+    "pruebas": [
+      "usuarios.test_passkeys.PasskeyTests.test_csrf_and_origin_are_required_for_ceremonies",
+      "usuarios.test_passkeys.PasskeyTests.test_email_code_without_expiration_is_not_a_reset_grant",
+      "usuarios.test_passkeys.PasskeyTests.test_email_recovery_cannot_reuse_previous_verification",
+      "usuarios.test_passkeys.PasskeyTests.test_expired_and_other_browser_challenges_rejected",
+      "usuarios.test_passkeys.PasskeyTests.test_invalid_origin_missing_verification_wrong_handle_and_signature_rejected",
+      "usuarios.test_passkeys.PasskeyTests.test_phone_flow_is_preferred_for_registration_login_and_recovery",
+      "usuarios.test_passkeys.PasskeyTests.test_real_registration_login_and_single_use_challenge",
+      "usuarios.test_passkeys.PasskeyTests.test_recovery_without_email_changes_only_verified_account_and_is_single_use",
+      "usuarios.test_passkeys.PasskeyTests.test_registration_requires_signed_in_user_and_current_password",
+      "usuarios.test_passkeys.PasskeyTests.test_repeated_signature_counter_rejected",
+      "usuarios.test_passkeys.PasskeyTests.test_resend_uses_its_own_post_form_without_nested_forms",
+      "usuarios.test_passkeys.PasskeyTests.test_reset_grant_expires_and_revocation_invalidates_it",
+      "usuarios.test_passkeys.PasskeyTests.test_revoke_requires_owner_password_and_disables_preference",
+      "usuarios.test_passkeys.PasskeyTests.test_revoked_passkey_and_inactive_user_cannot_authenticate",
+      "usuarios.test_passkeys.PasskeyTests.test_signed_in_reset_cannot_target_another_account"
+    ]
+  },
+  {
+    "id": "EV-062",
+    "requisito": "Complementario; PDF p. 2 y 10, A2/C6: contexto y datos reales por perfil",
+    "modulo": "Ficha de administración",
+    "tipo": "Complementario",
+    "precondiciones": "Raíz y cantidades variables de sedes/vecinos en base temporal. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos de prueba indicados. 2. Abrir ficha; cambiar cantidades e identidades disponibles; volver a consultar. 3. Comparar respuesta y persistencia con el resultado esperado.",
+    "esperado": "Los totales y el ámbito proceden de la base; no se inventan contacto, firma digital ni un número fijo de delegaciones.",
+    "pruebas": [
+      "usuarios.test_profile_facts.RootProfileFactsTests.test_active_neighbor_total_is_derived_from_actual_rows",
+      "usuarios.test_profile_facts.RootProfileFactsTests.test_profile_does_not_invent_contact_identity_or_unimplemented_features",
+      "usuarios.test_profile_facts.RootProfileFactsTests.test_profile_uses_actual_scope_instead_of_a_fixed_six_delegations"
+    ]
+  },
+  {
+    "id": "EV-063",
+    "requisito": "PDF p. 2–3 y 8, A2/A3/C4: datos y acciones autorizadas",
+    "modulo": "Directorio de usuarios",
+    "tipo": "Funcional",
+    "precondiciones": "Raíz y funcionario común con datos de prueba. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos de prueba indicados. 2. Buscar, paginar y exportar usuarios; abrir/editar/desactivar raíz por URL directa; repetir edición de funcionario y ajustes personales. 3. Comparar respuesta y persistencia con el resultado esperado.",
+    "esperado": "Raíz no aparece ni es modificable desde el mantenedor; no se exponen sus credenciales; el funcionario sigue editable y los ajustes personales raíz funcionan.",
+    "pruebas": [
+      "usuarios.test_protected_root.ProtectedRootDirectoryTests.test_direct_edit_cannot_change_root_credentials_or_privileges",
+      "usuarios.test_protected_root.ProtectedRootDirectoryTests.test_direct_editor_cannot_expose_a_root_account",
+      "usuarios.test_protected_root.ProtectedRootDirectoryTests.test_excel_also_excludes_root_accounts_with_and_without_search",
+      "usuarios.test_protected_root.ProtectedRootDirectoryTests.test_regular_employee_editor_and_updates_still_work",
+      "usuarios.test_protected_root.ProtectedRootDirectoryTests.test_root_accounts_are_absent_from_directory_and_paginator",
+      "usuarios.test_protected_root.ProtectedRootDirectoryTests.test_root_toggle_is_rejected_and_personal_settings_remain_available",
+      "usuarios.test_protected_root.ProtectedRootDirectoryTests.test_search_never_returns_root_accounts"
+    ]
+  },
+  {
+    "id": "EV-064",
+    "requisito": "PDF p. 3 y 6, A3/C2: respuesta genérica, reenvío, límites y consumo",
+    "modulo": "Recuperación segura",
+    "tipo": "Funcional",
+    "precondiciones": "Cuentas activas con y sin correo; SMTP/caché en memoria y reloj controlado. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos indicados. 2. Intercalar dos lecturas del contador de intentos y reservar desde la copia antigua. 3. Comparar respuesta, sesión y registros con el resultado esperado.",
+    "esperado": "La reserva obsoleta se rechaza sin permitir intentos extra.",
+    "pruebas": [
+      "usuarios.test_recovery_security.RecoverySecurityTests.test_attempt_reservation_rejects_a_stale_counter_read"
+    ]
+  },
+  {
+    "id": "EV-065",
+    "requisito": "PDF p. 3 y 6, A3/C2: respuesta genérica, reenvío, límites y consumo",
+    "modulo": "Recuperación segura",
+    "tipo": "Funcional",
+    "precondiciones": "Cuentas activas con y sin correo; SMTP/caché en memoria y reloj controlado. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos indicados. 2. Solicitar recuperación con backend de correo de consola. 3. Comparar respuesta, sesión y registros con el resultado esperado.",
+    "esperado": "No se imprime ni habilita un código de recuperación.",
+    "pruebas": [
+      "usuarios.test_recovery_security.RecoverySecurityTests.test_console_backend_never_prints_recovery_code"
+    ]
+  },
+  {
+    "id": "EV-066",
+    "requisito": "PDF p. 3 y 6, A3/C2: respuesta genérica, reenvío, límites y consumo",
+    "modulo": "Recuperación segura",
+    "tipo": "Funcional",
+    "precondiciones": "Cuentas activas con y sin correo; SMTP/caché en memoria y reloj controlado. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos indicados. 2. Solicitar recuperación para cuenta existente, desconocida y sin correo. 3. Comparar respuesta, sesión y registros con el resultado esperado.",
+    "esperado": "La respuesta pública y siguiente paso son iguales y no revelan identidad/correo.",
+    "pruebas": [
+      "usuarios.test_recovery_security.RecoverySecurityTests.test_existing_unknown_and_missing_email_have_identical_public_response"
+    ]
+  },
+  {
+    "id": "EV-067",
+    "requisito": "PDF p. 3 y 6, A3/C2: respuesta genérica, reenvío, límites y consumo",
+    "modulo": "Recuperación segura",
+    "tipo": "Funcional",
+    "precondiciones": "Cuentas activas con y sin correo; SMTP/caché en memoria y reloj controlado. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos indicados. 2. Enviar cinco códigos erróneos alternando sesiones e IP. 3. Comparar respuesta, sesión y registros con el resultado esperado.",
+    "esperado": "El límite pertenece a la cuenta y anula el código sin permitir eludirlo con otra sesión/IP.",
+    "pruebas": [
+      "usuarios.test_recovery_security.RecoverySecurityTests.test_five_wrong_attempts_invalidate_code_across_sessions_and_ips"
+    ]
+  },
+  {
+    "id": "EV-068",
+    "requisito": "PDF p. 3 y 6, A3/C2: respuesta genérica, reenvío, límites y consumo",
+    "modulo": "Recuperación segura",
+    "tipo": "Funcional",
+    "precondiciones": "Cuentas activas con y sin correo; SMTP/caché en memoria y reloj controlado. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos indicados. 2. Solicitar códigos para diferentes cuentas desde una misma IP y nuevas sesiones. 3. Comparar respuesta, sesión y registros con el resultado esperado.",
+    "esperado": "El cupo por IP se comparte entre cuentas/sesiones.",
+    "pruebas": [
+      "usuarios.test_recovery_security.RecoverySecurityTests.test_ip_request_limit_covers_different_accounts_and_sessions"
+    ]
+  },
+  {
+    "id": "EV-069",
+    "requisito": "PDF p. 3 y 6, A3/C2: respuesta genérica, reenvío, límites y consumo",
+    "modulo": "Recuperación segura",
+    "tipo": "Funcional",
+    "precondiciones": "Cuentas activas con y sin correo; SMTP/caché en memoria y reloj controlado. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos indicados. 2. Esperar el período de reenvío y solicitar otro código. 3. Comparar respuesta, sesión y registros con el resultado esperado.",
+    "esperado": "Se entrega un código nuevo y el anterior deja de ser válido.",
+    "pruebas": [
+      "usuarios.test_recovery_security.RecoverySecurityTests.test_resend_after_cooldown_delivers_new_code"
+    ]
+  },
+  {
+    "id": "EV-070",
+    "requisito": "PDF p. 3 y 6, A3/C2: respuesta genérica, reenvío, límites y consumo",
+    "modulo": "Recuperación segura",
+    "tipo": "Funcional",
+    "precondiciones": "Cuentas activas con y sin correo; SMTP/caché en memoria y reloj controlado. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos indicados. 2. Pedir reenvío antes del plazo desde la sesión actual y otra nueva. 3. Comparar respuesta, sesión y registros con el resultado esperado.",
+    "esperado": "No se envía otro correo mientras sigue vigente la espera de la cuenta.",
+    "pruebas": [
+      "usuarios.test_recovery_security.RecoverySecurityTests.test_resend_and_new_session_cannot_bypass_account_cooldown"
+    ]
+  },
+  {
+    "id": "EV-071",
+    "requisito": "PDF p. 3 y 6, A3/C2: respuesta genérica, reenvío, límites y consumo",
+    "modulo": "Recuperación segura",
+    "tipo": "Funcional",
+    "precondiciones": "Cuentas activas con y sin correo; SMTP/caché en memoria y reloj controlado. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos indicados. 2. Simular fallo de SMTP durante la solicitud. 3. Comparar respuesta, sesión y registros con el resultado esperado.",
+    "esperado": "No se deja un código utilizable ni se informa una entrega inexistente.",
+    "pruebas": [
+      "usuarios.test_recovery_security.RecoverySecurityTests.test_smtp_failure_never_leaves_usable_code_or_claims_success"
+    ]
+  },
+  {
+    "id": "EV-072",
+    "requisito": "PDF p. 3 y 6, A3/C2: respuesta genérica, reenvío, límites y consumo",
+    "modulo": "Recuperación segura",
+    "tipo": "Funcional",
+    "precondiciones": "Cuentas activas con y sin correo; SMTP/caché en memoria y reloj controlado. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos indicados. 2. Verificar código válido, reutilizarlo e intentar usar el permiso después de cinco minutos. 3. Comparar respuesta, sesión y registros con el resultado esperado.",
+    "esperado": "El código se consume una vez y el permiso de cambio vence.",
+    "pruebas": [
+      "usuarios.test_recovery_security.RecoverySecurityTests.test_valid_code_is_consumed_once_and_grant_expires_in_five_minutes"
+    ]
+  },
+  {
+    "id": "EV-073",
+    "requisito": "PDF p. 1–3 y 8, A1/A3/C4: requeridos en cliente y servidor",
+    "modulo": "Datos obligatorios",
+    "tipo": "Funcional",
+    "precondiciones": "Raíz autorizada y formulario de usuario nuevo/existente. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos de prueba indicados. 2. Omitir cada campo obligatorio y enviar espacios por formulario y POST directo; crear una cuenta completa sin sede; editar registro antiguo sin RUT. 3. Comparar respuesta y persistencia con el resultado esperado.",
+    "esperado": "El servidor impide cuentas incompletas; una cuenta completa sin sede se puede crear pero no opera; editar históricos sin RUT no borra datos ni omite otros requeridos.",
+    "pruebas": [
+      "usuarios.test_required_fields.UserRequiredFieldsTests.test_complete_account_can_be_created_without_assigned_delegation",
+      "usuarios.test_required_fields.UserRequiredFieldsTests.test_create_rejects_each_missing_required_identity_field",
+      "usuarios.test_required_fields.UserRequiredFieldsTests.test_create_rejects_whitespace_only_names",
+      "usuarios.test_required_fields.UserRequiredFieldsTests.test_direct_post_cannot_create_incomplete_account",
+      "usuarios.test_required_fields.UserRequiredFieldsTests.test_edit_requires_personal_fields_but_allows_legacy_account_without_rut"
+    ]
+  },
+  {
+    "id": "EV-074",
+    "requisito": "PDF p. 2–3, A2/A3: ámbito, duplicados, paginación y exportación; bootstrap complementario",
+    "modulo": "Reglas municipales",
+    "tipo": "Funcional",
+    "precondiciones": "Gestor local, raíz, vecino, catálogos y RUT históricos sintéticos. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos de prueba indicados. 2. Manipular sede/color; intentar cambios por GET y roles como gestor; paginar con tamaños inválidos; exportar búsqueda y repetir inicialización. 3. Comparar respuesta y persistencia con el resultado esperado.",
+    "esperado": "No hay cambios por GET ni acceso cruzado; no se altera raíz; filtros del Excel coinciden, tamaños se limitan, RUT duplicados se rechazan e inicialización no sobrescribe claves.",
+    "pruebas": [
+      "usuarios.test_requirements.MunicipalBoundaryTests.test_bootstrap_idempotent_and_no_defaults",
+      "usuarios.test_requirements.MunicipalBoundaryTests.test_export_respects_same_search",
+      "usuarios.test_requirements.MunicipalBoundaryTests.test_form_rejects_territory_tampering_and_bad_color",
+      "usuarios.test_requirements.MunicipalBoundaryTests.test_get_cannot_mutate_and_cross_territory_denied",
+      "usuarios.test_requirements.MunicipalBoundaryTests.test_inactive_role_and_unassigned_user_cannot_register",
+      "usuarios.test_requirements.MunicipalBoundaryTests.test_manager_cannot_change_roles",
+      "usuarios.test_requirements.MunicipalBoundaryTests.test_paginate_sizes_are_bounded",
+      "usuarios.test_requirements.MunicipalBoundaryTests.test_rut_duplicate_legacy_format_rejected",
+      "usuarios.test_requirements.MunicipalBoundaryTests.test_superuser_cannot_delete_or_demote"
+    ]
+  },
+  {
+    "id": "EV-075",
+    "requisito": "PDF p. 2–3 y 10, A2/A3/C6: permisos y validación",
+    "modulo": "Roles y privilegios",
+    "tipo": "Funcional",
+    "precondiciones": "Personal normal, rol llamado superadministrador y cuenta raíz de prueba. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos de prueba indicados. 2. Intentar gestionar roles, elevarse por nombre de rol, desactivar raíz y validar RUT opcional/formato. 3. Comparar respuesta y persistencia con el resultado esperado.",
+    "esperado": "El nombre no otorga privilegios; personal no gestiona roles; raíz no se desactiva y RUT se valida cuando se proporciona.",
+    "pruebas": [
+      "usuarios.test_requirements.MunicipalSecurityTests.test_optional_rut_and_checksum",
+      "usuarios.test_requirements.MunicipalSecurityTests.test_regular_user_cannot_manage_roles",
+      "usuarios.test_requirements.MunicipalSecurityTests.test_role_name_does_not_grant_superadmin",
+      "usuarios.test_requirements.MunicipalSecurityTests.test_superuser_cannot_be_deactivated"
+    ]
+  },
+  {
+    "id": "EV-076",
+    "requisito": "PDF p. 3, A3: código invalidado y estado real; passkeys complementarias",
+    "modulo": "Concurrencia de cuenta",
+    "tipo": "Funcional",
+    "precondiciones": "Cuenta, rol, código y credencial con cambios simulados entre lectura y guardado. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos de prueba indicados. 2. Desactivar desde copia antigua; cambiar clave durante SMTP o registro de passkey; volver a guardar rol y usuario. 3. Comparar respuesta y persistencia con el resultado esperado.",
+    "esperado": "Desactivar no restaura claves/permisos viejos; una entrega tardía no restaura códigos y el registro no guarda una llave validada con una contraseña anterior.",
+    "pruebas": [
+      "usuarios.test_scan_auth.ConcurrentAuthScanTests.test_account_toggle_preserves_credentials_changed_after_row_was_read",
+      "usuarios.test_scan_auth.ConcurrentAuthScanTests.test_passkey_registration_locks_only_account_when_role_is_nullable",
+      "usuarios.test_scan_auth.ConcurrentAuthScanTests.test_pending_recovery_delivery_cannot_restore_code_after_password_change",
+      "usuarios.test_scan_auth.ConcurrentAuthScanTests.test_registration_does_not_persist_a_key_after_password_changed_during_verification",
+      "usuarios.test_scan_auth.ConcurrentAuthScanTests.test_role_toggle_does_not_restore_permissions_changed_after_row_was_read"
+    ]
+  },
+  {
+    "id": "EV-077",
+    "requisito": "PDF p. 1, 3, 5–6, A1/A3/C1–C2: solicitar, verificar y cambiar contraseña",
+    "modulo": "Recuperación completa",
+    "tipo": "Funcional",
+    "precondiciones": "Cuenta activa, código en base temporal y correo en memoria. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos indicados. 2. Solicitar correo, verificar código válido y guardar contraseña nueva. 3. Comparar respuesta, sesión y registros con el resultado esperado.",
+    "esperado": "La clave se guarda con hash, la anterior deja de validarse y se eliminan código y vencimiento.",
+    "pruebas": [
+      "usuarios.tests.RecuperacionPasswordTests.test_flujo_completo_con_hashing_seguro"
+    ]
+  },
+  {
+    "id": "EV-078",
+    "requisito": "PDF p. 1, 3, 5–6, A1/A3/C1–C2: solicitar, verificar y cambiar contraseña",
+    "modulo": "Recuperación completa",
+    "tipo": "Funcional",
+    "precondiciones": "Cuenta activa, código en base temporal y correo en memoria. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos indicados. 2. Persistir código y vencimiento y volver a leer la cuenta. 3. Comparar respuesta, sesión y registros con el resultado esperado.",
+    "esperado": "El modelo conserva los campos de código y expiración y sus alias.",
+    "pruebas": [
+      "usuarios.tests.RecuperacionPasswordTests.test_model_has_reset_code_and_expires_at_fields"
+    ]
+  },
+  {
+    "id": "EV-079",
+    "requisito": "PDF p. 1, 3, 5–6, A1/A3/C1–C2: solicitar, verificar y cambiar contraseña",
+    "modulo": "Recuperación completa",
+    "tipo": "Funcional",
+    "precondiciones": "Cuenta activa, código en base temporal y correo en memoria. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos indicados. 2. Solicitar recuperación para correo inexistente. 3. Comparar respuesta, sesión y registros con el resultado esperado.",
+    "esperado": "Se continúa a verificar código sin revelar la inexistencia ni enviar correo.",
+    "pruebas": [
+      "usuarios.tests.RecuperacionPasswordTests.test_solicitud_correo_no_existente_no_revela_cuentas"
+    ]
+  },
+  {
+    "id": "EV-080",
+    "requisito": "PDF p. 1, 3, 5–6, A1/A3/C1–C2: solicitar, verificar y cambiar contraseña",
+    "modulo": "Recuperación completa",
+    "tipo": "Funcional",
+    "precondiciones": "Cuenta activa, código en base temporal y correo en memoria. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos indicados. 2. Solicitar recuperación para correo activo y revisar outbox y vigencia. 3. Comparar respuesta, sesión y registros con el resultado esperado.",
+    "esperado": "Se genera y entrega un código de seis dígitos con quince minutos de vigencia.",
+    "pruebas": [
+      "usuarios.tests.RecuperacionPasswordTests.test_solicitud_correo_valido_genera_codigo_15_minutos_y_envia_email"
+    ]
+  },
+  {
+    "id": "EV-081",
+    "requisito": "PDF p. 1, 3, 5–6, A1/A3/C1–C2: solicitar, verificar y cambiar contraseña",
+    "modulo": "Recuperación completa",
+    "tipo": "Funcional",
+    "precondiciones": "Cuenta activa, código en base temporal y correo en memoria. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos indicados. 2. Enviar un código cuyo vencimiento ya pasó. 3. Comparar respuesta, sesión y registros con el resultado esperado.",
+    "esperado": "Se informa expiración y no se habilita cambiar contraseña.",
+    "pruebas": [
+      "usuarios.tests.RecuperacionPasswordTests.test_validar_codigo_expirado_muestra_error"
+    ]
+  },
+  {
+    "id": "EV-082",
+    "requisito": "PDF p. 1, 3, 5–6, A1/A3/C1–C2: solicitar, verificar y cambiar contraseña",
+    "modulo": "Recuperación completa",
+    "tipo": "Funcional",
+    "precondiciones": "Cuenta activa, código en base temporal y correo en memoria. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos indicados. 2. Enviar seis dígitos distintos del código vigente. 3. Comparar respuesta, sesión y registros con el resultado esperado.",
+    "esperado": "Se informa código incorrecto y no se habilita cambiar contraseña.",
+    "pruebas": [
+      "usuarios.tests.RecuperacionPasswordTests.test_validar_codigo_incorrecto_muestra_error"
+    ]
+  },
+  {
+    "id": "EV-083",
+    "requisito": "PDF p. 2–3, A2/A3: rechazo de otras delegaciones y coherencia tabla/Excel",
+    "modulo": "Vecinos e historial",
+    "tipo": "Funcional",
+    "precondiciones": "Vecinos locales, ajenos y sin territorio; lector, funcionario y raíz. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos de prueba indicados. 2. Consultar y buscar por nombre/RUT; alterar filtros, URL y POST; abrir, editar, desactivar y exportar; cambiar sede del usuario. 3. Comparar respuesta y persistencia con el resultado esperado.",
+    "esperado": "Todo acceso del funcionario queda en su sede activa, también Excel/historial; cambiar sede rige en la siguiente solicitud; raíz mantiene acceso global.",
+    "pruebas": [
+      "vecinos.test_territorial_scope.NeighborTerritorialScopeTests.test_cannot_register_attention_for_foreign_person_by_posting_directly",
+      "vecinos.test_territorial_scope.NeighborTerritorialScopeTests.test_changed_user_delegation_takes_effect_on_next_request",
+      "vecinos.test_territorial_scope.NeighborTerritorialScopeTests.test_direct_foreign_and_unassigned_detail_and_export_are_blocked",
+      "vecinos.test_territorial_scope.NeighborTerritorialScopeTests.test_directory_contains_only_assigned_delegation_and_count",
+      "vecinos.test_territorial_scope.NeighborTerritorialScopeTests.test_directory_export_excludes_other_and_unassigned_people",
+      "vecinos.test_territorial_scope.NeighborTerritorialScopeTests.test_foreign_person_cannot_be_edited_toggled_or_loaded_in_fragment",
+      "vecinos.test_territorial_scope.NeighborTerritorialScopeTests.test_inactive_delegation_has_no_person_access",
+      "vecinos.test_territorial_scope.NeighborTerritorialScopeTests.test_local_history_and_its_export_are_scoped",
+      "vecinos.test_territorial_scope.NeighborTerritorialScopeTests.test_pagination_and_export_use_same_scope_on_every_page",
+      "vecinos.test_territorial_scope.NeighborTerritorialScopeTests.test_read_only_role_has_same_territorial_read_scope",
+      "vecinos.test_territorial_scope.NeighborTerritorialScopeTests.test_root_keeps_global_directory_search_and_history",
+      "vecinos.test_territorial_scope.NeighborTerritorialScopeTests.test_search_export_excludes_other_delegations",
+      "vecinos.test_territorial_scope.NeighborTerritorialScopeTests.test_search_finds_local_person",
+      "vecinos.test_territorial_scope.NeighborTerritorialScopeTests.test_searches_cannot_override_scope_with_query_or_delegation",
+      "vecinos.test_territorial_scope.NeighborTerritorialScopeTests.test_unassigned_user_cannot_read_unassigned_or_foreign_people"
+    ]
+  },
+  {
+    "id": "EV-084",
+    "requisito": "Complementario; PDF p. 4, A4: persistencia y configuración documentada",
+    "modulo": "Configuración de base",
+    "tipo": "Complementario",
+    "precondiciones": "Configuraciones sintéticas de MySQL y SQLite, sin credenciales productivas. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos de prueba indicados. 2. Construir configuración para cada motor y revisar opciones. 3. Comparar respuesta y persistencia con el resultado esperado.",
+    "esperado": "MySQL usa utf8mb4, SQL estricto y read committed; SQLite local conserva sus opciones de transacción.",
+    "pruebas": [
+      "config.test_database_config.DatabaseConfigTests.test_mysql_uses_utf8_strict_mode_and_read_committed",
+      "config.test_database_config.DatabaseConfigTests.test_sqlite_local_fallback_keeps_existing_transaction_options"
+    ]
+  },
+  {
+    "id": "EV-085",
+    "requisito": "PDF p. 3, A3: error del servidor y SweetAlert2",
+    "modulo": "Errores de navegación",
+    "tipo": "Funcional",
+    "precondiciones": "Cliente aislado y manejadores de error de la aplicación. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos de prueba indicados. 2. Pedir ruta inexistente y renderizar error de servidor. 3. Comparar respuesta y persistencia con el resultado esperado.",
+    "esperado": "404 permite volver; 500 muestra feedback seguro compatible con SweetAlert sin detalles internos.",
+    "pruebas": [
+      "config.test_error_pages.ErrorPageTests.test_missing_route_has_a_recovery_link",
+      "config.test_error_pages.ErrorPageTests.test_server_error_has_safe_feedback_and_sweetalert"
+    ]
+  },
+  {
+    "id": "EV-086",
+    "requisito": "PDF p. 3, A3: feedback y validación del servidor",
+    "modulo": "Mensajes de validación",
+    "tipo": "Funcional",
+    "precondiciones": "Formulario inválido con etiquetas y texto no confiable; otros formularios válidos/sin enviar. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos de prueba indicados. 2. Construir feedback para cada formulario e intentar insertar un cierre de script en el error. 3. Comparar respuesta y persistencia con el resultado esperado.",
+    "esperado": "El error incluye etiqueta y destino de foco sin publicar valores enviados; formularios válidos no emiten error y el texto no rompe JSON/script.",
+    "pruebas": [
+      "config.test_form_feedback.FeedbackPayloadTests.test_errors_include_label_and_focus_without_submitted_values",
+      "config.test_form_feedback.FeedbackPayloadTests.test_unbound_and_valid_forms_do_not_emit_error",
+      "config.test_form_feedback.FeedbackPayloadTests.test_untrusted_error_text_cannot_close_json_script"
+    ]
+  },
+  {
+    "id": "EV-087",
+    "requisito": "Complementario; PDF p. 4, A4: instrucciones de inicio sin secretos",
+    "modulo": "Arranque local",
+    "tipo": "Complementario",
+    "precondiciones": "Lanzador Windows, rutas con espacios y funciones de proceso sustituidas en prueba. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos de prueba indicados. 2. Detectar servicio, construir arranque en segundo plano y abrir la URL configurada. 3. Comparar respuesta y persistencia con el resultado esperado.",
+    "esperado": "Detección, servidor y navegador usan localhost y el mismo puerto; la ventana queda oculta, se conservan rutas con espacios y no se publican credenciales.",
+    "pruebas": [
+      "config.test_launcher.LocalLauncherTests.test_background_launch_preserves_paths_with_spaces_and_hides_window",
+      "config.test_launcher.LocalLauncherTests.test_detection_launch_and_browser_share_canonical_localhost_port",
+      "config.test_launcher.LocalLauncherTests.test_launcher_does_not_publish_account_credentials"
+    ]
+  },
+  {
+    "id": "EV-088",
+    "requisito": "PDF p. 3, A3: duplicados y relaciones bajo concurrencia",
+    "modulo": "Concurrencia MySQL",
+    "tipo": "Funcional",
+    "precondiciones": "MySQL de prueba aislado, dos conexiones independientes y barrera de sincronización. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos de prueba indicados. 2. Validar e insertar simultáneamente el mismo nombre normalizado o correo; guardar un nombre equivalente según collation. 3. Comparar respuesta y persistencia con el resultado esperado.",
+    "esperado": "Se serializan las escrituras; sólo una inserción persiste; la segunda informa duplicado y la comprobación respeta la collation de MySQL.",
+    "pruebas": [
+      "config.test_mysql_concurrency.MySQLSaveConcurrencyTests.test_account_email_insert_is_serialized_between_connections",
+      "config.test_mysql_concurrency.MySQLSaveConcurrencyTests.test_late_catalog_check_obeys_mysql_unique_collation",
+      "config.test_mysql_concurrency.MySQLSaveConcurrencyTests.test_normalized_catalog_insert_is_serialized_between_connections"
+    ]
+  },
+  {
+    "id": "EV-089",
+    "requisito": "Complementario; WebAuthn y URL canónica de desarrollo",
+    "modulo": "Origen de acceso local",
+    "tipo": "Complementario",
+    "precondiciones": "Host/origen configurado, alias 127.0.0.1 y solicitudes sin sesión. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos de prueba indicados. 2. Abrir login/cuenta con alias, ruta y query; manipular host, puerto, esquema y next; repetir POST de origen erróneo y entorno productivo. 3. Comparar respuesta y persistencia con el resultado esperado.",
+    "esperado": "Sólo los alias locales autorizados redirigen al origen canónico antes de iniciar sesión; no hay redirección abierta y el POST ajeno se rechaza.",
+    "pruebas": [
+      "config.test_passkey_origin.LocalPasskeyOriginTests.test_account_path_query_and_head_use_the_same_canonical_origin",
+      "config.test_passkey_origin.LocalPasskeyOriginTests.test_canonical_login_does_not_redirect",
+      "config.test_passkey_origin.LocalPasskeyOriginTests.test_invalid_host_port_is_rejected_without_a_server_error",
+      "config.test_passkey_origin.LocalPasskeyOriginTests.test_local_alias_redirects_login_before_a_session_starts",
+      "config.test_passkey_origin.LocalPasskeyOriginTests.test_other_ports_schemes_and_host_lookalikes_are_not_redirected",
+      "config.test_passkey_origin.LocalPasskeyOriginTests.test_path_and_next_parameter_cannot_replace_the_redirect_host",
+      "config.test_passkey_origin.LocalPasskeyOriginTests.test_production_requests_are_not_canonicalized",
+      "config.test_passkey_origin.LocalPasskeyOriginTests.test_real_site_configuration_does_not_redirect_local_requests",
+      "config.test_passkey_origin.LocalPasskeyOriginTests.test_wrong_origin_post_is_still_rejected_without_redirect"
+    ]
+  },
+  {
+    "id": "EV-090",
+    "requisito": "PDF p. 2–3, A2/A3: cancelar y estados de carga; foco complementario",
+    "modulo": "Editor accesible",
+    "tipo": "Funcional",
+    "precondiciones": "DOM sintético con modal en carga y botón disparador presente/retirado. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos de prueba indicados. 2. Cerrar editor mientras carga y después de retirar el disparador. 3. Comparar respuesta y persistencia con el resultado esperado.",
+    "esperado": "Se cancela la carga, se habilita el botón y se devuelve foco sólo si el elemento continúa conectado.",
+    "pruebas": [
+      "config.test_scan_front.EditorCancellationFocusTests.test_closing_editor_does_not_focus_a_disconnected_trigger",
+      "config.test_scan_front.EditorCancellationFocusTests.test_closing_editor_during_load_restores_focus_to_enabled_trigger"
+    ]
+  },
+  {
+    "id": "EV-091",
+    "requisito": "PDF p. 2, A2: diseño adaptable y navegación",
+    "modulo": "Menú adaptable",
+    "tipo": "Funcional",
+    "precondiciones": "DOM sintético con menú móvil abierto y cambios de breakpoint. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos de prueba indicados. 2. Abrir menú móvil, ampliar a escritorio y volver a móvil. 3. Comparar respuesta y persistencia con el resultado esperado.",
+    "esperado": "No queda overlay activo ni bloqueo incoherente; el menú móvil vuelve cerrado con estado inert correcto.",
+    "pruebas": [
+      "config.test_scan_front.SidebarResizeTests.test_mobile_drawer_closes_consistently_when_crossing_desktop_breakpoint"
+    ]
+  },
+  {
+    "id": "EV-092",
+    "requisito": "PDF p. 2 y 4, A2/A4: colores y legibilidad",
+    "modulo": "Contraste del tema",
+    "tipo": "Funcional",
+    "precondiciones": "Temas rosa, blanco, negro, amarillo, celeste y verde, además de entrada CSS inválida. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos de prueba indicados. 2. Calcular tokens y relaciones de contraste; probar una cadena que intenta inyectar estilos. 3. Comparar respuesta y persistencia con el resultado esperado.",
+    "esperado": "Texto de botones y selección alcanza al menos 4.5:1; la cadena inválida vuelve al rojo municipal sin insertarse en estilos.",
+    "pruebas": [
+      "config.test_ui_theme.DelegationThemeTests.test_arbitrary_colors_have_legible_action_and_selected_text",
+      "config.test_ui_theme.DelegationThemeTests.test_untrusted_color_is_not_inserted_in_styles"
+    ]
+  },
+  {
+    "id": "EV-093",
+    "requisito": "PDF p. 2–3, A2/A3: Excel coherente sin información indebida",
+    "modulo": "Excel seguro",
+    "tipo": "Funcional",
+    "precondiciones": "Filas con números, filtros y texto que podría interpretarse como fórmula. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos de prueba indicados. 2. Exportar y abrir el libro; comparar filtros, valores y tipo de celda. 3. Comparar respuesta y persistencia con el resultado esperado.",
+    "esperado": "Los números se conservan numéricos, se mantienen filtros y el texto peligroso queda literal sin ejecutarse como fórmula.",
+    "pruebas": [
+      "dashboard.test_integration.ExportTests.test_excel_keeps_numeric_values_filters_and_literal_text"
+    ]
+  },
+  {
+    "id": "EV-094",
+    "requisito": "Complementario; seguridad de WebAuthn detrás de Nginx",
+    "modulo": "Límites y proxy",
+    "tipo": "Complementario",
+    "precondiciones": "Proxy loopback confiable y clientes/IP simulados. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos de prueba indicados. 2. Enviar cabeceras de IP válidas/falsificadas; repetir IPv6 equivalente, flag desactivado y peer inválido. 3. Comparar respuesta y persistencia con el resultado esperado.",
+    "esperado": "Sólo un proxy confiable proporciona IP efectiva; no se evaden límites con cabeceras falsas y las IPv6 equivalentes comparten contador.",
+    "pruebas": [
+      "usuarios.test_passkey_proxy.PasskeyProxyRateLimitTests.test_direct_client_cannot_evade_limit_with_forged_header",
+      "usuarios.test_passkey_proxy.PasskeyProxyRateLimitTests.test_disabled_proxy_flag_ignores_header_on_loopback",
+      "usuarios.test_passkey_proxy.PasskeyProxyRateLimitTests.test_equivalent_ipv6_headers_share_the_same_limit",
+      "usuarios.test_passkey_proxy.PasskeyProxyRateLimitTests.test_invalid_peer_address_does_not_authorize_header",
+      "usuarios.test_passkey_proxy.PasskeyProxyRateLimitTests.test_invalid_real_ip_headers_fall_back_to_peer_limit",
+      "usuarios.test_passkey_proxy.PasskeyProxyRateLimitTests.test_trusted_loopback_proxy_gives_each_valid_client_its_own_limit"
+    ]
+  },
+  {
+    "id": "EV-095",
+    "requisito": "PDF p. 3 y 5–6, A3/C1–C2: casos de acceso y nueva contraseña",
+    "modulo": "Acceso y cambio de clave",
+    "tipo": "Funcional",
+    "precondiciones": "Cuenta activa con sede/rol; clave conocida y correo/caché en memoria. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos indicados. 2. Enviar usuario y clave válidos; abrir el destino del ingreso. 3. Comparar respuesta, sesión y registros con el resultado esperado.",
+    "esperado": "Se crea la sesión y el dashboard muestra la sede autorizada.",
+    "pruebas": [
+      "usuarios.test_login_delivery.LoginDeliveryTests.test_valid_username_enters_authorized_dashboard"
+    ]
+  },
+  {
+    "id": "EV-096",
+    "requisito": "PDF p. 3 y 5–6, A3/C1–C2: casos de acceso y nueva contraseña",
+    "modulo": "Acceso y cambio de clave",
+    "tipo": "Funcional",
+    "precondiciones": "Cuenta activa con sede/rol; clave conocida y correo/caché en memoria. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos indicados. 2. Ingresar con correo en mayúsculas y RUT con y sin puntos. 3. Comparar respuesta, sesión y registros con el resultado esperado.",
+    "esperado": "Los identificadores válidos inician sesión en la misma cuenta.",
+    "pruebas": [
+      "usuarios.test_login_delivery.LoginDeliveryTests.test_email_and_formatted_rut_reach_same_account"
+    ]
+  },
+  {
+    "id": "EV-097",
+    "requisito": "PDF p. 3 y 5–6, A3/C1–C2: casos de acceso y nueva contraseña",
+    "modulo": "Acceso y cambio de clave",
+    "tipo": "Funcional",
+    "precondiciones": "Cuenta activa con sede/rol; clave conocida y correo/caché en memoria. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos indicados. 2. Enviar usuario existente con clave incorrecta. 3. Comparar respuesta, sesión y registros con el resultado esperado.",
+    "esperado": "La pantalla muestra el error y no se crea sesión autenticada.",
+    "pruebas": [
+      "usuarios.test_login_delivery.LoginDeliveryTests.test_wrong_password_never_creates_authenticated_session"
+    ]
+  },
+  {
+    "id": "EV-098",
+    "requisito": "PDF p. 3 y 5–6, A3/C1–C2: casos de acceso y nueva contraseña",
+    "modulo": "Acceso y cambio de clave",
+    "tipo": "Funcional",
+    "precondiciones": "Cuenta activa con sede/rol; clave conocida y correo/caché en memoria. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos indicados. 2. Enviar usuario inexistente y una contraseña. 3. Comparar respuesta, sesión y registros con el resultado esperado.",
+    "esperado": "No se crea una sesión autenticada.",
+    "pruebas": [
+      "usuarios.test_login_delivery.LoginDeliveryTests.test_unknown_account_never_creates_authenticated_session"
+    ]
+  },
+  {
+    "id": "EV-099",
+    "requisito": "PDF p. 3 y 5–6, A3/C1–C2: casos de acceso y nueva contraseña",
+    "modulo": "Acceso y cambio de clave",
+    "tipo": "Funcional",
+    "precondiciones": "Cuenta activa con sede/rol; clave conocida y correo/caché en memoria. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos indicados. 2. Enviar ambos campos vacíos y después omitir cada campo por separado. 3. Comparar respuesta, sesión y registros con el resultado esperado.",
+    "esperado": "Las tres solicitudes se rechazan sin autenticar.",
+    "pruebas": [
+      "usuarios.test_login_delivery.LoginDeliveryTests.test_empty_credentials_are_rejected"
+    ]
+  },
+  {
+    "id": "EV-100",
+    "requisito": "PDF p. 3 y 5–6, A3/C1–C2: casos de acceso y nueva contraseña",
+    "modulo": "Acceso y cambio de clave",
+    "tipo": "Funcional",
+    "precondiciones": "Cuenta activa con sede/rol; clave conocida y correo/caché en memoria. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos indicados. 2. Desactivar por separado activo e is_active e intentar ingresar con clave válida. 3. Comparar respuesta, sesión y registros con el resultado esperado.",
+    "esperado": "Ambas formas de inactivar la cuenta impiden crear sesión.",
+    "pruebas": [
+      "usuarios.test_login_delivery.LoginDeliveryTests.test_both_inactive_account_flags_deny_login"
+    ]
+  },
+  {
+    "id": "EV-101",
+    "requisito": "PDF p. 3 y 5–6, A3/C1–C2: casos de acceso y nueva contraseña",
+    "modulo": "Acceso y cambio de clave",
+    "tipo": "Funcional",
+    "precondiciones": "Cuenta activa con sede/rol; clave conocida y correo/caché en memoria. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos indicados. 2. Ingresar, cerrar sesión e intentar abrir el dashboard. 3. Comparar respuesta, sesión y registros con el resultado esperado.",
+    "esperado": "La sesión desaparece y el dashboard redirige a login.",
+    "pruebas": [
+      "usuarios.test_login_delivery.LoginDeliveryTests.test_logout_removes_session_and_protects_dashboard"
+    ]
+  },
+  {
+    "id": "EV-102",
+    "requisito": "PDF p. 3 y 5–6, A3/C1–C2: casos de acceso y nueva contraseña",
+    "modulo": "Acceso y cambio de clave",
+    "tipo": "Funcional",
+    "precondiciones": "Cuenta activa con sede/rol; clave conocida y correo/caché en memoria. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos indicados. 2. Enviar credenciales válidas sin token CSRF con controles reales habilitados. 3. Comparar respuesta, sesión y registros con el resultado esperado.",
+    "esperado": "La solicitud recibe 403 y no autentica.",
+    "pruebas": [
+      "usuarios.test_login_delivery.LoginDeliveryTests.test_login_post_requires_csrf"
+    ]
+  },
+  {
+    "id": "EV-103",
+    "requisito": "PDF p. 3 y 5–6, A3/C1–C2: casos de acceso y nueva contraseña",
+    "modulo": "Acceso y cambio de clave",
+    "tipo": "Funcional",
+    "precondiciones": "Cuenta activa con sede/rol; clave conocida y correo/caché en memoria. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos indicados. 2. Abrir y enviar cambio de clave sin verificar código. 3. Comparar respuesta, sesión y registros con el resultado esperado.",
+    "esperado": "No se habilita la pantalla y la contraseña anterior se conserva.",
+    "pruebas": [
+      "usuarios.test_login_delivery.LoginDeliveryTests.test_new_password_screen_requires_verified_code"
+    ]
+  },
+  {
+    "id": "EV-104",
+    "requisito": "PDF p. 3 y 5–6, A3/C1–C2: casos de acceso y nueva contraseña",
+    "modulo": "Acceso y cambio de clave",
+    "tipo": "Funcional",
+    "precondiciones": "Cuenta activa con sede/rol; clave conocida y correo/caché en memoria. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos indicados. 2. Verificar código y enviar clave débil o confirmación distinta. 3. Comparar respuesta, sesión y registros con el resultado esperado.",
+    "esperado": "El servidor rechaza ambas solicitudes y mantiene la contraseña anterior.",
+    "pruebas": [
+      "usuarios.test_login_delivery.LoginDeliveryTests.test_recovery_rejects_weak_or_mismatched_password"
+    ]
+  },
+  {
+    "id": "EV-105",
+    "requisito": "PDF p. 3 y 5–6, A3/C1–C2: casos de acceso y nueva contraseña",
+    "modulo": "Acceso y cambio de clave",
+    "tipo": "Funcional",
+    "precondiciones": "Cuenta activa con sede/rol; clave conocida y correo/caché en memoria. Ejecución automatizada aislada; sin modificaciones de la base productiva.",
+    "pasos": "1. Preparar los datos indicados. 2. Recuperar cuenta, guardar nueva clave, intentar ingresar con la anterior y luego con la nueva. 3. Comparar respuesta, sesión y registros con el resultado esperado.",
+    "esperado": "El login rechaza la antigua, acepta la nueva e invalida el código utilizado.",
+    "pruebas": [
+      "usuarios.test_login_delivery.LoginDeliveryTests.test_recovery_new_password_logs_in_and_old_password_fails"
+    ]
+  }
+]

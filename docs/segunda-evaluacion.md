@@ -13,8 +13,8 @@ Fuente: `Requisitos_Segunda_Evaluacion_SGR.pdf`, 10 páginas, SHA-256 `b6820b731
 | 2–4, 10 | Ingreso de atención | Solicitante, tipo/subtipo activos relacionados, responsable/fecha/sede del servidor, ID de confirmación y UUID contra doble envío. Cancelar no guarda. |
 | 3–4, 6 | SweetAlert2 | Validación cliente, errores devueltos por formularios del servidor y fallos de carga del editor; mensajes de éxito sólo tras guardar, confirmación/cancelación de desactivación y página de error 500 sin detalles internos. |
 | 1, 4, 10 | Estado y perfiles | «Funciones por perfil» muestra capacidades efectivas y rutas reales. Terreno, cierre, comparación dual y proyección están navegables como simulaciones sin persistencia, según permisos. Ver demostracion-perfiles.md. |
-| 2, 4 | Identidad y adaptación | SVG oficial conservado sin teñir/deformar; blanco/rojo sin personalización, color delegado heredado por su equipo, tipografía del sistema aprobada. Ver contraste y capturas de cierre. |
-| 3–4 | Evidencia y carga | Matriz funcional CSV/JSON, capturas, comprobación HTTP de AWS, carga progresiva, recuperación y CPU/RAM. Los resultados identifican versión y escenario. |
+| 2, 4 | Identidad y adaptación | SVG contrastado con el archivo del servidor municipal, sin teñir/deformar; blanco/rojo sin personalización, color delegado heredado, tipografía del sistema. Ver identidad-grafica.md y mediciones sin capturas. |
+| 3–4 | Evidencia y carga | Casos funcionales con requisito/página, pasos, expectativas y vínculo a ejecuciones técnicas. HTTPS, carga progresiva, recuperación y CPU/RAM identifican versión y escenario. Las capturas antiguas son evidencia histórica, no se tomaron nuevas. |
 | 4 | Entrega | README, migraciones, `.env.example` sin secretos, Git privado, URL HTTPS, versión pública y ZIP de fuente en escritorio. Acceso del profesor pendiente por falta de su usuario, según instrucción expresa del titular. |
 
 ## Reglas de negocio conservadas
@@ -35,13 +35,17 @@ Las interfaces de foto antes/después, comparación dual y planificador se ident
 
 ## Identidad gráfica y límites de validación
 
-Referencia: https://laserena.cl/documentos/docs/REGLAMENTO_normas_graficas_2019.pdf . Se comprueban conservación/proporción del logo y primer plano calculado para nueve temas, incluidos colores extremos. El manual menciona Arial para documentos internos; no se interpreta como orden de reemplazar automáticamente la tipografía web del sistema ya aprobada por el usuario.
+Referencia: https://laserena.cl/documentos/docs/REGLAMENTO_normas_graficas_2019.pdf . La comprobación técnica se documenta en [identidad-grafica.md](identidad-grafica.md): archivo municipal, conservación del dibujo y rojo institucional, proporciones en navegador, contraste y adaptación. El manual menciona Arial para documentos internos; no se interpreta como orden de reemplazar automáticamente la tipografía web del sistema ya aprobada por el usuario.
 
 Las comprobaciones de navegador a 390/1440 px no constituyen certificación WCAG ni aprobación institucional. Axe distingue infracciones de comprobaciones incompletas. Se conservan estas últimas en el JSON para no dar por aprobados contrastes sobre fotografías o transparencias que requieren inspección humana. El PDF pide aplicar las normas; no se inventa una firma de aprobación municipal como requisito adicional.
 
 ## Pruebas y versión
 
-Resultados individuales: `evidencias/pruebas-funcionales.json` y `evidencias/matriz-funcional.csv`. Cierre actual: `evidencias/cierre-pdf/`; pruebas históricas anteriores: auditoria-logica.md y ambito-vecinos.md. La última matriz es la referencia para el número de casos, sin sumar suites repetidas como pruebas distintas.
+Plan de casos: `evidencias/casos-evaluacion.json`. Resultados: `evidencias/pruebas-funcionales.json` y `evidencias/matriz-funcional.csv`. Cada caso contiene requisito/página, módulo, precondiciones, pasos, esperado, obtenido, estado, fuente y línea de sus tests, responsable y fecha. Las ejecuciones de cada motor se conservan en `evidencias/entrega-final/`. Los tests técnicos no se confunden con casos de evaluación ni se cuentan dos veces por repetirse entre motores.
+
+Cierre vigente: 105 casos aprobados (93 funcionales y 12 complementarios), respaldados por 361 tests distintos. SQLite: 358 aprobados y 3 omitidos; MySQL: 326 aprobados y 35 omitidos; ningún fallo en las ejecuciones finales. Cada test tiene una aprobación en un entorno aplicable. La herramienta de trazabilidad tiene otras 8 pruebas independientes. El navegador comprueba 20 combinaciones de vista/tamaño sin capturas; conserva las comprobaciones incompletas de axe. Véase `evidencias/entrega-final/resumen.json`.
+
+Las comprobaciones HTTPS/carga de la aplicación en MySQL permanecen en `evidencias/escaneo-codigo/`, con su commit de aplicación. `evidencias/cierre-pdf/`, auditoria-logica.md y ambito-vecinos.md son antecedentes históricos, no el resultado vigente.
 
 La carga de lectura de producción usa niveles 1, 3, 5 y 10, diez segundos por nivel y veinte solicitudes de recuperación. Límite seguro fijado antes de ejecutar: diez concurrentes. Aceptación: p95 ≤ 1500 ms y errores < 1 %; detener si p95 > 2000 ms o errores > 5 %. No certifica la capacidad máxima de EC2.
 
@@ -49,6 +53,10 @@ Las escrituras se evalúan mediante HTTP en loopback, Gunicorn y una base sinté
 
 El acceso del docente al repositorio permanece pendiente: el usuario no conoce su cuenta y pidió conservarlo privado por ahora. Las credenciales personales de evaluación se entregan por canal privado; no se publican en README, ZIP ni evidencias. No se modifica esa decisión para afirmar cumplimiento absoluto.
 
-## Actualización posterior: escaneo y MySQL
+## Cierre de trazabilidad
 
-La entrega se amplió a 350 casos comprobados en el entorno aplicable y se migró AWS a MySQL 8.4.11, conservando todos los datos y verificando una restauración del respaldo. Véanse `escaneo-y-limpieza.md`, `mysql-ec2.md` y `evidencias/escaneo-codigo/`. Las mediciones SQLite anteriores permanecen como evidencia histórica de sus commits, sin atribuirlas a MySQL.
+La versión anterior tenía 350 tests, pero asignaba a todos la referencia genérica «PDF A1-A4 / C1-C6» y el identificador del test como pasos. Se reemplazó esa presentación por casos revisados en español y se añadieron once tests explícitos de acceso y recuperación. La herramienta de evidencia comprueba que no queden tests sin relacionar y que ninguna omisión se marque como aprobada. Sus propias pruebas se ejecutan por separado; no inflan el conteo funcional de la aplicación.
+
+Durante la regeneración se corrigió además el recolector de evidencias: al encontrar un test decorado, tomaba la línea del envoltorio de Django/unittest y abortaba. Ahora localiza el test original; hay una regresión que comprueba la línea exacta y se repitieron completas ambas suites después de corregirlo. Las ejecuciones abortadas no se usan para aprobar casos.
+
+MySQL 8.4.11 conserva los datos migrados y se verificó restaurando un respaldo. Véanse `mysql-ec2.md` y `evidencias/escaneo-codigo/`. No cambió la lógica productiva durante este cierre: se completaron tests, trazabilidad y documentación. El único pendiente externo de la entrega es acordar el acceso de evaluación con el docente; las limitaciones de validación visual y de simulaciones quedan declaradas, sin presentarlas como una certificación institucional ni como backend terminado.
