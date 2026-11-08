@@ -25,12 +25,16 @@ def normalizar_rut(value):
     return f'{int(body)}-{dv}'
 
 def validar_rut(value):
-    normalizar_rut(value)
+    normalized = normalizar_rut(value)
+    if normalized and not re.fullmatch(r'[1-9][0-9]{7}-[0-9K]', normalized):
+        raise ValidationError('El RUT debe tener exactamente 8 cifras y un dígito verificador (número o K).')
 
 
 class RutField(forms.CharField):
     def to_python(self, value):
-        return normalizar_rut(super().to_python(value))
+        normalized = normalizar_rut(super().to_python(value))
+        validar_rut(normalized)
+        return normalized
 
 class RutFormMixin:
     def clean_rut(self):
@@ -45,3 +49,16 @@ class RutFormMixin:
                 if match:
                     raise ValidationError('Ya existe un registro con este RUT.')
         return value
+
+
+def formatear_rut(value):
+    value = str(value or '').strip().upper()
+    if not re.fullmatch(r'(?:[0-9]{7,8}|[0-9]{1,2}\.[0-9]{3}\.[0-9]{3})-?[0-9K]', value):
+        return value
+    compact = value.replace('.', '').replace('-', '')
+    body, dv = compact[:-1], compact[-1]
+    groups = []
+    while body:
+        groups.insert(0, body[-3:])
+        body = body[:-3]
+    return '.'.join(groups) + '-' + dv

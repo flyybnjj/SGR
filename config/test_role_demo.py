@@ -135,9 +135,11 @@ class RoleDemoTests(TestCase):
         self.client.force_login(self.root)
         self.assertEqual(self.client.get('/demostracion/inventado/').status_code, 404)
 
-    def test_only_demo_link_is_marked_active_on_demonstration_index(self):
+    def test_removed_demo_link_does_not_activate_another_sidebar_item(self):
         self.client.force_login(self.root)
         page = self.client.get('/demostracion/').content.decode()
         import re
         active = re.findall(r'class="nav-link-stitch\s+active"[^>]*href="([^"]+)"', page)
-        self.assertEqual(active, ['/demostracion/'])
+        self.assertEqual(active, [])
+        sidebar = page.split('<aside', 1)[1].split('</aside>', 1)[0]
+        self.assertNotIn('href="/demostracion/"', sidebar)

@@ -65,7 +65,8 @@ class InheritedThemeTests(TestCase):
                     with self.subTest(user=user.username, route=route, color=color):
                         response = self.client.get(reverse(route))
                         self.assertContains(response, "data-delegation-custom")
-                        self.assertContains(response, f"--muni-red-primary:{color.lower()}")
+                        self.assertContains(response, f"--delegation-color: {color}")
+                        self.assertContains(response, "--muni-red-primary:#b80003")
 
     def test_login_keeps_municipal_identity_and_five_photo_carousel(self):
         delegation = DelegacionMunicipal.objects.create(
@@ -92,7 +93,8 @@ class InheritedThemeTests(TestCase):
             response = self.client.get(reverse("dashboard:inicio"))
             self.assertEqual(response.status_code, 200)
             self.assertContains(response, "data-delegation-theme")
-            self.assertContains(response, "--muni-red-primary:#ffc0cb")
+            self.assertContains(response, "--delegation-color: #ffc0cb")
+            self.assertContains(response, "--muni-red-primary:#b80003")
             styles.append(response.context["delegation_theme_style"])
         self.assertEqual(styles[0], styles[1])
         delegation.refresh_from_db()

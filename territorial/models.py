@@ -51,3 +51,20 @@ class ItemMeta(models.Model):
 
     def __str__(self):
         return self.nombre
+
+
+class Ausencia(models.Model):
+    TIPOS = [(v, v) for v in ('Vacaciones', 'Permiso administrativo', 'Licencia', 'Otro permiso')]
+    usuario = models.ForeignKey('usuarios.Usuario', on_delete=models.PROTECT, related_name='ausencias')
+    inicio = models.DateField()
+    fin = models.DateField()
+    tipo = models.CharField(max_length=30, choices=TIPOS)
+    anulada = models.BooleanField(default=False, editable=False)
+    registrada_por = models.ForeignKey('usuarios.Usuario', on_delete=models.PROTECT, related_name='+', null=True, editable=False)
+    anulada_por = models.ForeignKey('usuarios.Usuario', on_delete=models.PROTECT, related_name='+', null=True, editable=False)
+    fecha_anulacion = models.DateTimeField(null=True, editable=False)
+    fecha_creacion = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-inicio', '-pk']
+        constraints = [models.CheckConstraint(condition=models.Q(fin__gte=models.F('inicio')), name='ausencia_periodo_valido')]

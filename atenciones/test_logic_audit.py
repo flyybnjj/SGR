@@ -1,3 +1,4 @@
+from .test_photo_workflow import photo
 
 import io
 import tempfile
@@ -145,7 +146,7 @@ class WorkflowLogicAuditTests(TestCase):
 
         post_save.connect(interleave, sender=ResolucionAccion)
         try:
-            response = self.client.post(url, {'estado': 'Aprobada', 'motivo': 'Primera revisión'})
+            response = self.client.post(url, {'estado': 'Aprobada', 'motivo': 'Primera revisión', 'evidencia_final': photo()})
         finally:
             post_save.disconnect(interleave, sender=ResolucionAccion)
         self.assertEqual(response.status_code, 302)

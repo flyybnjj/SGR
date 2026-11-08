@@ -2,22 +2,26 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Count, Q, F
 from django.shortcuts import render
 from django.utils import timezone
-from atenciones.models import Atencion, Accion, MetaPeriodo
+from atenciones.models import Atencion, Accion, MetaPeriodo, filtro_acciones_periodo
 from config.access import can_manage, operational
 from config.access import superuser_required
 from django import forms
 from usuarios.models import Usuario
 from territorial.models import DelegacionMunicipal
+from atenciones.periods import TrimestreForm, rango_trimestre
+from atenciones.goals import cumplimiento_ponderado
 
 
-class GeneralScopeForm(forms.Form):
+class GeneralScopeForm(TrimestreForm):
     comuna = forms.ChoiceField(label='Comuna', required=False)
     delegacion = forms.ModelChoiceField(label='Delegación', queryset=DelegacionMunicipal.objects.all(), required=False, empty_label='Todas las delegaciones')
     responsable = forms.ModelChoiceField(label='Responsable', queryset=Usuario.objects.none(), required=False, empty_label='Todos los responsables')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['comuna'].choices = [('', 'Todas las comunas')] + [(name, name) for name in DelegacionMunicipal.objects.order_by('comuna').values_list('comuna', flat=True).distinct()]
+        self.fields['comuna'].choices = [('La Serena', 'La Serena')]
+        self.fields['comuna'].initial = 'La Serena'
+        self.fields['comuna'].disabled = True
         self.fields['responsable'].queryset = Usuario.objects.filter(delegaciones_a_cargo__isnull=False).distinct()
         for field in self.fields.values():
             field.widget.attrs['class'] = 'form-select'
@@ -35,14 +39,23 @@ def operational_scope(queryset, user):
 
 
 @login_required
-def inicio_view(request):
+def inicio_view(request, personal=False):
     today = timezone.localdate()
     attentions = operational_scope(Atencion.objects.all(), request.user)
     actions = operational_scope(Accion.objects.all(), request.user)
     metas = operational_scope(MetaPeriodo.objects.select_related('item_meta', 'delegacion'), request.user)
     scope_form = None
     scope_delegation = None
-    if request.user.is_superuser:
+    period_form = TrimestreForm(request.GET)
+    valid_period = period_form.is_valid()
+    start, end = rango_trimestre(period_form.cleaned_data.get('trimestre') if valid_period else None)
+    attentions = attentions.filter(fecha_creacion__date__range=(start, end))
+    actions = actions.filter(Q(fecha_actividad__range=(start, end)) | Q(fecha_actividad__isnull=True, fecha_creacion__date__range=(start, end)) | Q(estado='Pendiente', fecha_creacion__date__lte=end))
+    if personal:
+        attentions = attentions.filter(funcionario=request.user)
+        actions = actions.filter(Q(responsable=request.user) | Q(responsable__isnull=True, creador=request.user))
+        metas = metas.filter(funcionario=request.user)
+    if request.user.is_superuser and not personal:
         scope_form = GeneralScopeForm(request.GET)
         if scope_form.is_valid():
             data = scope_form.cleaned_data
@@ -57,31 +70,44 @@ def inicio_view(request):
             attentions, actions, metas = (queryset.filter(**filters) for queryset in (attentions, actions, metas))
         else:
             attentions, actions, metas = attentions.none(), actions.none(), metas.none()
-    metas = metas.filter(inicio__lte=today, fin__gte=today).annotate(
-        aprobadas=Count('acciones', filter=Q(acciones__estado='Aprobada', acciones__fecha_creacion__date__gte=F('inicio'), acciones__fecha_creacion__date__lte=F('fin'))))
-    current_metas = list(metas)
-    objective = sum(meta.objetivo for meta in current_metas)
-    accomplished = sum(meta.aprobadas for meta in current_metas)
+    if not valid_period:
+        attentions, actions, metas = attentions.none(), actions.none(), metas.none()
+    metas = metas.filter(inicio__lte=end, fin__gte=start).select_related('funcionario').prefetch_related('funcionario__ausencias').annotate(
+        aprobadas=Count('acciones', filter=filtro_acciones_periodo(F('inicio'), F('fin'), 'acciones__')))
+    from atenciones.goals import con_ajustes
+    current_metas = list(con_ajustes(metas))
     for meta in current_metas:
-        meta.avance = round(100 * meta.aprobadas / meta.objetivo) if meta.objetivo else 0
+        meta.ejecutado_calculado = meta.aprobadas
+        meta.avance = meta.porcentaje
+        meta.barra_avance = min(100, meta.avance)
     context = {
         'today': today,
+        'personal': personal,
+        'period_form': period_form,
+        'period_start': start,
+        'period_end': end,
+        'period_code': f'{start.year}-T{(start.month - 1) // 3 + 1}',
         'scope_form': scope_form,
         'scope_delegation': scope_delegation,
         'total_atenciones': attentions.count(),
         'personas_atendidas': attentions.values('vecino_id').distinct().count(),
         'acciones_pendientes': actions.filter(estado='Pendiente').count(),
         'pendientes_recientes': list(actions.filter(estado='Pendiente').select_related('creador', 'delegacion')[:3]),
-        'cumplimiento': round(100 * accomplished / objective) if objective else None,
+        'cumplimiento': cumplimiento_ponderado(current_metas),
         'metas_actuales': current_metas[:5],
         'atenciones_hoy': attentions.filter(fecha_creacion__date=today).count(),
     }
+    from .breakdown import resumen
+    context.update(resumen(request.user, actions, attentions, current_metas, personal, start, end, scope_delegation))
     return render(request, 'dashboard.html', context)
 
 
 @login_required
 def reportes_view(request):
     reports = [
+        ('Organizaciones', 'Registro territorial y revisión de datos comunitarios.', 'organizaciones:listado'),
+        ('Cartas', 'Ingreso, derivación, respuesta e historial.', 'cartas:listado'),
+        ('Mi resumen', 'Asignaciones y metas individuales del trimestre.', 'dashboard:personal'),
         ('Vecinos', 'Datos de contacto y territorio del padrón municipal.', 'vecinos:vecinos_excel'),
         ('Acciones', 'Estados y seguimiento; exporta desde la grilla para conservar tus filtros.', 'atenciones:action_list'),
         ('Cumplimiento de metas', 'Objetivos por período y acciones aprobadas.', 'atenciones:meta_list'),
@@ -89,6 +115,7 @@ def reportes_view(request):
     ]
     if can_manage(request.user):
         reports += [
+            ('Ausencias del equipo', 'Intervalos y ajustes de metas individuales.', 'territorial:ausencias'),
             ('Delegaciones', 'Sedes y responsables.', 'territorial:delegaciones_excel'),
             ('Catálogo de metas', 'Ítems de gestión municipal.', 'territorial:metas_excel'),
             ('Tipos de atención', 'Catálogo de servicios.', 'atenciones:tipo_atencion_excel'),

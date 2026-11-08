@@ -259,3 +259,16 @@ body.municipal-auth.auth-login { padding: 24px 16px; }
 @media (pointer: coarse) {
   .municipal-auth.auth-login .login-password-label .auth-link { min-height: 44px; }
 }
+
+.municipal-auth.auth-login .auth-login-layout { width: min(100%, 960px); display: grid; justify-items: center; gap: 24px; }
+.municipal-auth.auth-login .auth-system-name { width: 100%; margin: 0; color: var(--muni-red, #b80003); font-size: clamp(20px, 2.2vw, 26px); font-weight: 600; line-height: 1.3; letter-spacing: -.02em; text-align: center; text-wrap: balance; }
+.municipal-auth .auth-carousel-toggle { position: absolute; right: 12px; bottom: 16px; z-index: 4; display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; padding: 0; border: 1px solid rgb(255 255 255 / .5); border-radius: 50%; background: rgb(255 255 255 / .94); color: #17212f; font-size: 22px; }
+.municipal-auth .auth-carousel-toggle[hidden] { display: none; }
+.municipal-auth .auth-carousel-toggle:hover { background: #fff; }
+.municipal-auth .auth-carousel-toggle:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+.municipal-auth #laSerenaAuthCarousel .auth-photo-faro { object-position: 50% 43%; }
+.municipal-auth #laSerenaAuthCarousel .auth-photo-plaza { object-position: 50% 55%; }
+.municipal-auth #laSerenaAuthCarousel .auth-photo-recova { object-position: 50% 50%; }
+.municipal-auth #laSerenaAuthCarousel .auth-photo-catedral { object-position: 48% 38%; }
+.municipal-auth #laSerenaAuthCarousel .auth-photo-atardecer { object-position: 56% 50%; }
+@media (max-width: 575.98px) { .municipal-auth.auth-login .auth-login-layout { gap: 20px; } }

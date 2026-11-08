@@ -58,7 +58,8 @@ class WorkDelegationColorTests(TestCase):
             for path in ('/', '/atenciones/', '/acciones/', '/metas/', '/mi-perfil/ajustes/', '/mi-perfil/passkeys/', '/ficha-usuario/'):
                 with self.subTest(user=user.username, path=path):
                     response = self.client.get(path)
-                    self.assertContains(response, '--muni-red-primary:#1a33ea')
+                    self.assertContains(response, '--delegation-color: #1A33EA')
+                    self.assertContains(response, '--muni-red-primary:#b80003')
                     self.assertContains(response, 'data-delegation-custom')
 
     def test_catalog_rejects_responsible_working_in_another_delegation(self):

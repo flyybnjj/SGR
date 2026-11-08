@@ -9,8 +9,8 @@ class DashboardNavigationTests(TestCase):
     def setUp(self):
         self.root = Usuario.objects.create_superuser(username='root', password='Root$Muni2026')
         self.staff = Usuario.objects.create_user(username='staff', password='Staff$Muni2026', rol=Rol.objects.create(nombre='Funcionario'))
-        self.a = DelegacionMunicipal.objects.create(nombre='Sede A', comuna='Comuna A', delegado=self.staff, color_configurado=True)
-        self.b = DelegacionMunicipal.objects.create(nombre='Sede B', comuna='Comuna B', color_configurado=True)
+        self.a = DelegacionMunicipal.objects.create(nombre='Sede A', comuna='La Serena', delegado=self.staff, color_configurado=True)
+        self.b = DelegacionMunicipal.objects.create(nombre='Sede B', comuna='La Serena', color_configurado=True)
         self.staff.delegacion = self.a
         self.staff.save()
         for sede in [self.a, self.b]:
@@ -30,7 +30,8 @@ class DashboardNavigationTests(TestCase):
     def test_general_filters_by_territory_or_responsible(self):
         self.client.force_login(self.root)
         self.assertEqual(self.client.get('/').context['acciones_pendientes'], 2)
-        for params in [{'comuna': 'Comuna A'}, {'delegacion': self.a.pk}, {'responsable': self.staff.pk}]:
+        self.assertEqual(self.client.get('/', {'comuna': 'Otra comuna'}).context['acciones_pendientes'], 2)
+        for params in [{'delegacion': self.a.pk}, {'responsable': self.staff.pk}]:
             self.assertEqual(self.client.get('/', params).context['acciones_pendientes'], 1)
         response = self.client.get('/', {'delegacion': 'invalida'})
         self.assertTrue(response.context['scope_form'].errors)

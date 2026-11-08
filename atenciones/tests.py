@@ -1,3 +1,4 @@
+from .test_photo_workflow import photo
 from django.test import TestCase, override_settings
 from django.contrib.auth import get_user_model
 from .models import TipoAtencion
@@ -70,7 +71,7 @@ class WorkflowTests(TestCase):
         self.client.force_login(self.reviewer)
         url = reverse('atenciones:action_resolve', args=[action.pk])
         self.assertEqual(self.client.get(url).status_code, 405)
-        self.assertEqual(self.client.post(url, {'estado':'Aprobada','motivo':'Evidencia verificada'}).status_code, 302)
+        self.assertEqual(self.client.post(url, {'estado':'Aprobada','motivo':'Evidencia verificada','evidencia_final':photo()}).status_code, 302)
         self.assertEqual(self.client.post(url, {'estado':'Rechazada','motivo':'Otra vez'}).status_code, 409)
         self.assertEqual(meta.ejecutado, 1)
         log = ResolucionAccion.objects.get()

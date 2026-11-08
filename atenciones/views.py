@@ -1,5 +1,7 @@
 import uuid
 import hashlib
+from .daily_limit import guardar_accion_con_limite
+from .models import filtro_acciones_periodo, AvanceAccion
 from django.db import IntegrityError
 from django.utils import timezone
 from django.shortcuts import render, redirect, get_object_or_404
@@ -8,7 +10,7 @@ from django.contrib import messages
 from config.pagination import paginate
 from config.access import admin_required
 from django.views.decorators.http import require_POST
-from django.db.models import Count, F, Q
+from django.db.models import Count, F, Q, Exists, OuterRef, Prefetch
 from config.excel_utils import export_queryset_to_excel
 from .models import TipoAtencion, SubAtencion
 from .forms import TipoAtencionForm, SubAtencionForm
@@ -175,10 +177,8 @@ def search_people(request):
     query = request.GET.get('q', '').strip()
     people = visible_neighbors(Vecino.objects.all(), request.user)
     if query:
-        from django.db.models import Value
-        from django.db.models.functions import Replace, Upper
-        normalized = query.replace('.', '').replace('-', '').replace(' ', '').upper()
-        people = people.annotate(rut_search=Upper(Replace(Replace('rut', Value('.'), Value('')), Value('-'), Value('')))).filter(Q(nombre__icontains=query) | Q(rut_search__icontains=normalized))
+        from config.rut_search import filter_neighbor_search
+        people = filter_neighbor_search(people, query)
     else:
         people = people.none()
     return query, people
@@ -187,8 +187,22 @@ def search_people(request):
 def attention_search(request):
     ensure_active(request.user)
     query, people = search_people(request)
+    if request.GET.get('format') == 'json':
+        from django.http import JsonResponse
+        from django.urls import reverse
+        if len(query) > 120:
+            return JsonResponse({'error': 'La búsqueda es demasiado larga.'}, status=400)
+        results = [] if not query else [
+            {'id': person.pk, 'nombre': person.nombre, 'rut': person.rut_formateado,
+             'activo': person.activo, 'url': reverse('atenciones:attention_detail', args=[person.pk])}
+            for person in people.order_by('nombre', 'pk')[:8]
+        ]
+        response = JsonResponse({'results': results})
+        response['Cache-Control'] = 'private, no-store'
+        response['Vary'] = 'Cookie'
+        return response
     if request.GET.get('export') == 'excel':
-        return export_queryset_to_excel('Personas', 'Personas', ['Nombre', 'RUT', 'Dirección', 'Teléfono'], [[p.nombre, p.rut, p.direccion, p.telefono] for p in people])
+        return export_queryset_to_excel('Personas', 'Personas', ['Nombre', 'RUT', 'Dirección', 'Teléfono'], [[p.nombre, p.rut_formateado, p.direccion, p.telefono] for p in people])
     return render(request, 'atenciones/search.html', {'search': query, 'page_obj': paginate(request, people), 'can_register': can_register(request.user)})
 
 def historical_reference(record):
@@ -239,6 +253,14 @@ def lock_attention_catalog(form):
             return False
     form.instance.tipo_atencion = kind
     form.instance.sub_atencion = subtype
+    organization = form.cleaned_data.get('organizacion')
+    if organization:
+        from organizaciones.models import Organizacion
+        organization = Organizacion.objects.select_for_update().filter(pk=organization.pk, activo=True, delegacion=form.cleaned_data['delegacion']).first()
+        if not organization:
+            form.add_error('organizacion', 'La organización cambió de territorio o está inactiva. Selecciónala nuevamente.')
+            return False
+        form.instance.organizacion = organization
     return True
 
 
@@ -246,7 +268,7 @@ def lock_attention_catalog(form):
 def attention_detail(request, pk):
     ensure_active(request.user)
     person = get_object_or_404(visible_neighbors(Vecino.objects.all(), request.user), pk=pk)
-    history = scoped(person.atenciones.select_related('delegacion', 'funcionario', 'tipo_atencion', 'sub_atencion', 'origen_historico'), request.user)
+    history = scoped(person.atenciones.select_related('delegacion', 'funcionario', 'tipo_atencion', 'sub_atencion', 'organizacion', 'origen_historico'), request.user)
     search = request.GET.get('q', '').strip()
     if search:
         history = history.filter(Q(descripcion__icontains=search) | Q(delegacion__nombre__icontains=search) | Q(tipo_atencion__nombre__icontains=search) | Q(origen_historico__folio__icontains=search))
@@ -325,31 +347,121 @@ def attention_new(request):
 
 @login_required
 def action_list(request):
-    actions = scoped(Accion.objects.select_related('delegacion', 'creador', 'meta__item_meta', 'meta__delegacion', 'origen_historico'), request.user)
+    actions = scoped(Accion.objects.select_related('delegacion', 'creador', 'responsable', 'meta__item_meta', 'meta__delegacion', 'origen_historico'), request.user)
+    actions = actions.annotate(has_final_evidence=Exists(ResolucionAccion.objects.filter(accion_id=OuterRef('pk'), estado_nuevo='Aprobada').exclude(evidencia_final='')))
     search = request.GET.get('q', '').strip()
     state = request.GET.get('estado', '')
+    progress = request.GET.get('avance', '')
     if search:
         actions = actions.filter(Q(titulo__icontains=search) | Q(descripcion__icontains=search) | Q(delegacion__nombre__icontains=search) | Q(origen_historico__folio__icontains=search))
     if state in dict(Accion.ESTADOS):
         actions = actions.filter(estado=state)
+    if progress in dict(Accion.AVANCES):
+        actions = actions.filter(avance=progress)
     if request.GET.get('export') == 'excel':
-        return export_queryset_to_excel('Acciones', 'Acciones', ['Fecha', 'Título', 'Descripción', 'Delegación', 'Autor', 'Revisión', 'Meta', 'Folio histórico', 'Estado histórico'], [[timezone.localtime(a.fecha_creacion).strftime('%d/%m/%Y'), a.titulo, a.descripcion, a.delegacion, a.creador, a.estado, a.meta] + historical_reference(a) for a in actions])
-    return render(request, 'atenciones/actions.html', {'page_obj': paginate(request, actions), 'search': search, 'estado': state, 'states': Accion.ESTADOS, 'can_review': can_approve(request.user), 'can_register': can_register(request.user)})
+        from .reports import export_actions_with_photos
+        actions = list(actions.prefetch_related(Prefetch('resoluciones', queryset=ResolucionAccion.objects.filter(estado_nuevo='Aprobada').exclude(evidencia_final='').order_by('-fecha', '-pk'), to_attr='final_records')))
+        return export_actions_with_photos(actions, ['Fecha', 'Título', 'Descripción', 'Delegación', 'Autor', 'Revisión', 'Meta', 'Folio histórico', 'Estado histórico', 'Límite diario', 'Avance', 'Responsable', 'Beneficiario', 'Teléfono', 'Realización', 'Compromiso', 'Área de apoyo', 'Meta de origen', 'Fecha de crédito'], [[timezone.localtime(a.fecha_creacion).strftime('%d/%m/%Y'), a.titulo, a.descripcion, a.delegacion, a.creador, a.estado, a.meta] + historical_reference(a) + ['Excede el máximo: no suma a metas' if a.excede_limite_diario else 'Dentro del límite diario', a.avance, a.responsable, a.solicitante, a.telefono_solicitante, a.fecha_actividad, a.fecha_compromiso, a.area_apoyo, a.meta_origen_id, a.fecha_puntuacion] for a in actions])
+    totals = actions.aggregate(total=Count('pk'), realizadas=Count('pk', filter=Q(avance='Finalizada')),
+        proceso=Count('pk', filter=Q(avance='En proceso')), alertas=Count('pk', filter=Q(estado='Pendiente') & (Q(responsable__isnull=True) | Q(fecha_compromiso__lt=timezone.localdate()))))
+    totals['tasa_resolucion'] = 100 * totals['realizadas'] / totals['total'] if totals['total'] else None
+    stage_counts = dict(actions.order_by().values('avance').annotate(total=Count('pk')).values_list('avance','total'))
+    page = paginate(request, actions)
+    for item in page:
+        item.can_edit_tubo = item.estado == 'Pendiente' and (can_manage(request.user) or item.creador_id == request.user.pk or item.responsable_id == request.user.pk) and (can_register(request.user) or can_manage(request.user))
+        item.next_progress = {'Ingresada':'Asignada','Asignada':'En proceso','En proceso':'Finalizada'}.get(item.avance, '')
+        item.is_overdue = bool(item.fecha_compromiso and item.fecha_compromiso < timezone.localdate() and item.avance != 'Finalizada')
+    board = request.GET.get('vista') != 'tabla'
+    columns = [(label, [a for a in page if a.avance == value]) for value, label in Accion.AVANCES] if board else []
+    return render(request, 'atenciones/actions.html', {'page_obj': page, 'search': search, 'estado': state, 'states': Accion.ESTADOS, 'avance': progress, 'avances': Accion.AVANCES, 'board': board, 'columns': columns, 'can_review': can_approve(request.user), 'can_register': can_register(request.user), 'tubo_totals': totals, 'stage_totals': [(value,label,stage_counts.get(value,0)) for value,label in Accion.AVANCES]})
+
+
+@login_required
+def action_detail(request, pk):
+    ensure_active(request.user)
+    action = get_object_or_404(scoped(Accion.objects.select_related('creador', 'responsable', 'delegacion', 'meta'), request.user), pk=pk)
+    from .forms import AvanceForm
+    writable = action.estado == 'Pendiente' and (can_manage(request.user) or action.creador_id == request.user.pk or action.responsable_id == request.user.pk) and (can_register(request.user) or can_manage(request.user))
+    return render(request, 'atenciones/action_detail.html', {'action': action, 'has_final_photo': action.resoluciones.filter(estado_nuevo='Aprobada').exclude(evidencia_final='').exists(), 'progress_form': AvanceForm(instance=action, user=request.user) if writable else None, 'documents': action.documentos.all(), 'extra_photos': action.fotos.all(), 'progress_history': action.avances.select_related('autor', 'responsable').order_by('-fecha', '-pk')[:50], 'can_review': can_approve(request.user)})
+
+
+@login_required
+@require_POST
+def action_progress(request, pk):
+    ensure_active(request.user)
+    from .forms import AvanceForm
+    with transaction.atomic():
+        action = get_object_or_404(scoped(Accion.objects.select_for_update(), request.user), pk=pk)
+        if action.estado != 'Pendiente':
+            raise PermissionDenied('Una actividad resuelta conserva su asignación y avance de cierre.')
+        if not (can_register(request.user) or can_manage(request.user)) or not (can_manage(request.user) or action.creador_id == request.user.pk or action.responsable_id == request.user.pk):
+            raise PermissionDenied
+        previous, responsible, previous_meta, previous_area = action.avance, action.responsable_id, action.meta_id, action.area_apoyo
+        form = AvanceForm(request.POST, instance=action, user=request.user)
+        if form.is_valid():
+            if not can_manage(request.user):
+                if 'meta' in request.POST and request.POST['meta'] != str(previous_meta or ''):
+                    raise PermissionDenied
+                requested = request.POST.get('responsable', str(responsible or ''))
+                if requested != str(responsible or '') and not (responsible is None and requested == str(request.user.pk)):
+                    raise PermissionDenied
+            if (previous, responsible, previous_meta, previous_area) != (action.avance, action.responsable_id, action.meta_id, action.area_apoyo):
+                form.save()
+                AvanceAccion.objects.create(accion=action, autor=request.user, anterior=previous, nuevo=action.avance, responsable=action.responsable, meta_anterior_id=previous_meta, meta_nueva=action.meta, area_apoyo=action.area_apoyo)
+            messages.success(request, 'Avance guardado. La aprobación de evidencia se gestiona por separado.')
+            from urllib.parse import urlsplit
+            from django.utils.http import url_has_allowed_host_and_scheme
+            back = request.POST.get('volver', '')
+            if back and url_has_allowed_host_and_scheme(back, allowed_hosts={request.get_host()}, require_https=request.is_secure()) and urlsplit(back).path == '/acciones/':
+                return redirect(back)
+            return redirect('atenciones:action_detail', pk=action.pk)
+    return render(request, 'atenciones/action_detail.html', {'action': action, 'progress_form': form, 'documents': action.documentos.all(), 'extra_photos': action.fotos.all(), 'progress_history': action.avances.select_related('autor', 'responsable').order_by('-fecha', '-pk')[:50], 'can_review': can_approve(request.user)}, status=400)
 
 @login_required
 def action_create(request):
     ensure_register(request.user)
     form = AccionForm(request.POST or None, request.FILES or None, user=request.user)
+    token = creation_request_token(request) if request.method == 'POST' else None
+    if previous_creation(request, Accion, token):
+        messages.success(request, 'Acción enviada para revisión.')
+        return redirect('atenciones:action_list')
     if request.method == 'POST' and form.is_valid():
+        action = None
         try:
             with transaction.atomic():
                 action = form.save(commit=False)
+                action.request_token = token
                 action.creador = request.user
-                action.save()
+                guardar_accion_con_limite(action)
+                from .evidence import guardar_fotos
+                action._extra_photos = guardar_fotos(action, form.cleaned_data.get('fotos_adicionales', []), request.user)
+                from .documents import guardar_documentos
+                action._documents = guardar_documentos(action, form.cleaned_data.get('documentos', []), request.user)
+        except IntegrityError:
+            for document in getattr(action, '_documents', []):
+                document.archivo.delete(save=False)
+            for extra in getattr(action, '_extra_photos', []):
+                extra.archivo.delete(save=False)
+            if action and action.evidencia and action.evidencia._committed:
+                action.evidencia.delete(save=False)
+            if not previous_creation(request, Accion, token):
+                raise
+            messages.success(request, 'Acción enviada para revisión.')
+            return redirect('atenciones:action_list')
         except ValidationError as error:
             for field, errors in error.message_dict.items():
                 form.add_error(field, errors)
+        except Exception:
+            for document in getattr(action, '_documents', []):
+                document.archivo.delete(save=False)
+            for extra in getattr(action, '_extra_photos', []):
+                extra.archivo.delete(save=False)
+            if action and action.evidencia and action.evidencia._committed:
+                action.evidencia.delete(save=False)
+            raise
         else:
+            if action.excede_limite_diario:
+                messages.warning(request, 'Acción guardada. Excede el máximo de siete actividades diarias y no sumará al cumplimiento de metas, aunque sea aprobada.')
             messages.success(request, 'Acción enviada para revisión.')
             return redirect('atenciones:action_list')
     return render(request, 'atenciones/form.html', {'form': form, 'title': 'Nueva acción', 'back_url': 'atenciones:action_list'})
@@ -363,7 +475,13 @@ def action_review(request, pk):
     audit = action.resoluciones.select_related('responsable').order_by('-fecha')
     if request.GET.get('export') == 'excel':
         return export_queryset_to_excel('Auditoria', 'Resoluciones de acción', ['Fecha', 'Responsable', 'Estado anterior', 'Estado nuevo', 'Motivo'], [[timezone.localtime(r.fecha).strftime('%d/%m/%Y %H:%M'), r.responsable, r.estado_anterior, r.estado_nuevo, r.motivo] for r in audit])
-    return render(request, 'atenciones/review.html', {'action': action, 'form': ResolucionForm(), 'page_obj': paginate(request, audit)})
+    return render_action_review(request, action, ResolucionForm())
+
+def render_action_review(request, action, form, status=200):
+    audit = action.resoluciones.select_related('responsable').order_by('-fecha', '-pk')
+    final_evidence = audit.filter(estado_nuevo='Aprobada').exclude(evidencia_final='').first()
+    return render(request, 'atenciones/review.html', {'documents': action.documentos.all(), 'extra_photos': action.fotos.all(), 'action': action, 'form': form, 'page_obj': paginate(request, audit), 'final_evidence': final_evidence}, status=status)
+
 
 @login_required
 @require_POST
@@ -371,35 +489,69 @@ def action_resolve(request, pk):
     ensure_active(request.user)
     if not can_approve(request.user):
         raise PermissionDenied
-    form = ResolucionForm(request.POST)
+    action = get_object_or_404(scoped(Accion.objects.select_related('creador', 'delegacion', 'meta', 'origen_historico__atencion__vecino'), request.user), pk=pk)
+    form = ResolucionForm(request.POST, request.FILES)
+    if action.estado != 'Pendiente':
+        messages.warning(request, 'Esta acción ya fue resuelta. Se conserva la resolución registrada.')
+        return render_action_review(request, action, form, status=409)
     if not form.is_valid():
-        action = get_object_or_404(scoped(Accion.objects.select_related('creador', 'delegacion', 'meta', 'origen_historico__atencion__vecino'), request.user), pk=pk)
-        messages.error(request, 'Seleccione una decisión e indique el motivo.')
-        return render(request, 'atenciones/review.html', {'action': action, 'form': form, 'page_obj': paginate(request, action.resoluciones.order_by('-fecha'))}, status=400)
-    action = get_object_or_404(scoped(Accion.objects.all(), request.user), pk=pk)
+        return render_action_review(request, action, form, status=400)
     with transaction.atomic():
-
-
+        locked = Accion.objects.select_for_update().get(pk=action.pk)
         claimed = Accion.objects.filter(pk=action.pk, estado='Pendiente').update(estado=form.cleaned_data['estado'])
         if claimed:
-            ResolucionAccion.objects.create(accion=action, responsable=request.user, estado_anterior='Pendiente', estado_nuevo=form.cleaned_data['estado'], motivo=form.cleaned_data['motivo'])
+            if form.cleaned_data['estado'] == 'Aprobada' and locked.meta_origen_id:
+                Accion.objects.filter(pk=action.pk).update(fecha_puntuacion=timezone.localdate())
+            if form.cleaned_data['estado'] == 'Aprobada' and locked.avance != 'Finalizada':
+                Accion.objects.filter(pk=action.pk).update(avance='Finalizada')
+                AvanceAccion.objects.create(accion=action, autor=request.user, anterior=locked.avance, nuevo='Finalizada', responsable=locked.responsable)
+            record = ResolucionAccion(accion=action, responsable=request.user, estado_anterior='Pendiente', estado_nuevo=form.cleaned_data['estado'], motivo=form.cleaned_data['motivo'], evidencia_final=form.cleaned_data.get('evidencia_final') or '')
+            saved_photos, saved_documents = [], []
+            try:
+                record.save()
+                if form.cleaned_data['estado'] == 'Aprobada':
+                    from .evidence import guardar_fotos
+                    saved_photos = guardar_fotos(action, form.cleaned_data.get('fotos_finales_adicionales', []), request.user, record)
+                    from .documents import guardar_documentos
+                    saved_documents = guardar_documentos(action, form.cleaned_data.get('documentos_finales', []), request.user, record)
+            except Exception:
+                for extra in saved_photos + saved_documents:
+                    extra.archivo.delete(save=False)
+                if record.evidencia_final and record.evidencia_final._committed:
+                    record.evidencia_final.delete(save=False)
+                raise
     if not claimed:
         action.refresh_from_db()
         messages.warning(request, 'Esta acción ya fue resuelta. Se conserva la resolución registrada.')
-        return render(request, 'atenciones/review.html', {'action': action, 'form': form, 'page_obj': paginate(request, action.resoluciones.order_by('-fecha'))}, status=409)
+        return render_action_review(request, action, form, status=409)
     messages.success(request, 'Resolución registrada.')
     return redirect('atenciones:action_review', pk=pk)
 
 @login_required
 def action_evidence(request, pk):
     action = get_object_or_404(scoped(Accion.objects.all(), request.user), pk=pk)
-    if not action.evidencia:
-        from django.http import Http404
+    from django.http import Http404
+    stage = request.GET.get('etapa', 'antes')
+    if stage not in {'antes', 'despues'}:
+        raise Http404
+    selected = action.evidencia
+    if stage == 'despues':
+        record = action.resoluciones.filter(estado_nuevo='Aprobada').exclude(evidencia_final='').order_by('-fecha', '-pk').first()
+        selected = record.evidencia_final if record else None
+    if request.GET.get('foto'):
+        raw = request.GET['foto']
+        if not raw.isdigit() or len(raw) > 19:
+            raise Http404
+        picture = get_object_or_404(action.fotos.filter(etapa=stage), pk=raw)
+        if stage == 'despues' and (not picture.resolucion_id or picture.resolucion.estado_nuevo != 'Aprobada'):
+            raise Http404
+        selected = picture.archivo
+    if not selected:
         raise Http404
     from PIL import Image
     evidence = None
     try:
-        evidence = action.evidencia.open('rb')
+        evidence = selected.open('rb')
         format_name = Image.open(evidence).format
         evidence.seek(0)
     except (OSError, ValueError):
@@ -412,7 +564,7 @@ def action_evidence(request, pk):
         evidence.close()
         from django.http import Http404
         raise Http404
-    response = FileResponse(evidence, content_type=content_type, as_attachment=request.GET.get('download') == '1', filename=action.evidencia.name.split('/')[-1])
+    response = FileResponse(evidence, content_type=content_type, as_attachment=request.GET.get('download') == '1', filename=selected.name.split('/')[-1])
     response['X-Content-Type-Options'] = 'nosniff'
     response['Cache-Control'] = 'private, no-store'
     return response
@@ -420,17 +572,70 @@ def action_evidence(request, pk):
 def can_manage_metas(user):
     return can_manage(user)
 
+
+@login_required
+def action_document(request, pk, document_pk):
+    ensure_active(request.user)
+    action = get_object_or_404(scoped(Accion.objects.all(), request.user), pk=pk)
+    document = get_object_or_404(action.documentos.select_related('resolucion'), pk=document_pk)
+    from django.http import Http404, FileResponse
+    from .documents import MIMES
+    if document.etapa == 'despues' and (not document.resolucion_id or document.resolucion.estado_nuevo != 'Aprobada'):
+        raise Http404
+    try:
+        file = document.archivo.open('rb')
+    except OSError:
+        raise Http404
+    extension = document.archivo.name.rsplit('.', 1)[-1].lower()
+    if extension not in MIMES:
+        file.close()
+        raise Http404
+    response = FileResponse(file, as_attachment=True, filename=document.nombre_original, content_type=MIMES[extension])
+    response['X-Content-Type-Options'] = 'nosniff'
+    response['Cache-Control'] = 'private, no-store'
+    return response
+
+
+def creation_request_token(request):
+    token = attention_request_token(request)
+    if token:
+        return uuid.uuid5(uuid.NAMESPACE_URL, f'{request.user.pk}:{request.path}:{token}')
+
+
+def previous_creation(request, model, token):
+    if not token:
+        return None
+    record = model.objects.filter(request_token=token).first()
+    if record and (not scoped(model.objects.filter(pk=record.pk), request.user).exists()
+                   or (model is Accion and record.creador_id != request.user.pk)):
+        raise PermissionDenied('Este envío corresponde a otro registro.')
+    return record
+
 @login_required
 def meta_list(request):
-    metas = scoped(MetaPeriodo.objects.select_related('item_meta', 'delegacion'), request.user).annotate(
-        ejecutado_calculado=Count('acciones', filter=Q(acciones__estado='Aprobada',
-            acciones__fecha_creacion__date__gte=F('inicio'), acciones__fecha_creacion__date__lte=F('fin')))).order_by('-inicio', '-pk')
+    metas = scoped(MetaPeriodo.objects.select_related('item_meta', 'delegacion', 'funcionario').prefetch_related('funcionario__ausencias'), request.user).annotate(
+        ejecutado_calculado=Count('acciones', filter=filtro_acciones_periodo(F('inicio'), F('fin'), 'acciones__'))).order_by('-inicio', '-pk')
+    from .goals import con_ajustes
+    metas = con_ajustes(metas)
     search = request.GET.get('q', '').strip()
+    from .periods import MetaFiltroForm, rango_trimestre
+    period_form = MetaFiltroForm(request.GET, user=request.user)
+    period_form.fields['trimestre'].choices[0] = ('', 'Todos los períodos')
+    if period_form.is_valid():
+        if period_form.cleaned_data.get('delegacion'):
+            metas = metas.filter(delegacion=period_form.cleaned_data['delegacion'])
+        if period_form.cleaned_data.get('personales'):
+            metas = metas.filter(funcionario=request.user)
+        if period_form.cleaned_data.get('trimestre'):
+            start, end = rango_trimestre(period_form.cleaned_data['trimestre'])
+            metas = metas.filter(inicio__lte=end, fin__gte=start)
+    else:
+        metas = metas.none()
     if search:
         metas = metas.filter(Q(item_meta__nombre__icontains=search) | Q(delegacion__nombre__icontains=search))
     if request.GET.get('export') == 'excel':
-        return export_queryset_to_excel('Metas', 'Ejecución de metas', ['Meta', 'Delegación', 'Inicio', 'Fin', 'Objetivo', 'Ejecutado', 'Porcentaje'], [[m.item_meta, m.delegacion, m.inicio, m.fin, m.objetivo, m.ejecutado, m.porcentaje] for m in metas])
-    return render(request, 'atenciones/metas.html', {'page_obj': paginate(request, metas), 'search': search, 'can_manage': can_manage_metas(request.user)})
+        return export_queryset_to_excel('Metas', 'Ejecución de metas', ['Meta', 'Delegación', 'Funcionario', 'Inicio', 'Fin', 'Objetivo original', 'Objetivo ajustado', 'Peso', 'Ejecutado', 'Porcentaje', 'Ajuste formal (pp)', 'Meta de origen'], [[m.item_meta, m.delegacion, m.funcionario or 'Equipo', m.inicio, m.fin, m.objetivo, m.objetivo_ajustado, m.ponderacion, m.ejecutado, m.porcentaje, m.ajuste_porcentual, m.meta_origen_id] for m in metas])
+    return render(request, 'atenciones/metas.html', {'page_obj': paginate(request, metas), 'search': search, 'period_form': period_form, 'can_manage': can_manage_metas(request.user)})
 
 @login_required
 def meta_save(request, pk=None):
@@ -439,9 +644,22 @@ def meta_save(request, pk=None):
         raise PermissionDenied
     instance = get_object_or_404(scoped(MetaPeriodo.objects.all(), request.user), pk=pk) if pk else None
     form = MetaPeriodoForm(request.POST or None, instance=instance, user=request.user)
+    token = creation_request_token(request) if request.method == 'POST' and not pk else None
+    if previous_creation(request, MetaPeriodo, token):
+        messages.success(request, 'Meta guardada.')
+        return redirect('atenciones:meta_list')
     if request.method == 'POST' and form.is_valid():
         try:
-            form.save()
+            with transaction.atomic():
+                meta = form.save(commit=False)
+                if not pk:
+                    meta.request_token = token
+                meta.save()
+        except IntegrityError:
+            if not previous_creation(request, MetaPeriodo, token):
+                raise
+            messages.success(request, 'Meta guardada.')
+            return redirect('atenciones:meta_list')
         except ValidationError as error:
             for field, errors in error.message_dict.items():
                 form.add_error(field, errors)
@@ -449,3 +667,21 @@ def meta_save(request, pk=None):
             messages.success(request, 'Meta guardada.')
             return redirect('atenciones:meta_list')
     return render(request, 'atenciones/form.html', {'form': form, 'title': 'Editar meta' if pk else 'Nueva meta', 'back_url': 'atenciones:meta_list'})
+
+
+@admin_required
+def meta_reschedule(request, pk):
+    from decimal import ROUND_CEILING
+    from .continuity import ReprogramarMetaForm, reprogramar
+    goal = get_object_or_404(scoped(MetaPeriodo.objects.select_related('funcionario', 'item_meta', 'delegacion'), request.user), pk=pk)
+    initial = {'objetivo': max(1, int((goal.objetivo_ajustado - goal.ejecutado).to_integral_value(rounding=ROUND_CEILING)))}
+    form = ReprogramarMetaForm(request.POST if request.method == 'POST' else None, meta=goal, initial=initial)
+    if request.method == 'POST' and form.is_valid():
+        try:
+            target, count = reprogramar(goal, form.cleaned_data, request.user)
+        except ValidationError as error:
+            form.add_error(None, ' '.join(error.messages))
+        else:
+            messages.success(request, f'Meta disponible en el nuevo trimestre. {count} actividades pendientes trasladadas; se conservan sus fechas e historial.')
+            return redirect('atenciones:meta_list')
+    return render(request, 'atenciones/reschedule.html', {'meta':goal, 'form':form, 'pendientes':goal.acciones.filter(estado='Pendiente').count()}, status=400 if request.method == 'POST' else 200)

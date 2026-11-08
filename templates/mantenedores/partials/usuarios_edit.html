@@ -36,7 +36,7 @@
                                             <input type="tel" id="editUsuarioModal{{ u.id }}-telefono" name="telefono" value="{{ u.telefono|default:'' }}" class="input-stitch" placeholder="+56 9 8765 4321" maxlength="20" data-validate="phone" pattern="[+0-9\(\) \-]{8,20}">
                                         </div>
                                         <div class="col-md-6">
-                                            <label for="editUsuarioModal{{ u.id }}-rol" class="form-label small fw-semibold" style="color: var(--text-main);">Rol Asignado *</label>
+                                            <label for="editUsuarioModal{{ u.id }}-rol" class="form-label small fw-semibold" style="color: var(--text-main);">Perfil de acceso *</label>
                                             <select id="editUsuarioModal{{ u.id }}-rol" name="rol" class="input-stitch" required>
                                                 <option value="">Selecciona un rol</option>
                                                 {% for r in roles %}
@@ -49,6 +49,7 @@
                                             <input type="password" id="editUsuarioModal{{ u.id }}-password" name="password" class="input-stitch" placeholder="Dejar en blanco para mantener la actual" minlength="8" autocomplete="new-password">
                                         </div>
                                         <div class="col-md-6"><label for="usuario-correo-secundario-{{ u.id }}" class="form-label small fw-semibold">Correo de recuperación (opcional)</label><input type="email" id="usuario-correo-secundario-{{ u.id }}" name="email_secundario" value="{{ u.email_secundario|default:'' }}" class="input-stitch" maxlength="254" autocomplete="email"></div>
+                                        <div class="col-md-6"><label for="usuario-cargo-{{ u.id }}" class="form-label small fw-semibold">Cargo municipal</label><select id="usuario-cargo-{{ u.id }}" name="cargo" class="input-stitch">{% for value,label in u.CARGOS %}<option value="{{ value }}" {% if u.cargo == value %}selected{% endif %}>{{ label }}</option>{% endfor %}<option value="" {% if not u.cargo %}selected{% endif %}>Sin cargo informado</option></select></div>
                                         <div class="col-md-6"><label for="usuario-delegacion-{{ u.id }}" class="form-label small fw-semibold">Delegación</label><select id="usuario-delegacion-{{ u.id }}" name="delegacion" class="input-stitch"><option value="">Sin delegación asignada</option>{% for delegacion in delegaciones %}<option value="{{ delegacion.id }}" {% if u.delegacion_id == delegacion.id %}selected{% endif %}>{{ delegacion.nombre }}{% if not delegacion.activo %} (inactiva; selecciona una activa){% endif %}</option>{% endfor %}</select></div>
 <div class="col-12 mt-3 pt-2 border-top" style="border-color: var(--border-stitch) !important;">
                                             <div class="form-check form-switch">

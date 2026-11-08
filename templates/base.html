@@ -14,22 +14,23 @@
     <link href="{% static 'css/muni-laserena.css' %}?v=20261017-grid-heading" rel="stylesheet">
     {% block extra_head %}{% endblock %}
     <link href="{% static 'css/municipal-ui.css' %}?v=20261004-delegation-theme" rel="stylesheet">
-    <link href="{% static 'css/municipal-design.css' %}?v=20261019-separated-user-actions" rel="stylesheet">
+    <link href="{% static 'css/municipal-design.css' %}?v=20261108-icon-motion" rel="stylesheet">
+    <link href="{% static 'css/general-select.css' %}?v=20261108-select-alignment" rel="stylesheet">
 </head>
-<body data-user-id="{{ user.pk }}"{% if account_area %} class="account-page"{% endif %}{% if delegacion_actual %} data-delegation-theme{% if delegacion_actual.color_configurado %} data-delegation-custom{% endif %} style="{{ delegation_theme_style }}"{% endif %}>
+<body data-user-id="{{ user.pk }}"{% if account_area %} class="account-page"{% endif %}{% if delegacion_encabezado %} data-delegation-theme{% if delegacion_encabezado.color_configurado %} data-delegation-custom{% endif %} style="{{ delegation_theme_style }}"{% endif %}>
 <a class="skip-link" href="#main-content">Saltar al contenido</a>
 <div class="ambient-waves" aria-hidden="true">
     <svg class="ambient-wave" viewBox="0 0 1600 1000" preserveAspectRatio="none" focusable="false"><path d="M-160 180C200 390 400-50 850 160S1380 420 1760 190L1760 340C1320 580 1100 300 800 280S220 600-160 330Z" fill="currentColor" opacity=".11"/><path d="M-160 720C230 450 450 920 900 690S1440 460 1760 740L1760 920C1400 650 1220 820 900 850S300 620-160 900Z" fill="currentColor" opacity=".09"/></svg>
     <svg class="ambient-wave ambient-wave-back" viewBox="0 0 1600 1000" preserveAspectRatio="none" focusable="false"><path d="M-160 430C150 170 520 650 930 430S1430 190 1760 470L1760 620C1390 350 1210 580 850 610S180 360-160 620Z" fill="currentColor" opacity=".08"/><path d="M-160 140C340 470 580 20 980 260S1500 440 1760 210" fill="none" stroke="white" stroke-width="32" opacity=".32"/></svg>
 </div>
 <div class="muni-top-stripe" aria-hidden="true"></div>
-<header class="navbar-stitch{% if delegacion_actual %} delegation-header{% endif %}">
+<header class="navbar-stitch{% if delegacion_encabezado or scope_delegation %} delegation-header{% endif %}"{% if scope_delegation %} style="--delegation-color: {{ scope_delegation.color_identificacion }}"{% endif %}>
     <div class="header-bar">
         <div class="header-brand d-flex align-items-center">
             {% if not account_area %}<button type="button" class="btn-stitch-icon" id="btnToggleSidebar" aria-label="Abrir o cerrar menú" aria-controls="tour-sidebar-nav" aria-expanded="false" onclick="toggleSidebarMenu()"><i class="bi bi-list" aria-hidden="true"></i></button>{% endif %}
             <a href="{% url 'dashboard:inicio' %}" class="brand-stitch" id="tour-brand"><img src="{% static 'img/horizontal-color.svg' %}" width="10153" height="2784" alt="Municipalidad de La Serena" class="brand-logo-img"></a>
         </div>
-        {% if scope_delegation %}{% include 'territorial/territory_banner.html' with banner_delegation=scope_delegation viewing_scope=True %}{% else %}{% include 'territorial/territory_banner.html' with banner_delegation=delegacion_actual %}{% endif %}
+        {% if scope_delegation %}{% include 'territorial/territory_banner.html' with banner_delegation=scope_delegation viewing_scope=True %}{% else %}{% include 'territorial/territory_banner.html' with banner_delegation=delegacion_encabezado %}{% endif %}
         <div class="user-tools">
             <div class="dropdown" id="tour-user-dropdown">
                 <button type="button" class="user-badge-stitch dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" aria-label="Opciones de {{ user.nombre_completo }}">
@@ -45,7 +46,10 @@
                     <li><a class="dropdown-item text-danger" href="{% url 'usuarios:logout' %}"><i class="bi bi-box-arrow-right me-2" aria-hidden="true"></i>Cerrar sesión</a></li>
                 </ul>
             </div>
+            <div class="header-help">
+            <a class="tutorial-launch updates-launch" id="updates-launch" href="{% url 'dashboard:novedades' %}"{% if updates_unread %} data-sgr-notice="{{ updates_latest_unread }}"{% endif %}><i class="bi bi-clock-history" aria-hidden="true"></i>Novedades{% if updates_unread %}<span class="updates-new">Nuevo<span class="visually-hidden">: actualizaciones sin leer</span></span>{% endif %}</a>
             <button type="button" class="tutorial-launch" id="tour-tutorial-btn"><i class="bi bi-question-circle" aria-hidden="true"></i>Tutorial guiado</button>
+            </div>
         </div>
     </div>
 </header>
@@ -53,25 +57,28 @@
 <div class="layout-stitch">
     {% if not account_area %}<aside class="sidebar-stitch" id="tour-sidebar-nav" aria-label="Menú principal">
         <div class="d-lg-none d-flex justify-content-between align-items-center mb-3"><strong>Gestión municipal</strong><button class="btn-stitch-icon" type="button" onclick="closeSidebarMobile()" aria-label="Cerrar menú"><i class="bi bi-x-lg"></i></button></div>
-        {% if delegacion_actual %}<div class="sidebar-territory"><span class="delegation-swatch" aria-hidden="true"><i class="bi bi-buildings"></i></span><span><strong>{{ delegacion_actual.nombre }}</strong><small>{{ delegacion_actual.comuna }}</small></span></div>{% endif %}
+        {% if delegacion_encabezado %}<div class="sidebar-territory"><span class="delegation-swatch" aria-hidden="true"><i class="bi bi-buildings"></i></span><span><strong>{{ delegacion_encabezado.nombre }}</strong><small>{{ delegacion_encabezado.comuna }}</small></span></div>{% endif %}
         <div class="sidebar-scroll" tabindex="0" role="region" aria-label="Secciones del menú">
         {% if user.is_superuser %}<p class="sidebar-category">General</p>{% endif %}
         <nav class="d-flex flex-column gap-1" aria-label="General">
             <a class="nav-link-stitch {% if request.resolver_match.namespace == 'dashboard' %}{% if request.resolver_match.url_name == 'inicio' or request.resolver_match.url_name == 'inicio_alias' or request.resolver_match.url_name == 'inicio_dashboard' %}active{% endif %}{% endif %}" href="{% url 'dashboard:inicio' %}"><i class="bi bi-house-door"></i>{% if user.is_superuser %}Resumen municipal{% else %}Inicio{% endif %}</a>
         </nav>
+        <nav class="d-flex flex-column gap-1" aria-label="Resultados personales"><a href="{% url 'dashboard:personal' %}" class="nav-link-stitch {% if request.resolver_match.url_name == 'personal' %}active{% endif %}"><i class="bi bi-person-lines-fill" aria-hidden="true"></i>Mi resumen</a></nav>
         <p class="sidebar-category" id="sidebar-attention-title">Atención</p>
         <nav class="d-flex flex-column gap-1" aria-labelledby="sidebar-attention-title">
             <a class="nav-link-stitch {% if '/atenciones/' in request.path %}active{% endif %}" href="{% url 'atenciones:attention_search' %}"><i class="bi bi-chat-square-text"></i>Atención al vecino</a>
             <a class="nav-link-stitch {% if 'vecinos' in request.path %}active{% endif %}" id="tour-vecinos-link" href="{% url 'vecinos:vecinos_list' %}"><i class="bi bi-people"></i>Vecinos</a>
         </nav>
+        {% if operational_profile %}<nav class="d-flex flex-column gap-1" aria-label="Organizaciones"><a class="nav-link-stitch {% if request.resolver_match.namespace == 'organizaciones' %}active{% endif %}" href="{% url 'organizaciones:listado' %}" id="tour-organizaciones"><i class="bi bi-buildings" aria-hidden="true"></i>Organizaciones</a></nav>{% endif %}
+        {% if operational_profile %}<nav class="d-flex flex-column gap-1" aria-label="Correspondencia"><a class="nav-link-stitch {% if request.resolver_match.namespace == 'cartas' %}active{% endif %}" href="{% url 'cartas:listado' %}" id="tour-cartas"><i class="bi bi-envelope-paper" aria-hidden="true"></i>Cartas</a></nav>{% endif %}
         <p class="sidebar-category" id="sidebar-management-title">Gestión</p>
         <nav class="d-flex flex-column gap-1" aria-labelledby="sidebar-management-title">
-            <a class="nav-link-stitch {% if '/acciones/' in request.path %}active{% endif %}" href="{% url 'atenciones:action_list' %}"><i class="bi bi-check2-square"></i>Acciones y seguimiento</a>
+            <a class="nav-link-stitch {% if '/acciones/' in request.path %}active{% endif %}" href="{% url 'atenciones:action_list' %}"><i class="bi bi-check2-square"></i>Tubo de actividades</a>
             <a class="nav-link-stitch {% if request.resolver_match.url_name == 'meta_list' or request.resolver_match.url_name == 'meta_create' or request.resolver_match.url_name == 'meta_edit' %}active{% endif %}" href="{% url 'atenciones:meta_list' %}"><i class="bi bi-bullseye"></i>Metas</a>
             <a class="nav-link-stitch {% if 'reportes' in request.path %}active{% endif %}" id="tour-reportes" href="{% url 'dashboard:reportes' %}"><i class="bi bi-file-earmark-spreadsheet"></i>Reportes</a>
-            {% if operational_profile %}<a class="nav-link-stitch {% if '/demostracion/' in request.path %}active{% endif %}" href="{% url 'demostracion:inicio' %}"><i class="bi bi-window-stack" aria-hidden="true"></i>Funciones por perfil</a>{% endif %}
         </nav>
         {% if can_manage %}
+        <nav class="d-flex flex-column gap-1" aria-label="Equipo"><a href="{% url 'territorial:ausencias' %}" class="nav-link-stitch {% if 'ausencias' in request.path %}active{% endif %}"><i class="bi bi-calendar-minus" aria-hidden="true"></i>Ausencias del equipo</a></nav>
         <div class="border-top mt-4 pt-3" id="tour-mantenedores">
             <button class="sidebar-group-btn" type="button" data-bs-toggle="collapse" data-bs-target="#grupoMantenedores" aria-expanded="true" aria-controls="grupoMantenedores">Administración <i class="bi bi-chevron-down"></i></button>
             <nav class="collapse show" id="grupoMantenedores" aria-label="Administración">
@@ -100,7 +107,7 @@
 {% if not account_area %}<nav class="mobile-bottom-nav d-lg-none" aria-label="Accesos rápidos">
     <a class="mobile-nav-item" href="{% url 'dashboard:inicio' %}"><i class="bi bi-house-door"></i><span>Inicio</span></a>
     <a class="mobile-nav-item" href="{% url 'atenciones:attention_search' %}"><i class="bi bi-chat-square-text"></i><span>Atención</span></a>
-    <a class="mobile-nav-item" href="{% url 'atenciones:action_list' %}"><i class="bi bi-check2-square"></i><span>Acciones</span></a>
+    <a class="mobile-nav-item" href="{% url 'atenciones:action_list' %}"><i class="bi bi-check2-square"></i><span>Tubo</span></a>
     <button class="mobile-nav-item" type="button" onclick="toggleSidebarMenu()"><i class="bi bi-list"></i><span>Menú</span></button>
 </nav>{% endif %}
 {% if appearance_pending %}{% include 'territorial/appearance_modal.html' %}{% endif %}
@@ -108,11 +115,16 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.6/dist/sweetalert2.all.min.js"></script>
 <script src="{% static 'vendor/driverjs/driver.js.iife.js' %}"></script>
 {% server_form_feedback %}
-<script src="{% static 'js/tutorial-guiado.js' %}?v=20261018-authorized-tour"></script>
-<script src="{% static 'js/municipal-ui.js' %}?v=20261019-sidebar-scroll"></script>
-<script src="{% static 'js/rut.js' %}?v=20261019-autoformat"></script>
-<script src="{% static 'js/crud-validation.js' %}?v=20261019-rut-actions"></script>
+{% if tutorial_config %}{{ tutorial_config|json_script:"sgr-tutorial-config" }}{% endif %}
+<script src="{% static 'js/tutorial-guiado.js' %}?v=20261108-auto-filters"></script>
+<script src="{% static 'js/municipal-ui.js' %}?v=20261019-soft-delegation-waves"></script>
+<script src="{% static 'js/rut.js' %}?v=20261019-strict-inputs"></script>
+<script src="{% static 'js/crud-validation.js' %}?v=20261019-strict-inputs"></script>
 <script src="{% static 'js/crud-editor.js' %}?v=20261018-load-feedback"></script>
+<script src="{% static 'js/neighbor-search.js' %}?v=20261108-auto-filters"></script>
+<script src="{% static 'js/list-filters.js' %}?v=20261108-auto-filters"></script>
+<script src="{% static 'js/general-select.js' %}?v=20261108-selects"></script>
+<script defer src="{% static 'js/sgr-icons.js' %}?v=20261108-icon-motion" data-symbols="{% static 'vendor/sgr-icons/symbols.svg' %}" data-animations="{% static 'vendor/sgr-icons/animations.json' %}" data-player="{% static 'vendor/sgr-icons/lottie-light-5.13.0.min.js' %}"></script>
 {% block extra_scripts %}{% endblock %}
 </body>
 </html>

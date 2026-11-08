@@ -25,6 +25,8 @@ class Rol(models.Model):
 
 
 class Usuario(AbstractUser):
+    CARGOS = [(v, v) for v in ('Delegado Municipal', 'Gestor Social', 'Apoyo Administrativo', 'Organizaciones Comunitarias', 'Gestor de Compras y Proyectos', 'Gestión y Planificación', 'Coordinador de Servicios Comunitarios')]
+    cargo = models.CharField(max_length=100, choices=CARGOS, blank=True, default='', db_default='')
     rut = models.CharField(max_length=12, validators=[validar_rut], unique=True, null=True, blank=True, verbose_name="RUT")
     telefono = models.CharField(max_length=20, validators=[validar_telefono], blank=True, null=True, verbose_name="Teléfono")
     email_secundario = models.EmailField(blank=True, null=True, verbose_name="Correo Secundario / Recuperación")
@@ -32,6 +34,7 @@ class Usuario(AbstractUser):
     delegacion = models.ForeignKey("territorial.DelegacionMunicipal", on_delete=models.PROTECT, null=True, blank=True, related_name="funcionarios")
     activo = models.BooleanField(default=True, verbose_name="Estado Activo")
     debe_cambiar_password = models.BooleanField(default=False, verbose_name="Debe cambiar contraseña al primer ingreso")
+    tutorial_pendiente = models.BooleanField(default=False, editable=False)
 
 
     reset_code = models.CharField(max_length=6, blank=True, null=True, verbose_name="Código de Recuperación (Reset Code)")

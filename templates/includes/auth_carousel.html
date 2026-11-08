@@ -3,23 +3,25 @@
 
 
 <div class="auth-carousel-wrapper h-100 position-relative p-2 p-md-3 d-flex flex-column">
-    <div id="laSerenaAuthCarousel" class="carousel slide carousel-fade h-100 rounded-4 overflow-hidden position-relative shadow-sm" data-bs-interval="false">
+    <div id="laSerenaAuthCarousel" class="carousel slide carousel-fade h-100 rounded-4 overflow-hidden position-relative shadow-sm" data-bs-interval="6000" role="region" aria-roledescription="carrusel" aria-label="Fotografías de La Serena">
 
 
         <div class="carousel-indicators mb-3">
             <button type="button" data-bs-target="#laSerenaAuthCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Faro Monumental"></button>
             <button type="button" data-bs-target="#laSerenaAuthCarousel" data-bs-slide-to="1" aria-label="Plaza de Armas"></button>
             <button type="button" data-bs-target="#laSerenaAuthCarousel" data-bs-slide-to="2" aria-label="Mercado La Recova"></button>
-            <button type="button" data-bs-target="#laSerenaAuthCarousel" data-bs-slide-to="3" aria-label="Avenida del Mar"></button>
-            <button type="button" data-bs-target="#laSerenaAuthCarousel" data-bs-slide-to="4" aria-label="Identidad Comunal"></button>
+            <button type="button" data-bs-target="#laSerenaAuthCarousel" data-bs-slide-to="3" aria-label="Catedral de La Serena"></button>
+            <button type="button" data-bs-target="#laSerenaAuthCarousel" data-bs-slide-to="4" aria-label="Faro al atardecer"></button>
         </div>
 
+
+        <button type="button" class="auth-carousel-toggle" data-carousel-toggle aria-label="Pausar carrusel de fotos" aria-pressed="false" hidden><i class="bi bi-pause-fill" aria-hidden="true"></i></button>
 
         <div class="carousel-inner h-100">
 
 
             <div class="carousel-item active h-100">
-                <img src="{% static 'img/carousel/faro_nuevo_2022-960.webp' %}" srcset="{% static 'img/carousel/faro_nuevo_2022-480.webp' %} 480w, {% static 'img/carousel/faro_nuevo_2022-960.webp' %} 960w" sizes="(min-width: 992px) 48vw, 100vw" width="1280" height="943" loading="eager" decoding="async" class="d-block w-100 h-100 object-fit-cover" alt="Faro Monumental de La Serena">
+                <img src="{% static 'img/carousel/faro_nuevo_2022.jpg' %}" width="1280" height="943" loading="eager" decoding="async" fetchpriority="high" class="d-block w-100 h-100 object-fit-cover auth-photo-faro" alt="Faro Monumental de La Serena">
                 <div class="carousel-caption-stitch">
                     <span class="badge-muni-slide">PATRIMONIO NACIONAL</span>
                     <p class="carousel-title mb-1 text-white">Faro Monumental de La Serena</p>
@@ -29,7 +31,7 @@
 
 
             <div class="carousel-item h-100">
-                <img src="{% static 'img/carousel/plaza_armas_laserena-960.webp' %}" srcset="{% static 'img/carousel/plaza_armas_laserena-480.webp' %} 480w, {% static 'img/carousel/plaza_armas_laserena-960.webp' %} 960w" sizes="(min-width: 992px) 48vw, 100vw" width="1024" height="576" loading="lazy" decoding="async" class="d-block w-100 h-100 object-fit-cover" alt="Plaza de Armas La Serena">
+                <img src="{% static 'img/carousel/plaza_armas_laserena.jpg' %}" width="1024" height="576" loading="lazy" decoding="async" class="d-block w-100 h-100 object-fit-cover auth-photo-plaza" alt="Plaza de Armas de La Serena">
                 <div class="carousel-caption-stitch">
                     <span class="badge-muni-slide">CENTRO CÍVICO Y PATRIMONIAL</span>
                     <p class="carousel-title mb-1 text-white">Plaza de Armas de La Serena</p>
@@ -39,7 +41,7 @@
 
 
             <div class="carousel-item h-100">
-                <img src="{% static 'img/carousel/recova_tradicion-960.webp' %}" srcset="{% static 'img/carousel/recova_tradicion-480.webp' %} 480w, {% static 'img/carousel/recova_tradicion-960.webp' %} 960w" sizes="(min-width: 992px) 48vw, 100vw" width="1280" height="960" loading="lazy" decoding="async" class="d-block w-100 h-100 object-fit-cover" alt="Mercado La Recova">
+                <img src="{% static 'img/carousel/recova_tradicion.jpg' %}" width="1280" height="960" loading="lazy" decoding="async" class="d-block w-100 h-100 object-fit-cover auth-photo-recova" alt="Mercado Municipal La Recova">
                 <div class="carousel-caption-stitch">
                     <span class="badge-muni-slide">IDENTIDAD Y CULTURA</span>
                     <p class="carousel-title mb-1 text-white">Mercado Municipal La Recova</p>
@@ -49,21 +51,21 @@
 
 
             <div class="carousel-item h-100">
-                <img src="{% static 'img/carousel/costanera_bahia-960.webp' %}" srcset="{% static 'img/carousel/costanera_bahia-480.webp' %} 480w, {% static 'img/carousel/costanera_bahia-960.webp' %} 960w" sizes="(min-width: 992px) 48vw, 100vw" width="1280" height="258" loading="lazy" decoding="async" class="d-block w-100 h-100 object-fit-cover" alt="Bahía de La Serena">
+                <img src="{% static 'img/carousel/catedral_laserena.jpg' %}" width="1280" height="1707" loading="lazy" decoding="async" class="d-block w-100 h-100 object-fit-cover auth-photo-catedral" alt="Catedral de La Serena">
                 <div class="carousel-caption-stitch">
                     <span class="badge-muni-slide">LITORAL Y CORDILLERA</span>
-                    <p class="carousel-title mb-1 text-white">Bahía de La Serena y Cerro Grande</p>
-                    <p class="small text-white-50 mb-0">Conexión territorial entre el Océano Pacífico y el Valle de Elqui.</p>
+                    <p class="carousel-title mb-1 text-white">Catedral de La Serena</p>
+                    <p class="small text-white-50 mb-0">Vista de la catedral en el centro de La Serena.</p>
                 </div>
             </div>
 
 
             <div class="carousel-item h-100">
-                <img src="{% static 'img/carousel/faro_monumental_panoramica-960.webp' %}" srcset="{% static 'img/carousel/faro_monumental_panoramica-480.webp' %} 480w, {% static 'img/carousel/faro_monumental_panoramica-960.webp' %} 960w" sizes="(min-width: 992px) 48vw, 100vw" width="1280" height="960" loading="lazy" decoding="async" class="d-block w-100 h-100 object-fit-cover" alt="Avenida del Mar La Serena">
+                <img src="{% static 'img/carousel/faro_atardecer.jpg' %}" width="1280" height="1920" loading="lazy" decoding="async" class="d-block w-100 h-100 object-fit-cover auth-photo-atardecer" alt="Faro Monumental al atardecer">
                 <div class="carousel-caption-stitch">
                     <span class="badge-muni-slide">GESTIÓN TERRITORIAL 2026</span>
-                    <p class="carousel-title mb-1 text-white">Ilustre Municipalidad de La Serena</p>
-                    <p class="small text-white-50 mb-0">Servicio y cercanía para los vecinos de las 6 delegaciones.</p>
+                    <p class="carousel-title mb-1 text-white">Faro Monumental al atardecer</p>
+                    <p class="small text-white-50 mb-0">El Faro Monumental junto a la costa de La Serena.</p>
                 </div>
             </div>
 
@@ -110,3 +112,5 @@
 .carousel-indicators .active::before { left: 6px; width: 32px; background: #fff; }
 .carousel-indicators [data-bs-target]:focus-visible { outline: 2px solid white; outline-offset: -2px; }
 </style>
+
+<script src="{% static 'js/auth-carousel.js' %}?v=20261026" defer></script>

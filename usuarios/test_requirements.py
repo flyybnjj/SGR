@@ -75,7 +75,7 @@ class MunicipalBoundaryTests(TestCase):
     def test_paginate_sizes_are_bounded(self):
         from config.pagination import paginate
         from django.test import RequestFactory
-        for raw, expected in [('25',25),('1000000',10),('bad',10),('-1',10)]:
+        for raw, expected in [('20',20),('25',10),('1000000',10),('bad',10),('-1',10)]:
             page = paginate(RequestFactory().get('/', {'per_page':raw}), Rol.objects.all())
             self.assertEqual(page.paginator.per_page, expected)
 

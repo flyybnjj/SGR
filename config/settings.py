@@ -56,6 +56,9 @@ INSTALLED_APPS = [
     'atenciones',
     'vecinos',
     'dashboard',
+    'organizaciones',
+    'cartas',
+    'api',
 ]
 
 AUTH_USER_MODEL = 'usuarios.Usuario'
@@ -70,6 +73,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'config.middleware.ActiveProfileMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'config.login_security.PasswordLoginThrottleMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
@@ -86,6 +90,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'config.context_processors.municipal_context',
+                'dashboard.updates.updates_context',
             ],
         },
     },

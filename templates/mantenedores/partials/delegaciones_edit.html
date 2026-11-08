@@ -20,7 +20,7 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="editDelegacionModal{{ d.id }}-comuna" class="form-label small fw-semibold" style="color: var(--text-main);">Comuna *</label>
-                                        <input type="text" id="editDelegacionModal{{ d.id }}-comuna" name="comuna" value="{{ d.comuna }}" class="input-stitch" required maxlength="100" data-validate="text" pattern=".*\S.*">
+                                        <input type="text" id="editDelegacionModal{{ d.id }}-comuna" name="comuna" disabled aria-disabled="true" value="{{ d.comuna }}" class="input-stitch" required maxlength="100" data-validate="text" pattern=".*\S.*">
                                     </div>
                                     <div class="mb-3">
                                         <label for="editDelegacionModal{{ d.id }}-delegado" class="form-label small fw-semibold" style="color: var(--text-main);">Delegado a Cargo</label>

@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Carta | SGR{% endblock %}
+{% block content %}
+<header class="page-heading"><div><h1>{% if carta %}Seguimiento de carta #{{ carta.pk }}{% else %}Ingresar carta{% endif %}</h1><p>El folio SGR se genera al guardar. El número de oficina de partes es una referencia externa opcional.</p></div><a href="{% url 'cartas:listado' %}">Volver a cartas</a></header>
+<section class="dashboard-section form-panel"><form method="post" enctype="multipart/form-data">{% csrf_token %}{% include 'atenciones/fields.html' %}<div class="form-actions"><a class="btn-stitch btn-stitch-secondary" href="{% url 'cartas:listado' %}">Cancelar</a><button class="btn-stitch btn-stitch-primary" type="submit">Guardar carta</button></div></form></section>
+{% endblock %}
+{% block extra_scripts %}
+<script src="{% static 'js/carta-compromiso.js' %}"></script>
+{% endblock %}

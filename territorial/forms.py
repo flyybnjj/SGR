@@ -21,6 +21,9 @@ class DelegacionMunicipalForm(NombreCatalogoUnicoMixin, forms.ModelForm):
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user', None)
         super().__init__(*args, **kwargs)
+        self.fields['comuna'].disabled = True
+        self.fields['comuna'].initial = self.instance.comuna if self.instance.pk else 'La Serena'
+        self.fields['comuna'].help_text = 'La comuna queda fijada por la configuración municipal.'
 
         current_delegate = self.instance.delegado_id if self.instance.pk else None
         self.fields['delegado'].queryset = Usuario.objects.filter(Q(activo=True) | Q(pk=current_delegate), is_superuser=False)

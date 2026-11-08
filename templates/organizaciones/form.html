@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% block title %}Organización | SGR{% endblock %}
+{% block content %}
+<header class="page-heading"><div><h1>{% if organizacion %}Editar organización{% else %}Crear organización{% endif %}</h1><p>Conserva los datos de origen hasta verificar su asignación territorial.</p></div><a href="{% url 'organizaciones:listado' %}">Volver al listado</a></header>
+<section class="dashboard-section form-panel"><form method="post">{% csrf_token %}{{ form.non_field_errors }}{% for field in form %}<div class="mb-3">{{ field.label_tag }} {{ field }}{{ field.errors }}{% if field.help_text %}<small>{{ field.help_text }}</small>{% endif %}</div>{% endfor %}<div class="form-actions"><a class="btn-stitch btn-stitch-secondary" href="{% url 'organizaciones:listado' %}">Cancelar</a><button class="btn-stitch btn-stitch-primary" type="submit">Guardar organización</button></div></form></section>
+{% endblock %}

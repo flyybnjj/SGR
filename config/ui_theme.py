@@ -36,7 +36,7 @@ def theme_tokens(color):
 
 
 def theme_style(color):
-    tokens = theme_tokens(color)
+    tokens = theme_tokens("#b80003")
     return ";".join(f"--{name}: {value}" if name == "delegation-color" else f"--{name}:{value}" for name, value in {
         "delegation-color": color if isinstance(color, str) and re.fullmatch(r"#[0-9a-fA-F]{6}", color) else tokens["color"], "muni-red-primary": tokens["color"],
         "muni-red": tokens["ink"], "accent-on": tokens["on_color"],

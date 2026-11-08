@@ -5,7 +5,7 @@
     {{ appearance_form.non_field_errors }}
     <div class="appearance-editor-grid">
     <div>
-    <div class="appearance-preview" data-appearance-preview style="{{ appearance_theme_style }}" role="img" aria-label="Vista previa del color de {{ appearance_delegation.nombre }} en el encabezado, menú y botones">
+    <div class="appearance-preview" data-appearance-preview style="{{ appearance_theme_style }}" role="img" aria-label="Vista previa del color de {{ appearance_delegation.nombre }} en el encabezado y las ondas suaves del fondo">
         <div class="appearance-preview-chrome" aria-hidden="true">
             <img src="{% static 'img/horizontal-color.svg' %}" width="10153" height="2784" alt="">
             <div class="appearance-preview-identity"><span class="appearance-preview-chip"></span><strong>{{ appearance_delegation.nombre }}</strong></div>
@@ -25,11 +25,11 @@
             </div>
         </div>
     </div>
-    <p class="appearance-preview-caption">Vista previa de {{ appearance_delegation.nombre }}. Se aplica al guardar; el logo municipal conserva su rojo.</p>
+    <p class="appearance-preview-caption">Vista previa de {{ appearance_delegation.nombre }}. El color identifica tu delegación en el encabezado y en las ondas suaves del fondo. Los botones y las tarjetas conservan sus colores.</p>
     </div>
     <div class="appearance-choices">
     <fieldset class="appearance-palette">
-        <legend>Elige un color de identificación</legend>
+        <legend>Elige el color del encabezado</legend>
         {% for value, label in header_colors %}
         <button type="button" class="appearance-swatch" data-color="{{ value }}" aria-pressed="false">
             <span style="--swatch-color: {{ value }}" aria-hidden="true"></span>{{ label }}

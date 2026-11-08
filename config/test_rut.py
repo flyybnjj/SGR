@@ -37,7 +37,7 @@ class RutValidationTests(SimpleTestCase):
 
     @skipUnless(shutil.which('node'), 'Node.js es necesario para comparar la validación del navegador.')
     def test_browser_and_server_accept_the_same_formats(self):
-        values = ['12.345.678-5', '123456785', '6k', '14-0', '1.234.567-4', '01.234.567 - 4',
+        values = ['12.345.678-5', '123456785', '6k', '14-0', '1.234.567-4', '21.984.440 - 9',
                   '0-0', '00000000-0', '12345678-9', '12..345.678-5', '1234567890', '١٢٣٤٥٦٧٨-5']
         script = '''const fs=require('fs'),vm=require('vm');const c={window:{},document:{querySelectorAll:()=>[]}};
 vm.runInNewContext(fs.readFileSync(process.argv[1],'utf8'),c);
@@ -48,6 +48,8 @@ process.stdout.write(JSON.stringify(JSON.parse(process.argv[2]).map(value=>c.win
         actual = json.loads(result.stdout)
         for value, browser in zip(values, actual):
             try:
+                from config.validators import validar_rut
+                validar_rut(value)
                 expected = normalizar_rut(value)
             except ValidationError:
                 expected = None
@@ -66,13 +68,13 @@ class RutWorkflowTests(TestCase):
 
     def test_user_and_neighbor_forms_normalize_before_length_validation(self):
         user = UsuarioForm({'username': 'otro-ensayo', 'first_name': 'Ana', 'last_name': 'Soto',
-            'email': 'otro@example.test', 'rut': '01.234.567 - 4', 'rol': self.role.pk, 'password': 'Acceso$2026'})
+            'email': 'otro@example.test', 'rut': '21.984.440 - 9', 'rol': self.role.pk, 'password': 'Acceso$2026'})
         self.assertTrue(user.is_valid(), user.errors)
-        self.assertEqual(user.cleaned_data['rut'], '1234567-4')
-        neighbor = VecinoForm({'nombre': 'Otra persona', 'rut': '01.234.567 - 4', 'territorio': self.seat.pk,
+        self.assertEqual(user.cleaned_data['rut'], '21984440-9')
+        neighbor = VecinoForm({'nombre': 'Otra persona', 'rut': '21.984.440 - 9', 'territorio': self.seat.pk,
                               'tipo_gestion': 'Consulta', 'activo': 'on'})
         self.assertTrue(neighbor.is_valid(), neighbor.errors)
-        self.assertEqual(neighbor.cleaned_data['rut'], '1234567-4')
+        self.assertEqual(neighbor.cleaned_data['rut'], '21984440-9')
 
     def test_alternative_formats_do_not_bypass_duplicate_validation(self):
         for value in ('12.345.678-5', '123456785', '12345678-5'):

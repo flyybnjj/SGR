@@ -13,7 +13,7 @@
     if (field.required && !field.value.trim()) {
       field.setCustomValidity('Complete este campo.');
     } else if (field.value && (field.dataset.validate === 'rut' || /(^|-)rut$/.test(field.name)) && !validRut(field.value)) {
-      field.setCustomValidity('Ingrese un RUT válido con su dígito verificador.');
+      field.setCustomValidity('Ingrese un RUT de 8 cifras más su dígito verificador válido (número o K).');
     } else if (field.value && (field.dataset.validate === 'phone' || /(^|-)telefono$/.test(field.name)) && !/^(?:\+?56[ -]?)?[2-9](?:[ -]?\d){8}$/.test(field.value)) {
       field.setCustomValidity('Ingrese un teléfono chileno de 9 dígitos, opcionalmente con +56.');
     } else if (field.value && field.type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(field.value)) {
@@ -23,6 +23,18 @@
   }
   window.initializeCrudForms = (root = document) => {
   window.MunicipalRut?.bind(root);
+  root.querySelectorAll('input[type="number"]').forEach(field => {
+    if (field.dataset.integerReady || field.step === 'any' || (field.step && Number(field.step) % 1 !== 0) || Number(field.min || 0) < 0) return;
+    field.dataset.integerReady = 'true';
+    field.inputMode = 'numeric';
+    field.addEventListener('beforeinput', event => {
+      if (event.data && /[^0-9]/.test(event.data)) event.preventDefault();
+    });
+    field.addEventListener('paste', event => {
+      if (/[^0-9]/.test(event.clipboardData?.getData('text') || '')) event.preventDefault();
+    });
+  });
+
   root.querySelectorAll('form[data-crud-form], form[method="post"]:not([data-confirm]), form[method="POST"]:not([data-confirm])').forEach(form => {
     if (form.dataset.validationReady) return;
     form.dataset.validationReady = "true";

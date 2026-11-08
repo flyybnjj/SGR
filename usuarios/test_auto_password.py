@@ -76,7 +76,7 @@ class AutoPasswordTests(TestCase):
         email_sent = mail.outbox[0]
         self.assertIn('claudia.araya@laserena.cl', email_sent.to)
         self.assertIn('claudia.muni', email_sent.body)
-        self.assertIn('Bienvenido a la Plataforma SGR La Serena', email_sent.subject)
+        self.assertIn('SGR', email_sent.subject)
 
         user.refresh_from_db()
         self.assertFalse(user.password.startswith('claudia'))

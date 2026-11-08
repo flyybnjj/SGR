@@ -59,7 +59,7 @@
                     <th scope="col">Comuna</th>
                     <th scope="col">Delegado a Cargo</th>
                     <th scope="col" class="text-center" style="width: 120px;">Estado</th>
-                    <th scope="col" class="text-center record-actions-column">Acciones</th>
+                    <th scope="col" class="text-center record-actions-column record-user-actions-column">Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -85,14 +85,20 @@
                         <span class="badge-stitch-inactivo">Inactivo</span>
                         {% endif %}
                     </td>
-                    <td class="text-center record-actions-column">
+                    <td class="text-center record-actions-column record-user-actions-column">
                         {% if request.user.is_superuser or request.user.delegacion_id == d.id %}
-                        <div class="record-actions"><a href="{% url 'crud_detail' 'delegaciones' d.pk %}" class="btn-stitch-icon" title="Ver detalle" aria-label="Ver detalle de {{ d.nombre }}"><i class="bi bi-eye" aria-hidden="true"></i><span class="visually-hidden">Ver detalle</span></a>
+                        <div class="record-actions record-user-actions"><a href="{% url 'crud_detail' 'delegaciones' d.pk %}" class="btn-stitch-icon" title="Ver detalle" aria-label="Ver detalle de {{ d.nombre }}"><i class="bi bi-eye" aria-hidden="true"></i><span class="visually-hidden">Ver detalle</span></a>
                             <button type="button" class="btn-stitch-icon" title="Editar delegación" aria-label="Editar {{ d.nombre }}" data-edit-form="{% url 'crud_edit_form' 'delegaciones' d.pk %}"><i class="bi bi-pencil" aria-hidden="true"></i></button>
-                            <form method="post" action="{% url 'territorial:delegaciones_toggle' d.id %}" data-confirm-action="{% if d.activo %}delete{% else %}restore{% endif %}" data-confirm-title="{% if d.activo %}Desactivar{% else %}Restaurar{% endif %} delegación" data-confirm-record="{{ d.nombre }}" data-confirm="{% if d.activo %}La delegación quedará inactiva. Su historial se conservará y podrás restaurarla desde este listado.{% else %}La delegación volverá a estar activa.{% endif %}">
+                            <form method="post" action="{% url 'territorial:delegaciones_toggle' d.id %}" data-confirm-action="{% if d.activo %}deactivate{% else %}restore{% endif %}" data-confirm-title="{% if d.activo %}Desactivar{% else %}Reactivar{% endif %} delegación" data-confirm-record="{{ d.nombre }}" data-confirm="{% if d.activo %}La delegación quedará inactiva. Su historial se conservará y podrás reactivarla desde este listado.{% else %}La delegación volverá a estar activa.{% endif %}">
                                 {% csrf_token %}
-                                <button type="submit" class="btn-stitch-icon {% if d.activo %}btn-stitch-icon-delete btn-record-delete{% else %}btn-record-restore{% endif %}" title="{% if d.activo %}Desactivar delegación (papelera){% else %}Restaurar delegación{% endif %}" aria-label="{% if d.activo %}Desactivar{% else %}Restaurar{% endif %} {{ d.nombre }}">{% include 'includes/record_state_icon.html' with active=d.activo %}</button>
+                                <button type="submit" class="btn-stitch-icon {% if d.activo %}btn-record-deactivate{% else %}btn-record-restore{% endif %}" title="{% if d.activo %}Desactivar delegación{% else %}Reactivar delegación{% endif %}" aria-label="{% if d.activo %}Desactivar{% else %}Reactivar{% endif %} {{ d.nombre }}">{% include 'includes/record_state_icon.html' with active=d.activo power=True %}</button>
                             </form>
+                            {% if request.user.is_superuser %}
+                            <form method="post" action="{% url 'territorial:delegaciones_delete' d.id %}" data-confirm-action="remove" data-confirm-title="Eliminar delegación definitivamente" data-confirm-record="{{ d.nombre }}" data-confirm="La delegación se eliminará permanentemente. Esta acción no se puede deshacer. Si tiene un responsable, funcionarios, vecinos, metas o historial, la eliminación se bloqueará. Para conservar sus datos, usa Desactivar.">
+                                {% csrf_token %}
+                                <button type="submit" class="btn-stitch-icon btn-stitch-icon-delete btn-record-delete" title="Eliminar delegación definitivamente" aria-label="Eliminar definitivamente {{ d.nombre }}">{% include 'includes/record_state_icon.html' with active=True %}</button>
+                            </form>
+                            {% endif %}
                         </div>
                         {% else %}<span class="text-secondary">Solo lectura</span>{% endif %}
                     </td>
@@ -136,7 +142,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="nuevaDelegacionModal-comuna" class="form-label small fw-semibold" style="color: var(--text-main);">Comuna *</label>
-                        <input type="text" id="nuevaDelegacionModal-comuna" name="comuna" value="La Serena" class="input-stitch" required maxlength="100" data-validate="text" pattern=".*\S.*">
+                        <input type="text" id="nuevaDelegacionModal-comuna" name="comuna" disabled aria-disabled="true" value="La Serena" class="input-stitch" required maxlength="100" data-validate="text" pattern=".*\S.*">
                     </div>
                     <div class="mb-3">
                         <label for="nuevaDelegacionModal-delegado" class="form-label small fw-semibold" style="color: var(--text-main);">Delegado Responsable</label>

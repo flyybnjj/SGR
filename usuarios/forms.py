@@ -154,7 +154,7 @@ class UsuarioForm(RutFormMixin, forms.ModelForm):
     class Meta:
         model = Usuario
 
-        fields = ['username', 'first_name', 'last_name', 'email', 'email_secundario', 'rut', 'telefono', 'rol', 'delegacion', 'activo']
+        fields = ['username', 'first_name', 'last_name', 'email', 'email_secundario', 'rut', 'telefono', 'cargo', 'rol', 'delegacion', 'activo']
         widgets = {
             'username': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'usuario.muni'}),
             'first_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nombres'}),

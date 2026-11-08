@@ -5,7 +5,7 @@
     const raw = value.replace(/\s+/g, '').toUpperCase();
     if (!/^(?:[0-9]{1,8}|[0-9]{1,3}(?:\.[0-9]{3}){1,2})-?[0-9K]$/.test(raw)) return null;
     const clean = compact(raw), body = clean.slice(0, -1), dv = clean.slice(-1);
-    if (body.length > 8 || !Number(body)) return null;
+    if (!/^[1-9][0-9]{7}$/.test(body)) return null;
     let sum = 0;
     for (let i = 0; i < body.length; i++) sum += Number(body[body.length - i - 1]) * (2 + i % 6);
     const remainder = 11 - sum % 11;
@@ -35,11 +35,22 @@
         });
         return;
       }
-      field.maxLength = 24;
+      field.maxLength = 12;
+      field.minLength = field.required ? 12 : 0;
+      field.pattern = '[1-9][0-9]\\.[0-9]{3}\\.[0-9]{3}-[0-9Kk]';
+      field.title = '8 cifras más el dígito verificador. Ejemplo: 21.984.440-9.';
+      field.addEventListener('beforeinput', event => {
+        if (event.isComposing || !event.data || !event.inputType.startsWith('insert')) return;
+        if (/[^0-9kK.\s-]/.test(event.data)) event.preventDefault();
+      });
+      field.addEventListener('paste', event => {
+        if (/[^0-9kK.\s-]/.test(event.clipboardData?.getData('text') || '')) event.preventDefault();
+      });
       field.autocapitalize = 'characters';
       field.spellcheck = false;
       const update = () => {
-        const old = field.value, position = field.selectionStart;
+        const old = field.value.replace(/[^0-9kK.\s-]/g, ''), position = field.selectionStart;
+        if (field.value !== old) field.value = old;
         const digitsBefore = compact(old.slice(0, position)).length;
         const next = format(old);
         if (next === old) return;

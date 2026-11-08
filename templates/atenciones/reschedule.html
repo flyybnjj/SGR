@@ -1,0 +1,4 @@
+{% extends 'base.html' %}
+{% block title %}Reprogramar meta | SGR{% endblock %}
+{% block content %}<header class="page-heading"><div><h1>Reprogramar meta</h1><p>{{ meta.item_meta }} · {{ meta.delegacion }} · {{ meta.funcionario|default:'Equipo' }}</p></div><a href="{% url 'atenciones:meta_list' %}">Volver a metas</a></header>
+<section class="dashboard-section"><p>Período de origen: {{ meta.inicio|date:'d/m/Y' }}–{{ meta.fin|date:'d/m/Y' }}. Hay <strong>{{ pendientes }}</strong> actividades pendientes.</p><p>Se crea una meta sucesora. El objetivo original y el trabajo ya aprobado se conservan. Las actividades trasladadas mantienen su fecha de realización y solo contarán para la meta de destino al aprobarse dentro de ese período.</p><form method="post">{% csrf_token %}{{ form.as_p }}<button class="btn-stitch btn-stitch-primary" type="submit">Crear continuidad trimestral</button></form></section>{% endblock %}

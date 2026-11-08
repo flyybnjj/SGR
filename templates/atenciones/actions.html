@@ -1,38 +1,32 @@
-{% extends 'base.html' %}
-{% block title %}Acciones{% endblock %}
+{% extends 'base.html' %}{% load static %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/activity-board.css' %}">{% endblock %}
+{% block title %}Tubo de actividades | SGR{% endblock %}
 {% block content %}
-<header class="page-heading">
-    <div><h1>Acciones</h1><p>Registro de actividades y seguimiento de su aprobación.</p></div>
-    <div class="d-flex flex-wrap gap-2">
-        <a class="btn-stitch btn-stitch-excel" href="?q={{ search|urlencode }}&amp;estado={{ estado|urlencode }}&amp;export=excel"><i class="bi bi-file-earmark-excel" aria-hidden="true"></i>Exportar Excel</a>
-        {% if can_register %}<a class="btn-stitch btn-stitch-primary" href="{% url 'atenciones:action_create' %}"><i class="bi bi-plus-lg" aria-hidden="true"></i>Nueva acción</a>{% endif %}
-    </div>
-</header>
-<section class="card-stitch">
-    <div class="card-stitch-header">
-        <form class="transaction-filter w-100" method="get">
-            <input class="form-control" name="q" value="{{ search }}" placeholder="Buscar acción, folio o delegación" aria-label="Buscar acción">
-            <select name="estado" class="form-select" aria-label="Estado de revisión"><option value="">Todos los estados</option>{% for value,label in states %}<option value="{{ value }}" {% if estado == value %}selected{% endif %}>{{ label }}</option>{% endfor %}</select>
-            <button class="btn-stitch btn-stitch-secondary" type="submit">Filtrar</button>
-        </form>
-    </div>
-    <div class="table-responsive">
+<header class="page-heading"><div><h1>Tubo de actividades</h1><p>Del ingreso al cierre, con responsables y evidencia.</p></div><div class="d-flex flex-wrap gap-2"><a class="btn-stitch btn-stitch-excel" href="{% querystring export='excel' page=None %}">Exportar Excel</a>{% if can_register %}<a class="btn-stitch btn-stitch-primary" href="{% url 'atenciones:action_create' %}"><i class="bi bi-plus-lg" aria-hidden="true"></i>Nueva actividad</a>{% endif %}</div></header>
+<section class="tubo-metrics" aria-label="Resumen de la consulta completa"><div><span>Gestiones en tubo</span><strong>{{ tubo_totals.total }}</strong><small>Según los filtros actuales</small></div><div><span>Realizadas</span><strong>{{ tubo_totals.realizadas }}</strong><small>{% if tubo_totals.total %}Tasa de resolución: {{ tubo_totals.tasa_resolucion|floatformat:"1" }} %{% else %}— · Sin gestiones{% endif %}</small></div><div><span>En proceso</span><strong>{{ tubo_totals.proceso }}</strong><small>Trabajo en ejecución</small></div><div><span>Pendientes / alerta</span><strong>{{ tubo_totals.alertas }}</strong><small>Sin responsable o con compromiso vencido</small></div></section>
+<section class="tubo-workspace" aria-label="Actividades y filtros"><form class="transaction-filter tubo-filter" method="get"><input type="hidden" name="vista" value="{% if board %}tablero{% else %}tabla{% endif %}"><label class="visually-hidden" for="tubo-search">Buscar actividad</label><input class="form-control" id="tubo-search" name="q" value="{{ search }}" placeholder="Actividad, folio o delegación" maxlength="120"><select class="form-select" name="avance" aria-label="Avance"><option value="">Todos los avances</option>{% for value,label in avances %}<option value="{{ value }}" {% if avance == value %}selected{% endif %}>{{ label }}</option>{% endfor %}</select><select class="form-select" name="estado" aria-label="Revisión"><option value="">Todas las revisiones</option>{% for value,label in states %}<option value="{{ value }}" {% if estado == value %}selected{% endif %}>{{ label }}</option>{% endfor %}</select><button class="btn-stitch btn-stitch-secondary" type="submit">Buscar</button></form>
+<div class="tubo-toolbar"><nav aria-label="Vista del tubo" class="tubo-view"><a href="{% querystring vista='tablero' page=None %}" {% if board %}aria-current="page"{% endif %}><i class="bi bi-kanban" aria-hidden="true"></i>Tablero</a><a href="{% querystring vista='tabla' page=None %}" {% if not board %}aria-current="page"{% endif %}><i class="bi bi-table" aria-hidden="true"></i>Tabla</a></nav><p class="small text-secondary mb-0">Contadores de toda la consulta · tarjetas de esta página</p></div>
+{% if board %}<div class="activity-board" tabindex="0" role="region" aria-label="Tubo de cuatro columnas; desplázate horizontalmente para ver todas">
+{% for value,label,total in stage_totals %}<section class="activity-column" data-stage="{{ value }}"><header class="column-heading"><h2>{{ label }}</h2><span class="column-count" aria-label="{{ total }} actividades en toda la consulta">{{ total }}</span></header>
+{% for action in page_obj %}{% if action.avance == value %}<article class="activity-card"><div class="activity-card-top"><span>ACT-{{ action.pk|stringformat:'05d' }}</span><span class="status-pill {{ action.estado }}">{{ action.estado }}</span></div>{% if action.origen_historico %}<p class="small text-secondary">{{ action.origen_historico.folio }} · Estado original: {{ action.origen_historico.estado_original_texto }}</p>{% endif %}<h3><a href="{% url 'atenciones:action_detail' action.pk %}">{{ action.titulo }}</a></h3><p class="activity-description">{{ action.descripcion|truncatechars:105 }}</p><dl class="activity-card-data"><div><dt>Solicitante</dt><dd>{{ action.solicitante|default:'Sin informar' }}</dd></div>{% if action.area_apoyo %}<div><dt>Apoyo</dt><dd>{{ action.area_apoyo }}</dd></div>{% endif %}<div><dt>Responsable</dt><dd>{{ action.responsable|default:'Sin asignar' }}</dd></div></dl>{% if action.fecha_compromiso %}<p class="activity-deadline {% if action.is_overdue %}is-overdue{% endif %}"><i class="bi bi-calendar3" aria-hidden="true"></i>{{ action.fecha_compromiso|date:'d/m/Y' }}{% if action.is_overdue %} · Vencida{% endif %}</p>{% endif %}
+{% if action.excede_limite_diario %}<p class="small">Excede el máximo · Sin puntaje</p>{% elif action.sin_contacto_beneficiario %}<p class="small">Contacto incompleto · Sin puntaje</p>{% endif %}
+<footer><a href="{% url 'atenciones:action_detail' action.pk %}" class="activity-open">Ver detalle<i class="bi bi-arrow-right" aria-hidden="true"></i></a>{% if action.can_edit_tubo and action.next_progress %}{% if action.responsable_id %}<form method="post" action="{% url 'atenciones:action_progress' action.pk %}">{% csrf_token %}<input type="hidden" name="responsable" value="{{ action.responsable_id }}"><input type="hidden" name="avance" value="{{ action.next_progress }}"><input type="hidden" name="volver" value="{{ request.get_full_path }}"><button class="tubo-step" type="submit">{% if action.next_progress == 'Finalizada' %}Finalizar avance{% elif action.next_progress == 'En proceso' %}A proceso{% else %}Asignar{% endif %}</button></form>{% else %}<a class="tubo-step" href="{% url 'atenciones:action_detail' action.pk %}#seguimiento">Asignar</a>{% endif %}{% elif can_review and action.estado == 'Pendiente' %}<a class="tubo-step" href="{% url 'atenciones:action_review' action.pk %}">Revisar</a>{% endif %}</footer></article>{% endif %}{% endfor %}
+<p class="column-help">{{ total }} en total. La paginación distribuye las tarjetas.</p></section>{% endfor %}</div>{% else %}
+<div class="table-responsive">
         <table class="table-stitch">
             <thead><tr><th scope="col">Fecha</th><th scope="col">Acción</th><th scope="col">Delegación</th><th scope="col">Autor</th><th scope="col">Revisión</th><th scope="col">Evidencia</th>{% if can_review %}<th scope="col">Revisar</th>{% endif %}</tr></thead>
             <tbody>
                 {% for action in page_obj %}
                 <tr>
                     <td class="text-nowrap">{{ action.fecha_creacion|date:'d/m/Y' }}</td>
-                    <td class="table-description"><strong class="d-block">{{ action.titulo }}</strong><small class="text-secondary">{{ action.descripcion|truncatechars:100 }}</small>{% if action.origen_historico %}<small class="d-block mt-1 text-secondary">Estado original: {{ action.origen_historico.estado_original_texto }}</small>{% endif %}</td>
+                    <td class="table-description"><a href="{% url 'atenciones:action_detail' action.pk %}"><strong class="d-block">{{ action.titulo }}</strong></a><small class="d-block">{{ action.avance }} · {{ action.responsable|default:'Sin responsable' }}</small><small class="text-secondary">{{ action.descripcion|truncatechars:100 }}</small>{% if action.naturaleza != 'Directa' %}<small class="d-block">{{ action.get_naturaleza_display }}</small>{% endif %}{% if action.excede_limite_diario %}<small class="d-block mt-1 text-secondary"><i class="bi bi-info-circle" aria-hidden="true"></i> Excede el máximo · No suma a metas</small>{% endif %}{% if action.origen_historico %}<small class="d-block mt-1 text-secondary">Estado original: {{ action.origen_historico.estado_original_texto }}</small>{% endif %}</td>
                     <td>{{ action.delegacion }}</td><td>{{ action.creador }}</td>
                     <td><span class="status-pill {{ action.estado }}">{{ action.estado }}</span></td>
-                    <td>{% if action.evidencia %}<a href="{% url 'atenciones:action_evidence' action.pk %}">Ver imagen</a>{% else %}<span class="text-secondary">Sin evidencia</span>{% endif %}</td>
+                    <td>{% if action.evidencia %}<a class="evidence-link" href="{% url 'atenciones:action_evidence' action.pk %}">Foto inicial</a>{% else %}<span class="d-block text-secondary">Sin foto inicial</span>{% endif %}{% if action.has_final_evidence %}<a class="evidence-link" href="{% url 'atenciones:action_evidence' action.pk %}?etapa=despues">Foto final</a>{% endif %}</td>
                     {% if can_review %}<td><a class="btn-stitch btn-stitch-secondary" href="{% url 'atenciones:action_review' action.pk %}" aria-label="Revisar {{ action.titulo }}"><i class="bi bi-eye" aria-hidden="true"></i> Revisar</a></td>{% endif %}
                 </tr>
                 {% empty %}<tr><td colspan="{% if can_review %}7{% else %}6{% endif %}"><div class="empty-state">No hay acciones que mostrar.</div></td></tr>{% endfor %}
             </tbody>
         </table>
     </div>
-    {% include 'includes/pagination.html' %}
-</section>
-{% endblock %}
+    {% endif %}{% include 'includes/pagination.html' %}</section>{% endblock %}

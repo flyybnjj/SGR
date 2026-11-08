@@ -38,3 +38,8 @@ class Vecino(models.Model):
 
     def __str__(self):
         return f"{self.nombre} - {self.rut}"
+
+    @property
+    def rut_formateado(self):
+        from config.validators import formatear_rut
+        return formatear_rut(self.rut)

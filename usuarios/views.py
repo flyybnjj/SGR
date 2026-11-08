@@ -14,7 +14,7 @@ from django.utils import timezone
 from django.utils.crypto import salted_hmac
 from datetime import timedelta
 from django.db.models import Q
-from django.db import transaction
+from django.db import transaction, IntegrityError
 from django.db.models.deletion import ProtectedError
 from django.contrib.admin.models import LogEntry
 from config.write_serialization import catalog_write_lock
@@ -40,6 +40,11 @@ def identify_account(identifier, *, active_only=False):
         matches = list(accounts.filter(Q(email__iexact=identifier) | Q(email_secundario__iexact=identifier))[:2])
         return matches[0] if len(matches) == 1 else None
     if re.fullmatch(r'[0-9.Kk -]+', identifier):
+        from config.validators import validar_rut
+        try:
+            validar_rut(identifier)
+        except ValidationError:
+            return None
         compact = re.sub(r'[^0-9kK]', '', identifier).upper()
         if compact:
             matches = [user for user in accounts.exclude(rut__isnull=True).exclude(rut='')
@@ -63,6 +68,7 @@ def recovery_stamp(user):
     ])).hexdigest()
 
 
+@never_cache
 def login_view(request):
     if request.user.is_authenticated:
         return redirect('dashboard:inicio')
@@ -161,6 +167,7 @@ def recovery_issue(request, user, recipients):
     request.session['recovery_code_sent_at'] = timezone.now().isoformat()
 
 
+@never_cache
 def recuperar_password_view(request):
     from .passkeys import rate_limit_ip
     import hashlib
@@ -184,6 +191,7 @@ def recuperar_password_view(request):
     return render(request, 'usuarios/recuperar_password.html', {'form': form})
 
 
+@never_cache
 def validar_codigo_view(request):
     from django.core.cache import cache
     from .passkeys import rate_limit_ip
@@ -226,6 +234,7 @@ def validar_codigo_view(request):
     return render(request, 'usuarios/validar_codigo.html', {'email': None, 'username': None})
 
 
+@never_cache
 @require_POST
 def reenviar_codigo_view(request):
     from .passkeys import rate_limit_ip
@@ -242,6 +251,7 @@ def reenviar_codigo_view(request):
     return redirect('usuarios:validar_codigo')
 
 
+@never_cache
 def cambiar_password_view(request):
     email = request.session.get('recovery_email')
     user_id = request.session.get('recovery_user_id')
@@ -265,18 +275,24 @@ def cambiar_password_view(request):
                 if not user.activo or not user.is_active or request.session.get('recovery_verified_stamp') != recovery_stamp(user):
                     request.session.pop('recovery_verified', None)
                     return redirect('usuarios:recuperar_password')
-                user.set_password(new_pwd)
-                user.debe_cambiar_password = False
-                user.reset_code = None
-                user.reset_expires_at = None
-                user.codigo_recuperacion = None
-                user.codigo_expiracion = None
-                user.save()
+                if user.debe_cambiar_password and user.check_password(new_pwd):
+                    form.add_error('new_password', 'Elige una contraseña distinta de la temporal.')
+                else:
+                    if user.debe_cambiar_password:
+                        user.tutorial_pendiente = True
+                    user.set_password(new_pwd)
+                    user.debe_cambiar_password = False
+                    user.reset_code = None
+                    user.reset_expires_at = None
+                    user.codigo_recuperacion = None
+                    user.codigo_expiracion = None
+                    user.save()
 
-            logout(request)
+            if not form.errors:
+                logout(request)
 
-            messages.success(request, f"¡Contraseña actualizada exitosamente para @{user.username}! Ya puedes iniciar sesión.")
-            return redirect('usuarios:login')
+                messages.success(request, f"¡Contraseña actualizada exitosamente para @{user.username}! Ya puedes iniciar sesión.")
+                return redirect('usuarios:login')
 
     return render(request, 'usuarios/cambiar_password.html', {'form': form, 'user_target': user})
 
@@ -304,6 +320,7 @@ def primer_ingreso_view(request):
                 else:
                     user_db.set_password(new_pwd)
                     user_db.debe_cambiar_password = False
+                    user_db.tutorial_pendiente = True
                     user_db.reset_code = user_db.codigo_recuperacion = None
                     user_db.reset_expires_at = user_db.codigo_expiracion = None
                     user_db.save()
@@ -313,6 +330,7 @@ def primer_ingreso_view(request):
                 update_session_auth_hash(request, user_db)
                 messages.success(request, 'Contraseña actualizada.')
                 if request.POST.get('agregar_passkey') in ('1', 'on', 'true'):
+                    request.session['tutorial_passkeys_pending'] = True
                     return redirect('usuarios:passkeys')
                 return redirect('dashboard:inicio')
     else:
@@ -421,45 +439,35 @@ def usuarios_list_view(request):
 
 
 def enviar_correo_bienvenida(request, user, password_plana):
+    import logging
+    from django.core.mail import EmailMessage, get_connection
+    from django.urls import reverse
     if not user or not user.email or not password_plana:
         return False
-    import logging
-    from django.core.mail import get_connection, send_mail
-    from django.urls import reverse
     if settings.EMAIL_BACKEND.endswith(('console.EmailBackend', 'dummy.EmailBackend', 'filebased.EmailBackend')):
         return False
     recipient = user.email.strip().lower()
     if recipient not in recovery_recipients(user):
         return False
     login_url = settings.WEBAUTHN_ORIGIN.rstrip('/') + reverse('usuarios:login')
-    context = {
-        'user': user,
-        'password': password_plana,
-        'login_url': login_url,
-    }
+    body = (
+        f"Hola, {user.first_name or user.username}.\n\n"
+        "El administrador de SGR ha creado tu cuenta.\n\n"
+        f"Usuario: {user.username}\n"
+        f"Contraseña temporal: {password_plana}\n\n"
+        f"Dirección de ingreso: {login_url}\n\n"
+        "Al ingresar deberás cambiar esta contraseña. Luego podrás agregar una passkey si quieres.\n"
+        "No compartas tus datos de acceso.\n\n"
+        "Equipo SGR"
+    )
     try:
-        html = render_to_string('usuarios/email_bienvenida.html', context)
-        texto_plano = (
-            f"Estimado(a) {user.nombre_completo},\n\n"
-            f"Se ha creado tu cuenta institucional en la Plataforma Territorial SGR - Ilustre Municipalidad de La Serena.\n\n"
-            f"Tus credenciales de acceso inicial son:\n"
-            f"- Usuario / Login: {user.username}\n"
-            f"- Contraseña provisoria: {password_plana}\n\n"
-            f"Puedes ingresar al sistema en: {login_url}\n\n"
-            f"Al ingresar por primera vez deberás cambiar esta contraseña. Después podrás agregar una passkey si quieres.\n\n"
-            f"Saludos cordiales,\n"
-            f"Ilustre Municipalidad de La Serena"
-        )
-        sent = send_mail(
-            'Bienvenido a la Plataforma SGR La Serena - Credenciales de Acceso',
-            texto_plano,
-            settings.DEFAULT_FROM_EMAIL,
-            [recipient],
-            html_message=html,
-            fail_silently=False,
+        message = EmailMessage(
+            'SGR: acceso a tu cuenta', body, settings.DEFAULT_FROM_EMAIL, [recipient],
             connection=get_connection(timeout=15),
         )
-        return sent > 0
+        sent = message.send(fail_silently=False)
+        logging.getLogger(__name__).warning('Correo inicial cuenta %s: SMTP acepto %s mensaje(s).', user.pk, sent)
+        return sent == 1
     except Exception as exc:
         logging.getLogger(__name__).warning('No se pudo entregar el correo inicial de la cuenta %s (%s).', user.pk, type(exc).__name__)
         return False
@@ -483,6 +491,8 @@ def usuarios_save_view(request, pk=None):
                     def deliver_welcome():
                         current = Usuario.objects.filter(pk=user.pk, password=user.password, email=user.email,
                                                          debe_cambiar_password=True).first()
+                        import logging
+                        logging.getLogger(__name__).warning('Alta cuenta %s: registro_confirmado=%s clave_generada=%s.', user.pk, bool(current), bool(raw_pwd))
                         enviado = bool(current and enviar_correo_bienvenida(request, current, raw_pwd))
                         if enviado:
                             messages.success(request, f"Usuario '{user.username}' creado. La contraseña temporal se envió a {user.email}. Revisa también spam.")
@@ -529,7 +539,7 @@ def usuarios_delete(request, pk):
                 return redirect('usuarios:usuarios_list')
             username = user.username
             user.delete()
-    except ProtectedError:
+    except (ProtectedError, IntegrityError):
         messages.error(request, 'Este usuario tiene atenciones, acciones o revisiones registradas. Puedes desactivarlo para conservar su historial.')
     except ValidationError as error:
         messages.error(request, ' '.join(error.messages))

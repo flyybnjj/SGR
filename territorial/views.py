@@ -1,5 +1,5 @@
 from config.write_serialization import catalog_write_lock
-from config.access import admin_required
+from config.access import admin_required, superuser_required
 from config.pagination import paginate
 from django.views.decorators.http import require_POST
 from django.core.exceptions import PermissionDenied, ValidationError
@@ -7,7 +7,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Q
-from django.db import transaction
+from django.db import IntegrityError, transaction
+from django.db.models.deletion import ProtectedError
+from vecinos.deletion import has_database_dependencies
 from config.excel_utils import export_queryset_to_excel
 from .models import DelegacionMunicipal, ItemMeta
 from .forms import DelegacionMunicipalForm, ItemMetaForm
@@ -126,6 +128,26 @@ def delegaciones_toggle_activo(request, pk):
         return redirect('territorial:delegaciones_list')
     estado_str = "activada" if delg.activo else "desactivada (borrado lógico)"
     messages.success(request, f"La delegación '{delg.nombre}' fue {estado_str} exitosamente.")
+    return redirect('territorial:delegaciones_list')
+
+
+@superuser_required
+@require_POST
+def delegaciones_delete(request, pk):
+    try:
+        with catalog_write_lock(), transaction.atomic():
+            delegation = get_object_or_404(DelegacionMunicipal.objects.select_for_update(), pk=pk)
+            if delegation.delegado_id or has_database_dependencies(delegation):
+                messages.error(request, 'No se puede eliminar esta delegación: tiene un responsable, funcionarios, vecinos, metas o historial relacionado. Puedes desactivarla para conservar sus datos.')
+                return redirect('territorial:delegaciones_list')
+            nombre = delegation.nombre
+            delegation.delete()
+    except (ProtectedError, IntegrityError):
+        messages.error(request, 'No se puede eliminar esta delegación porque tiene registros relacionados. Sus datos se conservaron; puedes desactivarla.')
+    except ValidationError as error:
+        messages.error(request, ' '.join(error.messages))
+    else:
+        messages.success(request, f"La delegación '{nombre}' fue eliminada definitivamente.")
     return redirect('territorial:delegaciones_list')
 
 

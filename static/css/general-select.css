@@ -1,0 +1,75 @@
+.sgr-select select[data-enhanced-select][hidden] { display: none !important; }
+.sgr-select { width: 100%; }
+.transaction-filter .sgr-select, .sgr-select.sgr-select-compact { width: auto; min-width: 0; }
+.sgr-select-compact .sgr-select-trigger { min-width: 76px; }
+.sgr-select-trigger.form-select { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; min-height: 48px; padding: 10px 14px; text-align: left; background: #fff; background-image: none; color: var(--text-main, #172333); border: 1px solid var(--border-control, #8995a7); border-radius: 10px; box-shadow: none; font: inherit; }
+.sgr-select-trigger > span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sgr-select-trigger > i { flex-shrink: 0; font-size: 12px; color: var(--text-secondary, #475569); }
+.sgr-select-trigger:hover { border-color: #657185; background: #fafbfc; }
+.sgr-select-trigger:focus-visible { outline: 3px solid #5b677c; outline-offset: 2px; }
+.sgr-select-trigger[aria-expanded="true"] { border-color: #657185; }
+.sgr-select-menu.dropdown-menu { min-width: 100%; max-width: min(480px, calc(100vw - 32px)); max-height: min(320px, 50dvh); margin-top: 6px !important; padding: 6px; border: 1px solid #e2e6ed; border-radius: 12px !important; background: #fff; box-shadow: 0 12px 32px rgb(23 35 51 / 14%); overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; }
+.sgr-select-option.dropdown-item { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 44px; padding: 10px 12px; border-radius: 7px; color: var(--text-main, #172333); font: inherit; white-space: normal; overflow-wrap: anywhere; }
+.sgr-select-option > i { flex-shrink: 0; color: #b80003; font-size: 18px; visibility: hidden; }
+.sgr-select-option[aria-selected="true"] { background: #f4f5f7; font-weight: 600; }
+.sgr-select-option[aria-selected="true"] > i { visibility: visible; }
+.sgr-select-option.dropdown-item:is(:hover, :focus, :active) { background: #eef0f3 !important; color: var(--text-main, #172333) !important; }
+.sgr-select-option.dropdown-item:focus-visible { outline: 2px solid #657185; outline-offset: -2px; }
+.sgr-select-option:disabled { opacity: .5; }
+
+@supports (appearance: base-select) and selector(select::picker(select)) {
+  select:not([multiple]):is(:not([size]), [size="1"]),
+  select:not([multiple]):is(:not([size]), [size="1"])::picker(select) {
+    appearance: base-select !important;
+  }
+
+  select:not([hidden], [multiple]):is(:not([size]), [size="1"]) {
+    display: inline-flex;
+    align-items: center;
+    min-inline-size: 0;
+    max-inline-size: 100%;
+    gap: 12px;
+    padding-inline-end: 12px !important;
+    background-image: none !important;
+  }
+
+  select[data-page-size] { min-inline-size: 76px !important; }
+
+  select::picker-icon {
+    color: var(--text-secondary, #475569);
+    margin-inline-start: auto;
+    flex-shrink: 0;
+  }
+  select:open::picker-icon { rotate: 180deg; }
+
+  select::picker(select) {
+    max-inline-size: calc(100vw - 24px);
+    max-block-size: min(320px, 55dvh);
+    margin-block: 6px;
+    padding: 6px;
+    border: 1px solid #e2e6ed;
+    border-radius: 12px;
+    background: var(--surface, #fff);
+    color: var(--text-main, #172333);
+    box-shadow: 0 12px 32px rgb(23 35 51 / 14%);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  select:not([multiple]):is(:not([size]), [size="1"]) option {
+    display: flex;
+    align-items: center;
+    min-block-size: 44px;
+    padding: 8px 12px;
+    gap: 12px;
+    border-radius: 7px;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+  select option:checked { background: #f4f5f7; font-weight: 600; }
+  select option:is(:hover, :focus-visible):not(:disabled) { background: #eef0f3; }
+  select option:focus-visible { outline: 2px solid #657185; outline-offset: -2px; }
+  select option:disabled { color: var(--text-muted, #596578); }
+  select option::checkmark { order: 1; margin-inline-start: auto; color: var(--muni-red-primary, #b80003); }
+}
+

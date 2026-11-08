@@ -249,14 +249,21 @@ def password_reset(request):
             if not active(user) or not constant_time_compare(grant['stamp'], user.get_session_auth_hash()) or not Passkey.objects.filter(pk=key.pk, revoked_at__isnull=True).exists():
                 request.session.pop('passkey_reset', None)
                 return redirect('usuarios:recuperar_password')
-            user.set_password(form.cleaned_data['new_password'])
-            user.debe_cambiar_password = False
-            user.reset_code = user.codigo_recuperacion = None
-            user.reset_expires_at = user.codigo_expiracion = None
-            user.save()
-        logout(request)
-        messages.success(request, 'Contraseña actualizada. Puedes ingresar con tu passkey o con la nueva contraseña.')
-        return redirect('usuarios:login')
+            new_password = form.cleaned_data['new_password']
+            if user.debe_cambiar_password and user.check_password(new_password):
+                form.add_error('new_password', 'Elige una contraseña distinta de la temporal.')
+            else:
+                if user.debe_cambiar_password:
+                    user.tutorial_pendiente = True
+                user.set_password(new_password)
+                user.debe_cambiar_password = False
+                user.reset_code = user.codigo_recuperacion = None
+                user.reset_expires_at = user.codigo_expiracion = None
+                user.save()
+        if not form.errors:
+            logout(request)
+            messages.success(request, 'Contraseña actualizada. Puedes ingresar con tu passkey o con la nueva contraseña.')
+            return redirect('usuarios:login')
     return render(request, 'usuarios/cambiar_password.html', {'form': form, 'user_target': user})
 
 

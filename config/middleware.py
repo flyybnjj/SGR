@@ -5,6 +5,7 @@ from django.http import HttpResponseBadRequest, HttpResponseRedirect, JsonRespon
 from django.shortcuts import redirect, render
 from django.contrib.auth import logout
 from django.urls import reverse
+from django.utils.cache import add_never_cache_headers
 
 
 class LocalPasskeyOriginMiddleware:
@@ -33,6 +34,13 @@ class ActiveProfileMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
+        was_authenticated = request.user.is_authenticated
+        response = self.handle_request(request)
+        if (was_authenticated or request.user.is_authenticated) and 'no-store' not in response.get('Cache-Control', ''):
+            add_never_cache_headers(response)
+        return response
+
+    def handle_request(self, request):
         user = request.user
         if user.is_authenticated and (not user.activo or not user.is_active):
             logout(request)

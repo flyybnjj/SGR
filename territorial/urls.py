@@ -1,14 +1,19 @@
 from django.urls import path
 from . import views
+from . import absences
 
 app_name = 'territorial'
 
 urlpatterns = [
+    path('ausencias/', absences.listado, name='ausencias'),
+    path('ausencias/nueva/', absences.crear, name='ausencia_crear'),
+    path('ausencias/<int:pk>/anular/', absences.anular, name='ausencia_anular'),
     path('mi-perfil/apariencia/<int:pk>/', views.appearance_view, name='apariencia'),
 
     path('mantenedores/delegaciones/', views.delegaciones_list_view, name='delegaciones_list'),
     path('mantenedores/delegaciones/crear/', views.delegaciones_save_view, name='delegaciones_create'),
     path('mantenedores/delegaciones/<int:pk>/editar/', views.delegaciones_save_view, name='delegaciones_edit'),
+    path('mantenedores/delegaciones/<int:pk>/eliminar/', views.delegaciones_delete, name='delegaciones_delete'),
     path('mantenedores/delegaciones/<int:pk>/toggle/', views.delegaciones_toggle_activo, name='delegaciones_toggle'),
     path('mantenedores/delegaciones/exportar-excel/', views.delegaciones_export_excel, name='delegaciones_excel'),
 

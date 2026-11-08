@@ -20,7 +20,7 @@
         </p>
     </div>
     <div class="d-flex gap-2">
-        <a href="{% url 'vecinos:vecinos_excel' %}?q={{ search|urlencode }}" class="btn-stitch btn-stitch-excel">
+        <a href="{% url 'vecinos:vecinos_excel' %}?q={{ search|urlencode }}" class="btn-stitch btn-stitch-excel" data-neighbor-export>
             <i class="bi bi-file-earmark-excel"></i>
             <span>Exportar Excel</span>
         </a>
@@ -31,22 +31,20 @@
     </div>
 </div>
 
-<div class="card-stitch management-grid">
+<div class="card-stitch management-grid" data-live-neighbor-list>
 
     <div class="card-stitch-header flex-column flex-md-row gap-3">
-        <form method="GET" class="search-box-stitch" role="search">
+        <form method="GET" class="search-box-stitch" role="search" data-live-filter>
 <label class="visually-hidden" for="grid-search">Buscar registros</label>
 <input type="hidden" name="per_page" value="{{ page_obj.paginator.per_page }}">
             <i class="bi bi-search"></i>
             <input type="search" id="grid-search" name="q" value="{{ search }}" placeholder="Buscar por Nombre, RUT, Dirección o Territorio...">
             <button type="submit" class="btn-stitch btn-stitch-secondary">Buscar</button>
-            {% if search %}
-            <a href="{% url 'vecinos:vecinos_list' %}" class="text-secondary ms-1" aria-label="Limpiar filtro" title="Limpiar filtro"><i class="bi bi-x-circle-fill"></i></a>
-            {% endif %}
+            <a href="{% url 'vecinos:vecinos_list' %}" class="text-secondary ms-1" aria-label="Limpiar filtro" title="Limpiar filtro" data-live-clear {% if not search %}hidden{% endif %}><i class="bi bi-x-circle-fill"></i></a>
         </form>
         <div class="d-flex align-items-center gap-2">
             <span class="badge-stitch-tag">
-                Total Vecinos: <strong class="ms-1" style="color: var(--muni-red);">{{ page_obj.paginator.count }}</strong>
+                Total Vecinos: <strong data-neighbor-count class="ms-1" style="color: var(--muni-red);">{{ page_obj.paginator.count }}</strong>
             </span>
         </div>
     </div>
@@ -64,7 +62,7 @@
                     <th scope="col">Territorio Asignado</th>
                     <th scope="col">Tipo de Gestión</th>
                     <th scope="col" class="text-center" style="width: 120px;">Estado</th>
-                    <th scope="col" class="text-center" style="width: 110px;">Acciones</th>
+                    <th scope="col" class="text-center record-actions-column">Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -74,7 +72,7 @@
                     <td>
                         <div class="fw-bold" style="color: var(--text-main);">{{ v.nombre }}</div>
                     </td>
-                    <td style="font-family: monospace; font-size: 0.88rem; color: var(--text-muted);">{{ v.rut|default:'' }}</td>
+                    <td style="font-family: monospace; font-size: 0.88rem; color: var(--text-muted);">{{ v.rut_formateado|default:'' }}</td>
                     <td class="small" style="color: var(--text-muted);">{{ v.direccion }}</td>
                     <td class="small" style="color: var(--text-muted);">{{ v.telefono|default:"-" }}</td>
                     <td>
@@ -112,7 +110,14 @@
                         {% if can_register and user.is_superuser or can_register and v.territorio_id == user.delegacion_id %}<div class="record-actions"><button type="button" class="btn-stitch-icon" title="Editar Vecino" data-edit-form="{% url 'crud_edit_form' 'vecinos' v.pk %}">
                             <i class="bi bi-pencil"></i>
                         </button>
-                        <form method="post" action="{% url 'vecinos:vecinos_toggle' v.id %}" class="d-inline" data-confirm-action="{% if v.activo %}deactivate{% else %}restore{% endif %}" data-confirm-title="{% if v.activo %}Desactivar{% else %}Restaurar{% endif %} vecino" data-confirm-record="{{ v.nombre }}" data-confirm="{% if v.activo %}El registro quedará inactivo y conservará su historial. Podrás restaurarlo desde este listado.{% else %}Volverá a estar activo.{% endif %}">{% csrf_token %}<button type="submit" class="btn-stitch-icon {% if v.activo %}btn-stitch-icon-delete btn-record-delete{% else %}btn-record-restore{% endif %}" title="{% if v.activo %}Desactivar{% else %}Restaurar{% endif %}" aria-label="{% if v.activo %}Desactivar{% else %}Restaurar{% endif %} {{ v.nombre }}"><i class="bi bi-power" aria-hidden="true"></i></button></form></div>{% else %}<span class="text-secondary">Solo lectura</span>{% endif %}
+                        <form method="post" action="{% url 'vecinos:vecinos_toggle' v.id %}" data-confirm-action="{% if v.activo %}deactivate{% else %}restore{% endif %}" data-confirm-title="{% if v.activo %}Desactivar{% else %}Reactivar{% endif %} vecino" data-confirm-record="{{ v.nombre }}" data-confirm="{% if v.activo %}El registro quedará inactivo y conservará su historial. Podrás reactivarlo desde este listado.{% else %}El registro volverá a estar activo.{% endif %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn-stitch-icon {% if v.activo %}btn-record-deactivate{% else %}btn-record-restore{% endif %}" title="{% if v.activo %}Desactivar vecino{% else %}Reactivar vecino{% endif %}" aria-label="{% if v.activo %}Desactivar{% else %}Reactivar{% endif %} {{ v.nombre }}">{% include 'includes/record_state_icon.html' with active=v.activo power=True %}</button>
+                        </form>
+                        <form method="post" action="{% url 'vecinos:vecinos_delete' v.id %}" data-confirm-action="remove" data-confirm-title="Eliminar vecino definitivamente" data-confirm-record="{{ v.nombre }}" data-confirm="El vecino se eliminará permanentemente. Esta acción no se puede deshacer. Si tiene atenciones, requerimientos o historial relacionado, la eliminación se bloqueará. Para conservar el registro, usa Desactivar.">
+                            {% csrf_token %}
+                            <button type="submit" class="btn-stitch-icon btn-stitch-icon-delete btn-record-delete" title="Eliminar vecino definitivamente" aria-label="Eliminar definitivamente a {{ v.nombre }}">{% include 'includes/record_state_icon.html' with active=True %}</button>
+                        </form></div>{% else %}<span class="text-secondary">Solo lectura</span>{% endif %}
                     </td>
                 </tr>
 

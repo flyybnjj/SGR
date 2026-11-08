@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Novedades | SGR{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/novedades.css' %}">{% endblock %}
+{% block content %}
+<section class="updates-page" aria-labelledby="updates-title">
+    <a href="{% url 'dashboard:inicio' %}">← Volver al inicio</a>
+    <h1 id="updates-title">Novedades</h1>
+    <p class="updates-intro">Qué cambió y cómo usarlo. Aquí encontrarás las mejoras disponibles para tu perfil.</p>
+    <div id="updates-list">
+    {% for publicacion in publicaciones %}
+        <article class="update-entry" aria-labelledby="update-{{ publicacion.id }}">
+            <time datetime="{{ publicacion.fecha|date:'Y-m-d' }}">{{ publicacion.fecha|date:'j \d\e F \d\e Y' }}</time>
+            <h2 id="update-{{ publicacion.id }}">{{ publicacion.titulo }}</h2>
+            <p>{{ publicacion.resumen }}</p>
+            <ul>{% for detalle in publicacion.detalles %}<li>{{ detalle }}</li>{% endfor %}</ul>
+            {% if publicacion.antes and publicacion.despues %}
+            <div class="update-comparison">
+                <figure><img src="{% static publicacion.antes %}" alt="{{ publicacion.antes_alt }}" loading="lazy" width="1440" height="900"><figcaption>Antes</figcaption></figure>
+                <figure><img src="{% static publicacion.despues %}" alt="{{ publicacion.despues_alt }}" loading="lazy" width="1440" height="900"><figcaption>Ahora</figcaption></figure>
+            </div>
+            {% endif %}
+            <div class="update-actions">
+                {% if publicacion.ruta_recorrido %}<a class="btn-stitch btn-stitch-secondary" href="{% url publicacion.ruta_recorrido %}?tutorial=1">Ver recorrido</a>{% elif publicacion.recorrido %}<button class="btn-stitch-outline" type="button" data-update-tour>Ver recorrido</button>{% endif %}
+                {% if publicacion.leida %}<span class="update-read"><i class="bi bi-check2" aria-hidden="true"></i>Leída</span>{% else %}
+                <form action="{% url 'dashboard:novedad_leida' publicacion.id %}" method="post">{% csrf_token %}<button class="btn-stitch-outline" type="submit" data-update-read>Marcar como leída</button></form>
+                {% endif %}
+            </div>
+        </article>
+    {% empty %}<p>No hay novedades publicadas para tu perfil.</p>{% endfor %}
+    </div>
+</section>
+{% endblock %}
+{% block extra_scripts %}<script src="{% static 'js/novedades.js' %}"></script>{% endblock %}

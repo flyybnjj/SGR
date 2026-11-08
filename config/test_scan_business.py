@@ -1,3 +1,4 @@
+from atenciones.test_photo_workflow import photo
 
 from datetime import timedelta
 from unittest.mock import patch
@@ -53,7 +54,7 @@ class BusinessScanTests(TestCase):
 
     def test_action_rechecks_meta_moved_after_validation(self):
         meta = self.make_meta()
-        action_form = AccionForm({'titulo': 'Acción simultánea', 'descripcion': 'Detalle concurrente', 'meta': meta.pk}, user=self.staff)
+        action_form = AccionForm({'titulo': 'Acción simultánea', 'descripcion': 'Detalle concurrente', 'meta': meta.pk}, {'evidencia': photo()}, user=self.staff)
         self.assertTrue(action_form.is_valid(), action_form.errors)
         move_form = self.relocation_form(MetaPeriodo.objects.get(pk=meta.pk))
         self.assertTrue(move_form.is_valid(), move_form.errors)
@@ -81,7 +82,7 @@ class BusinessScanTests(TestCase):
             return valid
         with patch.object(AccionForm, 'is_valid', move_after_validation):
             response = self.client.post(reverse('atenciones:action_create'), {
-                'titulo': 'Acción simultánea', 'descripcion': 'Detalle preservado', 'meta': meta.pk})
+                'titulo': 'Acción simultánea', 'descripcion': 'Detalle preservado', 'meta': meta.pk, 'evidencia': photo()})
         self.assertEqual(response.status_code, 200)
         self.assertIn('meta', response.context['form'].errors)
         self.assertEqual(response.context['form']['descripcion'].value(), 'Detalle preservado')

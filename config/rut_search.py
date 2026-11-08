@@ -1,7 +1,7 @@
 import re
 
 from django.db.models import Q, Value
-from django.db.models.functions import Replace, Upper
+from django.db.models.functions import Replace, Upper, Lower
 
 
 def filter_with_rut(queryset, search, condition):
@@ -12,3 +12,13 @@ def filter_with_rut(queryset, search, condition):
             queryset = queryset.alias(rut_compact_search=Upper(expression))
             condition |= Q(rut_compact_search__icontains=compact)
     return queryset.filter(condition)
+
+
+def filter_neighbor_search(queryset, search, condition=None):
+    if re.fullmatch(r'[0-9][0-9.kK\s-]*', search):
+        compact = re.sub(r'[.\s-]+', '', search).upper()
+        expression = Replace(Replace(Replace('rut', Value('.'), Value('')), Value('-'), Value('')), Value(' '), Value(''))
+        return queryset.alias(rut_prefix_search=Upper(expression)).filter(rut_prefix_search__startswith=compact)
+    queryset = queryset.alias(nombre_identity_search=Lower('nombre'))
+    names = Q(nombre_identity_search__contains=search.lower())
+    return queryset.filter(names | condition if condition is not None else names)

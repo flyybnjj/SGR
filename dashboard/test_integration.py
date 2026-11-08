@@ -77,7 +77,16 @@ class IntegrationBoundaries(TestCase):
         for i in range(11):
             Accion.objects.create(titulo=f'Acción {i}', descripcion='Detalle', delegacion=self.north, creador=self.user)
         response = self.client.get(reverse('atenciones:action_list'), {'estado':'Pendiente'})
-        self.assertContains(response, '&amp;estado=Pendiente')
+        from html.parser import HTMLParser
+        from urllib.parse import parse_qs, urlsplit
+        class Links(HTMLParser):
+            def __init__(self): super().__init__(); self.links=[]
+            def handle_starttag(self, tag, attrs):
+                if tag == 'a': self.links.append(dict(attrs).get('href',''))
+        parser=Links();parser.feed(response.content.decode())
+        next_pages=[parse_qs(urlsplit(link).query) for link in parser.links if parse_qs(urlsplit(link).query).get('page')==['2']]
+        self.assertTrue(next_pages)
+        self.assertTrue(all(query.get('estado')==['Pendiente'] for query in next_pages))
         self.assertContains(response, 'name="estado" value="Pendiente"')
 
     def test_meta_edit_renders_iso_date_and_cannot_change_linked_delegation(self):

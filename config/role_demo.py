@@ -8,9 +8,9 @@ from config.access import operational, permission_required, can_manage, can_regi
 
 
 SCENARIOS = {
-    'terreno': {'title': 'Registro en terreno', 'summary': 'Preparar una foto antes de la intervención desde el teléfono.', 'permission': can_register, 'pending': 'Registro de hallazgos con evidencia antes y flujo de terreno.'},
-    'cierre': {'title': 'Cierre de intervención', 'summary': 'Preparar la evidencia después y revisar el cierre propuesto.', 'permission': can_register, 'pending': 'Segundo archivo de evidencia y transición de cierre de intervención.'},
-    'revision': {'title': 'Revisión de evidencias', 'summary': 'Comparar antes y después y ensayar una decisión con motivo.', 'permission': can_approve, 'pending': 'Comparación dual de evidencias. La aprobación de acciones con evidencia única ya es operativa.'},
+    'terreno': {'title': 'Registro en terreno', 'summary': 'Preparar una foto antes de la intervención desde el teléfono.', 'permission': can_register, 'pending': 'El registro real con fotografía inicial está disponible en Tubo de actividades; esta pantalla es práctica sin guardado.'},
+    'cierre': {'title': 'Cierre de intervención', 'summary': 'Preparar la evidencia después y revisar el cierre propuesto.', 'permission': can_register, 'pending': 'La fotografía final se guarda en la revisión real del tubo; esta pantalla es práctica sin guardado.'},
+    'revision': {'title': 'Revisión de evidencias', 'summary': 'Comparar antes y después y ensayar una decisión con motivo.', 'permission': can_approve, 'pending': 'La ficha del tubo compara las fotografías inicial y final; la revisión real guarda evidencia múltiple y auditoría.'},
     'proyeccion': {'title': 'Proyección de metas', 'summary': 'Explorar cómo cambia un objetivo con acciones hipotéticas.', 'permission': can_manage, 'pending': 'Planificador de escenarios. Las metas y sus avances reales ya son operativos.'},
 }
 

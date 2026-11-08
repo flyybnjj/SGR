@@ -1,0 +1,16 @@
+.updates-page { max-width: 960px; margin-inline: auto; padding: clamp(16px, 3vw, 32px); color: #17212f; }
+.updates-page > a { display: inline-flex; align-items: center; min-height: 44px; }
+.updates-page h1 { margin: 16px 0 8px; font-size: clamp(1.75rem, 4vw, 2.25rem); }
+.updates-intro, .update-entry time, .update-read { color: #465469; }
+.update-entry { padding: 28px 0; border-top: 1px solid #dce1e9; }
+.update-entry h2 { margin: 8px 0 12px; font-size: 1.25rem; }
+.update-entry p, .update-entry li { max-width: 72ch; line-height: 1.6; }
+.update-entry li + li { margin-top: 8px; }
+.update-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 24px; }
+.update-actions button { min-height: 44px; padding: 10px 16px; }
+.update-actions form { margin: 0; }
+.update-comparison { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 16px; }
+.update-comparison img { width: 100%; height: auto; border: 1px solid #dce1e9; border-radius: 8px; }
+.update-comparison figcaption { margin-top: 8px; }
+.update-read { display: inline-flex; align-items: center; min-height: 44px; gap: 6px; }
+.updates-page :focus-visible { outline: 2px solid #344054; outline-offset: 3px; }
