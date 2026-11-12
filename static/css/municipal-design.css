@@ -474,47 +474,94 @@ body[data-delegation-theme] .btn-stitch-primary, body[data-delegation-theme] .bt
 @media screen and (forced-colors: none) {
   body[data-glass-mode="on"] {
     --glass-accent: var(--delegation-color, #b80003);
-    --glass-chrome: rgb(255 255 255 / .42);
-    --glass-overlay: rgb(255 255 255 / .96);
-    --glass-highlight: rgb(255 255 255 / .88);
-    --glass-rim: rgb(52 64 84 / .14);
+    --glass-highlight: rgb(255 255 255 / .8);
+    --glass-rim: rgb(52 64 84 / .19);
     --glass-depth: 0 14px 28px -18px rgb(23 33 47 / .38);
-    --glass-panel: linear-gradient(155deg, rgb(255 255 255 / .83), rgb(255 255 255 / .43) 78%);
+    --glass-surface: linear-gradient(150deg, rgb(255 255 255 / .53), rgb(245 248 255 / .2));
+    --glass-control: rgb(249 251 255 / .35);
+    --glass-layer: rgb(241 245 252 / .65);
+    --glass-sticky: rgb(239 244 251 / .94);
+    --glass-edge-light: inset 0 1px 0 var(--glass-highlight), inset 0 -1px 0 rgb(52 64 84 / .07);
     background-color: #e8ecf3;
     background-image:
-      radial-gradient(ellipse at 88% 8%, color-mix(in srgb, var(--glass-accent) 20%, transparent), transparent 58%),
+      radial-gradient(ellipse at 88% 8%, color-mix(in srgb, var(--glass-accent) 14%, transparent), transparent 58%),
       linear-gradient(140deg, #f5f7fb, #e2e8f3 72%);
     background-repeat: no-repeat;
   }
-  body[data-glass-mode="on"] .ambient-waves { opacity: .68; }
-  [data-glass-mode="on"] :is(.navbar-stitch, .sidebar-stitch, .mobile-bottom-nav) {
-    background: linear-gradient(150deg, rgb(255 255 255 / .74), var(--glass-chrome) 75%) !important;
+
+  body[data-glass-mode="on"] .ambient-waves { opacity: .58; }
+
+  [data-glass-mode="on"] :is(.navbar-stitch, .sidebar-stitch, .mobile-bottom-nav, .main-stitch) {
+    background: var(--glass-surface) !important;
     border-inline-color: var(--glass-highlight) !important;
     border-bottom-color: var(--glass-rim) !important;
-    box-shadow: inset 0 1px 0 var(--glass-highlight), var(--glass-depth) !important;
+    box-shadow: var(--glass-edge-light), var(--glass-depth) !important;
   }
-  [data-glass-mode="on"] .main-stitch {
-    background: rgb(255 255 255 / .18) !important;
-    border-color: var(--glass-highlight);
-    box-shadow: inset 0 1px 0 var(--glass-highlight), var(--glass-depth);
-  }
-  @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
-    [data-glass-mode="on"] :is(.navbar-stitch, .sidebar-stitch, .mobile-bottom-nav) {
-      backdrop-filter: blur(18px) saturate(110%) !important;
-      -webkit-backdrop-filter: blur(18px) saturate(110%) !important;
-    }
-  }
+
+  [data-glass-mode="on"] .main-stitch { background: rgb(246 249 255 / .16) !important; }
+
   [data-glass-mode="on"] :is(.card-stitch, .dashboard-section, .admin-workspace, .metric, .activity-card, .activity-column, .letter-preview, .tubo-metrics > div) {
-    background: var(--glass-panel) !important;
+    background: var(--glass-surface) !important;
     border-inline-color: var(--glass-highlight);
     border-bottom-color: var(--glass-rim);
-    box-shadow: inset 0 1px 0 var(--glass-highlight), 0 6px 16px -12px rgb(23 33 47 / .32);
+    box-shadow: var(--glass-edge-light), 0 9px 20px -14px rgb(23 33 47 / .35);
   }
-  [data-glass-mode="on"] :is(#tour-user-dropdown .dropdown-menu, .modal-content, .sgr-select-menu.dropdown-menu) {
-    background: var(--glass-overlay) !important;
+
+  [data-glass-mode="on"] :is(#tour-user-dropdown .dropdown-menu, .modal-content, .sgr-select-menu.dropdown-menu, .letter-inbox .letter-preview) {
+    background: var(--glass-layer) !important;
+    border-color: var(--glass-rim);
+    box-shadow: var(--glass-edge-light), 0 18px 38px -12px rgb(23 33 47 / .34);
   }
-  [data-glass-mode="on"] .table-stitch { background-color: rgb(255 255 255 / .44); }
-  [data-glass-mode="on"] select::picker(select) { background-color: var(--glass-overlay); }
+
+  @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+    [data-glass-mode="on"] :is(.navbar-stitch, .sidebar-stitch, .mobile-bottom-nav, #tour-user-dropdown .dropdown-menu, .modal-content, .sgr-select-menu.dropdown-menu) {
+      backdrop-filter: blur(24px) saturate(125%) !important;
+      -webkit-backdrop-filter: blur(24px) saturate(125%) !important;
+    }
+    [data-glass-mode="on"] :is(.dashboard-section, .admin-workspace, .card-stitch, .metric, .activity-column, .letter-preview, .tubo-metrics > div) {
+      backdrop-filter: blur(12px) saturate(115%);
+      -webkit-backdrop-filter: blur(12px) saturate(115%);
+    }
+  }
+
+  [data-glass-mode="on"] .navbar-stitch .territory-banner {
+    background: color-mix(in srgb, var(--banner-color, var(--glass-accent)) 8%, var(--glass-control)) !important;
+  }
+
+  [data-glass-mode="on"] :is(.dashboard-section, .card-stitch):has(.sgr-select-menu.show) {
+    position: relative;
+    z-index: 2;
+  }
+
+  [data-glass-mode="on"] :is(.form-control, .form-select, .input-stitch, .search-box-stitch, .btn-stitch-secondary, .btn-stitch-icon, .tubo-step, .territory-marker, .delegation-swatch),
+  body[data-glass-mode="on"] .sidebar-stitch .nav-link-stitch.active {
+    background-color: var(--glass-control) !important;
+  }
+
+  [data-glass-mode="on"] :is(.form-control, .form-select, .input-stitch):is(:focus, :focus-visible) {
+    background-color: var(--glass-layer) !important;
+  }
+
+  [data-glass-mode="on"] :is(.card-stitch-header, .grid-pagination, .tubo-view, .table-stitch, .table-stitch tbody th) {
+    background-color: transparent;
+  }
+
+  [data-glass-mode="on"] :is(.table-stitch thead th, .tubo-view [aria-current="page"], .sgr-select-option[aria-selected="true"]) {
+    background-color: var(--glass-control);
+  }
+
+  [data-glass-mode="on"] .table-stitch .record-actions-column { background-color: var(--glass-sticky); }
+
+  @media (max-width: 1199px) {
+    [data-glass-mode="on"] .management-grid .table-stitch :is(th, td):last-child {
+      background-color: var(--glass-sticky);
+    }
+  }
+
+  [data-glass-mode="on"] select::picker(select) {
+    background-color: var(--glass-layer);
+    backdrop-filter: blur(24px);
+  }
 }
 
 .glass-welcome {
