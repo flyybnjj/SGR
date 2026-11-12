@@ -138,6 +138,8 @@ class MetaPeriodo(models.Model):
         return semaforo(self)
 
 class Accion(models.Model):
+    atencion_origen = models.OneToOneField(Atencion, on_delete=models.PROTECT, null=True, blank=True,
+                                           related_name='compromiso', editable=False)
     meta_origen = models.ForeignKey(MetaPeriodo, on_delete=models.PROTECT, related_name='+', null=True, editable=False)
     fecha_puntuacion = models.DateField(null=True, editable=False)
     area_apoyo = models.CharField(max_length=150, blank=True, default='', db_default='', verbose_name='Área de apoyo')

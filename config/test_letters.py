@@ -26,6 +26,33 @@ class LetterTests(TestCase):
         self.assertEqual(self.client.get(f'/cartas/{self.letter.pk}/').status_code, 404)
         self.assertEqual(self.client.post(f'/cartas/{self.letter.pk}/editar/', self.data()).status_code, 404)
 
+    def test_move_audits_and_preserves_list_query(self):
+        self.letter.responsable = self.user
+        self.letter.save(update_fields=['responsable'])
+        url = f'/cartas/{self.letter.pk}/mover/'
+        back = '/cartas/?vista=tablero&per_page=20#carta-' + str(self.letter.pk)
+        data = {'estado': 'En proceso', 'estado_anterior': 'Recibida', 'volver': back}
+        self.assertRedirects(self.client.post(url, data), back)
+        self.letter.refresh_from_db()
+        self.assertEqual(self.letter.estado, 'En proceso')
+        self.assertEqual(self.letter.movimientos.get().cambios['estado']['antes'], 'Recibida')
+        self.assertRedirects(self.client.post(url, {**data, 'estado': 'Aprobada'}), back)
+        self.assertEqual(self.letter.movimientos.count(), 1)
+        self.client.force_login(self.other)
+        self.assertEqual(self.client.post(url, data).status_code, 404)
+
+    def test_drag_to_close_requires_edit_and_keeps_state_until_saved(self):
+        self.letter.responsable = self.user
+        self.letter.save(update_fields=['responsable'])
+        response = self.client.post(f'/cartas/{self.letter.pk}/mover/', {
+            'estado': 'Respondida', 'estado_anterior': 'Recibida', 'volver': 'https://example.com/',
+        }, follow=True)
+        self.assertEqual(response.context['form']['estado'].value(), 'Respondida')
+        self.assertEqual(response.context['back'], '/cartas/')
+        self.letter.refresh_from_db()
+        self.assertEqual(self.letter.estado, 'Recibida')
+        self.assertFalse(self.letter.movimientos.exists())
+
     def test_repeated_create_is_idempotent(self):
         data = self.data()
         for _ in range(2):

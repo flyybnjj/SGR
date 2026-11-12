@@ -64,7 +64,7 @@ class CreationIdempotencyTests(TestCase):
     def test_invalid_first_attempt_can_be_corrected_with_same_token(self):
         token = str(uuid.uuid4())
         data = self.action_data(token)
-        data.pop('evidencia')
+        data.pop('titulo')
         response = self.client.post(reverse('atenciones:action_create'), data)
         self.assertEqual(response.status_code, 200)
         self.assertFalse(Accion.objects.exists())

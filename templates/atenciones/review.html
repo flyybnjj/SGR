@@ -3,7 +3,7 @@
 {% block content %}
 <header class="page-heading">
     <div><h1>{{ action.titulo }}</h1><p>{{ action.delegacion }} · {{ action.creador }} · {{ action.fecha_creacion|date:'d/m/Y H:i' }}</p></div>
-    <a class="btn-stitch btn-stitch-secondary" href="{% url 'atenciones:action_list' %}"><i class="bi bi-arrow-left" aria-hidden="true"></i>Volver a acciones</a>
+    <a class="btn-stitch btn-stitch-secondary" href="{% if back %}{{ back }}{% else %}{% url 'atenciones:action_list' %}{% endif %}"><i class="bi bi-arrow-left" aria-hidden="true"></i>Volver a acciones</a>
 </header>
 {% if action.excede_limite_diario %}<p class="alert alert-warning" role="status">Excede el máximo de siete actividades diarias de este funcionario. Se conserva el trabajo y su evidencia, pero no suma al cumplimiento de metas, aunque sea aprobado.</p>{% endif %}
 {% if action.sin_contacto_beneficiario %}<p class="alert alert-warning" role="status">Falta nombre o teléfono del beneficiario. La aprobación conservará la evidencia, pero esta actividad no sumará al cumplimiento.</p>{% endif %}
@@ -22,7 +22,7 @@
     <div class="row g-3 mt-3" aria-label="Evidencia fotográfica del trabajo">
         <figure class="col-12 col-md-6 mb-0">
             <figcaption class="fw-semibold mb-2">Foto inicial</figcaption>
-            {% if action.evidencia %}<a href="{% url 'atenciones:action_evidence' action.pk %}"><img src="{% url 'atenciones:action_evidence' action.pk %}" alt="Estado inicial: {{ action.titulo }}" width="640" height="480" class="w-100 rounded border" style="height:auto;aspect-ratio:4/3;object-fit:contain;max-height:400px" loading="lazy"></a>{% else %}<p class="text-secondary border rounded p-3">Sin foto inicial. Este registro se conserva con sus datos originales.</p>{% endif %}
+            {% if action.evidencia %}<a href="{% url 'atenciones:action_evidence' action.pk %}"><img src="{% url 'atenciones:action_evidence' action.pk %}" alt="Estado inicial: {{ action.titulo }}" width="640" height="480" class="w-100 rounded border" style="height:auto;aspect-ratio:4/3;object-fit:contain;max-height:400px" loading="lazy"></a>{% else %}<p class="text-secondary border rounded p-3">Sin foto inicial adjunta.</p>{% endif %}
         </figure>
         <figure class="col-12 col-md-6 mb-0">
             <figcaption class="fw-semibold mb-2">Foto final</figcaption>
@@ -35,7 +35,7 @@
 <section class="dashboard-section form-panel" aria-labelledby="resolve-action-title">
     <h2 class="section-heading" id="resolve-action-title">Resolver acción</h2>
     <form method="post" enctype="multipart/form-data" action="{% url 'atenciones:action_resolve' action.pk %}">
-        {% csrf_token %}
+        {% csrf_token %}{% if back %}<input type="hidden" name="volver" value="{{ back }}">{% endif %}
         {{ form.non_field_errors }}
         <div class="form-field field-wide"><label for="{{ form.motivo.id_for_label }}">Motivo de la resolución *</label>{{ form.motivo }}{{ form.motivo.errors }}{{ form.estado.errors }}</div>
         <div class="form-field field-wide"><label for="{{ form.evidencia_final.id_for_label }}">{{ form.evidencia_final.label }}</label>{{ form.evidencia_final }}<p class="form-help small text-secondary" id="final-photo-help">{{ form.evidencia_final.help_text }} Para rechazar, indique el motivo sin adjuntar foto final.</p>{{ form.evidencia_final.errors }}</div>

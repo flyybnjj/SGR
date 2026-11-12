@@ -33,9 +33,9 @@ class PhotoWorkflowTests(TestCase):
   kw={'titulo':'Trabajo de prueba','descripcion':'Solo prueba','delegacion':self.seat,'creador':self.user}
   if initial:kw['evidencia']=photo()
   return Accion.objects.create(**kw)
- def test_initial_photo_required(self):
+ def test_initial_photo_optional(self):
   r=self.client.post(reverse('atenciones:action_create'),{'titulo':'Falta foto','descripcion':'Detalle'})
-  self.assertEqual(r.status_code,200);self.assertFalse(Accion.objects.exists());self.assertIn('evidencia',r.context['form'].errors)
+  self.assertEqual(r.status_code,302);self.assertFalse(Accion.objects.get().evidencia)
  def test_initial_valid_photo_saved(self):
   r=self.client.post(reverse('atenciones:action_create'),{'titulo':'Con foto','descripcion':'Detalle','evidencia':photo()})
   self.assertEqual(r.status_code,302);self.assertTrue(Accion.objects.get().evidencia)

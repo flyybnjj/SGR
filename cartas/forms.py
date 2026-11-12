@@ -10,6 +10,19 @@ from .models import Carta
 from atenciones.documents import EvidenceAnyField
 
 
+def errores_avance(carta, estado, responsable, derivada_a, respuesta):
+    errors = {}
+    if estado in ('Derivada', 'En proceso', 'Aprobada', 'Respondida', 'No aplica') and not responsable:
+        errors['responsable'] = 'Asigna un encargado antes de avanzar la carta.'
+    if estado == 'Derivada' and not derivada_a.strip():
+        errors['derivada_a'] = 'Indica el área a la que se deriva.'
+    if estado in ('Respondida', 'No aplica') and not respuesta.strip():
+        errors['respuesta'] = 'Registra la respuesta o el motivo de no aplicación antes de cerrar la carta.'
+    if carta.pk and carta.estado in ('Respondida', 'No aplica') and carta.estado != estado:
+        errors['estado'] = 'Esta carta ya tiene respuesta. Su cierre e historial se conservan.'
+    return errors
+
+
 class CartaForm(DelegationForm):
     compromiso_automatico = forms.TypedChoiceField(
         label='Modo de compromiso',
@@ -78,13 +91,9 @@ class CartaForm(DelegationForm):
                 self.add_error('fecha_ingreso', 'El período de una comunicación con puntaje aplicado se conserva.')
             if self.files.get('respaldo'):
                 self.add_error('respaldo', 'El respaldo de un ajuste formal se conserva. Anula el ajuste si necesitas corregir el expediente.')
-        state = data.get('estado')
-        if state in ('Derivada', 'En proceso', 'Aprobada', 'Respondida', 'No aplica') and not data.get('responsable'):
-            self.add_error('responsable', 'Asigna un encargado antes de avanzar la carta.')
-        if state == 'Derivada' and not data.get('derivada_a', '').strip():
-            self.add_error('derivada_a', 'Indica el área a la que se deriva.')
-        if state in ('Respondida', 'No aplica') and not data.get('respuesta', '').strip():
-            self.add_error('respuesta', 'Registra la respuesta o el motivo de no aplicación antes de cerrar la carta.')
-        if self.instance.pk and Carta.objects.filter(pk=self.instance.pk, estado__in=('Respondida', 'No aplica')).exclude(estado=state).exists():
-            self.add_error('estado', 'Esta carta ya tiene respuesta. Su cierre e historial se conservan.')
+        errors = errores_avance(self.instance, data.get('estado'), data.get('responsable'),
+                                 data.get('derivada_a', ''), data.get('respuesta', ''))
+        for field, error in errors.items():
+            if field not in self.errors:
+                self.add_error(field, error)
         return data

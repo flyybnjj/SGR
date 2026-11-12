@@ -42,6 +42,19 @@ class ActivityProgressTests(TestCase):
         self.assertEqual(self.action.avance, 'Finalizada')
         self.assertEqual(self.action.estado, 'Pendiente')
 
+    def test_board_move_keeps_current_responsible(self):
+        worker = Usuario.objects.create_user(username='nuevo-responsable', rol=self.role, delegacion=self.center)
+        self.action.responsable = worker
+        self.action.avance = 'Asignada'
+        self.action.save(update_fields=['responsable', 'avance'])
+        url = f'/acciones/{self.action.pk}/avance/'
+        back = '/acciones/?vista=tablero&per_page=20'
+        response = self.client.post(url, {'avance': 'En proceso', 'avance_anterior': 'Asignada', 'volver': back})
+        self.assertRedirects(response, back)
+        self.action.refresh_from_db()
+        self.assertEqual(self.action.responsable, worker)
+        self.assertEqual(self.action.avance, 'En proceso')
+
     def test_progress_cannot_change_other_territory(self):
         self.client.force_login(self.other)
         self.assertEqual(self.client.post(f'/acciones/{self.action.pk}/avance/', {'avance': 'Finalizada', 'responsable': self.other.pk}).status_code, 404)

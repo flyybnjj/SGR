@@ -30,6 +30,13 @@ body[data-ambient-motion="running"] .ambient-wave { animation-play-state: runnin
 .ambient-preference label { display: flex; align-items: center; gap: 10px; min-height: 44px; margin: 0; font-size: .875rem; color: var(--text-main); }
 .ambient-preference input { width: 18px; height: 18px; accent-color: var(--muni-red); flex-shrink: 0; }
 .ambient-preference small { display: block; color: var(--text-muted); font-size: .8125rem; line-height: 1.5; }
+#tour-user-dropdown .dropdown-menu:has([data-glass-toggle]) { min-inline-size: min(248px, calc(100vw - 32px)); max-block-size: min(460px, 65dvh); overflow-y: auto; }
+.glass-preference-button { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; min-height: 44px; padding: 0; border: 0; background: transparent; color: var(--text-main); text-align: start; font-size: .875rem; font-weight: 600; }
+.glass-preference-button:disabled { opacity: .64; cursor: default; }
+.glass-preference-state { flex: none; width: 36px; height: 22px; padding: 3px; border: 1px solid var(--border-control); border-radius: 12px; background: var(--surface-muted); }
+.glass-preference-state::before { content: ''; display: block; width: 14px; height: 14px; border-radius: 50%; background: var(--text-secondary); }
+.glass-preference-button[aria-checked="true"] .glass-preference-state { background: var(--muni-red); border-color: var(--muni-red); }
+.glass-preference-button[aria-checked="true"] .glass-preference-state::before { margin-inline-start: auto; background: #fff; }
 .muni-top-stripe { display: none; }
 .navbar-stitch { position: relative; top: auto; padding: 12px 20px; margin: 24px 24px 0; border-radius: 16px; transition: none; background: var(--glass-chrome) !important; border: 1px solid var(--territory-edge); box-shadow: var(--glass-shadow) !important; }
 .header-bar { display: grid; grid-template-columns: auto minmax(0, 1fr) minmax(260px, 420px); align-items: center; gap: 24px; width: 100%; }
@@ -463,3 +470,36 @@ body[data-delegation-theme] .btn-stitch-primary, body[data-delegation-theme] .bt
 .work-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}.work-summary>div{display:flex;flex-direction:column;gap:8px;padding-right:16px}.work-summary strong{font-size:1.5rem;font-variant-numeric:tabular-nums}.work-summary span{font-size:.875rem;color:#465469}.dashboard-breakdown{margin-bottom:20px}.dashboard-breakdown .table-stitch td{font-variant-numeric:tabular-nums}@media(max-width:767px){.work-summary{grid-template-columns:repeat(2,minmax(0,1fr))}}
 
 .dashboard-breakdown tbody th{background:#fff;white-space:normal}.dashboard-breakdown tbody th a{color:#8b1d19;display:inline-flex;min-height:44px;align-items:center}
+
+@media screen {
+  body[data-glass-mode="on"] {
+    --glass-accent: var(--delegation-color, #b80003);
+    --glass-frame: rgb(255 255 255 / .62);
+    --glass-panel: rgb(255 255 255 / .57);
+    --glass-overlay: rgb(255 255 255 / .97);
+    background-image:
+      radial-gradient(ellipse at 90% 12%, color-mix(in srgb, var(--glass-accent) 20%, transparent), transparent 52%),
+      radial-gradient(ellipse at 8% 80%, color-mix(in srgb, var(--glass-accent) 16%, transparent), transparent 56%);
+  }
+  [data-glass-mode="on"] .ambient-waves { opacity: 1; }
+  [data-glass-mode="on"] :is(.navbar-stitch, .sidebar-stitch, .mobile-bottom-nav, .main-stitch) {
+    background: var(--glass-frame) !important;
+    border-inline-color: var(--glass-edge) !important;
+    border-bottom-color: var(--glass-edge) !important;
+    box-shadow: var(--glass-shadow) !important;
+  }
+  @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+    [data-glass-mode="on"] :is(.navbar-stitch, .sidebar-stitch, .mobile-bottom-nav) {
+      backdrop-filter: blur(18px) saturate(110%) !important;
+      -webkit-backdrop-filter: blur(18px) saturate(110%) !important;
+    }
+  }
+  [data-glass-mode="on"] :is(.card-stitch, .dashboard-section, .admin-workspace, .metric, .activity-card, .activity-column, .letter-preview, .tubo-metrics > div) {
+    background-color: var(--glass-panel) !important;
+  }
+  [data-glass-mode="on"] :is(#tour-user-dropdown .dropdown-menu, .modal-content, .sgr-select-menu.dropdown-menu) {
+    background: var(--glass-overlay) !important;
+  }
+  [data-glass-mode="on"] .table-stitch { background-color: var(--glass-panel); }
+  [data-glass-mode="on"] select::picker(select) { background-color: var(--glass-overlay); }
+}

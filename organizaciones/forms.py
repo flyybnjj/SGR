@@ -7,7 +7,7 @@ from territorial.models import DelegacionMunicipal
 class OrganizacionForm(forms.ModelForm):
     class Meta:
         model = Organizacion
-        fields = ['nombre', 'tipo', 'direccion', 'delegacion', 'telefono', 'registro_pj', 'socios_activos', 'fecha_constitucion', 'verificada', 'activo', 'observaciones']
+        fields = ['nombre', 'tipo', 'direccion', 'delegacion', 'telefono', 'registro_pj', 'socios_activos', 'fecha_constitucion', 'presidente', 'tesorero', 'secretario', 'verificada', 'activo', 'observaciones']
         labels = {'direccion': 'Domicilio legal', 'registro_pj': 'Registro de personalidad jurídica', 'socios_activos': 'Socios activos', 'verificada': 'Datos revisados', 'activo': 'Organización activa'}
         widgets = {
             'observaciones': forms.Textarea(attrs={'rows': 3}),

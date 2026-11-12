@@ -4,11 +4,22 @@ from django.db import transaction, IntegrityError
 from django.db.models import Q, Count
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
-from config.access import permission_required, operational, register_required, can_manage, can_register
-from config.pagination import paginate
+from django.urls import reverse
+from django.views.decorators.http import require_POST
+from urllib.parse import urlencode
+from config.access import active, permission_required, operational, register_required, can_manage, can_register
+from config.pagination import list_return, paginate
 from config.excel_utils import export_queryset_to_excel
 from .models import Carta, MovimientoCarta
-from .forms import CartaForm
+from .forms import CartaForm, errores_avance
+
+
+BOARD_GROUPS = (
+    ('Recibida', 'Recibidas', ('Recibida',)),
+    ('En proceso', 'En seguimiento', ('Derivada', 'En proceso')),
+    ('Aprobada', 'Aprobadas', ('Aprobada',)),
+    ('Respondida', 'Cerradas', ('Respondida', 'No aplica')),
+)
 
 
 def scoped(objects, user):
@@ -31,7 +42,11 @@ def listado(request):
     if kind in dict(Carta.TIPOS):
         objects = objects.filter(tipo=kind)
     if query:
-        objects = objects.filter(Q(asunto__icontains=query) | Q(numero_ingreso__icontains=query) | Q(remite__icontains=query))
+        matches = Q(asunto__icontains=query) | Q(numero_ingreso__icontains=query) | Q(remite__icontains=query)
+        folio = query.upper().removeprefix('CARTA-')
+        if folio.isascii() and folio.isdigit() and len(folio) <= 18:
+            matches |= Q(pk=int(folio))
+        objects = objects.filter(matches)
     if state in dict(Carta.ESTADOS):
         objects = objects.filter(estado=state)
     if request.GET.get('export') == 'excel':
@@ -39,8 +54,10 @@ def listado(request):
     state_counts = dict(objects.order_by().values('estado').annotate(total=Count('pk')).values_list('estado','total'))
     page = paginate(request, objects)
     board = request.GET.get('vista') != 'tabla'
-    groups = [('Recibidas', ('Recibida',)), ('En seguimiento', ('Derivada','En proceso')), ('Aprobadas', ('Aprobada',)), ('Cerradas', ('Respondida','No aplica'))]
-    columns = [(label,[c for c in page if c.estado in states],sum(state_counts.get(v,0) for v in states)) for label,states in groups]
+    for letter in page:
+        letter.can_move = can_edit(request.user, letter) and letter.estado not in ('Respondida', 'No aplica')
+    columns = [(target, label, [c for c in page if c.estado in states], sum(state_counts.get(v, 0) for v in states))
+               for target, label, states in BOARD_GROUPS]
     selected = None
     raw = request.GET.get('seleccion','')
     if raw:
@@ -54,7 +71,7 @@ def listado(request):
 @permission_required(operational)
 def detalle(request, pk):
     letter = get_object_or_404(scoped(Carta.objects.select_related('delegacion', 'responsable', 'organizacion'), request.user), pk=pk)
-    return render(request, 'cartas/detalle.html', {'carta': letter, 'can_edit_letter': can_edit(request.user, letter), 'history': letter.movimientos.select_related('autor').order_by('-fecha', '-pk')[:100]})
+    return render(request, 'cartas/detalle.html', {'carta': letter, 'can_edit_letter': can_edit(request.user, letter), 'back': list_return(request, 'cartas:listado'), 'history': letter.movimientos.select_related('autor').order_by('-fecha', '-pk')[:100]})
 
 
 @permission_required(lambda user: can_register(user) or can_manage(user))
@@ -64,13 +81,18 @@ def editar(request, pk=None):
         if letter and not can_edit(request.user, letter):
             raise PermissionDenied
         before = {f: str(getattr(letter, f) or '') for f in ('tipo', 'estado', 'responsable_id', 'derivada_a', 'respuesta', 'observaciones', 'fecha_compromiso', 'compromiso_automatico', 'nombre_respaldo')} if letter else {}
-        form = CartaForm(request.POST if request.method == 'POST' else None, request.FILES if request.method == 'POST' else None, instance=letter, user=request.user)
+        back = list_return(request, 'cartas:listado')
+        target = request.GET.get('mover')
+        initial = {'estado': target} if letter and target in dict(Carta.ESTADOS) else None
+        move_help = errores_avance(letter, target, letter.responsable, letter.derivada_a, letter.respuesta) if initial else {}
+        form = CartaForm(request.POST if request.method == 'POST' else None, request.FILES if request.method == 'POST' else None,
+                         instance=letter, initial=initial, user=request.user)
         if request.method == 'POST' and form.is_valid():
             token = form.cleaned_data['request_token']
             if not pk:
                 previous = scoped(Carta.objects.filter(request_token=token, creador=request.user), request.user).first()
                 if previous:
-                    return redirect('cartas:detalle', pk=previous.pk)
+                    return redirect(back) if back else redirect('cartas:detalle', pk=previous.pk)
             obj = form.save(commit=False)
             if not pk:
                 obj.creador = request.user
@@ -91,8 +113,40 @@ def editar(request, pk=None):
                 form.add_error(None, 'Este envío ya existe o cambió mientras guardabas. Vuelve al listado para comprobarlo.')
             else:
                 messages.success(request, 'Carta guardada y seguimiento registrado.')
-                return redirect('cartas:detalle', pk=obj.pk)
-    return render(request, 'cartas/form.html', {'form': form, 'carta': letter}, status=400 if request.method == 'POST' else 200)
+                return redirect(back) if back else redirect('cartas:detalle', pk=obj.pk)
+    return render(request, 'cartas/form.html', {'form': form, 'carta': letter, 'back': back, 'move_help': move_help.values()}, status=400 if request.method == 'POST' else 200)
+
+
+@permission_required(lambda user: can_register(user) or can_manage(user))
+@require_POST
+def mover(request, pk):
+    back = list_return(request, 'cartas:listado') or reverse('cartas:listado')
+    target = request.POST.get('estado')
+    with transaction.atomic():
+        letter = get_object_or_404(scoped(Carta.objects.select_for_update(), request.user), pk=pk)
+        if not can_edit(request.user, letter):
+            raise PermissionDenied
+        if (target not in {group[0] for group in BOARD_GROUPS} or letter.estado in ('Respondida', 'No aplica')
+                or request.POST.get('estado_anterior') != letter.estado):
+            messages.warning(request, 'El movimiento ya no está disponible. Revisa el estado actual de la carta.')
+            return redirect(back)
+        if target == letter.estado or (letter.estado == 'Derivada' and target == 'En proceso'):
+            return redirect(back)
+        worker = letter.responsable
+        if not worker or not active(worker) or worker.delegacion_id != letter.delegacion_id:
+            worker = None
+        errors = errores_avance(letter, target, worker, letter.derivada_a, letter.respuesta)
+        if errors or target == 'Respondida':
+            edit_url = reverse('cartas:editar', args=[pk])
+            focus = 'respuesta' if target == 'Respondida' else 'responsable'
+            return redirect(f'{edit_url}?{urlencode({"mover": target, "volver": back})}#id_{focus}')
+        previous = letter.estado
+        letter.estado = target
+        letter.save(update_fields=['estado'])
+        MovimientoCarta.objects.create(carta=letter, autor=request.user,
+                                       cambios={'estado': {'antes': previous, 'despues': target}})
+    messages.success(request, 'Carta movida. El cambio quedó en el historial.')
+    return redirect(back)
 
 
 @permission_required(operational)

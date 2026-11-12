@@ -92,13 +92,29 @@ class DelegationForm(forms.ModelForm):
         return delegation
 
 class AtencionForm(DelegationForm):
+    compromiso_titulo = forms.CharField(
+        label='Compromiso', max_length=200, required=False,
+        help_text='Si acuerdas un seguimiento, escribe qué hay que hacer. Se registrará en el Tubo de actividades.',
+    )
+    compromiso_fecha = forms.DateField(
+        label='Fecha del compromiso', required=False, widget=forms.DateInput(attrs={'type': 'date'}),
+    )
+    compromiso_responsable = forms.ModelChoiceField(
+        label='Responsable del compromiso', required=False, queryset=None, empty_label='Pendiente de asignar',
+    )
     request_token = forms.UUIDField(required=False, widget=forms.HiddenInput, initial=uuid.uuid4)
     class Meta:
         model = Atencion
-        fields = ['delegacion', 'tipo_atencion', 'sub_atencion', 'organizacion', 'descripcion']
+        fields = ['delegacion', 'tipo_atencion', 'sub_atencion', 'organizacion', 'descripcion', 'compromiso_titulo', 'compromiso_fecha', 'compromiso_responsable']
         widgets = {'descripcion': forms.Textarea(attrs={'rows': 4})}
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        from usuarios.models import Usuario
+        workers = Usuario.objects.filter(activo=True, is_active=True, rol__activo=True, delegacion__activo=True).exclude(is_superuser=True)
+        if not self.user.is_superuser:
+            workers = workers.filter(delegacion_id=self.user.delegacion_id)
+        self.fields['compromiso_responsable'].queryset = workers.select_related('delegacion')
+        self.fields['compromiso_responsable'].empty_label = 'Pendiente de asignar'
         self.fields['tipo_atencion'].queryset = TipoAtencion.objects.filter(activo=True)
         from organizaciones.models import Organizacion
         from organizaciones.access import visibles
@@ -112,13 +128,28 @@ class AtencionForm(DelegationForm):
         self.fields['sub_atencion'].queryset = SubAtencion.objects.filter(activo=True, tipo_atencion__activo=True, tipo_atencion_id=selected).select_related('tipo_atencion')
         self.subtype_options = list(SubAtencion.objects.filter(activo=True, tipo_atencion__activo=True).values('id', 'nombre', 'tipo_atencion_id'))
 
+    def clean(self):
+        data = super().clean()
+        title = data.get('compromiso_titulo')
+        deadline = data.get('compromiso_fecha')
+        worker = data.get('compromiso_responsable')
+        seat = data.get('delegacion')
+        if title and not deadline and 'compromiso_fecha' not in self.errors:
+            self.add_error('compromiso_fecha', 'Indica la fecha acordada para el compromiso.')
+        if (deadline or worker) and not title:
+            self.add_error('compromiso_titulo', 'Escribe qué se acordó para registrar el compromiso.')
+        if worker and seat and worker.delegacion_id != seat.pk:
+            self.add_error('compromiso_responsable', 'Selecciona un responsable de la delegación de esta atención.')
+        return data
+
+
 class AccionForm(DelegationForm):
     from .documents import ExtraDocumentsField
-    documentos = ExtraDocumentsField(required=False, label='Documentos de respaldo', help_text='Opcional: hasta tres PDF, Word DOCX o Excel XLSX de 10 MB cada uno. Complementan la foto inicial obligatoria.')
+    documentos = ExtraDocumentsField(required=False, label='Documentos de respaldo', help_text='Opcional: hasta tres PDF, Word DOCX o Excel XLSX de 10 MB cada uno. Puedes adjuntarlos aunque no tengas una foto inicial.')
     from .evidence import ExtraPhotosField
     fotos_adicionales = ExtraPhotosField(required=False, label='Fotos iniciales adicionales', help_text='Opcional: hasta cuatro imágenes adicionales. JPEG, PNG o WebP, máximo 5 MB cada una.')
     request_token = forms.UUIDField(required=False, widget=forms.HiddenInput, initial=uuid.uuid4)
-    evidencia = EvidenceImageField(label='Foto inicial', help_text='JPEG, PNG o WebP. Máximo 5 MB y 20 megapíxeles.', widget=forms.ClearableFileInput(attrs={'class': 'form-control', 'accept': 'image/jpeg,image/png,image/webp'}))
+    evidencia = EvidenceImageField(label='Foto inicial', required=False, help_text='JPEG, PNG o WebP. Máximo 5 MB y 20 megapíxeles.', widget=forms.ClearableFileInput(attrs={'class': 'form-control', 'accept': 'image/jpeg,image/png,image/webp'}))
     class Meta:
         model = Accion
         fields = ['titulo', 'descripcion', 'delegacion', 'naturaleza', 'solicitante', 'telefono_solicitante', 'responsable', 'fecha_actividad', 'fecha_compromiso', 'area_apoyo', 'meta', 'evidencia']
@@ -183,9 +214,11 @@ class AvanceForm(forms.ModelForm):
         instance = kwargs.get('instance')
         if args and args[0] is not None and instance:
             data = args[0].copy()
-            for field in ('meta', 'area_apoyo'):
+            for field, value in (
+                ('responsable', instance.responsable_id), ('meta', instance.meta_id), ('area_apoyo', instance.area_apoyo),
+            ):
                 if field not in data:
-                    data[field] = getattr(instance, field + '_id', None) if field == 'meta' else instance.area_apoyo
+                    data[field] = value
             args = (data,) + args[1:]
         super().__init__(*args, **kwargs)
         from usuarios.models import Usuario
@@ -268,4 +301,3 @@ class ResolucionForm(forms.Form):
         if cleaned.get('estado') == 'Rechazada':
             cleaned['evidencia_final'] = None
         return cleaned
-

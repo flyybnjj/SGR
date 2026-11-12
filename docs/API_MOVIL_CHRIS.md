@@ -20,7 +20,7 @@ Las cuentas con contraseña temporal deben completar primero el cambio obligator
 | POST | `logout/` | Revocar el token usado en la solicitud. |
 | GET | `perfil/` | Nombre, cargo, delegación, color y permisos vigentes; nunca hashes, claves o códigos de recuperación. |
 | GET | `actividades/` | Actividades propias o asignadas. Los perfiles de gestión/revisión consultan su ámbito autorizado. |
-| POST | `actividades/` | Registrar actividad con foto inicial. |
+| POST | `actividades/` | Registrar actividad con foto inicial opcional. |
 | GET | `actividades/<id>/` | Consultar una actividad autorizada. |
 | POST | `actividades/<id>/avance/` | Cambiar `avance` y `responsable`, conservando auditoría. |
 | POST | `actividades/<id>/resolver/` | Aprobar o rechazar, solo con permiso de revisión. |
@@ -33,7 +33,7 @@ Los listados devuelven `count`, `page`, `pages` y `results`. Admiten `page` y `p
 
 ## Registro y revisión
 
-Enviar el alta como `multipart/form-data`: `request_token` (UUID nuevo por alta lógica), `titulo`, `descripcion`, `solicitante`, `telefono_solicitante`, `evidencia` (foto inicial) y los campos opcionales de la web: `delegacion` para un administrador, `responsable`, `meta`, `fecha_actividad`, `fecha_compromiso`, `naturaleza`, `fotos_adicionales`. Las fechas usan `YYYY-MM-DD`. Reutilizar el mismo UUID al reintentar el mismo envío; no crear un UUID distinto por cada reintento de red.
+Enviar el alta como `multipart/form-data`: `request_token` (UUID nuevo por alta lógica), `titulo`, `descripcion`, `solicitante`, `telefono_solicitante` y los campos opcionales: `delegacion` para un administrador, `responsable`, `meta`, `fecha_actividad`, `fecha_compromiso`, `naturaleza`, `evidencia` (foto inicial), `fotos_adicionales`. Las fechas usan `YYYY-MM-DD`. Reutilizar el mismo UUID al reintentar el mismo envío; no crear un UUID distinto por cada reintento de red.
 
 La API móvil admite exclusivamente imágenes JPEG, PNG y WebP. La web admite también documentos, pero esos campos se rechazan en este canal. Foto inicial más cuatro adicionales como máximo, 5 MB por foto. Se aplican las mismas validaciones y saneamiento que en la web.
 

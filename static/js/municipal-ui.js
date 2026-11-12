@@ -25,6 +25,32 @@ function toggleSidebarMenu() {
   }
 }
 document.addEventListener('DOMContentLoaded', async () => {
+  const glassToggle = document.querySelector('[data-glass-toggle]');
+  if (glassToggle) {
+    const glassKey = `muni:glass-mode:${document.body.dataset.userId}`;
+    const forcedColors = window.matchMedia('(forced-colors: active)');
+    const glassHelp = document.querySelector('[data-glass-help]');
+    const helpText = glassHelp.textContent;
+    let glassEnabled = false;
+    try { glassEnabled = localStorage.getItem(glassKey) === 'on'; } catch (_) {}
+    const updateGlass = () => {
+      const unavailable = forcedColors.matches;
+      const active = glassEnabled && !unavailable;
+      document.body.dataset.glassMode = active ? 'on' : 'off';
+      glassToggle.setAttribute('aria-checked', String(active));
+      glassToggle.disabled = unavailable;
+      glassHelp.textContent = unavailable
+        ? 'El navegador prioriza los colores de alto contraste del equipo.'
+        : helpText;
+    };
+    glassToggle.addEventListener('click', () => {
+      glassEnabled = !glassEnabled;
+      try { localStorage.setItem(glassKey, glassEnabled ? 'on' : 'off'); } catch (_) {}
+      updateGlass();
+    });
+    forcedColors.addEventListener('change', updateGlass);
+    updateGlass();
+  }
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const preferenceKey = `muni:ambient-motion:${document.body.dataset.userId}`;
   let ambientEnabled = true;

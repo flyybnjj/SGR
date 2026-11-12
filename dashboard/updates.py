@@ -12,6 +12,21 @@ from .models import LecturaNovedad
 
 PUBLICACIONES = (
     {
+        'id': '2026-11-12-compromisos-y-tubos',
+        'fecha': date(2026, 11, 12),
+        'titulo': 'Compromisos desde la atención y tarjetas que se pueden mover',
+        'resumen': 'Registra el seguimiento acordado con un vecino en la misma atención. El compromiso aparece en el Tubo de actividades.',
+        'detalles': (
+            'En los tableros de actividades y cartas puedes arrastrar tarjetas. Usa «Mover» para cambiar el estado desde el teclado o el celular.',
+            'Al volver al tablero se conservan los filtros, la vista y la página.',
+            'El filtro trimestral incluye las actividades anteriores que siguen pendientes. La fecha de origen se conserva.',
+            'Las organizaciones tienen campos para presidente, tesorero y secretario.',
+            'La foto inicial es opcional. La foto final sigue siendo obligatoria al aprobar el trabajo.',
+            'Activa Modo vidrio desde tu perfil para usar paneles translúcidos. La preferencia se guarda por cuenta en este navegador.',
+        ),
+        'permiso': 'operar',
+    },
+    {
         'id': '2026-11-08-organizaciones-tubo-cartas',
         'fecha': date(2026, 11, 8),
         'titulo': 'Fecha de constitución, tasa del Tubo y compromisos de Cartas',
@@ -74,7 +89,7 @@ PUBLICACIONES = (
      'permiso': 'operar', 'ruta_recorrido': 'dashboard:personal'},
     {'id': '2026-11-06-evidencias-web', 'fecha': date(2026, 11, 6), 'titulo': 'Más fotografías y documentos de respaldo en la web',
      'resumen': 'Añade hasta cinco fotos y tres documentos por etapa de una actividad.',
-     'detalles': ('Las fotos aceptadas son JPEG, PNG y WebP de hasta 5 MB cada una.', 'Los respaldos admiten PDF, Word DOCX y Excel XLSX de hasta 10 MB, sin contraseña, macros ni contenido activo.', 'La foto inicial y la foto final al aprobar siguen siendo obligatorias; los documentos las complementan.', 'Los archivos se entregan mediante acceso autenticado. Los documentos se descargan y no se publican como enlaces abiertos.', 'La aplicación móvil permanece a cargo de Chris y su flujo se limita a imágenes.'),
+     'detalles': ('Las fotos aceptadas son JPEG, PNG y WebP de hasta 5 MB cada una.', 'Los respaldos admiten PDF, Word DOCX y Excel XLSX de hasta 10 MB, sin contraseña, macros ni contenido activo.', 'Los documentos respaldan la gestión. Al aprobar se requiere la foto final.', 'Los archivos se entregan mediante acceso autenticado. Los documentos se descargan y no se publican como enlaces abiertos.', 'La aplicación móvil permanece a cargo de Chris y su flujo se limita a imágenes.'),
      'permiso': 'operar', 'ruta_recorrido': 'atenciones:action_list'},
     {'id': '2026-11-06-equipo', 'fecha': date(2026, 11, 6), 'titulo': 'Ausencias del equipo y cargos separados de permisos',
      'resumen': 'Los responsables cuentan con registro de ausencias y el administrador puede informar el cargo municipal.',
