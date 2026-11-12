@@ -22,7 +22,7 @@ PUBLICACIONES = (
             'El filtro trimestral incluye las actividades anteriores que siguen pendientes. La fecha de origen se conserva.',
             'Las organizaciones tienen campos para presidente, tesorero y secretario.',
             'La foto inicial es opcional. La foto final sigue siendo obligatoria al aprobar el trabajo.',
-            'Activa Modo vidrio desde tu perfil para usar paneles translúcidos. La preferencia se guarda por cuenta en este navegador.',
+            'Al entrar podrás elegir la vista normal o el modo vidrio. Puedes cambiarlo desde el menú de tu perfil y la preferencia se guarda en tu cuenta.',
         ),
         'permiso': 'operar',
     },

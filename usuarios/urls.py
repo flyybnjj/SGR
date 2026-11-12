@@ -7,6 +7,7 @@ from . import onboarding
 app_name = 'usuarios'
 
 urlpatterns = [
+    path('mi-perfil/apariencia/', onboarding.interface_style, name='interface_style'),
     path('mi-perfil/tutorial/completar/', onboarding.complete, name='tutorial_complete'),
     path('mi-perfil/ajustes/', account.settings_view, name='account_settings'),
     path('mi-perfil/contrasena/', account.settings_view, {'section': 'password'}, name='account_password'),

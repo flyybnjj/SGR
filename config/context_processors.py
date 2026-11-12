@@ -3,6 +3,7 @@ from config.access import active, operational
 from config.ui_theme import theme_style
 from territorial.models import DelegacionMunicipal
 from territorial.appearance import HEADER_COLORS
+from usuarios.models import Usuario
 from django.middleware.csrf import get_token
 from django.urls import reverse
 
@@ -13,10 +14,16 @@ def municipal_context(request):
     delegation = user.delegacion if authenticated and user.delegacion_id else None
     pending = None
     account_area = request.path.startswith('/mi-perfil/') or request.path == '/ficha-usuario/'
-    if active(user) and not user.is_superuser and request.method == 'GET' and not account_area:
+    profile_active = active(user)
+    style = user.estilo_interfaz if authenticated else ''
+    glass_prompt = (
+        profile_active and not user.debe_cambiar_password and request.method == 'GET' and not account_area
+        and style in (Usuario.EstiloInterfaz.EXISTENTE, Usuario.EstiloInterfaz.NUEVO)
+    )
+    if profile_active and not user.is_superuser and request.method == 'GET' and not account_area:
         pending = DelegacionMunicipal.objects.filter(pk=user.delegacion_id, delegado=user, activo=True, color_configurado=False).first()
     tutorial = None
-    if active(user) and not user.debe_cambiar_password:
+    if profile_active and not user.debe_cambiar_password:
         match = request.resolver_match
         page = match.url_name if match else ''
         namespace = match.namespace if match else ''
@@ -46,6 +53,9 @@ def municipal_context(request):
         'delegacion_actual': delegation,
         'delegacion_encabezado': delegation if not user.is_superuser else None,
         'tutorial_config': tutorial,
+        'glass_prompt': style if glass_prompt else '',
+        'glass_enabled': style == Usuario.EstiloInterfaz.VIDRIO,
+
         'delegation_theme_style': theme_style(delegation.color_identificacion) if delegation else '',
         'appearance_pending': pending,
         'appearance_theme_style': theme_style(pending.color_identificacion) if pending else '',

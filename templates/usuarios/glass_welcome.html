@@ -1,0 +1,17 @@
+<dialog class="glass-welcome" aria-labelledby="glass-welcome-title" aria-describedby="glass-welcome-description glass-welcome-help" data-glass-welcome>
+    {% if glass_prompt == 'existente' %}
+        <h1 id="glass-welcome-title">¿Quieres activar el modo vidrio?</h1>
+        <p id="glass-welcome-description">Puedes usar paneles translúcidos en el encabezado, los menús y el área de trabajo.</p>
+    {% else %}
+        <h1 id="glass-welcome-title">Elige cómo ver SGR</h1>
+        <p id="glass-welcome-description">Puedes usar la vista normal o elegir el modo vidrio para ver paneles translúcidos.</p>
+    {% endif %}
+    <p id="glass-welcome-help">Puedes cambiarlo en cualquier momento desde el menú de tu perfil.</p>
+    <form class="glass-welcome-actions" method="post" action="{% url 'usuarios:interface_style' %}">
+        {% csrf_token %}
+        <input type="hidden" name="origen" value="bienvenida">
+        <input type="hidden" name="volver" value="{{ request.get_full_path }}">
+        <button class="btn-stitch btn-stitch-secondary" type="submit" name="estilo" value="normal" autofocus>{% if glass_prompt == 'existente' %}Mantener vista normal{% else %}Vista normal{% endif %}</button>
+        <button class="btn-stitch btn-stitch-primary" type="submit" name="estilo" value="vidrio">{% if glass_prompt == 'existente' %}Activar modo vidrio{% else %}Modo vidrio{% endif %}</button>
+    </form>
+</dialog>

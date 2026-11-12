@@ -125,7 +125,7 @@
     }
   };
   const start = () => {
-    if (starting || tour?.isActive()) return;
+    if (starting || tour?.isActive() || document.querySelector('[data-glass-welcome][open]')) return;
     if (document.querySelector('.modal.show, .modal.showing')) {
       waiting = true;
       return;
@@ -160,6 +160,9 @@
     launch?.addEventListener('click', start);
     document.addEventListener('hidden.bs.modal', () => {
       if (waiting) window.setTimeout(start, 100);
+    });
+    document.querySelector('[data-glass-welcome]')?.addEventListener('close', () => {
+      if (config.auto_start) window.setTimeout(start, 100);
     });
     if (config.auto_start || new URLSearchParams(window.location.search).get('tutorial') === '1') window.setTimeout(start, 250);
   });

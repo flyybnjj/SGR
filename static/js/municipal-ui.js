@@ -25,30 +25,52 @@ function toggleSidebarMenu() {
   }
 }
 document.addEventListener('DOMContentLoaded', async () => {
+  const glassWelcome = document.querySelector('[data-glass-welcome]');
+  if (glassWelcome?.showModal) {
+    glassWelcome.showModal();
+  } else if (glassWelcome) {
+    glassWelcome.setAttribute('open', '');
+  }
   const glassToggle = document.querySelector('[data-glass-toggle]');
   if (glassToggle) {
-    const glassKey = `muni:glass-mode:${document.body.dataset.userId}`;
+    const form = glassToggle.form;
     const forcedColors = window.matchMedia('(forced-colors: active)');
-    const glassHelp = document.querySelector('[data-glass-help]');
+    const glassHelp = form.querySelector('[data-glass-help]');
     const helpText = glassHelp.textContent;
-    let glassEnabled = false;
-    try { glassEnabled = localStorage.getItem(glassKey) === 'on'; } catch (_) {}
-    const updateGlass = () => {
+    let glassEnabled = document.body.dataset.glassMode === 'on';
+    let saving = false;
+    const updateGlass = (error = '') => {
       const unavailable = forcedColors.matches;
-      const active = glassEnabled && !unavailable;
-      document.body.dataset.glassMode = active ? 'on' : 'off';
-      glassToggle.setAttribute('aria-checked', String(active));
+      const enabled = glassEnabled && !unavailable;
+      document.body.dataset.glassMode = enabled ? 'on' : 'off';
+      glassToggle.setAttribute('aria-checked', String(enabled));
+      glassToggle.value = glassEnabled ? 'normal' : 'vidrio';
       glassToggle.disabled = unavailable;
+      form.setAttribute('aria-busy', String(saving));
       glassHelp.textContent = unavailable
-        ? 'El navegador prioriza los colores de alto contraste del equipo.'
-        : helpText;
+        ? 'El navegador usa los colores de alto contraste del equipo.'
+        : error || helpText;
     };
-    glassToggle.addEventListener('click', () => {
-      glassEnabled = !glassEnabled;
-      try { localStorage.setItem(glassKey, glassEnabled ? 'on' : 'off'); } catch (_) {}
+    form.addEventListener('submit', async event => {
+      event.preventDefault();
+      if (saving || forcedColors.matches) return;
+      saving = true;
       updateGlass();
+      try {
+        const data = new FormData(form);
+        data.set('estilo', glassEnabled ? 'normal' : 'vidrio');
+        const response = await fetch(form.action, {method: 'POST', body: data, headers: {'Accept': 'application/json'}});
+        if (!response.ok) throw new Error('No se guardó la preferencia');
+        const result = await response.json();
+        glassEnabled = result.estilo === 'vidrio';
+        saving = false;
+        updateGlass();
+      } catch (_) {
+        saving = false;
+        updateGlass('No se pudo guardar. Intenta cambiar el estilo de nuevo.');
+      }
     });
-    forcedColors.addEventListener('change', updateGlass);
+    forcedColors.addEventListener('change', () => updateGlass());
     updateGlass();
   }
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -84,7 +106,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     updateMotion();
   });
   const createModalId = window.location.hash.slice(1);
-  if (['nuevaDelegacionModal', 'nuevoUsuarioModal'].includes(createModalId) && window.bootstrap?.Modal) {
+  if (!glassWelcome?.open && ['nuevaDelegacionModal', 'nuevoUsuarioModal'].includes(createModalId) && window.bootstrap?.Modal) {
     const createModal = document.getElementById(createModalId);
     if (createModal && !document.getElementById('delegationAppearanceModal')) new bootstrap.Modal(createModal).show();
   }
@@ -106,7 +128,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     update();
   });
   const appearanceModal = document.getElementById('delegationAppearanceModal');
-  if (appearanceModal) {
+  if (appearanceModal && !glassWelcome?.open) {
     if (window.bootstrap?.Modal) {
       appearanceModal.addEventListener('show.bs.modal', () => document.body.classList.add('appearance-onboarding-open'));
       appearanceModal.addEventListener('hidden.bs.modal', () => document.body.classList.remove('appearance-onboarding-open'));
@@ -163,7 +185,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     table.setAttribute('aria-label', 'Tabla de registros; desplazar para ver todas las columnas');
   });
   const serverFeedback = document.getElementById('server-form-feedback');
-  if (serverFeedback && window.Swal) {
+  if (serverFeedback && window.Swal && !glassWelcome?.open) {
     const feedback = JSON.parse(serverFeedback.textContent);
     if (feedback.errors.length) {
       await Swal.fire({title: 'Revisa los datos', text: feedback.errors.join('\n'),
@@ -175,7 +197,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
   for (const message of document.querySelectorAll('.municipal-message')) {
-    if (!window.Swal) continue;
+    if (!window.Swal || glassWelcome?.open) continue;
     const level = message.dataset.level;
     const icon = ['error', 'warning', 'info'].includes(level) ? level : 'success';
     message.hidden = true;

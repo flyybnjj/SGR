@@ -471,7 +471,7 @@ body[data-delegation-theme] .btn-stitch-primary, body[data-delegation-theme] .bt
 
 .dashboard-breakdown tbody th{background:#fff;white-space:normal}.dashboard-breakdown tbody th a{color:#8b1d19;display:inline-flex;min-height:44px;align-items:center}
 
-@media screen {
+@media screen and (forced-colors: none) {
   body[data-glass-mode="on"] {
     --glass-accent: var(--delegation-color, #b80003);
     --glass-frame: rgb(255 255 255 / .62);
@@ -503,3 +503,20 @@ body[data-delegation-theme] .btn-stitch-primary, body[data-delegation-theme] .bt
   [data-glass-mode="on"] .table-stitch { background-color: var(--glass-panel); }
   [data-glass-mode="on"] select::picker(select) { background-color: var(--glass-overlay); }
 }
+
+.glass-welcome {
+    width: min(480px, calc(100% - 32px));
+    max-height: calc(100dvh - 32px);
+    padding: clamp(20px, 5vw, 32px);
+    border: 1px solid var(--border-control);
+    border-radius: 16px;
+    background: var(--surface, #fff);
+    color: var(--text-main);
+    box-shadow: var(--glass-shadow);
+    overflow: auto;
+}
+.glass-welcome::backdrop { background: rgb(16 24 40 / .46); }
+.glass-welcome h1 { font-size: clamp(1.4rem, 5vw, 1.75rem); margin: 0 0 12px; }
+.glass-welcome p { color: var(--text-secondary); margin: 0 0 12px; }
+.glass-welcome-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; margin-top: 24px; }
+.glass-welcome-actions > button { flex: 1 1 auto; justify-content: center; }

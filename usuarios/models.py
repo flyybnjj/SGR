@@ -25,6 +25,16 @@ class Rol(models.Model):
 
 
 class Usuario(AbstractUser):
+    class EstiloInterfaz(models.TextChoices):
+        EXISTENTE = 'existente', 'Cuenta existente por elegir'
+        NUEVO = 'nuevo', 'Cuenta nueva por elegir'
+        NORMAL = 'normal', 'Vista normal'
+        VIDRIO = 'vidrio', 'Modo vidrio'
+
+    estilo_interfaz = models.CharField(
+        max_length=10, choices=EstiloInterfaz, default=EstiloInterfaz.NUEVO,
+        db_default=EstiloInterfaz.NUEVO, editable=False,
+    )
     CARGOS = [(v, v) for v in ('Delegado Municipal', 'Gestor Social', 'Apoyo Administrativo', 'Organizaciones Comunitarias', 'Gestor de Compras y Proyectos', 'Gestión y Planificación', 'Coordinador de Servicios Comunitarios')]
     cargo = models.CharField(max_length=100, choices=CARGOS, blank=True, default='', db_default='')
     rut = models.CharField(max_length=12, validators=[validar_rut], unique=True, null=True, blank=True, verbose_name="RUT")

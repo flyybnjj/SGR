@@ -14,10 +14,10 @@
     <link href="{% static 'css/muni-laserena.css' %}?v=20261017-grid-heading" rel="stylesheet">
     {% block extra_head %}{% endblock %}
     <link href="{% static 'css/municipal-ui.css' %}?v=20261004-delegation-theme" rel="stylesheet">
-    <link href="{% static 'css/municipal-design.css' %}?v=20261108-glass" rel="stylesheet">
+    <link href="{% static 'css/municipal-design.css' %}?v=20261112-glass-welcome" rel="stylesheet">
     <link href="{% static 'css/general-select.css' %}?v=20261108-select-alignment" rel="stylesheet">
 </head>
-<body data-user-id="{{ user.pk }}"{% if account_area %} class="account-page"{% endif %}{% if delegacion_encabezado %} data-delegation-theme{% if delegacion_encabezado.color_configurado %} data-delegation-custom{% endif %} style="{{ delegation_theme_style }}"{% endif %}>
+<body data-user-id="{{ user.pk }}"{% if user.is_authenticated %} data-glass-mode="{% if glass_enabled %}on{% else %}off{% endif %}"{% endif %}{% if account_area %} class="account-page"{% endif %}{% if delegacion_encabezado %} data-delegation-theme{% if delegacion_encabezado.color_configurado %} data-delegation-custom{% endif %} style="{{ delegation_theme_style }}"{% endif %}>
 <a class="skip-link" href="#main-content">Saltar al contenido</a>
 <div class="ambient-waves" aria-hidden="true">
     <svg class="ambient-wave" viewBox="0 0 1600 1000" preserveAspectRatio="none" focusable="false"><path d="M-160 180C200 390 400-50 850 160S1380 420 1760 190L1760 340C1320 580 1100 300 800 280S220 600-160 330Z" fill="currentColor" opacity=".11"/><path d="M-160 720C230 450 450 920 900 690S1440 460 1760 740L1760 920C1400 650 1220 820 900 850S300 620-160 900Z" fill="currentColor" opacity=".09"/></svg>
@@ -43,10 +43,14 @@
                     <li><hr class="dropdown-divider"></li>
                     {% if user.is_authenticated %}
                     <li class="ambient-preference">
-                        <button type="button" class="glass-preference-button" role="switch" aria-checked="false" aria-describedby="glass-mode-help" data-glass-toggle>
-                            <span>Modo vidrio</span><span class="glass-preference-state" aria-hidden="true"></span>
-                        </button>
-                        <small id="glass-mode-help" data-glass-help>Transparencia en paneles y menús. Se guarda en este navegador.</small>
+                        <form method="post" action="{% url 'usuarios:interface_style' %}" data-glass-preference>
+                            {% csrf_token %}
+                            <input type="hidden" name="volver" value="{{ request.get_full_path }}">
+                            <button type="submit" name="estilo" value="{% if glass_enabled %}normal{% else %}vidrio{% endif %}" class="glass-preference-button" role="switch" aria-checked="{{ glass_enabled|yesno:'true,false' }}" aria-describedby="glass-mode-help" data-glass-toggle>
+                                <span>Modo vidrio</span><span class="glass-preference-state" aria-hidden="true"></span>
+                            </button>
+                            <small id="glass-mode-help" data-glass-help role="status">Transparencia en paneles y menús. Se guarda en tu cuenta.</small>
+                        </form>
                     </li>
                     {% endif %}
                     <li class="ambient-preference"><label for="ambient-motion-preference"><input type="checkbox" id="ambient-motion-preference" role="switch" data-ambient-toggle aria-describedby="ambient-motion-help">Ondas en movimiento</label><small id="ambient-motion-help" data-ambient-status aria-live="polite">Activa el movimiento del fondo. La preferencia se guarda para tu cuenta en este navegador.</small></li>
@@ -118,14 +122,15 @@
     <a class="mobile-nav-item" href="{% url 'atenciones:action_list' %}"><i class="bi bi-check2-square"></i><span>Tubo</span></a>
     <button class="mobile-nav-item" type="button" onclick="toggleSidebarMenu()"><i class="bi bi-list"></i><span>Menú</span></button>
 </nav>{% endif %}
+{% if glass_prompt %}{% include 'usuarios/glass_welcome.html' %}{% endif %}
 {% if appearance_pending %}{% include 'territorial/appearance_modal.html' %}{% endif %}
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.6/dist/sweetalert2.all.min.js"></script>
 <script src="{% static 'vendor/driverjs/driver.js.iife.js' %}"></script>
 {% server_form_feedback %}
 {% if tutorial_config %}{{ tutorial_config|json_script:"sgr-tutorial-config" }}{% endif %}
-<script src="{% static 'js/tutorial-guiado.js' %}?v=20261108-auto-filters"></script>
-<script src="{% static 'js/municipal-ui.js' %}?v=20261108-glass"></script>
+<script src="{% static 'js/tutorial-guiado.js' %}?v=20261112-glass-welcome"></script>
+<script src="{% static 'js/municipal-ui.js' %}?v=20261112-glass-welcome"></script>
 <script src="{% static 'js/rut.js' %}?v=20261019-strict-inputs"></script>
 <script src="{% static 'js/crud-validation.js' %}?v=20261019-strict-inputs"></script>
 <script src="{% static 'js/crud-editor.js' %}?v=20261018-load-feedback"></script>
