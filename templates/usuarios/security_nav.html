@@ -1,0 +1,5 @@
+<nav class="account-options" aria-label="Cuenta y seguridad">
+    <a href="{% url 'usuarios:account_settings' %}?editar=1" {% if settings_section == 'account' %}aria-current="page"{% endif %}><span>Nombre de usuario</span><span class="account-option-value">{{ user.username }}</span></a>
+    <a href="{% url 'usuarios:account_password' %}" {% if settings_section == 'password' %}aria-current="page"{% endif %}><span>Contraseña</span><i class="bi bi-chevron-right" aria-hidden="true"></i></a>
+    <a href="{% url 'usuarios:passkeys' %}" {% if request.resolver_match.url_name == 'passkeys' %}aria-current="page"{% endif %}><span>Passkeys</span><i class="bi bi-chevron-right" aria-hidden="true"></i></a>
+</nav>

@@ -21,7 +21,7 @@
             </div>
             {% endif %}
             <div class="update-actions">
-                {% if publicacion.ruta_recorrido %}<a class="btn-stitch btn-stitch-secondary" href="{% url publicacion.ruta_recorrido %}?tutorial=1">Ver recorrido</a>{% elif publicacion.recorrido %}<button class="btn-stitch-outline" type="button" data-update-tour>Ver recorrido</button>{% endif %}
+                {% if publicacion.ruta_recorrido %}<a class="btn-stitch btn-stitch-secondary" href="{% url publicacion.ruta_recorrido %}?tutorial=novedades">Ver recorrido</a>{% elif publicacion.recorrido %}<button class="btn-stitch-outline" type="button" data-update-tour>Ver recorrido</button>{% endif %}
                 {% if publicacion.leida %}<span class="update-read"><i class="bi bi-check2" aria-hidden="true"></i>Leída</span>{% else %}
                 <form action="{% url 'dashboard:novedad_leida' publicacion.id %}" method="post">{% csrf_token %}<button class="btn-stitch-outline" type="submit" data-update-read>Marcar como leída</button></form>
                 {% endif %}
@@ -31,4 +31,3 @@
     </div>
 </section>
 {% endblock %}
-{% block extra_scripts %}<script src="{% static 'js/novedades.js' %}"></script>{% endblock %}

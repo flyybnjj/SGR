@@ -1,2 +1,39 @@
-{% if personal %}<section class="dashboard-section"><h2 class="section-heading">Mi trabajo</h2><div class="work-summary"><div><strong>{{ work_totals.ingresadas }}</strong><span>Actividades ingresadas por mí en el período</span></div><div><strong>{{ work_totals.asignadas }}</strong><span>Actividades a mi cargo, incluidos pendientes anteriores</span></div><div><strong>{{ work_totals.aprobadas }}</strong><span>Con revisión aprobada</span></div><div><strong>{{ work_totals.excluidas }}</strong><span>Con condición de exclusión del puntaje</span></div></div><p class="small text-secondary mt-3 mb-0">El porcentaje de cumplimiento combina tus metas y sus ponderaciones; no equivale al número de actividades. Las metas de equipo aparecen en el resumen territorial.</p></section>{% endif %}
-{% if territory_rows or team_rows %}<section class="dashboard-section dashboard-breakdown"><div class="section-toolbar"><h2 class="section-heading">{% if user.is_superuser %}Comparación de delegaciones{% else %}Equipo de la delegación{% endif %}</h2><span class="small text-secondary">{{ period_start|date:'d/m/Y' }}–{{ period_end|date:'d/m/Y' }}</span></div><div class="table-responsive"><table class="table-stitch"><caption class="visually-hidden">Actividades, atenciones y cumplimiento por {% if user.is_superuser %}delegación{% else %}funcionario{% endif %}. Los porcentajes usan las metas asignadas y las actividades no se suman dos veces.</caption><thead><tr><th scope="col">{% if user.is_superuser %}Delegación{% else %}Funcionario{% endif %}</th><th scope="col">Atenciones</th><th scope="col">Actividades</th><th scope="col">Pendientes</th><th scope="col">Realizadas</th><th scope="col">Cumplimiento</th></tr></thead><tbody>{% for row in territory_rows %}{% include 'dashboard/breakdown_row.html' %}{% endfor %}{% for row in team_rows %}{% include 'dashboard/breakdown_row.html' %}{% endfor %}</tbody></table></div><p class="small text-secondary mb-0">Realizada describe el avance; aprobar evidencia es un paso separado. Sin metas individuales, el funcionario aparece sin porcentaje en lugar de heredar el resultado de todo el equipo.</p></section>{% endif %}
+{% if territory_rows or team_rows %}
+<details class="dashboard-section dashboard-breakdown dashboard-disclosure">
+    <summary>
+        <i class="bi {% if territory_rows %}bi-buildings{% else %}bi-people{% endif %}" aria-hidden="true"></i>
+        <span>{% if territory_rows %}Comparación de delegaciones{% else %}Equipo de la delegación{% endif %}</span>
+        <i class="bi bi-chevron-down disclosure-caret" aria-hidden="true"></i>
+    </summary>
+    <div class="disclosure-content">
+        {% if team_rows and not territory_rows %}<p class="small text-secondary text-end">{{ period_start|date:'d/m/Y' }}–{{ period_end|date:'d/m/Y' }}</p>{% endif %}
+    <div class="table-responsive">
+        <table class="table-stitch">
+            <caption class="visually-hidden">Actividades, atenciones y cumplimiento por {% if user.is_superuser %}delegación{% else %}funcionario{% endif %}. Los porcentajes usan las metas asignadas y las actividades no se suman dos veces.</caption>
+            <thead>
+            <tr>
+                <th scope="col">{% if user.is_superuser %}Delegación{% else %}Funcionario{% endif %}</th>
+                <th scope="col">Atenciones</th>
+                <th scope="col">Actividades</th>
+                <th scope="col">Pendientes</th>
+                <th scope="col">
+                    <span class="dashboard-column-label">Realizadas
+                        <button type="button" class="dashboard-column-help" title="Realizada describe el avance; aprobar evidencia es un paso separado." aria-label="Ayuda sobre realizadas" data-column-help><i class="bi bi-info-circle" aria-hidden="true"></i></button>
+                    </span>
+                </th>
+                <th scope="col">
+                    <span class="dashboard-column-label">Cumplimiento
+                        <button type="button" class="dashboard-column-help" title="Sin metas individuales, el funcionario aparece sin porcentaje en lugar de heredar el resultado de todo el equipo." aria-label="Ayuda sobre cumplimiento" data-column-help><i class="bi bi-info-circle" aria-hidden="true"></i></button>
+                    </span>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for row in territory_rows %}{% include 'dashboard/breakdown_row.html' %}{% endfor %}
+                {% for row in team_rows %}{% include 'dashboard/breakdown_row.html' %}{% endfor %}
+            </tbody>
+        </table>
+    </div>
+    </div>
+</details>
+{% endif %}

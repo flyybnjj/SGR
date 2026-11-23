@@ -1,13 +1,28 @@
 {% extends 'base.html' %}
 {% block title %}Mi cuenta | La Serena{% endblock %}
 {% block content %}
-<header class="page-heading"><div><h1>{% if settings_section == 'password' %}Cambiar contraseña{% else %}Nombre de usuario{% endif %}</h1><p>{% if settings_section == 'password' %}Confirma tu contraseña actual y elige una nueva.{% else %}Este es el nombre que usas para iniciar sesión.{% endif %}</p></div></header>
+<header class="page-heading"><div><h1>Cuenta y seguridad</h1></div></header>
+{% include 'usuarios/security_nav.html' %}
 <section class="dashboard-section account-form">
-    <form method="post">
-        {% csrf_token %}
-        {{ form.non_field_errors }}
-        {% for field in form %}<div class="form-field mb-4"><label for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}{{ field.errors }}{% if field.help_text %}<div class="helptext">{{ field.help_text|safe }}</div>{% endif %}</div>{% endfor %}
-        <button type="submit" class="btn-stitch btn-stitch-primary">{% if settings_section == 'password' %}Actualizar contraseña{% else %}Guardar nombre de usuario{% endif %}</button>
-    </form>
+    {% if settings_section == 'password' %}{% include 'usuarios/password_cycle.html' %}{% endif %}
+    <details {% if expand_form %}open{% endif %}>
+        <summary>{% if settings_section == 'password' %}Cambiar contraseña{% else %}Cambiar nombre de usuario{% endif %}</summary>
+        <form method="post" class="mt-3" {% if settings_section == 'account' %}data-username-form{% endif %}>
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            {% if settings_section == 'account' %}
+                <div class="form-field mb-3"><label for="{{ form.username.id_for_label }}">Nuevo nombre de usuario</label>{{ form.username }}{{ form.username.errors }}</div>
+                <div class="form-field mb-3"><label for="{{ form.method.id_for_label }}">Confirmar con</label>{{ form.method }}{{ form.method.errors }}</div>
+                <div class="form-field mb-3" data-username-method="password"><label for="{{ form.current_password.id_for_label }}">Contraseña actual</label>{{ form.current_password }}{{ form.current_password.errors }}{% include 'usuarios/password_cycle.html' %}</div>
+                <div class="form-field mb-3" data-username-method="email">
+                    <label for="{{ form.code.id_for_label }}">Código de seis dígitos</label>{{ form.code }}{{ form.code.errors }}
+                    <button type="submit" name="action" value="send_code" class="btn-stitch btn-stitch-secondary">Enviar código al correo</button>
+                </div>
+            {% else %}
+                {% for field in form %}<div class="form-field mb-3"><label for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}{{ field.errors }}{% if field.help_text %}<div class="helptext">{{ field.help_text|safe }}</div>{% endif %}</div>{% endfor %}
+            {% endif %}
+            <button type="submit" class="btn-stitch btn-stitch-primary">{% if settings_section == 'password' %}Actualizar contraseña{% else %}Guardar nombre de usuario{% endif %}</button>
+        </form>
+    </details>
 </section>
 {% endblock %}

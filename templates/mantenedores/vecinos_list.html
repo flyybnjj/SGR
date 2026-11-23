@@ -20,7 +20,7 @@
         </p>
     </div>
     <div class="d-flex gap-2">
-        <a href="{% url 'vecinos:vecinos_excel' %}?q={{ search|urlencode }}" class="btn-stitch btn-stitch-excel" data-neighbor-export>
+        <a href="{% url 'vecinos:vecinos_excel' %}{% querystring q=search page=None per_page=None %}" class="btn-stitch btn-stitch-excel" data-neighbor-export>
             <i class="bi bi-file-earmark-excel"></i>
             <span>Exportar Excel</span>
         </a>
@@ -36,12 +36,16 @@
     <div class="card-stitch-header flex-column flex-md-row gap-3">
         <form method="GET" class="search-box-stitch" role="search" data-live-filter>
 <label class="visually-hidden" for="grid-search">Buscar registros</label>
-<input type="hidden" name="per_page" value="{{ page_obj.paginator.per_page }}">
+<input type="hidden" name="per_page" value="{{ page_obj.page_size }}">
+            <input type="hidden" name="estado" value="{{ request.GET.estado }}">
+            <input type="hidden" name="orden" value="{{ request.GET.orden }}">
+            <input type="hidden" name="direccion" value="{{ request.GET.direccion }}">
             <i class="bi bi-search"></i>
             <input type="search" id="grid-search" name="q" value="{{ search }}" placeholder="Buscar por Nombre, RUT, Dirección o Territorio...">
             <button type="submit" class="btn-stitch btn-stitch-secondary">Buscar</button>
             <a href="{% url 'vecinos:vecinos_list' %}" class="text-secondary ms-1" aria-label="Limpiar filtro" title="Limpiar filtro" data-live-clear {% if not search %}hidden{% endif %}><i class="bi bi-x-circle-fill"></i></a>
         </form>
+        {% include "includes/catalog_state_filter.html" %}
         <div class="d-flex align-items-center gap-2">
             <span class="badge-stitch-tag">
                 Total Vecinos: <strong data-neighbor-count class="ms-1" style="color: var(--muni-red);">{{ page_obj.paginator.count }}</strong>
@@ -55,13 +59,13 @@
             <thead>
                 <tr>
                     <th scope="col" style="width: 60px;">#</th>
-                    <th scope="col">Vecino(a)</th>
-                    <th scope="col">RUT</th>
-                    <th scope="col">Dirección Territorial</th>
-                    <th scope="col">Teléfono</th>
-                    <th scope="col">Territorio Asignado</th>
-                    <th scope="col">Tipo de Gestión</th>
-                    <th scope="col" class="text-center" style="width: 120px;">Estado</th>
+                    <th scope="col"{% if request.GET.orden == 'nombre' %} aria-sort="{% if request.GET.direccion == 'desc' %}descending{% else %}ascending{% endif %}"{% endif %}>{% include 'includes/catalog_sort.html' with field='nombre' caption='Vecino(a)' %}</th>
+                    <th scope="col"{% if request.GET.orden == 'rut' %} aria-sort="{% if request.GET.direccion == 'desc' %}descending{% else %}ascending{% endif %}"{% endif %}>{% include 'includes/catalog_sort.html' with field='rut' caption='RUT' %}</th>
+                    <th scope="col"{% if request.GET.orden == 'direccion' %} aria-sort="{% if request.GET.direccion == 'desc' %}descending{% else %}ascending{% endif %}"{% endif %}>{% include 'includes/catalog_sort.html' with field='direccion' caption='Dirección Territorial' %}</th>
+                    <th scope="col"{% if request.GET.orden == 'telefono' %} aria-sort="{% if request.GET.direccion == 'desc' %}descending{% else %}ascending{% endif %}"{% endif %}>{% include 'includes/catalog_sort.html' with field='telefono' caption='Teléfono' %}</th>
+                    <th scope="col"{% if request.GET.orden == 'territorio__nombre' %} aria-sort="{% if request.GET.direccion == 'desc' %}descending{% else %}ascending{% endif %}"{% endif %}>{% include 'includes/catalog_sort.html' with field='territorio__nombre' caption='Territorio Asignado' %}</th>
+                    <th scope="col"{% if request.GET.orden == 'tipo_gestion' %} aria-sort="{% if request.GET.direccion == 'desc' %}descending{% else %}ascending{% endif %}"{% endif %}>{% include 'includes/catalog_sort.html' with field='tipo_gestion' caption='Tipo de Gestión' %}</th>
+                    <th scope="col" class="text-center" style="width: 120px;"{% if request.GET.orden == 'activo' %} aria-sort="{% if request.GET.direccion == 'desc' %}descending{% else %}ascending{% endif %}"{% endif %}>{% include 'includes/catalog_sort.html' with field='activo' caption='Estado' %}</th>
                     <th scope="col" class="text-center record-actions-column">Acciones</th>
                 </tr>
             </thead>
@@ -151,7 +155,7 @@
                 </div>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
             </div>
-            <form method="POST" data-crud-form novalidate action="{% url 'vecinos:vecinos_create' %}">
+            <form method="POST" data-crud-form novalidate action="{% url 'vecinos:vecinos_create' %}" data-localidades-url="{% url 'catalogos:opciones_localidad' %}">
                 {% csrf_token %}
                 <div class="modal-body p-4">
                     <div class="row g-3">
@@ -180,6 +184,10 @@
                                 <option value="{{ terr.id }}">{{ terr.nombre }}</option>
                                 {% endfor %}
                             </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="{{ form.localidad.id_for_label }}" class="form-label small fw-semibold">Localidad (opcional)</label>
+                            {{ form.localidad }}
                         </div>
                         <div class="col-md-6">
                             <label for="nuevoVecinoModal-tipo_gestion" class="form-label small fw-semibold" style="color: var(--text-main);">Tipo de Gestión *</label>
@@ -211,3 +219,4 @@
 {% include 'includes/crud_edit_modal.html' %}
 {% endif %}
 {% endblock %}
+{% block extra_scripts %}<script src="{% static 'js/localidades.js' %}?v=1" defer></script>{% endblock %}

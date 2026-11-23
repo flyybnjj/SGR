@@ -42,7 +42,10 @@ def interface_style(request):
     pending = accounts
     if request.POST.get('origen') == 'bienvenida':
         pending = accounts.filter(estilo_interfaz__in=(options.EXISTENTE, options.NUEVO))
-    if not pending.update(estilo_interfaz=style):
+    changes = {'estilo_interfaz': style}
+    if request.POST.get('origen') == 'bienvenida':
+        changes['apariencia_elegida'] = True
+    if not pending.update(**changes):
         style = accounts.values_list('estilo_interfaz', flat=True).first()
         if style is None:
             return JsonResponse({'error': 'La cuenta ya no está disponible.'}, status=403)

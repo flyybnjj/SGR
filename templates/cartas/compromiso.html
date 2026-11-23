@@ -1,0 +1,1 @@
+{% if carta.fecha_compromiso %}<time datetime="{{ carta.fecha_compromiso|date:'Y-m-d' }}">{{ carta.fecha_compromiso|date:'d/m/Y' }}</time>{% if carta.compromiso_vencido %} <span class="badge text-bg-warning">Compromiso vencido</span>{% endif %}{% else %}Sin fecha{% endif %}

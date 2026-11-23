@@ -43,6 +43,32 @@ class AbsenceGoalTests(TestCase):
         self.user.rol.save()
         self.assertEqual(self.client.get('/ausencias/').status_code, 403)
 
+    def test_manager_can_only_annul_own_delegation_and_goal_is_restored(self):
+        own = Ausencia.objects.create(
+            usuario=self.user, inicio=date(2026, 11, 3), fin=date(2026, 11, 4), tipo='Vacaciones',
+        )
+        foreign = Ausencia.objects.create(
+            usuario=self.other, inicio=date(2026, 11, 4), fin=date(2026, 11, 4), tipo='Licencia',
+        )
+        self.assertEqual(self.meta.objetivo_ajustado, Decimal('6.00'))
+        self.assertEqual(self.client.post(f'/ausencias/{foreign.pk}/anular/').status_code, 404)
+        self.assertEqual(self.client.get(f'/ausencias/{own.pk}/anular/').status_code, 405)
+        self.assertEqual(self.client.post(f'/ausencias/{own.pk}/anular/').status_code, 302)
+        own.refresh_from_db()
+        foreign.refresh_from_db()
+        self.assertTrue(own.anulada)
+        self.assertEqual(own.anulada_por, self.user)
+        self.assertFalse(foreign.anulada)
+        self.assertEqual(self.meta.objetivo_ajustado, Decimal('10.00'))
+
+    def test_invalid_identifier_and_weekend_are_rejected(self):
+        base = {'inicio': '2026-11-07', 'fin': '2026-11-08', 'tipo': 'Vacaciones'}
+        for pk in ('\u00b2', '9999999999999999999', str(self.user.pk)):
+            with self.subTest(pk=pk):
+                response = self.client.post('/ausencias/nueva/', {**base, 'usuario': pk})
+                self.assertEqual(response.status_code, 400)
+                self.assertFalse(Ausencia.objects.exists())
+
     def test_total_absence_keeps_goal_but_excludes_unavailable_target(self):
         Ausencia.objects.create(usuario=self.user, inicio=self.meta.inicio, fin=self.meta.fin, tipo='Vacaciones')
         self.assertEqual(self.meta.objetivo_ajustado, 0)

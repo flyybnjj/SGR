@@ -10,7 +10,7 @@
 </header>
 <section class="card-stitch">
     <div class="card-stitch-header">
-        <form class="transaction-filter w-100" method="get"><label for="id_trimestre" class="visually-hidden">Trimestre</label>{{ period_form.trimestre }}{{ period_form.trimestre.errors }}<label for="id_delegacion" class="visually-hidden">Delegación</label>{{ period_form.delegacion }}{{ period_form.delegacion.errors }}<label for="{{ period_form.personales.id_for_label }}" class="d-flex align-items-center gap-2">{{ period_form.personales }} Solo mis metas</label>
+        <form class="transaction-filter w-100" method="get"><label for="id_trimestre" class="visually-hidden">Trimestre</label>{{ period_form.trimestre }}{{ period_form.trimestre.errors }}<label for="id_delegacion" class="visually-hidden">Delegación</label>{{ period_form.delegacion }}{{ period_form.delegacion.errors }}<label for="{{ period_form.personales.id_for_label }}" class="personal-goals-switch">{{ period_form.personales }} <span>Solo mis metas</span></label>
             <input class="form-control" name="q" value="{{ search }}" aria-label="Buscar meta" placeholder="Meta o delegación">
             <button class="btn-stitch btn-stitch-secondary" type="submit">Filtrar</button>
         </form>

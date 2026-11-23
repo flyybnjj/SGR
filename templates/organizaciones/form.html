@@ -1,6 +1,48 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %}{% load static %}
 {% block title %}Organización | SGR{% endblock %}
 {% block content %}
-<header class="page-heading"><div><h1>{% if organizacion %}Editar organización{% else %}Crear organización{% endif %}</h1><p>Conserva los datos de origen hasta verificar su asignación territorial.</p></div><a href="{% url 'organizaciones:listado' %}">Volver al listado</a></header>
-<section class="dashboard-section form-panel"><form method="post">{% csrf_token %}{{ form.non_field_errors }}{% for field in form %}<div class="mb-3">{{ field.label_tag }} {{ field }}{{ field.errors }}{% if field.help_text %}<small>{{ field.help_text }}</small>{% endif %}</div>{% endfor %}<div class="form-actions"><a class="btn-stitch btn-stitch-secondary" href="{% url 'organizaciones:listado' %}">Cancelar</a><button class="btn-stitch btn-stitch-primary" type="submit">Guardar organización</button></div></form></section>
+<header class="page-heading">
+    <div><h1>{% if organizacion %}Editar organización{% else %}Crear organización{% endif %}</h1><p>Conserva los datos de origen hasta verificar su asignación territorial.</p></div>
+    <a href="{% url 'organizaciones:listado' %}">Volver al listado</a>
+</header>
+<section class="dashboard-section form-panel">
+    <form method="post" data-directiva-url="{% url 'organizaciones:buscar_directiva' %}" data-directiva-create-url="{% url 'organizaciones:crear_vecino_directiva' %}" data-localidades-url="{% url 'catalogos:opciones_localidad' %}">
+        {% csrf_token %}{{ form.non_field_errors }}
+        {% for field in form %}{% if not field.is_hidden %}
+        <div class="mb-3">{{ field.label_tag }} {{ field }}{{ field.errors }}{% if field.help_text %}<small>{{ field.help_text }}</small>{% endif %}</div>
+        {% endif %}{% endfor %}
+        <fieldset class="mb-4">
+            <legend>Directiva</legend>
+            <p class="text-secondary">Busca por nombre o RUT en el padrón de la delegación seleccionada.</p>
+            {% for field, person, registered_name in form.directiva %}
+            <div class="mb-3" data-directiva-picker>
+                {{ field }}{{ field.errors }}
+                <label class="form-label" for="{{ field.auto_id }}_busqueda">{{ field.label }}</label>
+                <div class="input-group">
+                    <input id="{{ field.auto_id }}_busqueda" class="form-control" type="search" autocomplete="off" maxlength="120"
+                           placeholder="Buscar vecino por nombre o RUT" data-directiva-search aria-describedby="{{ field.auto_id }}_estado">
+                    <button class="btn-stitch btn-stitch-secondary" type="button" data-directiva-clear{% if not field.value %} hidden{% endif %}>Quitar</button>
+                </div>
+                <div id="{{ field.auto_id }}_estado" class="small mt-1" role="status" data-directiva-status>{% if person %}Seleccionado: {{ person.nombre }}{% elif registered_name %}Nombre registrado: {{ registered_name }} · Sin vínculo al padrón{% endif %}</div>
+                <div class="neighbor-suggestions" data-directiva-options hidden></div>
+                <button class="btn-stitch btn-stitch-secondary mt-2" type="button" data-directiva-create>Registrar vecino y seleccionar</button>
+            </div>
+            {% endfor %}
+        </fieldset>
+        <div class="form-actions"><a class="btn-stitch btn-stitch-secondary" href="{% url 'organizaciones:listado' %}">Cancelar</a><button class="btn-stitch btn-stitch-primary" type="submit">Guardar organización</button></div>
+    </form>
+</section>
+<dialog id="alta-vecino-directiva" class="form-panel" aria-labelledby="alta-vecino-title">
+    <form data-directiva-create-form>
+        <h2 id="alta-vecino-title">Registrar vecino para la directiva</h2>
+        <p>Se registrará en la delegación seleccionada. Los datos de la organización se conservarán en pantalla.</p>
+        <div class="mb-3"><label for="alta-directiva-nombre">Nombre completo</label><input class="form-control" id="alta-directiva-nombre" name="nombre" maxlength="150" required></div>
+        <div class="mb-3"><label for="alta-directiva-rut">RUT</label><input class="form-control" id="alta-directiva-rut" name="rut" maxlength="12" required data-validate="rut"><small>Escribe el RUT completo con su dígito verificador.</small></div>
+        <div class="mb-3"><label for="alta-directiva-direccion">Dirección (opcional)</label><input class="form-control" id="alta-directiva-direccion" name="direccion" maxlength="255"></div>
+        <div class="mb-3"><label for="alta-directiva-telefono">Teléfono (opcional)</label><input class="form-control" id="alta-directiva-telefono" name="telefono" maxlength="20" type="tel"></div>
+        <div role="status" aria-live="polite" data-directiva-create-status></div>
+        <div class="form-actions"><button class="btn-stitch btn-stitch-secondary" type="button" data-directiva-create-cancel>Cancelar</button><button class="btn-stitch btn-stitch-primary" type="submit">Registrar y seleccionar</button></div>
+    </form>
+</dialog>
 {% endblock %}
+{% block extra_scripts %}<script src="{% static 'js/directiva-vecinos.js' %}?v=2" defer></script><script src="{% static 'js/localidades.js' %}?v=1" defer></script>{% endblock %}

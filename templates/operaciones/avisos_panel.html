@@ -1,0 +1,9 @@
+{% url 'operaciones:avisos' as inbox_url %}
+<dialog class="avisos-drawer" id="avisos-drawer" aria-labelledby="avisos-drawer-title" data-avisos-url="{{ inbox_url }}">
+    <header class="avisos-heading">
+        <h2 id="avisos-drawer-title">Mis avisos</h2>
+        <form method="dialog"><button autofocus class="btn-stitch-icon" type="submit" aria-label="Cerrar avisos"><i class="bi bi-x-lg" aria-hidden="true"></i></button></form>
+    </header>
+    <p class="avisos-status" data-avisos-status role="status" hidden></p>
+    <div class="avisos-drawer-content" data-avisos-content></div>
+</dialog>

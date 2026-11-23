@@ -73,3 +73,12 @@ class PasswordThrottleTests(TestCase):
             self.assertEqual(self.attempt().status_code, 429)
         with patch('time.time', return_value=1800000301):
             self.assertEqual(self.attempt(password='Clave-segura-2026').status_code, 302)
+
+    def test_calendar_window_boundary_does_not_reset_guesses(self):
+        with patch('time.time', return_value=1800000299):
+            for _ in range(5):
+                self.assertEqual(self.attempt('nadie').status_code, 200)
+        with patch('time.time', return_value=1800000301):
+            response = self.attempt('nadie')
+            self.assertEqual(response.status_code, 429)
+            self.assertEqual(int(response['Retry-After']), 298)

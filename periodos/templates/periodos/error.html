@@ -1,0 +1,3 @@
+{% extends 'base.html' %}
+{% block title %}Revisar período | SGR{% endblock %}
+{% block content %}<section class="dashboard-section"><h1>No se pudo guardar el cambio</h1><p role="alert">{{ error }}</p><a href="{% url 'periodos:listado' %}">Volver a períodos</a></section>{% endblock %}

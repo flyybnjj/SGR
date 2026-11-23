@@ -1,4 +1,5 @@
 from config.access import superuser_required
+from config.catalog_filters import filter_catalog
 from config.pagination import paginate
 from django.views.decorators.http import require_POST, require_http_methods
 from django.views.decorators.cache import never_cache
@@ -350,7 +351,7 @@ def roles_list_view(request):
     if search:
         queryset = queryset.filter(Q(nombre__icontains=search) | Q(descripcion__icontains=search))
 
-    page_obj = paginate(request, queryset)
+    page_obj = paginate(request, filter_catalog(request, queryset))
 
     form = RolForm()
     return render(request, 'mantenedores/roles_list.html', {
@@ -400,6 +401,7 @@ def roles_export_excel(request):
         queryset = queryset.filter(Q(nombre__icontains=search) | Q(descripcion__icontains=search))
 
     roles = queryset.order_by("id")
+    roles = filter_catalog(request, roles)
     headers = ["#", "Nombre del Rol", "Descripción", "Estado", "Fecha Creación", "Registrar atenciones", "Aprobar acciones", "Gestionar catálogos"]
     rows = [
         [r.id, r.nombre, r.descripcion or "", "Activo" if r.activo else "Inactivo", r.fecha_creacion.strftime("%d/%m/%Y %H:%M"), r.puede_registrar_atenciones, r.puede_aprobar, r.puede_gestionar]
@@ -423,7 +425,7 @@ def usuarios_list_view(request):
             Q(rol__nombre__icontains=search)
         )
 
-    page_obj = paginate(request, queryset)
+    page_obj = paginate(request, filter_catalog(request, queryset))
 
     form = UsuarioForm()
     roles = Rol.objects.filter(activo=True)
@@ -564,6 +566,7 @@ def usuarios_export_excel(request):
         )
 
     usuarios = queryset.order_by("id")
+    usuarios = filter_catalog(request, usuarios)
     headers = ["#", "Usuario", "Nombre Completo", "Correo Electrónico", "RUT", "Teléfono", "Rol", "Estado", "Delegación"]
     rows = [
         [

@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.exceptions import ValidationError
 from config.validators import validar_rut, validar_telefono, validar_texto
 
 
@@ -22,6 +23,7 @@ class Vecino(models.Model):
         related_name='vecinos',
         verbose_name="Territorio / Delegación"
     )
+    localidad = models.ForeignKey('catalogos.Localidad', on_delete=models.PROTECT, null=True, blank=True, related_name='vecinos')
     tipo_gestion = models.CharField(
         max_length=50,
         choices=TIPO_GESTION_CHOICES,
@@ -38,6 +40,11 @@ class Vecino(models.Model):
 
     def __str__(self):
         return f"{self.nombre} - {self.rut}"
+
+    def clean(self):
+        super().clean()
+        if self.localidad_id and self.localidad.delegacion_id != self.territorio_id:
+            raise ValidationError({'localidad': 'La localidad debe pertenecer a la delegación del vecino.'})
 
     @property
     def rut_formateado(self):

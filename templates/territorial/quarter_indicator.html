@@ -1,0 +1,6 @@
+{% if trimestre_encabezado %}
+<span class="territory-place quarter-label" data-quarter-period>{{ trimestre_encabezado.label }}{% if trimestre_encabezado.caption %} · {{ trimestre_encabezado.caption }}{% endif %}</span>
+{% if trimestre_encabezado.caption %}
+<progress class="quarter-progress" max="100" value="{{ trimestre_encabezado.percent }}" aria-label="Tiempo transcurrido en {{ trimestre_encabezado.label }}"></progress>
+{% endif %}
+{% endif %}

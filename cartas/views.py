@@ -5,13 +5,16 @@ from django.db.models import Q, Count
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from django.urls import reverse
-from django.views.decorators.http import require_POST
+from django.http import Http404, JsonResponse
+from django.views.decorators.http import require_GET, require_POST
 from urllib.parse import urlencode
 from config.access import active, permission_required, operational, register_required, can_manage, can_register
 from config.pagination import list_return, paginate
 from config.excel_utils import export_queryset_to_excel
 from .models import Carta, MovimientoCarta
-from .forms import CartaForm, errores_avance
+from .forms import CartaForm, areas_de_carta, encargados_de_carta, errores_avance, organizaciones_de_carta
+from territorial.models import DelegacionMunicipal
+from atenciones.periods import TrimestreForm, rango_trimestre
 
 
 BOARD_GROUPS = (
@@ -33,6 +36,14 @@ def can_edit(user, letter):
     return can_manage(user) or (can_register(user) and user.pk in (letter.creador_id, letter.responsable_id))
 
 
+def seguimiento_snapshot(letter):
+    """Conserva los valores de todos los datos editables, incluidos los vacíos."""
+    fields = [Carta._meta.get_field(name) for name in CartaForm.Meta.fields]
+    fields += [Carta._meta.get_field(name) for name in ('nombre_respaldo', 'fecha_respuesta')]
+    return {field.attname: str(value) if value is not None else ''
+            for field in fields for value in [getattr(letter, field.attname)]}
+
+
 @permission_required(operational)
 def listado(request):
     objects = scoped(Carta.objects.select_related('delegacion', 'responsable'), request.user)
@@ -47,6 +58,30 @@ def listado(request):
         if folio.isascii() and folio.isdigit() and len(folio) <= 18:
             matches |= Q(pk=int(folio))
         objects = objects.filter(matches)
+    quarter_options = [('todos', 'Todos los trimestres'), ('actual', 'Trimestre actual'),
+                       *TrimestreForm().fields['trimestre'].choices[1:]]
+    quarter = request.GET.get('trimestre', 'todos')
+    if quarter not in dict(quarter_options):
+        quarter = 'todos'
+    if quarter != 'todos':
+        from periodos.models import ItemCierre
+        start, end = rango_trimestre(None if quarter == 'actual' else quarter)
+        current = Q(fecha_ingreso__range=(start, end))
+        scheduled = Q(fecha_compromiso__range=(start, end))
+        carried = (Q(fecha_ingreso__lt=start) & ~Q(estado__in=('Respondida', 'No aplica'))
+                   & (Q(fecha_compromiso__lt=start) | Q(fecha_compromiso__isnull=True)))
+        transfers = ItemCierre.objects.filter(cierre__destino__inicio=start, cierre__destino__fin=end, carta__isnull=False).values('carta_id')
+        objects = objects.filter(current | scheduled | carried | Q(pk__in=transfers))
+    overdue = Q(fecha_compromiso__lt=timezone.localdate()) & ~Q(estado__in=('Respondida', 'No aplica'))
+    tracking = Q(estado__in=('Derivada', 'En proceso'))
+    quick_totals = objects.aggregate(recibidas=Count('pk', filter=Q(estado='Recibida')),
+                                     proceso=Count('pk', filter=tracking),
+                                     vencidas=Count('pk', filter=overdue))
+    quick = request.GET.get('filtro', '')
+    if quick == 'vencidas':
+        objects = objects.filter(overdue)
+    elif quick == 'seguimiento':
+        objects = objects.filter(tracking)
     if state in dict(Carta.ESTADOS):
         objects = objects.filter(estado=state)
     if request.GET.get('export') == 'excel':
@@ -61,26 +96,64 @@ def listado(request):
     selected = None
     raw = request.GET.get('seleccion','')
     if raw:
-        from django.http import Http404
-        if not raw.isdigit() or len(raw)>19:raise Http404
+        if not (raw.isascii() and raw.isdecimal() and len(raw) <= 19 and 0 < int(raw) <= 2**63 - 1):
+            raise Http404
         selected=get_object_or_404(scoped(Carta.objects.select_related('responsable','delegacion','organizacion'),request.user),pk=raw)
-    return render(request, 'cartas/listado.html', {'page_obj': page, 'search': query, 'estado': state, 'tipo': kind, 'tipos': Carta.TIPOS, 'states': Carta.ESTADOS, 'board': board, 'columns': columns, 'selected_letter':selected, 'state_counts':state_counts, 'can_create_letter': can_register(request.user) or can_manage(request.user)})
+    return render(request, 'cartas/listado.html', {'page_obj': page, 'search': query, 'estado': state, 'tipo': kind, 'tipos': Carta.TIPOS, 'states': Carta.ESTADOS, 'board': board, 'columns': columns, 'selected_letter':selected, 'state_counts':state_counts, 'quick_totals': quick_totals, 'quick': quick, 'quarter': quarter, 'quarter_options': quarter_options, 'can_create_letter': can_register(request.user) or can_manage(request.user)})
 
 
 
 @permission_required(operational)
 def detalle(request, pk):
     letter = get_object_or_404(scoped(Carta.objects.select_related('delegacion', 'responsable', 'organizacion'), request.user), pk=pk)
-    return render(request, 'cartas/detalle.html', {'carta': letter, 'can_edit_letter': can_edit(request.user, letter), 'back': list_return(request, 'cartas:listado'), 'history': letter.movimientos.select_related('autor').order_by('-fecha', '-pk')[:100]})
+    history = letter.movimientos.select_related('autor').order_by('-fecha', '-pk')
+    labels = {Carta._meta.get_field(name).attname: CartaForm.base_fields[name].label for name in CartaForm.Meta.fields}
+    labels.update(nombre_respaldo='Nombre del respaldo', fecha_respuesta='Fecha de respuesta',
+                  fecha_compromiso='Fecha de compromiso actualizada', cierre_trimestral='Cierre trimestral',
+                  ajuste_puntaje='Ajuste de puntaje', anulacion_puntaje='Anulación del puntaje')
+    for item in history:
+        item.changes_display = [(labels.get(field, field.replace('_', ' ').capitalize()),
+                                 change if isinstance(change, dict) else {'antes': '', 'despues': change})
+                                for field, change in item.cambios.items()]
+    return render(request, 'cartas/detalle.html', {'carta': letter, 'can_edit_letter': can_edit(request.user, letter), 'back': list_return(request, 'cartas:listado'), 'history': history})
+
+
+@permission_required(lambda user: can_register(user) or can_manage(user))
+@require_GET
+def opciones_delegacion(request):
+    raw = request.GET.get('delegacion', '')
+    if not (raw.isascii() and raw.isdecimal() and len(raw) <= 19 and 0 < int(raw) <= 2**63 - 1):
+        raise Http404
+    delegation_id = int(raw)
+    if not request.user.is_superuser and delegation_id != request.user.delegacion_id:
+        raise Http404
+    get_object_or_404(DelegacionMunicipal.objects.only('pk'), pk=delegation_id, activo=True)
+    result = JsonResponse({
+        'organizaciones': list(organizaciones_de_carta(delegation_id).values_list('pk', 'nombre')),
+        'responsables': [(user.pk, str(user)) for user in encargados_de_carta(delegation_id)],
+        'areas': list(areas_de_carta(delegation_id).values_list('pk', 'nombre')),
+    })
+    result['Cache-Control'] = 'private, no-store'
+    return result
 
 
 @permission_required(lambda user: can_register(user) or can_manage(user))
 def editar(request, pk=None):
     with transaction.atomic():
-        letter = get_object_or_404(scoped(Carta.objects.select_for_update(), request.user), pk=pk) if pk else None
+        letter = get_object_or_404(scoped(Carta.objects.all(), request.user), pk=pk) if pk else None
         if letter and not can_edit(request.user, letter):
             raise PermissionDenied
-        before = {f: str(getattr(letter, f) or '') for f in ('tipo', 'estado', 'responsable_id', 'derivada_a', 'respuesta', 'observaciones', 'fecha_compromiso', 'compromiso_automatico', 'nombre_respaldo')} if letter else {}
+        if request.method == 'POST':
+            delegation_ids = {letter.delegacion_id} if letter else {request.user.delegacion_id}
+            raw_delegation = request.POST.get('delegacion', '')
+            if request.user.is_superuser and raw_delegation.isascii() and raw_delegation.isdecimal() and len(raw_delegation) <= 19 and 0 < int(raw_delegation) <= 2**63 - 1:
+                delegation_ids.add(int(raw_delegation))
+            list(DelegacionMunicipal.objects.select_for_update().filter(pk__in=delegation_ids).order_by('pk'))
+            if letter:
+                letter = get_object_or_404(scoped(Carta.objects.select_for_update(), request.user), pk=pk, delegacion_id=letter.delegacion_id)
+                if not can_edit(request.user, letter):
+                    raise PermissionDenied
+        before = seguimiento_snapshot(letter) if letter else {}
         back = list_return(request, 'cartas:listado')
         target = request.GET.get('mover')
         initial = {'estado': target} if letter and target in dict(Carta.ESTADOS) else None
@@ -105,16 +178,23 @@ def editar(request, pk=None):
             try:
                 with transaction.atomic():
                     obj.save()
-                    changes = {f: {'antes': before.get(f, ''), 'despues': str(getattr(obj, f) or '')} for f in before if before[f] != str(getattr(obj, f) or '')}
+                    after = seguimiento_snapshot(obj)
+                    changes = {field: {'antes': before.get(field, ''), 'despues': value}
+                               for field, value in after.items() if not pk or before.get(field) != value}
                     MovimientoCarta.objects.create(carta=obj, autor=request.user, cambios=changes or {'registro': {'antes': '', 'despues': 'Carta registrada' if not pk else 'Datos actualizados'}})
             except IntegrityError:
                 if new_file and obj.respaldo._committed:
                     obj.respaldo.delete(save=False)
                 form.add_error(None, 'Este envío ya existe o cambió mientras guardabas. Vuelve al listado para comprobarlo.')
             else:
-                messages.success(request, 'Carta guardada y seguimiento registrado.')
+                if 'fecha_compromiso' in changes:
+                    messages.success(request, 'Fecha de compromiso actualizada. El cambio quedó en el historial.')
+                elif initial:
+                    messages.success(request, 'Movimiento guardado. El cambio quedó en el historial.')
+                else:
+                    messages.success(request, 'Carta guardada y seguimiento registrado.')
                 return redirect(back) if back else redirect('cartas:detalle', pk=obj.pk)
-    return render(request, 'cartas/form.html', {'form': form, 'carta': letter, 'back': back, 'move_help': move_help.values()}, status=400 if request.method == 'POST' else 200)
+    return render(request, 'cartas/form.html', {'form': form, 'carta': letter, 'back': back, 'move_help': move_help.values(), 'pending_move': bool(initial)}, status=400 if request.method == 'POST' else 200)
 
 
 @permission_required(lambda user: can_register(user) or can_manage(user))
@@ -126,9 +206,11 @@ def mover(request, pk):
         letter = get_object_or_404(scoped(Carta.objects.select_for_update(), request.user), pk=pk)
         if not can_edit(request.user, letter):
             raise PermissionDenied
-        if (target not in {group[0] for group in BOARD_GROUPS} or letter.estado in ('Respondida', 'No aplica')
-                or request.POST.get('estado_anterior') != letter.estado):
-            messages.warning(request, 'El movimiento ya no está disponible. Revisa el estado actual de la carta.')
+        if target not in {group[0] for group in BOARD_GROUPS}:
+            messages.warning(request, 'No se movió la carta: el destino no está disponible.')
+            return redirect(back)
+        if letter.estado in ('Respondida', 'No aplica') or request.POST.get('estado_anterior') != letter.estado:
+            messages.warning(request, 'No se movió la carta: está cerrada o su estado cambió. Revisa el tablero actualizado.')
             return redirect(back)
         if target == letter.estado or (letter.estado == 'Derivada' and target == 'En proceso'):
             return redirect(back)

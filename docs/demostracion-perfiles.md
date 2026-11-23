@@ -1,3 +1,9 @@
+# Estado actualizado el 6 de noviembre de 2026
+
+Las pantallas bajo `/demostracion/` siguen siendo ejercicios sin persistencia. El registro con fotografías, el cierre y la comparación inicial/final ya son operativos en `/acciones/`. El planificador hipotético sigue siendo una simulación; no modifica metas. La aplicación móvil corresponde a Chris y dispone de API propia.
+
+Los apartados siguientes documentan el alcance histórico de la segunda evaluación y no sustituyen [la entrega actual](MEJORAS_2026_11.md).
+
 # Demostración de perfiles y módulos pendientes
 
 Fuente: `Requisitos_Segunda_Evaluacion_SGR.pdf`, páginas 1–4 y 10, leído el 18/10/2026. La página 10 pide interfaces navegables para los módulos pendientes y acceso diferenciado por los permisos definidos por el equipo. Una simulación no acredita persistencia.

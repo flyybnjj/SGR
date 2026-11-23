@@ -6,10 +6,23 @@
 <section class="dashboard-section mt-3" aria-labelledby="organization-board-title">
     <h2 id="organization-board-title" class="section-heading">Directiva</h2>
     <dl class="profile-details mb-0">
-        <div><dt>Presidente/a</dt><dd>{{ organizacion.presidente|default:'Sin informar' }}</dd></div>
-        <div><dt>Tesorero/a</dt><dd>{{ organizacion.tesorero|default:'Sin informar' }}</dd></div>
-        <div><dt>Secretario/a</dt><dd>{{ organizacion.secretario|default:'Sin informar' }}</dd></div>
+        {% for cargo, nombre, vecino_id in directiva %}
+        <div><dt>{{ cargo }}</dt><dd>
+            {% if vecino_id %}<a href="{% url 'atenciones:attention_detail' vecino_id %}">{{ nombre }}</a>
+            {% else %}{{ nombre|default:'Sin informar' }}{% if nombre %}<small class="d-block text-secondary">Sin vínculo al padrón</small>{% endif %}{% endif %}
+        </dd></div>
+        {% endfor %}
     </dl>
+</section>
+<section class="dashboard-section mt-3" aria-labelledby="historial-directiva-title">
+    <h2 id="historial-directiva-title" class="section-heading">Historial de directivas</h2>
+    {% for registro in historial_directiva %}
+    <article class="mb-3">
+        <p><strong>{% if registro.estado_previo %}Estado previo conservado{% else %}Directiva registrada{% endif %}</strong> · Registrado el {{ registro.registrado_en|date:'d/m/Y H:i' }} · {% if registro.registrado_por %}{{ registro.registrado_por.nombre_completo }}{% else %}Autor original no informado{% endif %}</p>
+        <p>Vigencia: {{ registro.vigencia_desde|date:'d/m/Y'|default:'Inicio no informado' }} — {{ registro.vigencia_hasta|date:'d/m/Y'|default:'Fin no informado' }}</p>
+        <dl class="profile-details">{% for integrante in registro.integrantes %}<div><dt>{{ integrante.cargo|capfirst }}</dt><dd>{{ integrante.nombre|default:'Sin informar' }}</dd></div>{% endfor %}</dl>
+    </article>
+    {% empty %}<p>No hay cambios de directiva registrados. Los nombres originales se conservan en la ficha.</p>{% endfor %}
 </section>
 {% if original_display %}<details class="dashboard-section mt-3"><summary>Ver datos originales de la planilla</summary><dl class="profile-details mt-3">{% for label,value in original_display.items %}<div><dt>{{ label }}</dt><dd>{{ value|default_if_none:'Sin informar' }}</dd></div>{% endfor %}</dl></details>{% endif %}
 {% endblock %}

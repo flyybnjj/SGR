@@ -4,6 +4,9 @@ from .crud_modals import edit_form
 from .crud_details import detail
 
 urlpatterns = [
+    path('catalogos/', include('catalogos.urls')),
+    path('periodos/', include('periodos.urls')),
+    path('operaciones/', include('operaciones.urls')),
     path('api/v1/', include('api.urls')),
     path('demostracion/', include('config.role_demo')),
     path("consulta/<str:resource>/<int:pk>/", detail, name="crud_detail"),

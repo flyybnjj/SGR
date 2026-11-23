@@ -1,6 +1,39 @@
 {% extends 'base.html' %}
 {% block title %}Ausencias | SGR{% endblock %}
 {% block content %}
-<header class="page-heading"><div><h1>Ausencias del equipo</h1><p>Ajustan las metas individuales por los días de lunes a viernes dentro de cada período. No se registran diagnósticos médicos.</p></div><a class="btn-stitch btn-stitch-primary" href="{% url 'territorial:ausencia_crear' %}">Registrar ausencia</a></header>
-<section class="card-stitch"><div class="table-responsive"><table class="table-stitch"><thead><tr><th scope="col">Funcionario</th><th scope="col">Tipo</th><th scope="col">Desde</th><th scope="col">Hasta</th><th scope="col">Estado</th><th scope="col">Acción</th></tr></thead><tbody>{% for item in page_obj %}<tr><td>{{ item.usuario }}</td><td>{{ item.tipo }}</td><td>{{ item.inicio|date:'d/m/Y' }}</td><td>{{ item.fin|date:'d/m/Y' }}</td><td>{% if item.anulada %}Anulada{% else %}Vigente{% endif %}</td><td>{% if not item.anulada %}<form method="post" action="{% url 'territorial:ausencia_anular' item.pk %}">{% csrf_token %}<button type="submit" class="btn-stitch btn-stitch-secondary">Anular ausencia</button></form>{% else %}Se conserva el historial{% endif %}</td></tr>{% empty %}<tr><td colspan="6"><div class="empty-state">No hay ausencias registradas para este ámbito.</div></td></tr>{% endfor %}</tbody></table></div>{% include 'includes/pagination.html' %}</section>
+<header class="page-heading"><div><h1>Ausencias del equipo</h1><p>Ajustan las metas individuales por los días de lunes a viernes dentro de cada período. No se registran diagnósticos médicos.</p></div><a class="btn-stitch btn-stitch-primary" href="{% url 'territorial:ausencia_crear' %}"><i class="bi bi-calendar-plus" aria-hidden="true"></i>Registrar ausencia</a></header>
+<section class="card-stitch absence-list" aria-label="Registro de ausencias">
+    {% if page_obj.paginator.count %}
+    <div class="table-responsive">
+        <table class="table-stitch">
+            <caption class="visually-hidden">Ausencias de los funcionarios disponibles para tu perfil.</caption>
+            <thead><tr><th scope="col">Funcionario</th><th scope="col">Tipo</th><th scope="col">Desde</th><th scope="col">Hasta</th><th scope="col">Estado</th><th scope="col">Acción</th></tr></thead>
+            <tbody>
+            {% for item in page_obj %}
+            <tr>
+                <th scope="row">{{ item.usuario }}{% if user.is_superuser %}<small class="d-block text-secondary">{{ item.usuario.delegacion|default:'Sin delegación' }}</small>{% endif %}</th>
+                <td>{{ item.tipo }}</td>
+                <td>{{ item.inicio|date:'d/m/Y' }}</td>
+                <td>{{ item.fin|date:'d/m/Y' }}</td>
+                <td><span class="absence-status{% if item.anulada %} is-cancelled{% endif %}">{% if item.anulada %}Anulada{% else %}Vigente{% endif %}</span></td>
+                <td>
+                    {% if item.anulada %}
+                    <span class="text-secondary">Se conserva el historial</span>
+                    {% else %}
+                    <form method="post" action="{% url 'territorial:ausencia_anular' item.pk %}" data-confirm-title="Anular ausencia" data-confirm="Se conserva el historial y se restituye el objetivo de la meta en los días correspondientes.">
+                        {% csrf_token %}
+                        <button type="submit" class="btn-stitch btn-stitch-secondary">Anular ausencia</button>
+                    </form>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% include 'includes/pagination.html' %}
+    {% else %}
+    <div class="empty-state"><strong>No hay ausencias registradas para este ámbito.</strong></div>
+    {% endif %}
+</section>
 {% endblock %}

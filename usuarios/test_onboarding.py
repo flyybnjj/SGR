@@ -97,7 +97,8 @@ class OnboardingTests(TestCase):
         response = self.client.get('/')
         self.assertEqual(response.context['tutorial_config']['profile'], 'responsable')
         self.assertFalse(response.context['tutorial_config']['can_manage'])
-        self.assertEqual(response.context['appearance_pending'], self.delegation)
+        self.assertTrue(response.context['personal_color_editable'])
+        self.assertContains(response, 'Personaliza tu espacio')
         self.assertEqual(response.context['delegacion_encabezado'], self.delegation)
 
     def test_global_admin_header_matches_global_scope_even_with_home_delegation(self):

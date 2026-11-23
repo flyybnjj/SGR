@@ -1,0 +1,63 @@
+{% load static %}
+<form class="account-stack appearance-editor" method="post" action="{% url 'usuarios:appearance' %}" data-personalize style="--landscape-tint:{{ personal_color }}">
+    {% csrf_token %}
+    {% if wizard %}<input type="hidden" name="origen" value="bienvenida"><input type="hidden" name="volver" value="{{ request.get_full_path }}">{% endif %}
+    {{ appearance_form.errors }}
+    <div class="appearance-layout">
+        <div class="appearance-controls">
+            <fieldset class="appearance-group" data-appearance-step>
+                <legend>Fondo</legend>
+                <label class="appearance-white-switch">
+                    <input type="checkbox" role="switch" name="blanco" aria-controls="appearance-landscapes" {% if user.fondo_blanco %}checked{% endif %}>
+                    <span>Fondo blanco</span>
+                </label>
+                <div class="landscape-grid" id="appearance-landscapes" data-landscape-gallery>
+                    {% for key, name in landscapes %}
+                        {% with thumb='img/paisajes/'|add:key|add:'-mini.webp' photo='img/paisajes/'|add:key|add:'.webp' %}
+                        <label class="landscape-choice">
+                            <input type="radio" name="paisaje" value="{{ key }}" data-photo="{% static photo %}" {% if user.paisaje == key or not user.paisaje and forloop.first %}checked{% endif %}>
+                            <img src="{% static thumb %}" alt="" width="320" height="180" loading="lazy">
+                            <span>{{ name }}</span>
+                        </label>
+                        {% endwith %}
+                    {% endfor %}
+                </div>
+            </fieldset>
+            <fieldset class="appearance-group" data-appearance-step>
+                <legend>Estilo</legend>
+                <div class="appearance-styles appearance-style-options">
+                    <label><input type="radio" name="estilo" value="normal" {% if user.estilo_interfaz != 'vidrio' %}checked{% endif %}> Modo normal</label>
+                    <label><input type="radio" name="estilo" value="vidrio" {% if user.estilo_interfaz == 'vidrio' %}checked{% endif %}> Modo vidrio</label>
+                </div>
+            </fieldset>
+        </div>
+        <div class="appearance-preview-column">
+            <div class="appearance-preview-heading">Vista previa</div>
+            <div class="landscape-preview" data-landscape-preview>
+                <div class="landscape-preview-scene" data-preview-scene aria-hidden="true">
+                </div>
+                <div class="landscape-preview-panel" aria-hidden="true">
+                    <strong>Resumen de gestión</strong>
+                    <div class="landscape-preview-tiles"><i></i><i></i><i></i></div>
+                    <span></span><span></span>
+                </div>
+            </div>
+            <div class="appearance-color" data-appearance-color>
+                {% if user.is_superuser %}
+                    <label for="personal-color">Mi color · Todas las delegaciones</label>
+                    <input id="personal-color" type="color" name="color" value="{{ personal_editor_color }}">
+                {% elif personal_color_editable %}
+                    <label for="personal-color">Color de la delegación</label>
+                    <input id="personal-color" type="color" name="color" value="{{ personal_color }}">
+                {% else %}
+                    <span class="appearance-color-swatch" aria-hidden="true"></span>
+                    <span>Color de {% if scope_delegation %}{{ scope_delegation.nombre }}{% else %}{{ delegacion_actual.nombre|default:'la Municipalidad' }}{% endif %}</span>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="appearance-actions">
+        {% if wizard %}<button type="button" class="btn-stitch btn-stitch-secondary" data-appearance-prev hidden>Volver</button><button type="button" class="btn-stitch btn-stitch-primary" data-appearance-next hidden>Continuar</button>{% endif %}
+        <button type="submit" class="btn-stitch btn-stitch-primary" data-appearance-save>{% if wizard %}Guardar y continuar{% else %}Guardar apariencia{% endif %}</button>
+    </div>
+</form>

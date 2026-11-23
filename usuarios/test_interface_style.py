@@ -10,11 +10,11 @@ class InterfaceStyleTests(TestCase):
         self.new = Usuario.objects.create_superuser(username='cuenta-nueva')
         self.endpoint = reverse('usuarios:interface_style')
 
-    def test_existing_and_new_accounts_receive_different_welcomes(self):
+    def test_existing_and_new_accounts_can_personalize_once(self):
         self.client.force_login(self.existing)
-        self.assertContains(self.client.get('/'), '¿Quieres activar el modo vidrio?')
+        self.assertContains(self.client.get('/'), 'Personaliza tu espacio')
         self.client.force_login(self.new)
-        self.assertContains(self.client.get('/'), 'Elige cómo ver SGR')
+        self.assertContains(self.client.get('/'), 'Personaliza tu espacio')
 
     def test_first_choice_is_saved_once_then_can_change_from_profile(self):
         self.client.force_login(self.existing)
@@ -43,3 +43,4 @@ class InterfaceStyleTests(TestCase):
         checked = Client(enforce_csrf_checks=True)
         checked.force_login(self.existing)
         self.assertEqual(checked.post(self.endpoint, {'estilo': 'vidrio'}).status_code, 403)
+

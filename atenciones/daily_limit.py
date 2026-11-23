@@ -11,6 +11,10 @@ from .models import Accion, AvanceAccion
 def guardar_accion_con_limite(action):
     if not action._state.adding:
         raise ValueError('El límite se asigna al registrar una acción nueva.')
+    from territorial.models import DelegacionMunicipal
+    from periodos.services import validar_fecha_abierta
+    DelegacionMunicipal.objects.select_for_update().get(pk=action.delegacion_id)
+    validar_fecha_abierta(action.delegacion_id, action.fecha_actividad or timezone.localdate())
     get_user_model().objects.select_for_update().get(pk=action.creador_id)
     today = timezone.localdate()
     zone = timezone.get_current_timezone()

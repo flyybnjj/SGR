@@ -64,6 +64,7 @@ def evidence_path(instance, filename):
     return f'evidencias/{uuid.uuid4().hex}{__import__("pathlib").Path(filename).suffix.lower()}'
 
 class Atencion(models.Model):
+    anulada = models.BooleanField(default=False, editable=False)
     organizacion = models.ForeignKey('organizaciones.Organizacion', on_delete=models.PROTECT, null=True, blank=True, related_name='atenciones')
     request_token = models.UUIDField(null=True, blank=True, unique=True, editable=False)
     vecino = models.ForeignKey('vecinos.Vecino', on_delete=models.PROTECT, related_name='atenciones')
@@ -225,7 +226,8 @@ class FotoAccion(models.Model):
     accion = models.ForeignKey(Accion, on_delete=models.PROTECT, related_name='fotos')
     resolucion = models.ForeignKey(ResolucionAccion, on_delete=models.PROTECT, null=True, blank=True, related_name='fotos')
     archivo = models.ImageField(upload_to=evidence_path, storage=PrivateEvidenceStorage())
-    etapa = models.CharField(max_length=7, choices=[('antes', 'Inicial'), ('despues', 'Final')])
+    etapa = models.CharField(max_length=7, choices=[('antes', 'Inicial'), ('despues', 'Final'), ('avance', 'de seguimiento')])
+    request_token = models.UUIDField(null=True, unique=True, editable=False)
     autor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     fecha = models.DateTimeField(auto_now_add=True)
 

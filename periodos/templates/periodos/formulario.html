@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% block title %}Guardar período | SGR{% endblock %}
+{% block content %}
+<header class="page-heading"><div><h1>{% if periodo %}Editar borrador{% else %}Crear período trimestral{% endif %}</h1><p>Las fechas corresponden al trimestre calendario completo.</p></div><a href="{% url 'periodos:listado' %}">Volver a períodos</a></header>
+<section class="dashboard-section form-panel"><form method="post">{% csrf_token %}{% include 'atenciones/fields.html' %}<button type="submit" class="btn-stitch btn-stitch-primary">Guardar período</button></form></section>
+{% endblock %}

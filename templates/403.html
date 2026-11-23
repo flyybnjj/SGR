@@ -17,7 +17,13 @@
         <img src="{% static 'img/horizontal-color.svg' %}" width="10153" height="2784" alt="Municipalidad de La Serena" class="login-logo-img">
         <h1 class="auth-title">Acceso restringido</h1>
         <p>Tu perfil no tiene permiso para realizar esta operación. Solicita al administrador que revise tu rol y delegación.</p>
-        <a class="btn-auth-primary d-inline-flex align-items-center justify-content-center text-decoration-none" href="{% url 'usuarios:logout' %}">Volver al inicio de sesión</a>
+        {% if user.is_authenticated and user.activo and user.rol.activo or user.is_superuser %}
+            <a class="btn-auth-primary d-inline-flex align-items-center justify-content-center text-decoration-none" href="{% url 'dashboard:inicio' %}">Volver al panel</a>
+        {% elif user.is_authenticated %}
+            <a class="btn-auth-primary d-inline-flex align-items-center justify-content-center text-decoration-none" href="{% url 'usuarios:logout' %}">Cerrar sesión</a>
+        {% else %}
+            <a class="btn-auth-primary d-inline-flex align-items-center justify-content-center text-decoration-none" href="{% url 'usuarios:login' %}">Volver al inicio de sesión</a>
+        {% endif %}
     </main>
 </body>
 </html>

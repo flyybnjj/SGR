@@ -1,11 +1,14 @@
 import hashlib
+import uuid
 import secrets
 import time
 from datetime import timedelta
+from django import forms
 from django.contrib.auth import authenticate
 from django.contrib.auth.hashers import make_password
 from django.core.cache import cache
 from django.core.exceptions import PermissionDenied
+from django.db import IntegrityError, transaction
 from django.db.models import Q, Count, F, Exists, OuterRef
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
@@ -17,9 +20,10 @@ from usuarios.forms import LoginForm
 from usuarios.views import identify_account
 from usuarios.passkeys import rate_limit_ip
 from atenciones import views as web
-from atenciones.models import Accion, MetaPeriodo, ResolucionAccion, filtro_acciones_periodo
+from atenciones.models import Accion, FotoAccion, MetaPeriodo, ResolucionAccion, filtro_acciones_periodo
 from atenciones.forms import AccionForm, AvanceForm, ResolucionForm
 from atenciones.periods import rango_trimestre
+from atenciones.evidence import EvidenceImageField
 from .auth import endpoint, payload
 from .models import TokenMovil
 
@@ -63,8 +67,9 @@ def login(request):
         make_password(form.cleaned_data['password'])
     if not user:
         return JsonResponse({'error': 'Usuario o contraseña incorrectos.'}, status=401)
-    if user.debe_cambiar_password:
-        return JsonResponse({'error': 'Primero cambia tu contraseña temporal desde la web.', 'cambio_obligatorio': True, 'url': request.build_absolute_uri(reverse('usuarios:login'))}, status=403)
+    if user.debe_cambiar_password or user.password_expired:
+        reason = 'temporal' if user.debe_cambiar_password else 'vencida'
+        return JsonResponse({'error': f'Primero cambia tu contraseña {reason} desde la web.', 'cambio_obligatorio': True, 'url': request.build_absolute_uri(reverse('usuarios:login'))}, status=403)
     if not operational(user):
         raise PermissionDenied
     raw = secrets.token_urlsafe(32)
@@ -113,6 +118,61 @@ def serialize(action):
             'fotos': [{'id': p.pk, 'etapa': p.etapa, 'url': reverse('api:foto', args=[action.pk]) + f'?etapa={p.etapa}&foto={p.pk}'} for p in action.fotos.all()]}
 
 
+
+@endpoint()
+def commitments(request):
+    objects = activities(request.user).filter(
+        responsable=request.user, estado='Pendiente',
+    ).exclude(avance='Finalizada').filter(Q(fecha_compromiso__isnull=False) | Q(atencion_origen__isnull=False))
+    page = paginate(request, objects, allow_all=False)
+    return JsonResponse({'count': page.paginator.count, 'page': page.number,
+                         'pages': page.paginator.num_pages, 'results': [serialize(item) for item in page]})
+
+
+@endpoint(('POST',))
+def commitment_evidence(request, pk):
+    user = request.user
+    picture = None
+    try:
+        with transaction.atomic():
+            action = get_object_or_404(
+                Accion.objects.select_for_update().filter(delegacion_id=user.delegacion_id, responsable=user)
+                .filter(Q(fecha_compromiso__isnull=False) | Q(atencion_origen__isnull=False)), pk=pk,
+            )
+            if set(request.FILES) - {'evidencia'} or len(request.FILES.getlist('evidencia')) > 1:
+                return JsonResponse({'error': 'Envía una sola imagen en el campo evidencia.'}, status=400)
+            try:
+                token = uuid.UUID(request.POST.get('request_token', ''))
+            except ValueError:
+                return JsonResponse({'error': 'Envía request_token con un UUID por cada foto.'}, status=400)
+
+            prior = action.fotos.filter(request_token=token, autor=user, etapa='avance').first()
+            if prior:
+                return followup_photo_response(prior, status=200)
+            if action.estado != 'Pendiente' or action.avance == 'Finalizada':
+                return JsonResponse({'error': 'El compromiso ya está resuelto.'}, status=409)
+            if action.fotos.filter(etapa='avance').count() >= 5:
+                return JsonResponse({'error': 'Este compromiso ya tiene cinco fotos de seguimiento.'}, status=400)
+            try:
+                image = EvidenceImageField().clean(request.FILES.get('evidencia'))
+            except forms.ValidationError as error:
+                return JsonResponse({'error': error.messages[0]}, status=400)
+            picture = FotoAccion(accion=action, archivo=image, autor=user, etapa='avance', request_token=token)
+            picture.save()
+    except Exception as error:
+        if picture and picture.archivo._committed:
+            picture.archivo.delete(save=False)
+        if isinstance(error, IntegrityError) and FotoAccion.objects.filter(request_token=token).exists():
+            return JsonResponse({'error': 'Ese request_token ya fue utilizado.'}, status=409)
+        raise
+    return followup_photo_response(picture, status=201)
+
+
+def followup_photo_response(picture, status):
+    url = reverse('api:foto', args=[picture.accion_id]) + f'?etapa=avance&foto={picture.pk}'
+    return JsonResponse({'id': picture.pk, 'url': url}, status=status)
+
+
 def prepare_form(request, form_class, *, instance=None, fields=()):
     data = payload(request)
     if any(name not in fields for name in request.FILES) or data.get('documentos') or data.get('documentos_finales'):
@@ -139,7 +199,7 @@ def activity_list(request):
                 objects = objects.filter(**{field: request.GET[field]})
         if request.GET.get('q'):
             objects = objects.filter(titulo__icontains=request.GET['q'][:120])
-        page = paginate(request, objects)
+        page = paginate(request, objects, allow_all=False)
         return JsonResponse({'count': page.paginator.count, 'page': page.number, 'pages': page.paginator.num_pages, 'results': [serialize(a) for a in page]})
     if not can_register(request.user):
         raise PermissionDenied
@@ -207,5 +267,7 @@ def metas(request):
         objects = objects.filter(delegacion_id=request.user.delegacion_id)
     from atenciones.goals import con_ajustes
     objects = con_ajustes(objects)
-    page = paginate(request, objects)
+    page = paginate(request, objects, allow_all=False)
     return JsonResponse({'count': page.paginator.count, 'page': page.number, 'pages': page.paginator.num_pages, 'results': [{'id': m.pk, 'meta': m.item_meta.nombre, 'objetivo_original': m.objetivo, 'objetivo_ajustado': str(m.objetivo_ajustado), 'ejecutado': m.ejecutado, 'porcentaje': m.porcentaje, 'ajuste_pp': str(m.ajuste_porcentual), 'semaforo': m.semaforo[0]} for m in page]})
+
+

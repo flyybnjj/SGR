@@ -58,6 +58,35 @@ class SixCRUDDeliveryTests(TestCase):
         self.assertNotIn('password',str(rows[2]).lower())
         self.assertNotIn('token',str(rows[2]).lower())
 
+    def test_all_rows_preserves_search_and_resets_page(self):
+        Rol.objects.bulk_create([Rol(nombre=f'Coincidencia {index:03}') for index in range(105)])
+        Rol.objects.create(nombre='Otro registro')
+        response = self.client.get(reverse('usuarios:roles_list'), {
+            'q': 'Coincidencia', 'per_page': 'all', 'page': 7,
+        })
+        page = response.context['page_obj']
+        self.assertEqual(page.number, 1)
+        self.assertEqual(len(page), 105)
+        self.assertFalse(page.has_other_pages())
+        self.assertContains(response, 'value="all" selected')
+        self.assertNotContains(response, 'Otro registro')
+
+    def test_catalog_state_and_sort_are_shared_with_export(self):
+        TipoAtencion.objects.bulk_create([
+            TipoAtencion(nombre='Filtro Alfa', activo=True),
+            TipoAtencion(nombre='Filtro Beta', activo=True),
+            TipoAtencion(nombre='Filtro Zeta', activo=False),
+        ])
+        filters = {'q': 'Filtro', 'estado': 'activo', 'orden': 'nombre', 'direccion': 'desc'}
+        page = self.client.get(reverse('atenciones:tipo_atencion_list'), filters)
+        expected = ['Filtro Beta', 'Filtro Alfa']
+        self.assertEqual([record.nombre for record in page.context['page_obj']], expected)
+        self.assertContains(page, 'aria-sort="descending"')
+        exported = self.client.get(reverse('atenciones:tipo_atencion_excel'), filters)
+        rows = list(openpyxl.load_workbook(io.BytesIO(exported.content)).active.values)
+        self.assertEqual([row[1] for row in rows[3:]], expected)
+        self.assertEqual(self.client.get(reverse('atenciones:tipo_atencion_list'), {'orden': 'oculto'}).status_code, 200)
+
     def test_delegations(self):
         self.check_crud(DelegacionMunicipal,'territorial:delegaciones','delegaciones',direccion='Calle de prueba',comuna='La Serena')
 

@@ -54,4 +54,10 @@ class ActiveProfileMiddleware:
                 if request.content_type == 'application/json' or 'application/json' in request.headers.get('Accept', ''):
                     return JsonResponse({'error': 'Cambia tu contraseña temporal antes de continuar.', 'redirect': first_login}, status=403)
                 return redirect(first_login)
+        elif user.is_authenticated and user.password_expired:
+            password_view = reverse('usuarios:account_password')
+            if request.path not in (password_view, reverse('usuarios:logout')):
+                if request.content_type == 'application/json' or 'application/json' in request.headers.get('Accept', ''):
+                    return JsonResponse({'error': 'Tu contraseña venció. Actualízala para continuar.', 'redirect': password_view}, status=403)
+                return redirect(password_view)
         return self.get_response(request)

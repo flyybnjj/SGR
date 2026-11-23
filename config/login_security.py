@@ -24,21 +24,23 @@ class PasswordLoginThrottleMiddleware(MiddlewareMixin):
         user = identify_account(identifier)
         account = f'user:{user.pk}' if user else f'identifier:{identifier.casefold()}'
         now = int(time.time())
-        window = now // 300
-        retry_after = 300 - now % 300
         keys = []
         for scope, limit in ((account + ':' + rate_limit_ip(request), 5), (account, 20)):
             digest = hashlib.sha256(scope.encode()).hexdigest()
-            key = f'password-login:{window}:{digest}'
-            keys.append(key)
-            if cache.add(key, 1, retry_after + 1):
+            key = f'password-login:{digest}'
+            deadline_key = key + ':deadline'
+            keys.extend([key, deadline_key])
+            if cache.add(key, 1, 300):
+                cache.set(deadline_key, now + 300, 300)
                 count = 1
             else:
                 try:
                     count = cache.incr(key)
                 except ValueError:
-                    cache.add(key, 1, retry_after + 1)
+                    cache.add(key, 1, 300)
+                    cache.set(deadline_key, now + 300, 300)
                     count = 1
+            retry_after = max(1, int(cache.get(deadline_key, now + 300)) - now)
             if count > limit:
                 messages.error(request, f'Demasiados intentos. Espera {retry_after} segundos antes de volver a intentar.')
                 response = render(request, 'usuarios/login.html', {

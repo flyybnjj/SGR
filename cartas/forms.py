@@ -2,12 +2,13 @@ import uuid
 from datetime import timedelta
 from django import forms
 from django.utils import timezone
+from django.db.models import Q
 from atenciones.forms import DelegationForm
 from organizaciones.models import Organizacion
-from organizaciones.access import visibles
 from usuarios.models import Usuario
 from .models import Carta
 from atenciones.documents import EvidenceAnyField
+from catalogos.models import AreaDerivacion
 
 
 def errores_avance(carta, estado, responsable, derivada_a, respuesta):
@@ -21,6 +22,20 @@ def errores_avance(carta, estado, responsable, derivada_a, respuesta):
     if carta.pk and carta.estado in ('Respondida', 'No aplica') and carta.estado != estado:
         errors['estado'] = 'Esta carta ya tiene respuesta. Su cierre e historial se conservan.'
     return errors
+
+
+def organizaciones_de_carta(delegacion_id):
+    return Organizacion.objects.filter(activo=True, delegacion_id=delegacion_id) if delegacion_id else Organizacion.objects.none()
+
+
+def encargados_de_carta(delegacion_id):
+    return Usuario.objects.filter(
+        activo=True, is_active=True, rol__activo=True, delegacion__activo=True, delegacion_id=delegacion_id,
+    )
+
+
+def areas_de_carta(delegacion_id):
+    return AreaDerivacion.objects.filter(activo=True, delegacion_id=delegacion_id) if delegacion_id else AreaDerivacion.objects.none()
 
 
 class CartaForm(DelegationForm):
@@ -37,13 +52,15 @@ class CartaForm(DelegationForm):
 
     class Meta:
         model = Carta
-        fields = ['delegacion', 'tipo', 'numero_ingreso', 'fecha_ingreso', 'remite', 'telefono', 'destinatario', 'organizacion', 'asunto', 'descripcion', 'respaldo', 'responsable', 'compromiso_automatico', 'fecha_compromiso', 'fecha_actividad', 'estado', 'derivada_a', 'respuesta', 'observaciones']
+        fields = ['delegacion', 'tipo', 'numero_ingreso', 'fecha_ingreso', 'remite', 'telefono', 'destinatario', 'organizacion', 'asunto', 'descripcion', 'respaldo', 'responsable', 'compromiso_automatico', 'fecha_compromiso', 'fecha_actividad', 'estado', 'area_derivacion', 'derivada_a', 'respuesta', 'observaciones']
         labels = {'remite': 'Remitente', 'responsable': 'Encargado de seguimiento', 'respuesta': 'Pronunciamiento o respuesta', 'derivada_a': 'Área a la que se deriva'}
         widgets = {name: forms.DateInput(format='%Y-%m-%d', attrs={'type': 'date'}) for name in ('fecha_ingreso', 'fecha_compromiso', 'fecha_actividad')}
         help_texts = {'fecha_compromiso': 'En modo automático, el compromiso se calcula sumando 15 días corridos a la fecha de ingreso. Las fechas que ya estaban guardadas se consideran manuales y se conservan al cambiar el ingreso. Usa «Restablecer fecha sugerida» para volver al modo automático.'}
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.fecha_ingreso_anterior = self.instance.fecha_ingreso if self.instance.pk else None
+        self.delegacion_anterior = self.instance.delegacion_id if self.instance.pk else None
         automatic = not self.instance.pk or self.instance.compromiso_automatico
         self.initial['compromiso_automatico'] = '1' if automatic else '0'
         if automatic:
@@ -51,10 +68,20 @@ class CartaForm(DelegationForm):
         self.fields['fecha_compromiso'].widget.template_name = 'cartas/widgets/fecha_compromiso.html'
         self.initial['request_token'] = self.instance.request_token
         self.fields['tipo'].required = False
-        self.fields['organizacion'].queryset = visibles(Organizacion.objects.filter(activo=True), self.user)
-        self.fields['responsable'].queryset = Usuario.objects.filter(activo=True, is_active=True, rol__activo=True, delegacion__activo=True)
-        if not self.user.is_superuser:
-            self.fields['responsable'].queryset = self.fields['responsable'].queryset.filter(delegacion_id=self.user.delegacion_id)
+        delegacion_id = self.initial.get('delegacion')
+        if self.user.is_superuser and self.is_bound:
+            try:
+                delegation = self.fields['delegacion'].clean(self.data.get(self.add_prefix('delegacion')))
+                delegacion_id = delegation.pk
+            except forms.ValidationError:
+                delegacion_id = None
+        self.fields['organizacion'].queryset = organizaciones_de_carta(delegacion_id)
+        self.fields['responsable'].queryset = encargados_de_carta(delegacion_id)
+        self.fields['area_derivacion'].queryset = AreaDerivacion.objects.filter(delegacion_id=delegacion_id).filter(Q(activo=True) | Q(pk=self.instance.area_derivacion_id)) if delegacion_id else AreaDerivacion.objects.none()
+        self.fields['area_derivacion'].help_text = 'Opcional. Al seleccionar un área, su nombre queda guardado en la derivación y en el historial.'
+        self.fields['organizacion'].error_messages['invalid_choice'] = 'Escoge una organización de la delegación de la carta.'
+        self.fields['responsable'].error_messages['invalid_choice'] = 'Escoge un encargado de la delegación de la carta.'
+        self.fields['area_derivacion'].error_messages['invalid_choice'] = 'Escoge un área de la delegación de la carta.'
         for name in ('descripcion', 'respuesta', 'observaciones'):
             self.fields[name].widget.attrs['rows'] = 3
 
@@ -67,8 +94,22 @@ class CartaForm(DelegationForm):
     def clean_tipo(self):
         return self.cleaned_data.get('tipo') or 'General'
 
+    def clean_area_derivacion(self):
+        if self.instance.pk and 'area_derivacion' not in self.data:
+            return self.instance.area_derivacion
+        return self.cleaned_data.get('area_derivacion')
+
     def clean(self):
         data = super().clean()
+        from periodos.services import validar_fecha_abierta
+        try:
+            validar_fecha_abierta(data.get('delegacion'), data.get('fecha_ingreso'),
+                                  fecha_anterior=self.fecha_ingreso_anterior,
+                                  delegacion_anterior=self.delegacion_anterior)
+        except forms.ValidationError as error:
+            self.add_error('fecha_ingreso', error)
+        if data.get('area_derivacion'):
+            data['derivada_a'] = data['area_derivacion'].nombre
         automatic = data.get('compromiso_automatico')
         if automatic is None:
             automatic = not data.get('fecha_compromiso') and (

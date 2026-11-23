@@ -1,0 +1,31 @@
+<section class="metrics-strip personal-metrics" aria-label="Mi trabajo">
+    <div class="metric"><i class="bi bi-list-task metric-icon" aria-hidden="true"></i><div><strong>{{ work_totals.asignadas }}</strong><span>A mi cargo</span></div></div>
+    <div class="metric"><i class="bi bi-people metric-icon" aria-hidden="true"></i><div><strong>{{ total_atenciones }}</strong><span>Atenciones que registré</span></div></div>
+    <div class="metric"><i class="bi bi-file-earmark-check metric-icon" aria-hidden="true"></i><div><strong>{{ en_revision }}</strong><span>En revisión</span></div></div>
+</section>
+<section class="dashboard-section personal-commitments" aria-labelledby="personal-commitments-title">
+    <h2 class="section-heading" id="personal-commitments-title">Mis próximos compromisos</h2>
+    {% if proximos_compromisos %}
+    <ul class="pending-actions">
+        {% for action in proximos_compromisos %}
+        <li><a class="pending-action" href="{% url 'atenciones:action_detail' action.pk %}">
+            <i class="bi bi-calendar-event pending-action-icon" aria-hidden="true"></i>
+            <span class="pending-action-content"><strong>{{ action.titulo }}</strong><small>Actividad #{{ action.pk }} · <time datetime="{{ action.fecha_compromiso|date:'Y-m-d' }}">{{ action.fecha_compromiso|date:'j \d\e F' }}</time></small></span>
+            <i class="bi bi-chevron-right" aria-hidden="true"></i>
+        </a></li>
+        {% endfor %}
+    </ul>
+    {% else %}<p class="text-secondary mb-0">No tienes compromisos próximos para este trimestre.</p>{% endif %}
+</section>
+<details class="dashboard-section dashboard-disclosure" aria-labelledby="personal-indicators-title">
+    <summary id="personal-indicators-title"><i class="bi bi-bar-chart" aria-hidden="true"></i><span>Mis indicadores del trimestre</span><i class="bi bi-chevron-down disclosure-caret" aria-hidden="true"></i></summary>
+    <div class="disclosure-content">
+        <div class="work-summary">
+            <div><strong>{{ personas_atendidas }}</strong><span>Personas que atendí</span></div>
+            <div><strong>{{ work_totals.ingresadas }}</strong><span>Actividades que ingresé</span></div>
+            <div><strong>{{ work_totals.aprobadas }}</strong><span>Con revisión aprobada</span></div>
+            <div><strong>{{ work_totals.excluidas }}</strong><span>Excluidas del puntaje</span></div>
+        </div>
+        <p class="small text-secondary mt-3 mb-0">Cumplimiento de mis metas{% if cumplimiento != None %} · {{ cumplimiento }}%{% else %} · Sin metas asignadas{% endif %}</p>
+    </div>
+</details>

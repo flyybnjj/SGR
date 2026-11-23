@@ -12,6 +12,11 @@ def operational(user):
 def can_manage(user):
     return bool(operational(user) and (user.is_superuser or (user.rol_id and user.rol.puede_gestionar)))
 
+def can_manage_tubo(user):
+    return can_manage(user) or bool(
+        operational(user) and user.delegacion.delegado_id == user.pk
+    )
+
 def can_register(user):
     return bool(operational(user) and (user.is_superuser or (user.rol_id and user.rol.puede_registrar_atenciones)))
 

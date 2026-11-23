@@ -3,6 +3,7 @@ from django.urls import reverse
 from usuarios.models import Usuario, Rol
 from territorial.models import DelegacionMunicipal
 from atenciones.models import Accion
+from operaciones.models import Aviso
 
 
 class DashboardNavigationTests(TestCase):
@@ -25,7 +26,8 @@ class DashboardNavigationTests(TestCase):
         self.assertContains(admin, 'Crear delegación')
         self.assertContains(admin, 'Asignar usuarios a delegaciones')
         self.assertNotContains(admin, 'Indicadores de gestión')
-        self.assertNotContains(admin, 'bi-gear')
+        main = admin.content.split(b'<main', 1)[1].split(b'</main>', 1)[0]
+        self.assertNotIn(b'bi-gear', main)
 
     def test_general_filters_by_territory_or_responsible(self):
         self.client.force_login(self.root)
@@ -43,3 +45,47 @@ class DashboardNavigationTests(TestCase):
         self.assertEqual(response.context['acciones_pendientes'], 1)
         self.assertIsNone(response.context['scope_form'])
         self.assertEqual(self.client.get(reverse('dashboard:administracion')).status_code, 403)
+
+    def test_personal_shortcuts_and_automatic_quarter_filter(self):
+        self.staff.rol.puede_registrar_atenciones = True
+        self.staff.rol.save(update_fields=['puede_registrar_atenciones'])
+        self.client.force_login(self.staff)
+        general = self.client.get('/')
+        personal = self.client.get(reverse('dashboard:personal'))
+        for page in [general, personal]:
+            self.assertContains(page, 'data-quarter-filter')
+            self.assertNotContains(page, '>Consultar<')
+            self.assertContains(page, 'Accesos rápidos')
+        self.assertNotContains(general, '>Crear atención</a>')
+        self.assertContains(personal, '>Crear atención</a>')
+        self.assertContains(personal, 'Mis próximos compromisos')
+        self.assertContains(personal, 'id="avisos-drawer"', count=1)
+
+    def test_notifications_only_list_and_update_the_current_users_records(self):
+        mine = Aviso.objects.create(usuario=self.staff, clave='mine', titulo='Aviso propio', enlace='/acciones/1/')
+        other = Aviso.objects.create(usuario=self.root, clave='other', titulo='Aviso ajeno', enlace='/acciones/2/')
+        self.client.force_login(self.staff)
+        personal = self.client.get(reverse('dashboard:personal'))
+        self.assertContains(personal, 'data-unread-count')
+        inbox = self.client.get(reverse('operaciones:avisos'), {'fragmento': '1', 'no_leidos': '1'})
+        self.assertContains(inbox, 'Aviso propio')
+        self.assertContains(inbox, 'Hoy')
+        self.assertNotContains(inbox, 'Aviso ajeno')
+        headers = {'HTTP_ACCEPT': 'application/json'}
+        self.assertEqual(self.client.post(reverse('operaciones:leer', args=[other.pk]), **headers).status_code, 404)
+        result = self.client.post(reverse('operaciones:leer', args=[mine.pk]), **headers)
+        self.assertEqual(result.json(), {'no_leidos': 0})
+        self.assertNotContains(self.client.get(reverse('operaciones:avisos'), {'no_leidos': '1'}), 'Aviso propio')
+        self.assertContains(self.client.get(reverse('operaciones:avisos')), 'Aviso propio')
+
+    def test_reports_show_only_profile_specific_shortcuts(self):
+        self.client.force_login(self.staff)
+        reports = self.client.get(reverse('dashboard:reportes'))
+        self.assertContains(reports, reverse('organizaciones:listado'))
+        self.assertNotContains(reports, reverse('territorial:ausencias'))
+        self.assertNotContains(reports, reverse('usuarios:usuarios_excel'))
+        self.assertEqual(self.client.get(reverse('territorial:ausencias')).status_code, 403)
+        self.client.force_login(self.root)
+        reports = self.client.get(reverse('dashboard:reportes'))
+        self.assertContains(reports, reverse('territorial:ausencias'))
+        self.assertContains(reports, reverse('usuarios:usuarios_excel'))

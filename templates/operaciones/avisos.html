@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block title %}Mis avisos | SGR{% endblock %}
+{% block content %}
+<section class="avisos-page" aria-labelledby="avisos-page-title">
+    <header class="avisos-heading"><h1 id="avisos-page-title">Mis avisos</h1></header>
+    {% include 'operaciones/avisos_lista.html' %}
+</section>
+{% endblock %}

@@ -1,0 +1,31 @@
+<details class="territory-scope">
+    <summary {% if scope_delegation %}aria-description="Delegación consultada" style="--scope-color:{{ scope_delegation.color_identificacion }}"{% endif %}>
+        <i class="bi bi-buildings" aria-hidden="true"></i>
+        <div class="territory-scope-content">
+            <strong class="d-block">{{ scope_delegation.nombre|default:'Todas las delegaciones' }}</strong>
+            <div class="territory-quarter" data-quarter-rotate>
+                <span class="territory-place" data-quarter-identity>{% if scope_delegation %}{{ scope_delegation.codigo }} · {{ scope_delegation.comuna }}{% else %}Gestión municipal{% endif %}</span>
+                {% include "territorial/quarter_indicator.html" %}
+            </div>
+        </div>
+        <i class="bi bi-chevron-down" aria-hidden="true"></i>
+    </summary>
+    <nav aria-label="Escoger delegación">
+        <a href="?trimestre={{ header_quarter|urlencode }}"{% if not scope_delegation %} aria-current="true"{% endif %}>Todas las delegaciones</a>
+        {% for seat in header_scope_choices %}
+            <a href="?trimestre={{ header_quarter|urlencode }}&amp;delegacion={{ seat.pk }}"{% if scope_delegation.pk == seat.pk %} aria-current="true"{% endif %}>{{ seat.nombre }}{% if not seat.activo %} <small>Inactiva</small>{% endif %}</a>
+        {% endfor %}
+        {% if scope_form %}
+            <details class="scope-advanced">
+                <summary>Filtrar por responsable</summary>
+                <form method="get">
+                    <input type="hidden" name="trimestre" value="{{ header_quarter }}">
+                    {% if scope_delegation %}<input type="hidden" name="delegacion" value="{{ scope_delegation.pk }}">{% endif %}
+                    <label class="visually-hidden" for="{{ scope_form.responsable.id_for_label }}">Responsable</label>
+                    {{ scope_form.responsable }}
+                    <button class="btn-stitch btn-stitch-secondary mt-2" type="submit">Aplicar</button>
+                </form>
+            </details>
+        {% endif %}
+    </nav>
+</details>

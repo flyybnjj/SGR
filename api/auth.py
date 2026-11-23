@@ -62,7 +62,7 @@ def endpoint(methods=('GET',), authenticated=True):
                     if header.startswith('Bearer ') and len(header) <= 512:
                         digest = hashlib.sha256(header[7:].encode()).hexdigest()
                         token = TokenMovil.objects.select_related('usuario__rol', 'usuario__delegacion').filter(resumen=digest, expira__gt=timezone.now(), revocado=False).first()
-                    if not token or not operational(token.usuario) or not constant_time_compare(token.sello_password, token.usuario.get_session_auth_hash()) or token.usuario.debe_cambiar_password:
+                    if not token or not operational(token.usuario) or not constant_time_compare(token.sello_password, token.usuario.get_session_auth_hash()) or token.usuario.debe_cambiar_password or token.usuario.password_expired:
                         response = JsonResponse({'error': 'El acceso expiró o no es válido. Inicia sesión nuevamente.'}, status=401)
                         response['WWW-Authenticate'] = 'Bearer'
                         return response
@@ -80,3 +80,4 @@ def endpoint(methods=('GET',), authenticated=True):
             return response
         return wrapped
     return decorate
+

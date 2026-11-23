@@ -2,6 +2,9 @@
     <span class="territory-marker" aria-hidden="true"><i class="bi bi-buildings"></i></span>
     <div class="territory-content">
         <strong class="territory-name"{% if banner_delegation %} title="{{ banner_delegation.nombre }}"{% endif %}>{% if banner_delegation %}{{ banner_delegation.nombre }}{% elif user.is_superuser %}Todas las delegaciones{% else %}Sin delegación asignada{% endif %}</strong>
-        <span class="territory-place">{% if banner_delegation %}{{ banner_delegation.codigo }} · {{ banner_delegation.comuna }} · {% if viewing_scope %}Delegación consultada{% else %}Tu delegación{% endif %}{% elif user.is_superuser %}Gestión municipal{% else %}Contacta al administrador{% endif %}{% if banner_delegation and not banner_delegation.activo %} · Inactiva{% endif %}</span>
+        <div class="territory-quarter" data-quarter-rotate>
+        <span class="territory-place" data-quarter-identity>{% if banner_delegation %}{{ banner_delegation.codigo }} · {{ banner_delegation.comuna }} · {% if viewing_scope %}Delegación consultada{% else %}Tu delegación{% endif %}{% elif user.is_superuser %}Gestión municipal{% else %}Contacta al administrador{% endif %}{% if banner_delegation and not banner_delegation.activo %} · Inactiva{% endif %}</span>
+        {% include "territorial/quarter_indicator.html" %}
+        </div>
     </div>
 </section>

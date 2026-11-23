@@ -35,6 +35,7 @@ class Carta(models.Model):
     compromiso_automatico = models.BooleanField(default=False, db_default=False)
     fecha_actividad = models.DateField(null=True, blank=True)
     estado = models.CharField(max_length=12, choices=ESTADOS, default='Recibida')
+    area_derivacion = models.ForeignKey('catalogos.AreaDerivacion', on_delete=models.PROTECT, null=True, blank=True, related_name='cartas', verbose_name='Área de derivación del catálogo')
     derivada_a = models.CharField(max_length=200, blank=True)
     respuesta = models.TextField(max_length=5000, blank=True)
     observaciones = models.TextField(max_length=5000, blank=True)
@@ -44,7 +45,17 @@ class Carta(models.Model):
     class Meta:
         ordering = ['-fecha_ingreso', '-pk']
 
+    @property
+    def compromiso_vencido(self):
+        return bool(
+            self.fecha_compromiso
+            and self.fecha_compromiso < timezone.localdate()
+            and self.estado not in ('Respondida', 'No aplica')
+        )
+
     def clean(self):
+        if self.area_derivacion_id and self.area_derivacion.delegacion_id != self.delegacion_id:
+            raise ValidationError({'area_derivacion': 'Escoge un área de la delegación de la carta.'})
         if self.responsable_id and self.responsable.delegacion_id != self.delegacion_id:
             raise ValidationError({'responsable': 'El responsable debe pertenecer a la delegación de la carta.'})
         if self.organizacion_id and self.organizacion.delegacion_id != self.delegacion_id:

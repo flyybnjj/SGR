@@ -22,17 +22,19 @@ class DelegationAppearanceTests(TestCase):
 
     def test_delegate_gets_setup_once_and_staff_inherits_saved_color(self):
         self.client.force_login(self.delegate)
-        self.assertContains(self.client.get('/'), 'id="delegationAppearanceModal"')
-        response = self.client.post(self.url(), {'color': '#16804a', 'configuracion': 'inicial'})
+        self.assertContains(self.client.get('/'), 'name="color"')
+        response = self.client.post(reverse('usuarios:appearance'), {
+            'color': '#16804a', 'origen': 'bienvenida', 'estilo': 'normal', 'paisaje': 'faro',
+        })
         self.assertEqual(response.status_code, 302)
         self.delegation.refresh_from_db()
         self.assertEqual(self.delegation.color, '#16804A')
         self.assertTrue(self.delegation.color_configurado)
-        self.assertNotContains(self.client.get('/'), 'id="delegationAppearanceModal"')
+        self.assertNotContains(self.client.get('/'), 'data-glass-welcome')
         self.client.force_login(self.staff)
         response = self.client.get('/')
         self.assertContains(response, '--delegation-color: #16804A')
-        self.assertNotContains(response, 'id="delegationAppearanceModal"')
+        self.assertNotContains(response, 'name="color"')
         self.assertContains(self.client.get(reverse('usuarios:ficha_usuario')), 'definido por el delegado responsable')
 
     def test_staff_and_other_delegate_cannot_change_design(self):

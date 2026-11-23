@@ -6,6 +6,7 @@ app_name = 'dashboard'
 
 urlpatterns = [
     path('mi-resumen/', views.inicio_view, {'personal': True}, name='personal'),
+    path('clima/', views.clima_view, name='clima'),
     path('novedades/', updates.novedades, name='novedades'),
     path('novedades/<slug:slug>/leida/', updates.marcar_leida, name='novedad_leida'),
     path('administracion/', views.administracion_view, name='administracion'),

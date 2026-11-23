@@ -24,7 +24,7 @@ class AusenciaForm(forms.ModelForm):
     class Meta:
         model = Ausencia
         fields = ['usuario', 'tipo', 'inicio', 'fin']
-        widgets = {'inicio': forms.DateInput(attrs={'type': 'date'}), 'fin': forms.DateInput(attrs={'type': 'date'})}
+        widgets = {'inicio': forms.DateInput(format='%Y-%m-%d', attrs={'type': 'date'}), 'fin': forms.DateInput(format='%Y-%m-%d', attrs={'type': 'date'})}
 
     def __init__(self, *args, user, **kwargs):
         super().__init__(*args, **kwargs)
@@ -55,8 +55,10 @@ def crear(request):
     if request.method == 'POST':
         with transaction.atomic():
             raw = request.POST.get('usuario', '')
-            if raw.isdigit() and len(raw) <= 19:
-                list(staff(request.user).select_for_update().filter(pk=raw))
+            if raw.isascii() and raw.isdecimal() and len(raw) <= 19:
+                person_id = int(raw)
+                if person_id <= 2**63 - 1:
+                    list(staff(request.user).select_for_update().filter(pk=person_id))
             if form.is_valid():
                 obj = form.save(commit=False)
                 obj.registrada_por = request.user

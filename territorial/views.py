@@ -1,5 +1,6 @@
 from config.write_serialization import catalog_write_lock
 from config.access import admin_required, superuser_required
+from config.catalog_filters import filter_catalog
 from config.pagination import paginate
 from django.views.decorators.http import require_POST
 from django.core.exceptions import PermissionDenied, ValidationError
@@ -70,7 +71,7 @@ def delegaciones_list_view(request):
             Q(delegado__last_name__icontains=search)
         )
 
-    page_obj = paginate(request, queryset)
+    page_obj = paginate(request, filter_catalog(request, queryset))
 
     form = DelegacionMunicipalForm(user=request.user)
     delegados = form.fields['delegado'].queryset if request.user.is_superuser else Usuario.objects.none()
@@ -168,6 +169,7 @@ def delegaciones_export_excel(request):
         )
 
     delegaciones = queryset.order_by("id")
+    delegaciones = filter_catalog(request, delegaciones)
     headers = ["#", "Nombre Delegación", "Dirección", "Comuna / Territorio", "Delegado Responsable", "Estado", "Color"]
     rows = [
         [
@@ -188,7 +190,7 @@ def metas_list_view(request):
     if search:
         queryset = queryset.filter(Q(nombre__icontains=search) | Q(descripcion__icontains=search))
 
-    page_obj = paginate(request, queryset)
+    page_obj = paginate(request, filter_catalog(request, queryset))
 
     form = ItemMetaForm()
 
@@ -238,6 +240,7 @@ def metas_export_excel(request):
         queryset = queryset.filter(Q(nombre__icontains=search) | Q(descripcion__icontains=search))
 
     metas = queryset.order_by("id")
+    metas = filter_catalog(request, metas)
     headers = ["#", "Nombre de la Meta", "Descripción", "Estado", "Fecha Creación"]
     rows = [
         [m.id, m.nombre, m.descripcion or "", "Activo" if m.activo else "Inactivo", m.fecha_creacion.strftime("%d/%m/%Y")]

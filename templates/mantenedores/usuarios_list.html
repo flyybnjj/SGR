@@ -17,7 +17,7 @@
         </p>
     </div>
     <div class="d-flex gap-2">
-        <a href="{% url 'usuarios:usuarios_excel' %}?q={{ search|urlencode }}" class="btn-stitch btn-stitch-excel">
+        <a href="{% url 'usuarios:usuarios_excel' %}{% querystring q=search page=None per_page=None %}" class="btn-stitch btn-stitch-excel">
             <i class="bi bi-file-earmark-excel"></i>
             <span>Exportar Excel</span>
         </a>
@@ -33,7 +33,10 @@
     <div class="card-stitch-header flex-column flex-md-row gap-3">
         <form method="GET" class="search-box-stitch" role="search">
 <label class="visually-hidden" for="grid-search">Buscar registros</label>
-<input type="hidden" name="per_page" value="{{ page_obj.paginator.per_page }}">
+<input type="hidden" name="per_page" value="{{ page_obj.page_size }}">
+            <input type="hidden" name="estado" value="{{ request.GET.estado }}">
+            <input type="hidden" name="orden" value="{{ request.GET.orden }}">
+            <input type="hidden" name="direccion" value="{{ request.GET.direccion }}">
             <i class="bi bi-search"></i>
             <input type="search" id="grid-search" name="q" value="{{ search }}" placeholder="Buscar por Nombre, Usuario, RUT o Correo...">
             <button type="submit" class="btn-stitch btn-stitch-secondary">Buscar</button>
@@ -41,6 +44,7 @@
             <a href="{% url 'usuarios:usuarios_list' %}" class="text-secondary ms-1" aria-label="Limpiar filtro" title="Limpiar filtro"><i class="bi bi-x-circle-fill"></i></a>
             {% endif %}
         </form>
+        {% include "includes/catalog_state_filter.html" %}
         <div>
             <span class="badge-stitch-tag">
                 Usuarios Registrados: <strong class="ms-1" style="color: var(--muni-purple);">{{ page_obj.paginator.count }}</strong>
@@ -54,11 +58,11 @@
             <thead>
                 <tr>
                     <th scope="col" style="width: 60px;">#</th>
-                    <th scope="col">Funcionario Municipal</th>
-                    <th scope="col">Correo Institucional</th>
-                    <th scope="col">Perfil de acceso</th>
-                    <th scope="col">Delegación</th>
-<th scope="col" class="text-center" style="width: 120px;">Estado</th>
+                    <th scope="col"{% if request.GET.orden == 'first_name' %} aria-sort="{% if request.GET.direccion == 'desc' %}descending{% else %}ascending{% endif %}"{% endif %}>{% include 'includes/catalog_sort.html' with field='first_name' caption='Funcionario Municipal' %}</th>
+                    <th scope="col"{% if request.GET.orden == 'email' %} aria-sort="{% if request.GET.direccion == 'desc' %}descending{% else %}ascending{% endif %}"{% endif %}>{% include 'includes/catalog_sort.html' with field='email' caption='Correo Institucional' %}</th>
+                    <th scope="col"{% if request.GET.orden == 'rol__nombre' %} aria-sort="{% if request.GET.direccion == 'desc' %}descending{% else %}ascending{% endif %}"{% endif %}>{% include 'includes/catalog_sort.html' with field='rol__nombre' caption='Perfil de acceso' %}</th>
+                    <th scope="col"{% if request.GET.orden == 'delegacion__nombre' %} aria-sort="{% if request.GET.direccion == 'desc' %}descending{% else %}ascending{% endif %}"{% endif %}>{% include 'includes/catalog_sort.html' with field='delegacion__nombre' caption='Delegación' %}</th>
+<th scope="col" class="text-center" style="width: 120px;"{% if request.GET.orden == 'activo' %} aria-sort="{% if request.GET.direccion == 'desc' %}descending{% else %}ascending{% endif %}"{% endif %}>{% include 'includes/catalog_sort.html' with field='activo' caption='Estado' %}</th>
                     <th scope="col" class="text-center record-actions-column record-user-actions-column">Acciones</th>
                 </tr>
             </thead>

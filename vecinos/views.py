@@ -1,4 +1,5 @@
 from config.access import register_required
+from config.catalog_filters import filter_catalog
 from config.pagination import paginate
 from django.views.decorators.http import require_POST
 from django.core.exceptions import PermissionDenied, ValidationError
@@ -20,7 +21,7 @@ from config.rut_search import filter_neighbor_search
 @login_required
 def vecinos_list_view(request):
     search = request.GET.get('q', '').strip()
-    queryset = visible_neighbors(Vecino.objects.select_related('territorio'), request.user)
+    queryset = visible_neighbors(Vecino.objects.select_related('territorio', 'localidad'), request.user)
 
     if search:
         queryset = filter_neighbor_search(queryset, search,
@@ -29,10 +30,11 @@ def vecinos_list_view(request):
             Q(direccion__icontains=search) |
             Q(telefono__icontains=search) |
             Q(territorio__nombre__icontains=search) |
+            Q(localidad__nombre__icontains=search) |
             Q(tipo_gestion__icontains=search)
         )
 
-    page_obj = paginate(request, queryset)
+    page_obj = paginate(request, filter_catalog(request, queryset))
 
     form = VecinoForm(user=request.user)
     territorios = form.fields["territorio"].queryset
@@ -114,7 +116,7 @@ def vecinos_delete(request, pk):
 @login_required
 def vecinos_export_excel(request):
     search = request.GET.get('q', '').strip()
-    queryset = visible_neighbors(Vecino.objects.select_related('territorio'), request.user)
+    queryset = visible_neighbors(Vecino.objects.select_related('territorio', 'localidad'), request.user)
 
     if search:
         queryset = filter_neighbor_search(queryset, search,
@@ -123,10 +125,12 @@ def vecinos_export_excel(request):
             Q(direccion__icontains=search) |
             Q(telefono__icontains=search) |
             Q(territorio__nombre__icontains=search) |
+            Q(localidad__nombre__icontains=search) |
             Q(tipo_gestion__icontains=search)
         )
 
     vecinos = queryset.order_by("id")
+    vecinos = filter_catalog(request, vecinos)
     headers = ["#", "Nombre Completo", "RUT", "Dirección", "Teléfono", "Territorio / Delegación", "Tipo de Gestión", "Estado"]
     rows = [
         [

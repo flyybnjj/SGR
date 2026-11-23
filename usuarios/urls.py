@@ -3,10 +3,12 @@ from . import views
 from . import passkeys
 from . import account
 from . import onboarding
+from . import appearance
 
 app_name = 'usuarios'
 
 urlpatterns = [
+    path('mi-perfil/personalizacion/', appearance.appearance, name='appearance'),
     path('mi-perfil/apariencia/', onboarding.interface_style, name='interface_style'),
     path('mi-perfil/tutorial/completar/', onboarding.complete, name='tutorial_complete'),
     path('mi-perfil/ajustes/', account.settings_view, name='account_settings'),

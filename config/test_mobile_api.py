@@ -92,3 +92,31 @@ class MobileApiTests(TestCase):
         from api.models import TokenMovil
         raw = self.token()
         self.assertNotEqual(TokenMovil.objects.get().resumen, raw)
+
+    def test_assignee_uploads_private_followup_photo_without_approving(self):
+        import tempfile
+        import uuid
+        from unittest.mock import patch
+        from django.core.files.storage import FileSystemStorage
+        from atenciones.models import FotoAccion
+        from atenciones.test_photo_workflow import photo
+        self.own.responsable = self.user
+        self.own.fecha_compromiso = '2026-11-30'
+        self.own.save(update_fields=['responsable', 'fecha_compromiso'])
+        headers = {'Authorization': f'Bearer {self.token()}'}
+        listing = self.client.get('/api/v1/compromisos/', headers=headers, secure=True)
+        self.assertEqual([item['id'] for item in listing.json()['results']], [self.own.pk])
+        url = f'/api/v1/compromisos/{self.own.pk}/evidencia/'
+        token = uuid.uuid4()
+        with tempfile.TemporaryDirectory() as folder, patch.object(FotoAccion._meta.get_field('archivo'), 'storage', FileSystemStorage(location=folder)):
+            for status in (201, 200):
+                result = self.client.post(url, {'evidencia': photo(), 'request_token': token}, headers=headers, secure=True)
+                self.assertEqual(result.status_code, status)
+            downloaded = self.client.get(result.json()['url'], headers=headers, secure=True)
+            self.assertEqual(downloaded.status_code, 200)
+            downloaded.close()
+        self.assertEqual(FotoAccion.objects.count(), 1)
+        self.own.refresh_from_db()
+        self.assertEqual(self.own.estado, 'Pendiente')
+        forbidden = self.client.post(f'/api/v1/compromisos/{self.foreign.pk}/evidencia/', {}, headers=headers, secure=True)
+        self.assertEqual(forbidden.status_code, 404)

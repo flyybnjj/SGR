@@ -12,6 +12,73 @@ from .models import LecturaNovedad
 
 PUBLICACIONES = (
     {
+        'id': '2026-11-20-gestion-y-automatizaciones',
+        'fecha': date(2026, 11, 20),
+        'titulo': 'Períodos, directivas y seguimiento',
+        'resumen': 'Cierre trimestral con vista previa, localidades, áreas y avisos de vencimiento.',
+        'detalles': (
+            'En Administración puedes revisar períodos, preparar el cierre y confirmar el traslado de pendientes con historial.',
+            'Las directivas permiten registrar un vecino durante la búsqueda y conservar los cambios de autoridades.',
+            'Calidad de datos reúne registros que necesitan revisión. Mis avisos muestra próximos vencimientos y atrasos.',
+            'Casos especiales permite registrar seguimiento con responsable, respuesta e historial.',
+        ),
+        'permiso': 'operar',
+        'ruta_recorrido': 'operaciones:avisos',
+    },
+    {
+        'id': '2026-11-16-compromisos-y-trimestres',
+        'fecha': date(2026, 11, 16),
+        'titulo': 'Seguimiento de compromisos y trimestres',
+        'resumen': 'Consulta los casos vencidos y sigue los compromisos de un trimestre a otro.',
+        'detalles': (
+            'Al atender a una persona de una directiva, elige si viene por cuenta propia o en representación de su organización.',
+            'En Cartas y Actividades, pulsa un contador para ver los registros que cuentan para ese estado.',
+            'El encabezado alterna la delegación y el trimestre. En Actividades se muestran los compromisos con fecha en el período y los pendientes arrastrados.',
+        ),
+        'permiso': 'operar',
+        'ruta_recorrido': 'atenciones:action_list',
+    },
+    {
+        'id': '2026-11-15-personaliza-tu-espacio',
+        'fecha': date(2026, 11, 15),
+        'titulo': 'Personaliza tu espacio',
+        'resumen': 'Elige el modo normal o vidrio y un fondo para trabajar.',
+        'detalles': (
+            'El asistente se abre una vez. Fondos y color se ven juntos y la vista previa cambia al tocar cada opción. Puedes volver a Perfil → Apariencia.',
+            'Elige entre nueve paisajes de la Región de Coquimbo o activa el fondo blanco. Al apagar Fondo blanco recuperas tu paisaje guardado.',
+            'Los paisajes toman el color vigente de la delegación. Si el delegado cambia el color, la vista se actualiza sin abrir el asistente de nuevo.',
+        ),
+        'permiso': 'todos',
+        'ruta_recorrido': 'usuarios:appearance',
+    },
+    {
+        'id': '2026-11-15-cuenta-y-seguridad',
+        'fecha': date(2026, 11, 15),
+        'titulo': 'Perfil, seguridad y vigencia de la contraseña',
+        'resumen': 'Revisa el estado de tu contraseña, tu nombre de usuario y tus passkeys desde Perfil.',
+        'detalles': (
+            'Confirma el cambio de nombre de usuario con tu contraseña actual o con un código al correo registrado.',
+            'La contraseña vence cada 30 días. Perfil muestra el último cambio registrado y cuántos días quedan. El recordatorio se envía dentro de los tres días previos al vencimiento.',
+            'Las cuentas sin fecha de cambio registrada reciben un primer plazo de 30 días desde la activación.',
+        ),
+        'permiso': 'todos',
+        'ruta_recorrido': 'usuarios:account_settings',
+    },
+    {
+        'id': '2026-11-15-tablas-y-selector-territorial',
+        'fecha': date(2026, 11, 15),
+        'titulo': 'Listados completos y resumen por delegación',
+        'resumen': 'Muestra todos los resultados filtrados y consulta una delegación desde el encabezado del resumen.',
+        'detalles': (
+            'En Filas por página puedes elegir Todos para ver los resultados de tu búsqueda o filtro.',
+            'Los botones de edición y estado mantienen su contraste en modo vidrio.',
+            'Si tienes acceso municipal, elige una delegación en el encabezado. El resumen toma su color y conserva el trimestre.',
+            'Puedes desplegar Buscar un vecino, Acciones pendientes y Metas vigentes desde el resumen.',
+        ),
+        'permiso': 'todos',
+        'ruta_recorrido': 'dashboard:inicio',
+    },
+    {
         'id': '2026-11-12-compromisos-y-tubos',
         'fecha': date(2026, 11, 12),
         'titulo': 'Compromisos desde la atención y tarjetas que se pueden mover',

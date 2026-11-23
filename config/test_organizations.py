@@ -16,6 +16,55 @@ class OrganizationTests(TestCase):
         self.unassigned = Organizacion.objects.create(nombre='Organización sin territorio de prueba')
         self.client.force_login(self.user)
 
+    def test_board_members_are_selected_only_from_organization_territory(self):
+        from vecinos.models import Vecino
+
+        center = Vecino.objects.create(nombre='Vecina de prueba', rut='12345678-5', territorio=self.centro)
+        mate = Vecino.objects.create(nombre='Vecino de prueba', territorio=self.centro)
+        inactive = Vecino.objects.create(nombre='Vecino de prueba inactivo', territorio=self.centro, activo=False)
+        foreign = Vecino.objects.create(nombre='Vecino de prueba de otra sede', territorio=self.mar)
+        url = '/organizaciones/buscar-directiva/'
+        data = self.client.get(url, {'q': '12.345.678-5', 'delegacion': self.centro.pk}).json()
+        self.assertEqual([person['id'] for person in data['results']], [center.pk])
+        self.assertEqual(self.client.get(url, {'q': 'prueba', 'delegacion': self.mar.pk}).status_code, 404)
+        data = self.client.get(url, {'q': 'prueba', 'delegacion': self.centro.pk}).json()
+        self.assertCountEqual([person['id'] for person in data['results']], [center.pk, mate.pk])
+        form = {'nombre': 'Junta Centro', 'tipo': 'Junta de vecinos', 'delegacion': self.mar.pk, 'activo': 'on'}
+        for invalid in (foreign, inactive):
+            invalid_data = {**form, 'presidente_vecino': invalid.pk}
+            self.assertContains(self.client.post('/organizaciones/nueva/', invalid_data), 'Selecci')
+            self.assertFalse(Organizacion.objects.filter(nombre='Junta Centro').exists())
+        self.assertEqual(self.client.post('/organizaciones/nueva/', {**form, 'presidente_vecino': center.pk, 'tesorero_vecino': mate.pk}).status_code, 302)
+        junta = Organizacion.objects.get(nombre='Junta Centro')
+        self.assertEqual(junta.delegacion, self.centro)
+        self.assertEqual(junta.presidente_vecino, center)
+        self.assertEqual(junta.tesorero_vecino, mate)
+        self.assertEqual(junta.presidente, center.nombre)
+
+    def test_admin_selection_uses_submitted_delegation_and_preserves_legacy_text(self):
+        from vecinos.models import Vecino
+
+        admin = Usuario.objects.create_superuser(username='root-directiva')
+        foreign = Vecino.objects.create(nombre='Secretaria del Mar', territorio=self.mar)
+        self.client.force_login(admin)
+        url = '/organizaciones/buscar-directiva/'
+        self.assertEqual(self.client.get(url, {'q': 'Secretaria'}).json()['results'], [])
+        self.assertEqual(self.client.get(url, {'q': 'Secretaria', 'delegacion': self.mar.pk}).json()['results'][0]['id'], foreign.pk)
+        self.own.secretario = 'Nombre histórico'
+        self.own.save(update_fields=['secretario'])
+        edit = f'/organizaciones/{self.own.pk}/editar/'
+        form = {'nombre': self.own.nombre, 'tipo': 'Junta de vecinos', 'delegacion': self.centro.pk, 'activo': 'on'}
+        self.client.post(edit, {**form, 'secretario_vecino': foreign.pk})
+        self.own.refresh_from_db()
+        self.assertEqual(self.own.secretario, 'Nombre histórico')
+        self.assertIsNone(self.own.secretario_vecino_id)
+        self.assertEqual(self.client.post(edit, form).status_code, 302)
+        self.own.refresh_from_db()
+        self.assertEqual(self.own.secretario, 'Nombre histórico')
+        self.assertEqual(self.client.post(edit, {**form, 'delegacion': self.mar.pk, 'secretario_vecino': foreign.pk}).status_code, 302)
+        self.own.refresh_from_db()
+        self.assertEqual(self.own.secretario_vecino, foreign)
+
     def test_list_and_detail_respect_territory(self):
         response = self.client.get('/organizaciones/')
         self.assertContains(response, 'Club Centro')
@@ -30,6 +79,20 @@ class OrganizationTests(TestCase):
         values = [v for row in book.active.iter_rows(values_only=True) for v in row]
         self.assertIn('Club Centro', values)
         self.assertNotIn('Club Mar', values)
+
+    def test_review_filters_match_counts_and_preserve_search_scope(self):
+        self.own.observaciones = 'Posible duplicado'
+        self.own.save(update_fields=['observaciones'])
+        self.other.observaciones = 'Posible duplicado'
+        self.other.save(update_fields=['observaciones'])
+        response = self.client.get('/organizaciones/', {'q': 'Club', 'revision': 'duplicadas'})
+        counts = {code: count for code, label, icon, count in response.context['revision_options']}
+        self.assertEqual(counts[''], 1)
+        self.assertEqual(counts['duplicadas'], 1)
+        self.assertNotIn('sin_asignar', counts)
+        self.assertEqual(list(response.context['page_obj']), [self.own])
+        denied = self.client.get('/organizaciones/', {'revision': 'sin_asignar'})
+        self.assertEqual(denied.context['page_obj'].paginator.count, 0)
 
     def test_local_manager_cannot_assign_to_another_territory(self):
         response = self.client.post('/organizaciones/nueva/', {'nombre': 'Club Nuevo', 'tipo': 'Otra', 'delegacion': self.mar.pk, 'activo': 'on'})

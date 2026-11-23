@@ -6,14 +6,23 @@ from django.utils.http import url_has_allowed_host_and_scheme
 
 PAGE_SIZES = (10, 20, 50, 100)
 
-def paginate(request, queryset):
+def paginate(request, queryset, *, allow_all=True):
+    requested_size = request.GET.get('per_page', '10')
+    if allow_all and requested_size == 'all':
+        paginator = Paginator(queryset, 1)
+        paginator.per_page = max(1, paginator.count)
+        page = paginator.page(1)
+        page.page_size = 'all'
+        return page
     try:
-        size = int(request.GET.get('per_page', 10))
+        size = int(requested_size)
     except (ValueError, TypeError):
         size = 10
     if size not in PAGE_SIZES:
         size = 10
-    return Paginator(queryset, size).get_page(request.GET.get('page'))
+    page = Paginator(queryset, size).get_page(request.GET.get('page'))
+    page.page_size = size
+    return page
 
 
 def list_return(request, view_name):

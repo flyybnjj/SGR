@@ -5,7 +5,7 @@
 <section class="card-stitch" data-live-neighbor-list>
     <div class="card-stitch-header">
         <form method="get" class="transaction-filter w-100" data-live-filter>
-            <input type="hidden" name="per_page" value="{{ page_obj.paginator.per_page }}">
+            <input type="hidden" name="per_page" value="{{ page_obj.page_size }}">
             <label class="visually-hidden" for="person-search">RUT, nombre o apellido</label>
             <input id="person-search" autocomplete="off" maxlength="120" class="form-control flex-grow-1 w-auto" name="q" value="{{ search }}" placeholder="RUT, nombre o apellido" autofocus>
             <button class="btn-stitch btn-stitch-primary" type="submit"><i class="bi bi-search" aria-hidden="true"></i>Buscar</button>

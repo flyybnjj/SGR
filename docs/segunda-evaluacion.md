@@ -29,9 +29,9 @@ Fuente: `Requisitos_Segunda_Evaluacion_SGR.pdf`, 10 páginas, SHA-256 `b6820b731
 
 ## Funciones operativas y pendientes
 
-Acceso, recuperación SMTP, seis CRUD, atención, acciones con evidencia única privada, aprobación auditada, metas, reportes, cuenta, tutorial y personalización están implementados. El usuario confirmó recepción/uso de códigos y registro, eliminación e ingreso con passkey. La recuperación con passkey sigue siendo una comprobación personal adicional; no es requisito de este PDF.
+Acceso, recuperación SMTP, seis CRUD, atención, acciones con evidencia privada, aprobación auditada, metas, reportes, cuenta, tutorial y personalización están implementados. El usuario confirmó recepción/uso de códigos y registro, eliminación e ingreso con passkey. La recuperación con passkey sigue siendo una comprobación personal adicional; no es requisito de este PDF.
 
-Las interfaces de foto antes/después, comparación dual y planificador se identifican como simulación y no escriben en la base. La página 10 permite interfaces navegables pendientes conforme al avance de backend; no se afirma que estos flujos tengan persistencia. Varios territorios por funcionario no están habilitados: se mantiene una sede fija; raíz consulta todas.
+Actualización de noviembre: la foto inicial, las fotos finales y la comparación dual ya son operativas en el tubo. Las rutas antiguas `/demostracion/` y el planificador hipotético conservan su carácter de simulación sin guardado. La página 10 permite interfaces navegables pendientes conforme al avance de backend; no se afirma que estos flujos tengan persistencia. Varios territorios por funcionario no están habilitados: se mantiene una sede fija; raíz consulta todas.
 
 ## Identidad gráfica y límites de validación
 

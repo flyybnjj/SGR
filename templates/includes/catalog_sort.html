@@ -1,0 +1,7 @@
+{% if request.GET.orden == field and request.GET.direccion != 'desc' %}
+<a class="catalog-sort" href="{% querystring orden=field direccion='desc' page=None %}" aria-label="Ordenar {{ caption }} de forma descendente">{{ caption }} <i class="bi bi-chevron-up" aria-hidden="true"></i></a>
+{% elif request.GET.orden == field %}
+<a class="catalog-sort" href="{% querystring orden=field direccion='asc' page=None %}" aria-label="Ordenar {{ caption }} de forma ascendente">{{ caption }} <i class="bi bi-chevron-down" aria-hidden="true"></i></a>
+{% else %}
+<a class="catalog-sort" href="{% querystring orden=field direccion='asc' page=None %}">{{ caption }} <i class="bi bi-arrow-down-up" aria-hidden="true"></i></a>
+{% endif %}

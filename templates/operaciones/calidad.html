@@ -1,0 +1,7 @@
+{% extends 'base.html' %}{% load static %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/activity-board.css' %}">{% endblock %}
+{% block content %}<header class="page-heading"><h1>Calidad de datos</h1></header>
+<section class="quality-task-grid" aria-label="Registros que requieren revisión">
+{% for title,count,url in checks %}<a class="quality-task{% if not count %} quality-task-clear{% endif %}" href="{{ url }}" data-sgr-icon="{% if 'directiva' in title %}users{% elif 'delegación' in title %}gitBranch{% elif 'responsable' in title %}user{% else %}calendar{% endif %}">
+<i class="bi {% if 'directiva' in title %}bi-people{% elif 'delegación' in title %}bi-diagram-3{% elif 'responsable' in title %}bi-person{% else %}bi-calendar3{% endif %}" aria-hidden="true"></i><h2>{{ title }}</h2><strong>{{ count }}</strong><span class="quality-review">Revisar <i class="bi bi-arrow-right" aria-hidden="true"></i></span></a>{% endfor %}
+</section>{% endblock %}

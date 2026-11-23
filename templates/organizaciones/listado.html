@@ -2,23 +2,26 @@
 {% block title %}Organizaciones | SGR{% endblock %}
 {% block content %}
 <header class="page-heading"><div><h1>Organizaciones comunitarias</h1><p>Juntas de vecinos, clubes y agrupaciones del territorio.</p></div>{% if can_edit_org %}<a class="btn-stitch btn-stitch-primary" href="{% url 'organizaciones:crear' %}">Crear organización</a>{% endif %}</header>
-<nav class="d-flex flex-wrap gap-3 mb-3" aria-label="Cola de revisión"><a href="{% querystring revision='' page=None %}">Todas: {{ review_stats.total }}</a><a href="{% querystring revision='pendiente' page=None %}">Por revisar: {{ review_stats.pendientes }}</a>{% if user.is_superuser %}<a href="{% querystring revision='sin_asignar' page=None %}">Sin territorio: {{ review_stats.sin_asignar }}</a>{% endif %}<a href="{% querystring revision='duplicadas' page=None %}">Posibles duplicadas</a></nav><section class="card-stitch" aria-label="Listado de organizaciones">
-<div class="card-stitch-header">
-    <form method="get" class="transaction-filter w-100">
-        <label class="visually-hidden" for="org-search">Buscar organización</label>
-        <input id="org-search" name="q" class="form-control" value="{{ search }}" placeholder="Nombre, registro PJ o dirección" maxlength="120">
-        <select name="revision" class="form-select" aria-label="Revisión de datos">
-            <option value="">Todas las organizaciones</option>
-            <option value="pendiente" {% if revision == 'pendiente' %}selected{% endif %}>Pendientes de revisión</option>
-            <option value="sin_asignar" {% if revision == 'sin_asignar' %}selected{% endif %}>Sin territorio</option>
-            <option value="duplicadas" {% if revision == 'duplicadas' %}selected{% endif %}>Posibles duplicadas</option>
-            <option value="revisadas" {% if revision == 'revisadas' %}selected{% endif %}>Revisadas</option>
-        </select>
-        <button class="btn-stitch btn-stitch-secondary" type="submit">Buscar</button>
-    </form>
-</div>
-<div class="px-3 pb-3"><a href="{% querystring export='excel' page=None %}">Exportar Excel</a></div>
-<div class="table-responsive"><table class="table-stitch"><thead><tr><th scope="col">Organización</th><th scope="col">Tipo</th><th scope="col">Delegación</th><th scope="col">Revisión</th><th scope="col">Estado</th></tr></thead><tbody>{% for org in page_obj %}<tr><td><a href="{% url 'organizaciones:detalle' org.pk %}">{{ org.nombre }}</a><small class="d-block text-secondary">{{ org.registro_pj|default:'Sin registro PJ informado' }}</small></td><td>{{ org.tipo }}</td><td>{{ org.delegacion|default:'Sin asignar' }}</td><td>{% if org.verificada %}Revisada{% else %}Por revisar{% endif %}</td><td>{% if org.activo %}Activa{% else %}Inactiva{% endif %}</td></tr>{% empty %}<tr><td colspan="5"><div class="empty-state">No hay organizaciones que coincidan con la búsqueda.</div></td></tr>{% endfor %}</tbody></table></div>
+<nav class="organization-review" aria-label="Cola de revisión">
+    {% for code, label, icon, count in revision_options %}
+    <a class="organization-review-option" href="{% querystring revision=code page=None %}"{% if revision == code %} aria-current="true"{% endif %}>
+        <i class="bi {{ icon }}" aria-hidden="true"></i>
+        <span>{{ label }}</span>
+        <strong>{{ count }}</strong>
+    </a>
+    {% endfor %}
+</nav>
+<section class="card-stitch" aria-label="Listado de organizaciones">
+    <div class="card-stitch-header organization-tools">
+        <form class="transaction-filter" method="get">
+            <input type="hidden" name="revision" value="{{ revision }}">
+            <label class="visually-hidden" for="org-search">Buscar organización</label>
+            <input id="org-search" name="q" class="form-control" value="{{ search }}" placeholder="Nombre, registro PJ o dirección" maxlength="120">
+            <button class="btn-stitch btn-stitch-secondary" type="submit">Buscar</button>
+        </form>
+        <a class="btn-stitch btn-stitch-excel" href="{% querystring export='excel' page=None %}"><i class="bi bi-download" aria-hidden="true"></i>Exportar Excel</a>
+    </div>
+<div class="table-responsive organization-table"><table class="table-stitch"><thead><tr><th scope="col">Organización</th><th scope="col">Tipo</th><th scope="col">Delegación</th><th scope="col">Revisión</th><th scope="col">Estado</th></tr></thead><tbody>{% for org in page_obj %}<tr><td><a href="{% url 'organizaciones:detalle' org.pk %}">{{ org.nombre }}</a><small class="d-block text-secondary">{{ org.registro_pj|default:'Sin registro PJ informado' }}</small></td><td>{{ org.tipo }}</td><td>{{ org.delegacion|default:'Sin asignar' }}</td><td>{% if org.verificada %}Revisada{% else %}Por revisar{% endif %}</td><td>{% if org.activo %}Activa{% else %}Inactiva{% endif %}</td></tr>{% empty %}<tr><td colspan="5"><div class="empty-state">No hay organizaciones que coincidan con la búsqueda.</div></td></tr>{% endfor %}</tbody></table></div>
 {% include 'includes/pagination.html' %}
 </section>
 {% endblock %}

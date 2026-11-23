@@ -1,0 +1,42 @@
+{% url 'operaciones:avisos' as inbox_url %}
+<nav class="avisos-tabs" aria-label="Filtrar avisos">
+    <a href="{{ inbox_url }}" data-avisos-nav {% if not solo_no_leidos %}aria-current="true"{% endif %}>Todos</a>
+    <a href="{{ inbox_url }}?no_leidos=1" data-avisos-nav {% if solo_no_leidos %}aria-current="true"{% endif %}>No leídos {% include 'operaciones/aviso_contador.html' %}</a>
+</nav>
+{% regroup page_obj by grupo_fecha as grupos %}
+{% for grupo in grupos %}
+<section class="avisos-group">
+    <h3>{{ grupo.grouper|date:'j \d\e F \d\e Y'|default:grupo.grouper }}</h3>
+    <ul class="avisos-list">
+        {% for item in grupo.list %}
+        <li class="aviso-row{% if not item.leido %} aviso-unread{% endif %}">
+            <i class="bi bi-bell aviso-icon" aria-hidden="true"></i>
+            <div class="aviso-copy">
+                <strong>{{ item.titulo }}</strong>
+            <small>{% if not item.leido %}<span class="aviso-unread-label">Sin leer · </span>{% endif %}<time datetime="{{ item.fecha|date:'c' }}">{{ item.fecha|time:'H:i' }}</time></small>
+            </div>
+            {% if item.vencido %}<span class="aviso-overdue">Vencido</span>{% endif %}
+            <div class="aviso-actions">
+                {% if not item.leido %}
+                <form method="post" action="{% url 'operaciones:leer' item.pk %}" data-aviso-read>
+                    {% csrf_token %}
+                    {% if solo_no_leidos %}<input type="hidden" name="no_leidos" value="1">{% endif %}
+                    <button class="btn-stitch-icon" type="submit" aria-label="Marcar como leído: {{ item.titulo }}" title="Marcar como leído"><i class="bi bi-check2" aria-hidden="true"></i></button>
+                </form>
+                {% endif %}
+                <a class="btn-stitch-icon" href="{{ item.enlace }}" aria-label="Abrir: {{ item.titulo }}" title="Abrir registro"><i class="bi bi-chevron-right" aria-hidden="true"></i></a>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+</section>
+{% empty %}
+<p class="avisos-empty">{% if solo_no_leidos %}Estás al día. No tienes avisos sin leer.{% else %}Aún no tienes avisos.{% endif %}</p>
+{% endfor %}
+{% if page_obj.has_other_pages %}
+<nav class="avisos-pagination" aria-label="Páginas de avisos">
+    {% if page_obj.has_previous %}<a data-avisos-nav href="{{ inbox_url }}{% querystring fragmento=None page=page_obj.previous_page_number %}">Anterior</a>{% endif %}
+    <span>{{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+    {% if page_obj.has_next %}<a data-avisos-nav href="{{ inbox_url }}{% querystring fragmento=None page=page_obj.next_page_number %}">Siguiente</a>{% endif %}
+</nav>
+{% endif %}

@@ -97,7 +97,7 @@ class AtencionForm(DelegationForm):
         help_text='Si acuerdas un seguimiento, escribe qué hay que hacer. Se registrará en el Tubo de actividades.',
     )
     compromiso_fecha = forms.DateField(
-        label='Fecha del compromiso', required=False, widget=forms.DateInput(attrs={'type': 'date'}),
+        label='Fecha del compromiso', required=False, widget=forms.DateInput(format='%Y-%m-%d', attrs={'type': 'date'}),
     )
     compromiso_responsable = forms.ModelChoiceField(
         label='Responsable del compromiso', required=False, queryset=None, empty_label='Pendiente de asignar',
@@ -107,7 +107,7 @@ class AtencionForm(DelegationForm):
         model = Atencion
         fields = ['delegacion', 'tipo_atencion', 'sub_atencion', 'organizacion', 'descripcion', 'compromiso_titulo', 'compromiso_fecha', 'compromiso_responsable']
         widgets = {'descripcion': forms.Textarea(attrs={'rows': 4})}
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, person=None, **kwargs):
         super().__init__(*args, **kwargs)
         from usuarios.models import Usuario
         workers = Usuario.objects.filter(activo=True, is_active=True, rol__activo=True, delegacion__activo=True).exclude(is_superuser=True)
@@ -120,6 +120,21 @@ class AtencionForm(DelegationForm):
         from organizaciones.access import visibles
         self.fields['organizacion'].queryset = visibles(Organizacion.objects.filter(activo=True).select_related('delegacion'), self.user)
         self.fields['organizacion'].label = 'Organización representada (opcional)'
+        if person:
+            from django.db.models import Q
+            affiliates = self.fields['organizacion'].queryset.filter(
+                Q(presidente_vecino=person) | Q(secretario_vecino=person) | Q(tesorero_vecino=person)
+            )
+            if affiliates.exists():
+                self.fields['organizacion'].queryset = affiliates
+                self.fields['organizacion'].label = 'Organización de la directiva'
+                self.fields['representacion'] = forms.ChoiceField(
+                    label='¿Cómo se atenderá a esta persona?',
+                    choices=[('', 'Selecciona una opción'), ('personal', 'Como persona natural'),
+                             ('organizacion', 'En representación de una organización')],
+                    widget=forms.Select(attrs={'class': 'form-select'}),
+                )
+                self.order_fields(['delegacion', 'representacion', 'organizacion'])
         selected = self.data.get(self.add_prefix('tipo_atencion')) if self.is_bound else self.initial.get('tipo_atencion') or self.instance.tipo_atencion_id
         try:
             selected = int(selected)
@@ -134,6 +149,14 @@ class AtencionForm(DelegationForm):
         deadline = data.get('compromiso_fecha')
         worker = data.get('compromiso_responsable')
         seat = data.get('delegacion')
+        organization = data.get('organizacion')
+        if data.get('representacion') == 'personal':
+            data['organizacion'] = None
+            organization = None
+        if data.get('representacion') == 'organizacion' and not organization and 'organizacion' not in self.errors:
+            self.add_error('organizacion', 'Selecciona la organización que representa.')
+        if organization and seat and organization.delegacion_id != seat.pk:
+            self.add_error('organizacion', 'Selecciona una organización de la delegación de esta atención.')
         if title and not deadline and 'compromiso_fecha' not in self.errors:
             self.add_error('compromiso_fecha', 'Indica la fecha acordada para el compromiso.')
         if (deadline or worker) and not title:
@@ -153,7 +176,7 @@ class AccionForm(DelegationForm):
     class Meta:
         model = Accion
         fields = ['titulo', 'descripcion', 'delegacion', 'naturaleza', 'solicitante', 'telefono_solicitante', 'responsable', 'fecha_actividad', 'fecha_compromiso', 'area_apoyo', 'meta', 'evidencia']
-        widgets = {'descripcion': forms.Textarea(attrs={'rows': 4}), 'fecha_actividad': forms.DateInput(attrs={'type': 'date'}), 'fecha_compromiso': forms.DateInput(attrs={'type': 'date'})}
+        widgets = {'descripcion': forms.Textarea(attrs={'rows': 4}), 'fecha_actividad': forms.DateInput(format='%Y-%m-%d', attrs={'type': 'date'}), 'fecha_compromiso': forms.DateInput(format='%Y-%m-%d', attrs={'type': 'date'})}
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         today = timezone.localdate()
@@ -172,6 +195,15 @@ class AccionForm(DelegationForm):
         self.fields['telefono_solicitante'].label = 'Teléfono del beneficiario'
         self.fields['solicitante'].label = 'Nombre del beneficiario'
         self.fields['solicitante'].help_text = 'Nombre y teléfono son necesarios para sumar al cumplimiento. Puedes registrar el trabajo aunque falten.'
+
+    def clean(self):
+        data = super().clean()
+        from periodos.services import validar_fecha_abierta
+        try:
+            validar_fecha_abierta(data.get('delegacion'), data.get('fecha_actividad'))
+        except ValidationError as error:
+            self.add_error('fecha_actividad', error)
+        return data
 
     def clean_fecha_actividad(self):
         from .business_dates import validar_fecha_actividad
@@ -227,8 +259,8 @@ class AvanceForm(forms.ModelForm):
         self.fields['meta'].empty_label = 'Sin meta de cumplimiento'
         self.fields['meta'].help_text = 'Al reasignar, selecciona una meta del nuevo funcionario o una de equipo. El cambio conserva su historial.'
         if user:
-            from config.access import can_manage
-            if not can_manage(user):
+            from config.access import can_manage_tubo
+            if not can_manage_tubo(user):
                 self.fields['meta'].disabled = True
                 if self.instance.responsable_id:
                     self.fields['responsable'].disabled = True

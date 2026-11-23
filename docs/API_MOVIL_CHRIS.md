@@ -21,6 +21,8 @@ Las cuentas con contraseña temporal deben completar primero el cambio obligator
 | GET | `perfil/` | Nombre, cargo, delegación, color y permisos vigentes; nunca hashes, claves o códigos de recuperación. |
 | GET | `actividades/` | Actividades propias o asignadas. Los perfiles de gestión/revisión consultan su ámbito autorizado. |
 | POST | `actividades/` | Registrar actividad con foto inicial opcional. |
+| GET | `compromisos/` | Lista paginada de compromisos abiertos asignados a la cuenta. |
+| POST | `compromisos/<id>/evidencia/` | Adjunta una foto privada de seguimiento al compromiso asignado. |
 | GET | `actividades/<id>/` | Consultar una actividad autorizada. |
 | POST | `actividades/<id>/avance/` | Cambiar `avance` y `responsable`, conservando auditoría. |
 | POST | `actividades/<id>/resolver/` | Aprobar o rechazar, solo con permiso de revisión. |
@@ -54,3 +56,8 @@ La recuperación por correo y el registro de passkeys permanecen en la web. No c
 Las respuestas de actividad agregan `area_apoyo`, `meta_origen` y `fecha_puntuacion`. El POST de avance admite `meta` y `area_apoyo`. Si un cliente anterior omite esos campos, se conservan los valores actuales. Para reasignar una actividad con meta individual, el perfil de gestión debe seleccionar una meta compatible; las cuentas operativas no obtienen permisos de reasignación por enviar esos IDs.
 
 Las metas incluyen `ajuste_pp` y su porcentaje refleja los ajustes formales ya validados en la web. No aplicar nuevamente el bono/descuento en el teléfono. La reprogramación trimestral se administra en la web y conserva el origen de la actividad.
+
+
+## Evidencia de seguimiento
+
+Enviar `multipart/form-data` con una imagen en `evidencia` y un UUID en `request_token`. Reutilizar el UUID para reintentar la misma foto. El servidor devuelve `201` al guardarla o `200` al reconocer el reintento. La URL devuelta requiere el token móvil. Se admiten hasta cinco imágenes de seguimiento por compromiso. La evidencia queda visible en la web para revisión y el estado de aprobación no cambia.

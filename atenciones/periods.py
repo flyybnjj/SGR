@@ -38,4 +38,31 @@ class MetaFiltroForm(TrimestreForm):
         if not user.is_superuser:
             self.fields['delegacion'].disabled = True
             self.initial['delegacion'] = user.delegacion_id
-        self.fields['personales'].widget.attrs['class'] = 'form-check-input'
+        self.fields['personales'].widget.attrs.update({'class': 'form-check-input', 'role': 'switch'})
+
+
+
+def contexto_trimestre(request):
+    route = request.resolver_match.view_name if request.resolver_match else ''
+    selectors = {'dashboard:inicio', 'dashboard:inicio_alias', 'dashboard:inicio_dashboard',
+                 'dashboard:personal', 'atenciones:action_list', 'atenciones:meta_list', 'cartas:listado'}
+    chosen = request.GET.get('trimestre', '') if route in selectors else ''
+    if route == 'atenciones:meta_list' and not chosen:
+        return {'label': 'Todos los períodos'}
+    if route in {'atenciones:action_list', 'cartas:listado'} and chosen in ('', 'todos'):
+        return {'label': 'Todos los trimestres'}
+    form = TrimestreForm({'trimestre': '' if chosen == 'actual' else chosen})
+    if not form.is_valid():
+        return {'label': 'Todos los trimestres' if route == 'atenciones:action_list' else 'Trimestre no válido'}
+    start, end = rango_trimestre(form.cleaned_data['trimestre'])
+    today = timezone.localdate()
+    total = (end - start).days + 1
+    elapsed = min(total, max(0, (today - start).days))
+    remaining = total - elapsed
+    caption = ('Por comenzar' if today < start else 'Finalizado' if today > end
+               else '1 día restante' if remaining == 1 else f'{remaining} días restantes')
+    return {
+        'label': f'T{(start.month - 1) // 3 + 1} {start.year}',
+        'percent': round(100 * elapsed / total),
+        'caption': caption,
+    }

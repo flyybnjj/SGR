@@ -1,0 +1,10 @@
+<form method="get" class="catalog-state-filter">
+    {% for key,value in request.GET.items %}{% if key != 'page' and key != 'estado' %}<input type="hidden" name="{{ key }}" value="{{ value }}">{% endif %}{% endfor %}
+    <label for="catalog-state" class="visually-hidden">Filtrar por estado</label>
+    <select id="catalog-state" name="estado" class="form-select">
+        <option value="">Todos los estados</option>
+        <option value="activo" {% if request.GET.estado == 'activo' %}selected{% endif %}>Activo</option>
+        <option value="inactivo" {% if request.GET.estado == 'inactivo' %}selected{% endif %}>Inactivo</option>
+    </select>
+    <button type="submit" class="btn-stitch btn-stitch-secondary">Filtrar</button>
+</form>

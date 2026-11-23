@@ -3,11 +3,12 @@
 {% block title %}Passkeys y acceso | La Serena{% endblock %}
 {% block content %}
 <div class="page-heading">
-    <div><h1>Passkeys</h1><p class="text-secondary">Usa tu teléfono para entrar o recuperar tu contraseña.</p></div>
+    <div><h1>Cuenta y seguridad</h1></div>
 </div>
+{% include 'usuarios/security_nav.html' %}
 <p class="small text-secondary">Sitio asociado: <a href="{{ passkey_origin }}">{{ passkey_origin }}</a>.</p>
 <section class="dashboard-section">
-    <h2 class="h5">Vincular teléfono</h2>
+    <details><summary>Agregar passkey</summary>
     {% if not page_obj.paginator.count %}<p class="text-secondary">No tienes un teléfono vinculado.</p>{% endif %}
     <p>Completa los datos y continúa. En el navegador, elige «Usar otro dispositivo» y escanea el QR con tu teléfono.</p>
     <p class="small text-secondary">Activa Bluetooth en ambos equipos y confirma en el teléfono. El nombre de la opción puede variar según el navegador.</p>
@@ -20,7 +21,7 @@
         <label class="d-flex align-items-center gap-2 mt-3"><input type="checkbox" name="preferred" checked> Ingresar con passkey por defecto</label>
         <div class="form-actions"><button type="submit" class="btn-stitch btn-stitch-primary"><i class="bi bi-qr-code-scan" aria-hidden="true"></i>Vincular teléfono</button></div>
     </form>
-    <p class="small text-secondary mt-3 mb-0">También puedes entrar con tu contraseña. La preferencia se guarda en este navegador.</p>
+    <p class="small text-secondary mt-3 mb-0">También puedes entrar con tu contraseña. La preferencia se guarda en este navegador.</p></details>
 </section>
 <section class="dashboard-section">
     <div class="d-flex flex-wrap justify-content-between gap-3 mb-3"><h2 class="h5 mb-0">Tus passkeys</h2><a href="?export=excel" class="btn-stitch btn-stitch-excel">Exportar listado Excel</a></div>

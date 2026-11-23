@@ -53,6 +53,41 @@ class LetterTests(TestCase):
         self.assertEqual(self.letter.estado, 'Recibida')
         self.assertFalse(self.letter.movimientos.exists())
 
+    def test_coordinator_sees_local_letters_and_admin_sees_all(self):
+        coordinator = Rol.objects.create(nombre='Coordinador de prueba', puede_gestionar=True)
+        manager = Usuario.objects.create_user(username='coord-cartas', rol=coordinator, delegacion=self.center)
+        root = Usuario.objects.create_superuser(username='admin-tablero-cartas')
+        external = Carta.objects.create(asunto='Carta ajena', remite='Persona', delegacion=self.sea, creador=self.other)
+        self.letter.responsable = self.user
+        self.letter.save(update_fields=['responsable'])
+        payload = {'estado': 'En proceso', 'estado_anterior': 'Recibida'}
+        self.client.force_login(manager)
+        board = self.client.get('/cartas/?vista=tablero')
+        self.assertContains(board, 'Carta del Centro')
+        self.assertNotContains(board, external.asunto)
+        self.assertEqual(self.client.post(f'/cartas/{external.pk}/mover/', payload).status_code, 404)
+        response = self.client.post(f'/cartas/{self.letter.pk}/mover/', payload, follow=True)
+        self.assertContains(response, 'Carta movida')
+        self.assertEqual(self.letter.movimientos.get().autor, manager)
+        self.client.force_login(root)
+        self.assertContains(self.client.get('/cartas/?vista=tablero'), external.asunto)
+
+    def test_board_shows_commitment_and_explains_an_unsaved_move(self):
+        from datetime import timedelta
+        from django.utils import timezone
+
+        self.letter.fecha_compromiso = timezone.localdate() - timedelta(days=1)
+        self.letter.save(update_fields=['fecha_compromiso'])
+        self.assertContains(self.client.get('/cartas/?vista=tablero'), 'Compromiso vencido')
+        result = self.client.post(f'/cartas/{self.letter.pk}/mover/', {
+            'estado': 'En proceso', 'estado_anterior': 'Recibida',
+        }, follow=True)
+        self.assertContains(result, 'El movimiento aún no se guardó')
+        self.assertContains(result, 'responsable')
+        self.letter.refresh_from_db()
+        self.assertEqual(self.letter.estado, 'Recibida')
+        self.assertFalse(self.letter.movimientos.exists())
+
     def test_repeated_create_is_idempotent(self):
         data = self.data()
         for _ in range(2):
@@ -116,6 +151,23 @@ class LetterTests(TestCase):
         self.assertEqual(self.letter.estado, 'Respondida')
         self.assertTrue(self.letter.movimientos.exists())
 
+    def test_root_letter_options_follow_delegation(self):
+        from organizaciones.models import Organizacion
+
+        root = Usuario.objects.create_superuser(username='root-opciones-carta')
+        center = Organizacion.objects.create(nombre='Organización del Centro', delegacion=self.center)
+        foreign = Organizacion.objects.create(nombre='Organización del Mar', delegacion=self.sea)
+        self.client.force_login(root)
+        params = {'delegacion': self.center.pk}
+        options = self.client.get('/cartas/opciones-delegacion/', params).json()
+        self.assertEqual([row[0] for row in options['organizaciones']], [center.pk])
+        self.assertEqual([row[0] for row in options['responsables']], [self.user.pk])
+        data = {**self.data(), **params}
+        self.assertEqual(self.client.post('/cartas/nueva/', {**data, 'organizacion': foreign.pk}).status_code, 400)
+        self.assertEqual(self.client.post('/cartas/nueva/', {**data, 'organizacion': center.pk}).status_code, 302)
+        self.client.force_login(self.user)
+        self.assertEqual(self.client.get('/cartas/opciones-delegacion/', {'delegacion': self.sea.pk}).status_code, 404)
+
     def test_board_is_available(self):
         self.assertContains(self.client.get('/cartas/?vista=tablero'), 'Carta del Centro')
 
@@ -151,3 +203,19 @@ class LetterTests(TestCase):
             self.assertEqual(self.client.post(f'/cartas/{letter.pk}/editar/', data).status_code, 302)
             letter.refresh_from_db()
             self.assertTrue(letter.respaldo)
+
+    def test_quick_overdue_filter_is_scoped_and_keeps_quarter(self):
+        from datetime import timedelta
+        from django.utils import timezone
+        today = timezone.localdate()
+        self.letter.fecha_compromiso = today - timedelta(days=1)
+        self.letter.fecha_ingreso = today
+        self.letter.save(update_fields=['fecha_compromiso', 'fecha_ingreso'])
+        Carta.objects.create(asunto='Cerrada', remite='Persona', delegacion=self.center,
+                             creador=self.user, fecha_compromiso=self.letter.fecha_compromiso,
+                             estado='Respondida')
+        Carta.objects.create(asunto='Otra sede vencida', remite='Persona', delegacion=self.sea,
+                             creador=self.other, fecha_compromiso=self.letter.fecha_compromiso)
+        page = self.client.get('/cartas/', {'trimestre':'actual', 'filtro':'vencidas', 'vista':'tabla'})
+        self.assertEqual(list(page.context['page_obj']), [self.letter])
+        self.assertEqual(page.context['quick_totals']['vencidas'], 1)

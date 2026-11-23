@@ -7,6 +7,7 @@ from django.utils import timezone
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from config.catalog_filters import filter_catalog
 from config.pagination import list_return, paginate
 from config.access import admin_required
 from django.views.decorators.http import require_POST
@@ -24,7 +25,7 @@ def tipo_atencion_list_view(request):
     if search:
         queryset = queryset.filter(Q(nombre__icontains=search) | Q(descripcion__icontains=search))
 
-    page_obj = paginate(request, queryset)
+    page_obj = paginate(request, filter_catalog(request, queryset))
 
     form = TipoAtencionForm()
     return render(request, 'mantenedores/tipo_atencion_list.html', {
@@ -70,6 +71,7 @@ def tipo_atencion_export_excel(request):
     search = request.GET.get('q', '').strip()
     if search:
         tipos = tipos.filter(Q(nombre__icontains=search) | Q(descripcion__icontains=search))
+    tipos = filter_catalog(request, tipos)
     headers = ["#", "Tipo de Atención", "Descripción", "Estado", "Fecha Creación"]
     rows = [
         [t.id, t.nombre, t.descripcion or "", "Activo" if t.activo else "Inactivo", t.fecha_creacion.strftime("%d/%m/%Y")]
@@ -89,7 +91,7 @@ def sub_atencion_list_view(request):
             Q(tipo_atencion__nombre__icontains=search)
         )
 
-    page_obj = paginate(request, queryset)
+    page_obj = paginate(request, filter_catalog(request, queryset))
 
     form = SubAtencionForm()
     tipos = TipoAtencion.objects.filter(activo=True)
@@ -137,6 +139,7 @@ def sub_atencion_export_excel(request):
     search = request.GET.get('q', '').strip()
     if search:
         subs = subs.filter(Q(nombre__icontains=search) | Q(tipo_atencion__nombre__icontains=search))
+    subs = filter_catalog(request, subs)
     headers = ["#", "Sub-Atención", "Tipo de Atención Padre", "Estado", "Fecha Creación"]
     rows = [
         [s.id, s.nombre, s.tipo_atencion.nombre, "Activo" if s.activo else "Inactivo", s.fecha_creacion.strftime("%d/%m/%Y")]
@@ -148,7 +151,7 @@ from django.core.exceptions import PermissionDenied
 from django.core.exceptions import ValidationError
 from django.db import transaction
 from django.http import FileResponse
-from config.access import can_register, can_approve, can_manage, operational
+from config.access import can_register, can_approve, can_manage, can_manage_tubo, operational
 from vecinos.models import Vecino
 from vecinos.access import visible_neighbors
 from .models import Atencion, Accion, MetaPeriodo, ResolucionAccion
@@ -263,8 +266,16 @@ def attention_confirmation(request, attention):
     return redirect('atenciones:attention_detail', pk=attention.vecino_id)
 
 
-def lock_attention_catalog(form):
-
+def lock_attention_catalog(form, person=None):
+    from territorial.models import DelegacionMunicipal
+    from periodos.services import validar_fecha_abierta
+    delegation = form.cleaned_data['delegacion']
+    DelegacionMunicipal.objects.select_for_update().get(pk=delegation.pk)
+    try:
+        validar_fecha_abierta(delegation, timezone.localdate())
+    except ValidationError as error:
+        form.add_error(None, error)
+        return False
     kind = TipoAtencion.objects.select_for_update().filter(pk=form.cleaned_data['tipo_atencion'].pk, activo=True).first()
     if not kind:
         form.add_error('tipo_atencion', 'El tipo de atención dejó de estar disponible. Selecciona otro.')
@@ -281,6 +292,10 @@ def lock_attention_catalog(form):
     if organization:
         from organizaciones.models import Organizacion
         organization = Organizacion.objects.select_for_update().filter(pk=organization.pk, activo=True, delegacion=form.cleaned_data['delegacion']).first()
+        if organization and person and form.cleaned_data.get('representacion') == 'organizacion':
+            if person.pk not in (organization.presidente_vecino_id, organization.secretario_vecino_id, organization.tesorero_vecino_id):
+                form.add_error('organizacion', 'La persona ya no forma parte de esta directiva.')
+                return False
         if not organization:
             form.add_error('organizacion', 'La organización cambió de territorio o está inactiva. Selecciónala nuevamente.')
             return False
@@ -311,7 +326,7 @@ def attention_detail(request, pk):
         return export_queryset_to_excel('Historial', 'Historial de atenciones', ['ID atención', 'Fecha', 'Delegación', 'Funcionario', 'Tipo', 'Subatención', 'Descripción', 'Folio histórico', 'Estado histórico'], [[a.pk, timezone.localtime(a.fecha_creacion).strftime('%d/%m/%Y %H:%M'), a.delegacion, a.funcionario, a.tipo_atencion, a.sub_atencion, a.descripcion] + historical_reference(a) for a in history])
     form = None
     if can_register(request.user):
-        form = AtencionForm(request.POST or None, user=request.user)
+        form = AtencionForm(request.POST or None, user=request.user, person=person)
     if request.method == 'POST':
         ensure_register(request.user)
         if not person.activo:
@@ -327,7 +342,7 @@ def attention_detail(request, pk):
                     person = get_object_or_404(visible_neighbors(Vecino.objects.select_for_update(), request.user), pk=pk)
                     if not person.activo:
                         raise PermissionDenied('Esta persona se encuentra inactiva.')
-                    if lock_attention_catalog(form):
+                    if lock_attention_catalog(form, person):
                         attention = save_attention(form, person, request.user, token)
             except IntegrityError:
                 previous = previous_attention(request, token, person)
@@ -376,6 +391,15 @@ def attention_new(request):
 def action_list(request):
     actions = scoped(Accion.objects.select_related('delegacion', 'creador', 'responsable', 'meta__item_meta', 'meta__delegacion', 'origen_historico'), request.user)
     actions = actions.annotate(has_final_evidence=Exists(ResolucionAccion.objects.filter(accion_id=OuterRef('pk'), estado_nuevo='Aprobada').exclude(evidencia_final='')))
+    if (request.GET.get('sin_responsable') == '1' or request.GET.get('sin_fecha') == '1') and not can_manage_tubo(request.user):
+        actions = actions.filter(Q(creador=request.user) | Q(responsable=request.user))
+    if request.GET.get('sin_responsable') == '1':
+        actions = actions.filter(responsable__isnull=True, estado='Pendiente').exclude(avance='Finalizada')
+    if request.GET.get('sin_fecha') == '1':
+        actions = actions.filter(fecha_compromiso__isnull=True, estado='Pendiente').exclude(avance='Finalizada')
+    commitments_only = request.GET.get('compromisos') == '1'
+    if commitments_only:
+        actions = actions.filter(Q(fecha_compromiso__isnull=False) | Q(atencion_origen__isnull=False))
     search = request.GET.get('q', '').strip()
     state = request.GET.get('estado', '')
     progress = request.GET.get('avance', '')
@@ -392,30 +416,57 @@ def action_list(request):
     if quarter not in dict(quarter_options):
         quarter = 'todos'
     if quarter != 'todos':
+        from periodos.models import ItemCierre
         start, end = rango_trimestre(None if quarter == 'actual' else quarter)
         current = Q(fecha_actividad__range=(start, end)) | Q(fecha_actividad__isnull=True, fecha_creacion__date__range=(start, end))
         older = Q(fecha_actividad__lt=start) | Q(fecha_actividad__isnull=True, fecha_creacion__date__lt=start)
-        actions = actions.filter(current | (older & Q(estado='Pendiente')))
+        scheduled = Q(fecha_compromiso__range=(start, end))
+        carried = older & (Q(fecha_compromiso__lt=start) | Q(fecha_compromiso__isnull=True))
+        transfers = ItemCierre.objects.filter(cierre__destino__inicio=start, cierre__destino__fin=end, accion__isnull=False).values('accion_id')
+        actions = actions.filter(current | scheduled | (carried & Q(estado='Pendiente') & ~Q(avance='Finalizada')) | Q(pk__in=transfers))
+    overdue = Q(estado='Pendiente', fecha_compromiso__lt=timezone.localdate()) & ~Q(avance='Finalizada')
+    alerts = Q(estado='Pendiente') & ~Q(avance='Finalizada') & (Q(responsable__isnull=True) | Q(fecha_compromiso__lt=timezone.localdate()))
+    quick_totals = actions.aggregate(
+        ingresadas=Count('pk', filter=Q(avance='Ingresada')),
+        proceso=Count('pk', filter=Q(avance='En proceso')),
+        vencidos=Count('pk', filter=overdue),
+    )
+    overdue_only = request.GET.get('vencidos') == '1'
+    if overdue_only:
+        actions = actions.filter(overdue)
     if state in dict(Accion.ESTADOS):
         actions = actions.filter(estado=state)
     if progress in dict(Accion.AVANCES):
         actions = actions.filter(avance=progress)
+    quick = request.GET.get('filtro', '')
+    metric_filters = {'alertas': alerts, 'realizadas': Q(avance='Finalizada'), 'proceso': Q(avance='En proceso')}
+    selected_metrics = set(quick.split(',')) & metric_filters.keys()
+    for metric in selected_metrics:
+        actions = actions.filter(metric_filters[metric])
     if request.GET.get('export') == 'excel':
         from .reports import export_actions_with_photos
         actions = list(actions.prefetch_related(Prefetch('resoluciones', queryset=ResolucionAccion.objects.filter(estado_nuevo='Aprobada').exclude(evidencia_final='').order_by('-fecha', '-pk'), to_attr='final_records')))
         return export_actions_with_photos(actions, ['Fecha', 'Título', 'Descripción', 'Delegación', 'Autor', 'Revisión', 'Meta', 'Folio histórico', 'Estado histórico', 'Límite diario', 'Avance', 'Responsable', 'Beneficiario', 'Teléfono', 'Realización', 'Compromiso', 'Área de apoyo', 'Meta de origen', 'Fecha de crédito'], [[timezone.localtime(a.fecha_creacion).strftime('%d/%m/%Y'), a.titulo, a.descripcion, a.delegacion, a.creador, a.estado, a.meta] + historical_reference(a) + ['Excede el máximo: no suma a metas' if a.excede_limite_diario else 'Dentro del límite diario', a.avance, a.responsable, a.solicitante, a.telefono_solicitante, a.fecha_actividad, a.fecha_compromiso, a.area_apoyo, a.meta_origen_id, a.fecha_puntuacion] for a in actions])
     totals = actions.aggregate(total=Count('pk'), realizadas=Count('pk', filter=Q(avance='Finalizada')),
-        proceso=Count('pk', filter=Q(avance='En proceso')), alertas=Count('pk', filter=Q(estado='Pendiente') & (Q(responsable__isnull=True) | Q(fecha_compromiso__lt=timezone.localdate()))))
+        proceso=Count('pk', filter=Q(avance='En proceso')), alertas=Count('pk', filter=alerts))
     totals['tasa_resolucion'] = 100 * totals['realizadas'] / totals['total'] if totals['total'] else None
+    metric_links = {}
+    for metric in ('total', *metric_filters):
+        params = request.GET.copy()
+        params.pop('page', None)
+        params.pop('export', None)
+        if metric != 'total':
+            params['filtro'] = ','.join(sorted(selected_metrics | {metric}))
+        metric_links[metric] = '?' + params.urlencode()
     stage_counts = dict(actions.order_by().values('avance').annotate(total=Count('pk')).values_list('avance','total'))
     page = paginate(request, actions)
     for item in page:
-        item.can_edit_tubo = item.estado == 'Pendiente' and (can_manage(request.user) or item.creador_id == request.user.pk or item.responsable_id == request.user.pk) and (can_register(request.user) or can_manage(request.user))
+        item.can_edit_tubo = item.estado == 'Pendiente' and (can_manage_tubo(request.user) or item.creador_id == request.user.pk or item.responsable_id == request.user.pk) and (can_register(request.user) or can_manage_tubo(request.user))
         item.next_progress = {'Ingresada':'Asignada','Asignada':'En proceso','En proceso':'Finalizada'}.get(item.avance, '')
-        item.is_overdue = bool(item.fecha_compromiso and item.fecha_compromiso < timezone.localdate() and item.avance != 'Finalizada')
+        item.is_overdue = bool(item.estado == 'Pendiente' and item.fecha_compromiso and item.fecha_compromiso < timezone.localdate() and item.avance != 'Finalizada')
     board = request.GET.get('vista') != 'tabla'
     columns = [(label, [a for a in page if a.avance == value]) for value, label in Accion.AVANCES] if board else []
-    return render(request, 'atenciones/actions.html', {'page_obj': page, 'search': search, 'estado': state, 'states': Accion.ESTADOS, 'avance': progress, 'avances': Accion.AVANCES, 'board': board, 'columns': columns, 'can_review': can_approve(request.user), 'can_register': can_register(request.user), 'tubo_totals': totals, 'quarter': quarter, 'quarter_options': quarter_options, 'stage_totals': [(value,label,stage_counts.get(value,0)) for value,label in Accion.AVANCES]})
+    return render(request, 'atenciones/actions.html', {'page_obj': page, 'search': search, 'estado': state, 'states': Accion.ESTADOS, 'avance': progress, 'avances': Accion.AVANCES, 'board': board, 'columns': columns, 'can_review': can_approve(request.user), 'can_register': can_register(request.user), 'tubo_totals': totals, 'metric_links': metric_links, 'quick_totals': quick_totals, 'quick': quick, 'overdue_only': overdue_only, 'commitments_only': commitments_only, 'quarter': quarter, 'quarter_options': quarter_options, 'stage_totals': [(value,label,stage_counts.get(value,0)) for value,label in Accion.AVANCES]})
 
 
 @login_required
@@ -423,7 +474,7 @@ def action_detail(request, pk):
     ensure_active(request.user)
     action = get_object_or_404(scoped(Accion.objects.select_related('creador', 'responsable', 'delegacion', 'meta', 'atencion_origen__vecino'), request.user), pk=pk)
     from .forms import AvanceForm
-    writable = action.estado == 'Pendiente' and (can_manage(request.user) or action.creador_id == request.user.pk or action.responsable_id == request.user.pk) and (can_register(request.user) or can_manage(request.user))
+    writable = action.estado == 'Pendiente' and (can_manage_tubo(request.user) or action.creador_id == request.user.pk or action.responsable_id == request.user.pk) and (can_register(request.user) or can_manage_tubo(request.user))
     target = request.GET.get('mover')
     initial = {'avance': target} if target in dict(Accion.AVANCES) else None
     return render(request, 'atenciones/action_detail.html', {'action': action, 'back': list_return(request, 'atenciones:action_list'), 'has_final_photo': action.resoluciones.filter(estado_nuevo='Aprobada').exclude(evidencia_final='').exists(), 'progress_form': AvanceForm(instance=action, user=request.user, initial=initial) if writable else None, 'documents': action.documentos.all(), 'extra_photos': action.fotos.all(), 'progress_history': action.avances.select_related('autor', 'responsable').order_by('-fecha', '-pk')[:50], 'can_review': can_approve(request.user)})
@@ -438,7 +489,7 @@ def action_progress(request, pk):
         action = get_object_or_404(scoped(Accion.objects.select_for_update(), request.user), pk=pk)
         if action.estado != 'Pendiente':
             raise PermissionDenied('Una actividad resuelta conserva su asignación y avance de cierre.')
-        if not (can_register(request.user) or can_manage(request.user)) or not (can_manage(request.user) or action.creador_id == request.user.pk or action.responsable_id == request.user.pk):
+        if not (can_register(request.user) or can_manage_tubo(request.user)) or not (can_manage_tubo(request.user) or action.creador_id == request.user.pk or action.responsable_id == request.user.pk):
             raise PermissionDenied
         previous, responsible, previous_meta, previous_area = action.avance, action.responsable_id, action.meta_id, action.area_apoyo
         back = list_return(request, 'atenciones:action_list')
@@ -447,7 +498,7 @@ def action_progress(request, pk):
             return redirect(back or 'atenciones:action_list')
         form = AvanceForm(request.POST, instance=action, user=request.user)
         if form.is_valid():
-            if not can_manage(request.user):
+            if not can_manage_tubo(request.user):
                 if 'meta' in request.POST and request.POST['meta'] != str(previous_meta or ''):
                     raise PermissionDenied
                 requested = request.POST.get('responsable', str(responsible or ''))
@@ -579,7 +630,7 @@ def action_evidence(request, pk):
     action = get_object_or_404(scoped(Accion.objects.all(), request.user), pk=pk)
     from django.http import Http404
     stage = request.GET.get('etapa', 'antes')
-    if stage not in {'antes', 'despues'}:
+    if stage not in {'antes', 'despues', 'avance'} or (stage == 'avance' and not request.GET.get('foto')):
         raise Http404
     selected = action.evidencia
     if stage == 'despues':

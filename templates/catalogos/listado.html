@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}{{ titulo }} | SGR{% endblock %}
+{% block content %}
+<header class="page-heading"><div><h1>{{ titulo }}</h1><p>Registros de tu ámbito territorial.</p></div>{% if puede_gestionar %}<a class="btn-stitch btn-stitch-primary" href="{% url 'catalogos:crear' tipo %}">Crear {{ singular|lower }}</a>{% endif %}</header>
+<section class="dashboard-section">
+    <form method="get" class="d-flex gap-2 mb-3" role="search">
+        <label class="visually-hidden" for="catalogo-q">Buscar</label><input class="form-control" type="search" id="catalogo-q" name="q" value="{{ search }}" maxlength="120" placeholder="Nombre o delegación">
+        <label class="visually-hidden" for="catalogo-estado">Estado</label><select id="catalogo-estado" name="estado" class="form-select"><option value="">Todos los estados</option><option value="activo"{% if estado == 'activo' %} selected{% endif %}>Activos</option><option value="inactivo"{% if estado == 'inactivo' %} selected{% endif %}>Inactivos</option></select>
+        <button type="submit" class="btn-stitch btn-stitch-secondary">Buscar</button>
+    </form>
+    <div class="table-responsive"><table class="table-stitch"><thead><tr><th>Nombre</th><th>Delegación</th><th>Estado</th><th>Acciones</th></tr></thead><tbody>
+    {% for objeto in page_obj %}<tr><td>{{ objeto.nombre }}</td><td>{{ objeto.delegacion }}</td><td>{% if objeto.activo %}Activo{% else %}Inactivo{% endif %}</td><td>{% if puede_gestionar %}
+        <a href="{% url 'catalogos:editar' tipo objeto.pk %}">Editar</a>
+        <form class="d-inline" method="post" action="{% url 'catalogos:estado' tipo objeto.pk %}">{% csrf_token %}<button class="btn-stitch btn-stitch-secondary" type="submit">{% if objeto.activo %}Desactivar{% else %}Reactivar{% endif %}</button></form>
+        <form class="d-inline" method="post" action="{% url 'catalogos:eliminar' tipo objeto.pk %}" data-confirm="Se eliminará este registro si no tiene vínculos. Puedes desactivarlo para conservarlo." data-confirm-title="Eliminar registro" data-confirm-record="{{ objeto.nombre }}">{% csrf_token %}<button class="btn-stitch btn-stitch-secondary" type="submit">Eliminar</button></form>
+    {% else %}Solo lectura{% endif %}</td></tr>{% empty %}<tr><td colspan="4">No hay registros con estos filtros.</td></tr>{% endfor %}
+    </tbody></table></div>
+    {% if page_obj.has_previous %}<a href="{% querystring page=page_obj.previous_page_number %}">Anterior</a>{% endif %} <span>Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span> {% if page_obj.has_next %}<a href="{% querystring page=page_obj.next_page_number %}">Siguiente</a>{% endif %}
+</section>
+{% endblock %}

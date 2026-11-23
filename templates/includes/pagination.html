@@ -4,10 +4,11 @@
         {% for key,value in request.GET.items %}{% if key != 'page' and key != 'per_page' %}<input type="hidden" name="{{ key }}" value="{{ value }}">{% endif %}{% endfor %}
         <label for="grid-per-page" class="small text-nowrap">Filas por página</label>
         <select id="grid-per-page" name="per_page" data-page-size class="input-stitch w-auto">
-            <option value="10" {% if page_obj.paginator.per_page == 10 %}selected{% endif %}>10</option>
-            <option value="20" {% if page_obj.paginator.per_page == 20 %}selected{% endif %}>20</option>
-            <option value="50" {% if page_obj.paginator.per_page == 50 %}selected{% endif %}>50</option>
-            <option value="100" {% if page_obj.paginator.per_page == 100 %}selected{% endif %}>100</option>
+            <option value="10" {% if page_obj.page_size == 10 %}selected{% endif %}>10</option>
+            <option value="20" {% if page_obj.page_size == 20 %}selected{% endif %}>20</option>
+            <option value="50" {% if page_obj.page_size == 50 %}selected{% endif %}>50</option>
+            <option value="100" {% if page_obj.page_size == 100 %}selected{% endif %}>100</option>
+            <option value="all" {% if page_obj.page_size == 'all' %}selected{% endif %}>Todos</option>
         </select>
         <button type="submit" data-page-size-apply class="btn-stitch btn-stitch-secondary">Aplicar</button>
     </form>

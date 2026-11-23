@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% block title %}Períodos y cierres | SGR{% endblock %}
+{% block content %}
+<header class="page-heading"><div><h1>Períodos y cierres trimestrales</h1><p>Administra la continuidad del trabajo de tu delegación y conserva cada cierre.</p></div><a class="btn-stitch btn-stitch-primary" href="{% url 'periodos:crear' %}">Crear período</a></header>
+<form method="get" class="filter-bar"><label for="estado-periodo">Estado</label><select id="estado-periodo" name="estado" class="form-select"><option value="">Todos</option>{% for value,label in estados %}<option value="{{ value }}" {% if estado == value %}selected{% endif %}>{{ label }}</option>{% endfor %}</select><button class="btn-stitch" type="submit">Filtrar</button></form>
+<section class="dashboard-section"><div class="table-responsive"><table class="table"><thead><tr><th>Trimestre</th><th>Delegación</th><th>Fechas</th><th>Estado</th><th>Detalle</th></tr></thead><tbody>{% for p in periodos %}<tr><td>{{ p.trimestre }}</td><td>{{ p.delegacion }}</td><td>{{ p.inicio|date:'d/m/Y' }} – {{ p.fin|date:'d/m/Y' }}</td><td>{{ p.get_estado_display }}</td><td><a href="{% url 'periodos:detalle' p.pk %}">Ver período</a></td></tr>{% empty %}<tr><td colspan="5">Aún no hay períodos para esta selección. Crea el trimestre actual y el siguiente para preparar el cierre.</td></tr>{% endfor %}</tbody></table></div></section>
+{% endblock %}

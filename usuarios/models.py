@@ -1,7 +1,9 @@
+from datetime import timedelta
 from .fields import WebAuthnCredentialIdField
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
+from django.utils import timezone
 from config.validators import validar_rut, validar_telefono, validar_texto
 import uuid
 
@@ -25,6 +27,7 @@ class Rol(models.Model):
 
 
 class Usuario(AbstractUser):
+    PASSWORD_LIFETIME = timedelta(days=30)
     class EstiloInterfaz(models.TextChoices):
         EXISTENTE = 'existente', 'Cuenta existente por elegir'
         NUEVO = 'nuevo', 'Cuenta nueva por elegir'
@@ -45,6 +48,24 @@ class Usuario(AbstractUser):
     activo = models.BooleanField(default=True, verbose_name="Estado Activo")
     debe_cambiar_password = models.BooleanField(default=False, verbose_name="Debe cambiar contraseña al primer ingreso")
     tutorial_pendiente = models.BooleanField(default=False, editable=False)
+    paisaje = models.CharField(max_length=24, default='', blank=True)
+    fondo_blanco = models.BooleanField(default=False)
+    color_personal = models.CharField(max_length=7, default='#B80003', db_default='#B80003', editable=False)
+    fondo_animado = models.BooleanField(default=True)
+    apariencia_elegida = models.BooleanField(default=False)
+    password_changed_at = models.DateTimeField(null=True, editable=False)
+    password_grace_started_at = models.DateTimeField(null=True, editable=False)
+    password_reminded_at = models.DateTimeField(null=True, editable=False)
+
+    @property
+    def password_deadline(self):
+        start = self.password_changed_at or self.password_grace_started_at
+        return start + self.PASSWORD_LIFETIME if start and self.has_usable_password() else None
+
+    @property
+    def password_expired(self):
+        deadline = self.password_deadline
+        return bool(deadline and timezone.now() >= deadline)
 
 
     reset_code = models.CharField(max_length=6, blank=True, null=True, verbose_name="Código de Recuperación (Reset Code)")
@@ -53,6 +74,13 @@ class Usuario(AbstractUser):
     codigo_expiracion = models.DateTimeField(blank=True, null=True, verbose_name="Expiración del Código")
 
     def save(self, *args, **kwargs):
+        fields = kwargs.get('update_fields')
+        new_password = self._password is not None or (self._state.adding and self.has_usable_password())
+        if new_password and (fields is None or 'password' in fields):
+            self.password_changed_at = timezone.now()
+            self.password_reminded_at = None
+            if fields is not None:
+                kwargs['update_fields'] = set(fields) | {'password_changed_at', 'password_reminded_at'}
         if self.pk and type(self).objects.filter(pk=self.pk, is_superuser=True).exists():
             if not self.is_superuser or not self.activo or not self.is_active:
                 raise ValidationError("El administrador raíz no puede desactivarse ni perder sus privilegios.")
@@ -130,3 +158,9 @@ class PasskeyChallenge(models.Model):
     preferred = models.BooleanField(default=False)
     expires_at = models.DateTimeField(db_index=True)
     consumed_at = models.DateTimeField(null=True)
+
+class UsernameChallenge(models.Model):
+    user = models.OneToOneField(Usuario, on_delete=models.CASCADE)
+    digest = models.CharField(max_length=64)
+    sent_at = models.DateTimeField()
+    attempts = models.PositiveSmallIntegerField(default=0)

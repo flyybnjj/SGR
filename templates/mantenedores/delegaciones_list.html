@@ -17,7 +17,7 @@
         </p>
     </div>
     <div class="d-flex gap-2">
-        <a href="{% url 'territorial:delegaciones_excel' %}?q={{ search|urlencode }}" class="btn-stitch btn-stitch-excel">
+        <a href="{% url 'territorial:delegaciones_excel' %}{% querystring q=search page=None per_page=None %}" class="btn-stitch btn-stitch-excel">
             <i class="bi bi-file-earmark-excel"></i>
             <span>Exportar Excel</span>
         </a>
@@ -33,7 +33,10 @@
     <div class="card-stitch-header flex-column flex-md-row gap-3">
         <form method="GET" class="search-box-stitch" role="search">
 <label class="visually-hidden" for="grid-search">Buscar registros</label>
-<input type="hidden" name="per_page" value="{{ page_obj.paginator.per_page }}">
+<input type="hidden" name="per_page" value="{{ page_obj.page_size }}">
+            <input type="hidden" name="estado" value="{{ request.GET.estado }}">
+            <input type="hidden" name="orden" value="{{ request.GET.orden }}">
+            <input type="hidden" name="direccion" value="{{ request.GET.direccion }}">
             <i class="bi bi-search"></i>
             <input type="search" id="grid-search" name="q" value="{{ search }}" placeholder="Buscar por delegación, dirección o delegado...">
             <button type="submit" class="btn-stitch btn-stitch-secondary">Buscar</button>
@@ -41,6 +44,7 @@
             <a href="{% url 'territorial:delegaciones_list' %}" class="text-secondary ms-1" aria-label="Limpiar filtro" title="Limpiar filtro"><i class="bi bi-x-circle-fill"></i></a>
             {% endif %}
         </form>
+        {% include "includes/catalog_state_filter.html" %}
         <div>
             <span class="badge-stitch-tag">
                 Sedes Registradas: <strong class="ms-1" style="color: var(--muni-blue);">{{ page_obj.paginator.count }}</strong>
@@ -54,11 +58,11 @@
             <thead>
                 <tr>
                     <th scope="col" style="width: 60px;">#</th>
-                    <th scope="col">Delegación Municipal</th>
-                    <th scope="col">Dirección Territorial</th>
-                    <th scope="col">Comuna</th>
-                    <th scope="col">Delegado a Cargo</th>
-                    <th scope="col" class="text-center" style="width: 120px;">Estado</th>
+                    <th scope="col"{% if request.GET.orden == 'nombre' %} aria-sort="{% if request.GET.direccion == 'desc' %}descending{% else %}ascending{% endif %}"{% endif %}>{% include 'includes/catalog_sort.html' with field='nombre' caption='Delegación Municipal' %}</th>
+                    <th scope="col"{% if request.GET.orden == 'direccion' %} aria-sort="{% if request.GET.direccion == 'desc' %}descending{% else %}ascending{% endif %}"{% endif %}>{% include 'includes/catalog_sort.html' with field='direccion' caption='Dirección Territorial' %}</th>
+                    <th scope="col"{% if request.GET.orden == 'comuna' %} aria-sort="{% if request.GET.direccion == 'desc' %}descending{% else %}ascending{% endif %}"{% endif %}>{% include 'includes/catalog_sort.html' with field='comuna' caption='Comuna' %}</th>
+                    <th scope="col"{% if request.GET.orden == 'delegado__first_name' %} aria-sort="{% if request.GET.direccion == 'desc' %}descending{% else %}ascending{% endif %}"{% endif %}>{% include 'includes/catalog_sort.html' with field='delegado__first_name' caption='Delegado a Cargo' %}</th>
+                    <th scope="col" class="text-center" style="width: 120px;"{% if request.GET.orden == 'activo' %} aria-sort="{% if request.GET.direccion == 'desc' %}descending{% else %}ascending{% endif %}"{% endif %}>{% include 'includes/catalog_sort.html' with field='activo' caption='Estado' %}</th>
                     <th scope="col" class="text-center record-actions-column record-user-actions-column">Acciones</th>
                 </tr>
             </thead>

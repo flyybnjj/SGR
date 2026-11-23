@@ -14,6 +14,8 @@ class BreakdownTests(ReassignmentTests):
         self.assertContains(response,'Equipo de la delegación')
         self.assertNotContains(response,'Persona ajena')
         self.assertEqual(len(response.context['team_rows']),2)
+        self.assertContains(response, 'href="/mi-resumen/"')
+        self.assertContains(response, '<details class="dashboard-section dashboard-breakdown dashboard-disclosure">')
 
     def test_personal_dashboard_shows_created_assigned_and_exclusions(self):
         response=self.client.get('/mi-resumen/')
@@ -27,3 +29,6 @@ class BreakdownTests(ReassignmentTests):
         response=self.client.get('/',{'delegacion':self.delegation.pk})
         self.assertContains(response,'Comparación de delegaciones')
         self.assertEqual(len(response.context['territory_rows']),1)
+        self.assertContains(response, '<details class="dashboard-section dashboard-breakdown dashboard-disclosure">')
+        self.assertNotContains(response, 'href="/mi-resumen/"')
+        self.assertNotContains(response, 'territory-color-signal')
